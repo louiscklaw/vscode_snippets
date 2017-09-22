@@ -45,9 +45,8 @@ class Phone_Call(unittest.TestCase):
         desired_caps['platformName'] = 'Android'
         desired_caps['platformVersion'] = Result["Androidversion"]
         desired_caps['deviceName'] = Result["SerialNo"]
-        if Result['Model'] == 'VZH':
-            desired_caps['appPackage'] = el.Package['appPackage']
-            desired_caps['appActivity'] = el.Package['appActivity']
+        desired_caps['appPackage'] = el.Package['appPackage']
+        desired_caps['appActivity'] = el.Package['appActivity']
         if 'M808' in Result['Model']:
             desired_caps['appPackage'] = el.Package['appPackage']
             desired_caps['appActivity'] = el.Package['appActivity_M808']
