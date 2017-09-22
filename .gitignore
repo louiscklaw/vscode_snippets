@@ -1,0 +1,6 @@
+*.pyc
+*.html
+*.htm
+*.png
+.DS_Store
+
