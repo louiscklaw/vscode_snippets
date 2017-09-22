@@ -1,7 +1,7 @@
-import schedule
-import time
+from apscheduler.schedulers.blocking import BlockingScheduler
 import sys
 import datetime
+
 
 def osCommand(cmd):
     pyVesion = str(sys.version_info)
@@ -11,8 +11,6 @@ def osCommand(cmd):
     else:
         import subprocess
         return subprocess.getoutput(cmd)
-
-
 def jobA():
     # print("test")
     osCommand('python handyCall_Sender.py')
@@ -24,15 +22,8 @@ def jobB():
 def jobRecord():
     print(datetime.datetime.time(datetime.datetime.now()))
 
-
-schedule.every(30).seconds.do(jobRecord)
-schedule.every(5).minutes.do(jobA)
-schedule.every(5).minutes.do(jobB)
-
-
-# schedule.every(5).seconds.do(jobA)
-# schedule.every(5).seconds.do(jobB)
-
-while True:
-    schedule.run_pending()
-    time.sleep(1)
+scheduler = BlockingScheduler()
+scheduler.add_job(jobA, 'cron', minute='*/5')
+scheduler.add_job(jobB, 'cron', minute='*/5')
+scheduler.add_job(jobRecord, 'interval', seconds=30)
+scheduler.start()
