@@ -5,6 +5,11 @@
 *.apk
 *.img
 
+# default ignore uix and xml file unless force
+# uiautomator files
+dump.uix
+dump.xml
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

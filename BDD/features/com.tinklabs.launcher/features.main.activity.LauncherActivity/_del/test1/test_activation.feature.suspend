@@ -1,0 +1,26 @@
+# -- FILE: features/test_activation.feature
+# apk:      com.tinklabs.activateapp_base.apk
+# package:  com.tinklabs.launcher
+# activity: com.tinklabs.launcher.features.main.activity.LauncherActivity
+
+#{
+#  "platformName": "Android",
+#  "deviceName": "Android",
+#  "appPackage": "com.tinklabs.launcher",
+#  "appActivity": "com.tinklabs.launcher.features.main.activity.LauncherActivity"
+#}
+
+
+Feature: activation UI test
+  Scenario Outline: Sanity test for launcher activation
+    Given started "<App>" activity "<activity>" on "<platform>" type "<type>" ver "<version>"
+    Then press "HOME" button
+
+    # Then Fail if the "English" not appears on screen
+
+
+
+  Examples: Android kind
+    | App                                          | activity | type  | platform | version |
+    | /Users/louis_law/_workspace/handy_appium/_apk/com.tinklabs.launcher_base.apk | com.tinklabs.launcher.features.main.activity.LauncherActivity | phone | Android  | 7.0     |
+

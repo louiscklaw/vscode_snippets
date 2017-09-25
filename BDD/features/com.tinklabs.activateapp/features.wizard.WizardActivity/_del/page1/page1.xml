@@ -1,0 +1,26 @@
+<android.widget.FrameLayout>
+<android.widget.LinearLayout>
+<android.widget.FrameLayout>
+<android.widget.LinearLayout resource-id="com.tinklabs.activateapp:id/action_bar_root">
+<android.widget.FrameLayout resource-id="android:id/content">
+<android.widget.RelativeLayout>
+<android.widget.RelativeLayout>
+<android.widget.RelativeLayout resource-id="com.tinklabs.activateapp:id/container">
+<android.widget.RelativeLayout>
+<android.widget.LinearLayout>
+<android.widget.LinearLayout resource-id="com.tinklabs.activateapp:id/top_bar">
+<android.widget.TextView resource-id="com.tinklabs.activateapp:id/room_number">
+<android.widget.TextView resource-id="com.tinklabs.activateapp:id/device_id">
+<android.widget.RelativeLayout>
+<android.widget.ImageView resource-id="com.tinklabs.activateapp:id/image_view_begin_btn">
+<android.widget.LinearLayout>
+<android.widget.TextView resource-id="com.tinklabs.activateapp:id/tnc">
+<android.widget.ImageView resource-id="com.tinklabs.activateapp:id/banner">
+<android.widget.TextView resource-id="com.tinklabs.activateapp:id/tv_language">
+<android.widget.TextView resource-id="com.tinklabs.activateapp:id/tv_hotel_name">
+<android.widget.RelativeLayout>
+<android.widget.TextView resource-id="com.tinklabs.activateapp:id/activationmode">
+<android.widget.TextView resource-id="com.tinklabs.activateapp:id/version">
+<android.widget.LinearLayout resource-id="com.tinklabs.activateapp:id/charging_indicator">
+<android.widget.TextView resource-id="com.tinklabs.activateapp:id/batterylevel">
+<android.widget.ImageView resource-id="com.tinklabs.activateapp:id/chargingIcon">

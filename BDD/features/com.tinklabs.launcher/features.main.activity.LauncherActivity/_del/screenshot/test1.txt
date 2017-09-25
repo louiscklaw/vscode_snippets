@@ -1,0 +1,14 @@
+Given that the environment is en
+
+
+1. Pass "Tap this show the hotel details
+    -> tap on id:com.tinklabs.launcher:id/container
+
+2. Pass "Tap on this icon to open the side bar"
+    -> tap on "id:com.tinklabs.launcher:id/menu_button"
+
+3. check for menu pop out from left
+    -> check for drawer exist "com.tinklabs.launcher:id/left_drawer_list"
+    -> check for <en:TaxiCard> exist
+    -> check for MICE Form exist
+    
