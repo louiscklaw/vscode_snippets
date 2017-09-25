@@ -6,7 +6,8 @@ senderDevice = 'VZHGLMA742901452'
 # Receiver
 r2rReceiverNumber = '78677' # M808
 # r2rReceiverNumber = '29265' # M370
-r2rReceiverNumber_physical = '+886 909 405 038'
+ReceiverNumber_sim = '0909405038'
+SenderNumber_sim = '0909405039'
 
 # Sender
 r2rSenderNumber = '71990'
