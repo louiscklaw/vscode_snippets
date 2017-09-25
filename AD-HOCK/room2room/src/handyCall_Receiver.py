@@ -45,13 +45,14 @@ class Phone_Call(unittest.TestCase):
         desired_caps = {}
         desired_caps['platformName'] = 'Android'
         desired_caps['platformVersion'] = Result["Androidversion"]
-        desired_caps['deviceName'] = Result["SerialNo"]
-        print(Result['Model'])
+        desired_caps['deviceName'] = Result["SerialNo"].replace('\r','')
+        desired_caps['udid'] = Result['SerialNo'].replace('\r','')
         desired_caps['appPackage'] = el.Package['appPackage']
         desired_caps['appActivity'] = el.Package['appActivity']
-        if 'M808' in Result['Model']:
-            desired_caps['appPackage'] = el.Package['appPackage']
-            desired_caps['appActivity'] = el.Package['appActivity_M808']
+        desired_caps['noReset'] = True
+        # if 'M808' in Result['Model']:
+        #     desired_caps['appPackage'] = el.Package['appPackage']
+        #     desired_caps['appActivity'] = el.Package['appActivity_M808']
         self.driver = webdriver.Remote('http://localhost:4725/wd/hub', desired_caps)
         self.util = ul.Util(self.driver, parentFolder + "/screenshots/" + str(time.strftime("%Y%m%d")))
 
