@@ -33,8 +33,7 @@ def checkFolder():
         if not os.path.exists(parentFolder + "/result"):
             os.makedirs(parentFolder + "/result")
 
-
-# Result = dict (Manufacturer,Model,Brand,Androidversion,SDKversion,SerialNo)
+# get device info by udid
 Result = ul.getDeviceStatus(handyconfig.senderDevice)
 
 
@@ -62,25 +61,30 @@ class Phone_Call(unittest.TestCase):
 
     def test_roomToRoom(self):
         try:
+            # step 1 unlock screen
             window_size = self.driver.get_window_size()
             max_width = window_size["width"]
             max_height = window_size['height']
             self.driver.swipe(max_width/2, max_height-10, max_width-10, max_height-10, 300)
-            # cmd = 'adb shell input swipe ' + str(max_width/2) + " 10 " + str(max_width-10) + " 10"
-            # ul.osCommand(cmd)
-            # ul.osCommand("adb -s " + handyconfig.senderDevice + " shell input keyevent KEYCODE_BACK")
             time.sleep(1)
+
+            # step 2 click phone book then click room to room
             self.util.waitUntilAndGetElement('text', el.handyPhone_tab_byString['phonebook'], 'click phone book').click()
             time.sleep(1)
             self.util.waitUntilAndGetElement('text', el.handyPhoneBook_function_byString['r2r'], 'click room to room').click()
+
+            # step 3 click receiver room number
             for number in str(handyconfig.r2rReceiverNumber):
                 self.util.waitUntilAndGetElement('text', number, 'click '+ number).click()
-                # time.sleep()
-            # ul.osCommand("adb shell input keyevent KEYCODE_BACK")
+
+            # step 4 click send
             self.util.waitUntilAndGetElement('id', el.handyPhoneDialler_pannel_byRID['call'], 'click send button').click()
+
+            # step 5 get receiver info
             callOutNumber = self.util.waitUntilAndGetElement('id', el.androidDialler_pannel_byRid['RoomNumber'], 'get call out number', 5)
             callOutState = self.util.waitUntilAndGetElement('id', el.androidDialler_pannel_byRid['state'], 'get call out state')
 
+            # step 6 get receiver result and confirm the total test result
             times = 0
             with open('receiver_result', 'r') as content_file:
                 self.receiver_result = content_file.read()

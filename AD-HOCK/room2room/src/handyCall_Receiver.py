@@ -34,7 +34,7 @@ def checkFolder():
             os.makedirs(parentFolder + "/result")
 
 
-# Result = dict (Manufacturer,Model,Brand,Androidversion,SDKversion,SerialNo)
+# get device info by udid
 Result = ul.getDeviceStatus(handyconfig.receiverDevice)
 
 class Phone_Call(unittest.TestCase):
