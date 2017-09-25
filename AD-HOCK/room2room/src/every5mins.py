@@ -13,11 +13,11 @@ def osCommand(cmd):
         return subprocess.getoutput(cmd)
 def jobA():
     # print("test")
-    osCommand('python handyCall_Sender.py')
+    osCommand('python handyCall_R2R_Sender.py')
 
 def jobB():
     # print("aaa")
-    osCommand('python handyCall_Receiver.py')
+    osCommand('python handyCall_R2R_Receiver.py')
 
 def jobRecord():
     print(datetime.datetime.time(datetime.datetime.now()))
