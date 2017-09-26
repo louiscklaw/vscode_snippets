@@ -1,15 +1,4 @@
-# -- FILE: features/com.tinklabs.activateapp
-# apk:      com.tinklabs.activateapp_base.apk
-# package:    ccom.tinklabs.launcher
-# activity:   features.main.activity.LauncherActivity
-
-#{
-#  "platformName": "Android",
-#  "deviceName": "Android",
-#  "appPackage": "com.tinklabs.launcher",
-#  "appActivity": "com.tinklabs.launcher.features.main.activity.LauncherActivity"
-#}
-
+@random_click_for_an_hour
 Feature: Erase data from launcher
   Background: scratch background
     Given FASTBOOT Erase userdata
@@ -29,7 +18,7 @@ Feature: Erase data from launcher
   @usecase
   @long_duration
   Scenario: random tour for a long duration
-    Then Random tour for 0.1 hour
+    Then Random tour for 1 hour
 
     Then In launcher side menu, Erase data
       # unconditional wait due to loss connection to the phone
