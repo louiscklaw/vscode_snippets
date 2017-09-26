@@ -42,6 +42,7 @@ class Phone_Call(unittest.TestCase):
     def setUp(self):
         print("start to execute setup")
         ul.osCommand('cat "" > receiver_result')
+        ul.osCommand('adb -s ' + handyconfig.receiverDevice + ' shell settings put global package_verifier_enable 0')
         desired_caps = {}
         desired_caps['platformName'] = 'Android'
         desired_caps['platformVersion'] = Result["Androidversion"]
@@ -64,8 +65,9 @@ class Phone_Call(unittest.TestCase):
         try:
             receiverGetRoom2RoomCallNumber = self.util.waitUntilAndGetElement('id', el.androidDialler_pannel_byRid['RoomNumber'], 'get sender room number in receiver', 240)
             receiverGetRoom2RoomCallStat = self.util.waitUntilAndGetElement('id', el.androidDialler_pannel_byRid['state'], 'get call receiver state')
-            result = self.util.isMatch(receiverGetRoom2RoomCallNumber.text + receiverGetRoom2RoomCallStat.text, "Room " + handyconfig.r2rSenderNumber + 'Incoming call')
+            result = self.util.isMatch(receiverGetRoom2RoomCallNumber.text + (receiverGetRoom2RoomCallStat.text).upper(), "Room " + handyconfig.r2rSenderNumber + 'INCOMING CALL')
             ul.osCommand('echo ' + str(result) + ' > receiver_result')
+            self.assertEqual(receiverGetRoom2RoomCallNumber.text + (receiverGetRoom2RoomCallStat.text).upper(), "Room " + handyconfig.r2rSenderNumber + 'INCOMING CALL')
 
         except Exception as e:
             print(e)
@@ -84,7 +86,7 @@ if __name__ == '__main__':
     # unittest.TextTestRunner(verbosity=2).run(suite)
 
     # for HTMLTestRunner
-    file = open(str(PATH(parentFolder + '/result/' + "Receiver_" + str(time.strftime("%Y%m%d%H%M%S") + '.html'))), "wb")
+    file = open(str(PATH(parentFolder + '/result/' + str(time.strftime("%Y%m%d-%H%M%S") + '_R2R_Receiver.html'))), "wb")
 
     runner = HTMLTestRunner.HTMLTestRunner(
         stream=file,

@@ -115,7 +115,7 @@ if __name__ == '__main__':
     # unittest.TextTestRunner(verbosity=2).run(suite)
 
     # for HTMLTestRunner
-    file = open(str(PATH(parentFolder + '/result/' + str(time.strftime("%Y%m%d-%H:%M:%S") + '_Dail_Sender.html'))), "wb")
+    file = open(str(PATH(parentFolder + '/result/' + str(time.strftime("%Y%m%d-%H%M%S") + '_Dail_Sender.html'))), "wb")
 
     runner = HTMLTestRunner.HTMLTestRunner(
         stream=file,

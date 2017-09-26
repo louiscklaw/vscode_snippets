@@ -40,6 +40,7 @@ Result = ul.getDeviceStatus(handyconfig.senderDevice)
 class Phone_Call(unittest.TestCase):
 
     def setUp(self):
+        ul.osCommand('adb -s ' + handyconfig.senderDevice + ' shell settings put global package_verifier_enable 0')
         desired_caps = {}
         desired_caps['platformName'] = 'Android'
         desired_caps['platformVersion'] = Result["Androidversion"]
@@ -89,8 +90,8 @@ class Phone_Call(unittest.TestCase):
             with open('receiver_result', 'r') as content_file:
                 self.receiver_result = content_file.read()
                 content_file.close
-            while self.receiver_result is "" or times < 3:
-                time.sleep(5)
+            while self.receiver_result is "" or times < 5:
+                time.sleep(3)
                 times += 1
                 with open('receiver_result', 'r') as content_file:
                     self.receiver_result = content_file.read()
@@ -114,7 +115,7 @@ if __name__ == '__main__':
     # unittest.TextTestRunner(verbosity=2).run(suite)
 
     # for HTMLTestRunner
-    file = open(str(PATH(parentFolder + '/result/' + "Sender_" + str(time.strftime("%Y%m%d%H%M%S") + '.html'))), "wb")
+    file = open(str(PATH(parentFolder + '/result/' + str(time.strftime("%Y%m%d-%H%M%S") + '_R2R_Sender.html'))), "wb")
 
     runner = HTMLTestRunner.HTMLTestRunner(
         stream=file,
