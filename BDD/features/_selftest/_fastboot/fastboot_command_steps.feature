@@ -27,7 +27,7 @@ Feature: FASTBOOT wrapper
 
     @fastboot_clear_user_data_oneline
     Scenario: test packed procedure
-      Given FASTBOOT Erase userdata,oem
+      Given FASTBOOT Erase userdata
 
 
     @fastboot_download_image

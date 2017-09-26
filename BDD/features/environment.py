@@ -61,17 +61,10 @@ def after_step(context, step):
         ipdb.post_mortem(step.exc_traceback)
 
     # louis.law add capability to capture screen if possible
-    if step.status == "failed":
-        # export sc=`date +%s`
-        # mkdir $sc
-        # adb shell screencap -p /sdcard/$sc.png && adb pull /sdcard/$sc.png $sc   &&  adb shell rm /sdcard/$sc.png
-        # adb shell uiautomator dump && adb pull /sdcard/window_dump.xml   $sc/dump.uix && adb shell rm /sdcard/window_dump.xml
-        # context.execute_steps(u'''
-        #     Then ADB screen capture, save to "/Users/louis_law/_temp"
-        # ''')
-        pass
-    else:
-        pass
+    # if hasattr(context,'appiumSession'):
+    #     context.execute_steps(u'''
+    #         Then ADB screen capture, save to "/Users/louis_law/_temp"
+    #     ''')
 
 
 

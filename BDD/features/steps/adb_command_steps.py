@@ -134,7 +134,7 @@ def step_impl(context):
     adb.run_cmd('reboot')
     sleep(10)
 
-@step(u'ADB ANDROID_TEMP directory is ready, timeout {sSeconds} seconds')
+@step(u'ADB PATH_ANDROID_TEMP directory is ready, timeout {sSeconds} seconds')
 def step_impl(context, sSeconds):
     iTimeToEnd = int(get_epoch_time())+ int(sSeconds)
     bDirectoryReady = False
@@ -431,8 +431,6 @@ def step_disable_usb_mass_storage(context):
         Then ADB change permission tinklabs1001
             And ADB change permission change_prop
     ''')
-
-
     pass
 
 

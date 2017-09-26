@@ -140,14 +140,14 @@ def quit_appium(context):
         pass
 
 @step(u'Find "{Text}" on screen')
-def Find_text_on_screen(context, Text):
+def find_text_on_screen(context, Text):
     return finger.f_FindTargetByXPath(
         context.appiumSession,
         "android.widget.TextView", "text", Text
     )
 
 @step(u'Find "{sId}" on screen, timeout {sTimeout} seconds')
-def Find_recourceid_on_screen_with_timeout(context, sId, sTimeout):
+def find_recourceid_on_screen_with_timeout(context, sId, sTimeout):
     """
         loop until the element available on screen. return the elements found.
     """
@@ -164,7 +164,7 @@ def Find_recourceid_on_screen_with_timeout(context, sId, sTimeout):
     return els
 
 @step(u'Wait "{sId}" on screen, timeout {sTimeout} seconds')
-def Wait_recourceid_on_screen_with_timeout(context, sId, sTimeout):
+def wait_recourceid_on_screen_with_timeout(context, sId, sTimeout):
     """
         loop until the element not appears on screen, assume the element is already on screen.
     """
@@ -196,7 +196,7 @@ def step_impl(context, sTimeout):
     for i in range(1, iTimeout):
         sleep(1)
         dqiElementFound.popleft()
-        dqiElementFound.append(len(Wait_recourceid_on_screen_with_timeout(context, "com.tinklabs.launcher:id/loading", '1')))
+        dqiElementFound.append(len(wait_recourceid_on_screen_with_timeout(context, "com.tinklabs.launcher:id/loading", '1')))
 
         if not(any(dqiElementFound)):
             break
@@ -236,8 +236,8 @@ def step_impl(context, sTimeout):
 
 
 @step(u'Fail if the "{Text}" not appears on screen')
-def Fail_if_the_Text_not_appears(content, Text):
-    lLookFor = Find_text_on_screen(content, Text)
+def fail_if_the_text_not_appears(content, Text):
+    lLookFor = find_text_on_screen(content, Text)
     if isinstance(lLookFor, list) and len(lLookFor) == 1:
         pass
     else:

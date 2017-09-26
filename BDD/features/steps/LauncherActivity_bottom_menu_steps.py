@@ -8,7 +8,7 @@ from android_function import finger
 
 # @then(u'6 buttons should appears at the bottom')
 @step(u'Fail if "{ButtonText}" button not appear at the position given by "{Position}"')
-def Fail_if_button_not_appear_at_the_position(context, ButtonText, Position, sId):
+def fail_if_button_not_appear_at_the_position(context, ButtonText, Position, sId):
     # basic components of a button
     sUiSelectorButtons='new UiSelector().resourceId("%s")' % sId
     UiSelectorButtonText = 'new UiSelector().text("%s")' % ButtonText
@@ -27,4 +27,4 @@ def Fail_if_button_not_appear_at_the_position(context, ButtonText, Position, sId
 @step(u'Fail if buttons on the list below not appear at the position with id "{sId}"')
 def step_impl(context, sId):
     for row in context.table:
-        Fail_if_button_not_appear_at_the_position(context, row['button'],row['position'], sId)
+        fail_if_button_not_appear_at_the_position(context, row['button'],row['position'], sId)
