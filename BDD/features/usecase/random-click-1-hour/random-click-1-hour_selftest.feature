@@ -13,13 +13,10 @@
 @random-click-1-hour
 Feature: test single step from random-click-1-hour
   Background: scratch background
-    # Given FASTBOOT Erase userdata,oem
-      # And ADB Wait for device, timeout 60 seconds
-    Given ADB Reboot device
-      And sleep 180 seconds
-
-    # Then ADB check boot completed, timeout 300 seconds
-
+    Given FASTBOOT Erase userdata
+      And ADB Wait for device, timeout 60 seconds
+    Then ADB check boot completed, timeout 600 seconds
+      And ADB Initialize android
 
     Given setup an android as below
     | Package                  | Activity                        | platform | type  | version |
@@ -28,7 +25,22 @@ Feature: test single step from random-click-1-hour
       And Wait until "English" appears on screen, timeout "180" seconds
     Given Reach "Happy flow The end" page in WizardActivity by skip
       And Skip the 1st time tutorial by launcher
-    Given ADB Initialize android
+
+  @test_endtoend
+  Scenario: test both end
+    Description try to validate the skeleton for the test
+      # the main random loop occurs here, ignore for the "must pass" case
+
+    Then In launcher side menu, Erase data
+      # unconditional wait due to loss connection to the phone
+      And sleep 180 seconds
+
+    Then ADB Wait for device
+      And ADB Initialize android
+      And setup an android as below
+      | Package                  | Activity                        | platform | type  | version |
+      | com.tinklabs.activateapp | .features.wizard.WizardActivity | Android  | phone | 7.0     |
+      And Wait until "English" appears on screen, timeout "180" seconds
 
   @test_swipe_feed
   @test_swipe_feed_short
