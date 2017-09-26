@@ -1,0 +1,30 @@
+#!/usr/bin/env zsh
+
+behave -vk random-click-1-hour.feature
+behave -vk random-click-1-hour.feature
+behave -vk random-click-1-hour.feature
+behave -vk random-click-1-hour.feature
+behave -vk random-click-1-hour.feature
+behave -vk random-click-1-hour.feature
+behave -vk random-click-1-hour.feature
+behave -vk random-click-1-hour.feature
+behave -vk random-click-1-hour.feature
+behave -vk random-click-1-hour.feature
+behave -vk random-click-1-hour.feature
+behave -vk random-click-1-hour.feature
+behave -vk random-click-1-hour.feature
+behave -vk random-click-1-hour.feature
+behave -vk random-click-1-hour.feature
+behave -vk random-click-1-hour.feature
+behave -vk random-click-1-hour.feature
+behave -vk random-click-1-hour.feature
+behave -vk random-click-1-hour.feature
+behave -vk random-click-1-hour.feature
+behave -vk random-click-1-hour.feature
+behave -vk random-click-1-hour.feature
+behave -vk random-click-1-hour.feature
+behave -vk random-click-1-hour.feature
+behave -vk random-click-1-hour.feature
+behave -vk random-click-1-hour.feature
+behave -vk random-click-1-hour.feature
+behave -vk random-click-1-hour.feature

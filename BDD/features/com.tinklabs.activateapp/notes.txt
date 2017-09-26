@@ -1,0 +1,5 @@
+erase data ?
+
+
+# TODO:
+- screensave and message will block the script

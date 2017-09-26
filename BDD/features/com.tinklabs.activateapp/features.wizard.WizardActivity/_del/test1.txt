@@ -1,0 +1,63 @@
+Given the activation launched in en
+
+expecting
+    1. "com.tinklabs.activateapp:id/tv_language" appearing
+    2. id:com.tinklabs.activateapp:id/image_view_begin_btn exist
+    3. Terms and conditions exist id:com.tinklabs.activateapp:id/tnc
+
+    4. banner exist id:com.tinklabs.activateapp:id/banner
+    5. lang selector exist id:com.tinklabs.activateapp:id/tv_language
+    6. hotelname exist id:com.tinklabs.activateapp:id/tv_hotel_name
+
+press id:com.tinklabs.activateapp:id/image_view_begin_btn
+expect calendar appearing
+    text:"When are you checking out?"
+    Why do we need this ? -> id:com.tinklabs.activateapp:id/tv_why_need_this
+    This month calendar -> com.tinklabs.activateapp:id/calendar_view
+    Skip button -> id:com.tinklabs.activateapp:id/tv_skip
+
+
+Variation point (tomorrow? +10 day?)
+Given that a day selected
+Expect a "Next" button appearing -> id:com.tinklabs.activateapp:id/tv_next
+
+Given that the Next button pressed
+Expect "Become a handy member..." id:.features.wizard.WizardActivity
+Variation point(
+    1. continue with FB
+    2. Sign up with Email
+    3. Already have an account
+    4. i'll do it later
+)
+
+Given that 4 selected (i'll do it later)
+"Let us personalize your handy experience" appearing
+    "purpose of visit" appearing
+        "Leisure" appearing and clickable
+        "Business" appearing and clickable
+    "Tell us more about yourself" appearing
+        a list of textview inclucive
+        "Foodie" appearing and clickable
+
+Given that "NEXT" pressed
+Expect a video playback id:com.tinklabs.launcher:id/video_view
+    "Let's Start" appearing   id:com.tinklabs.launcher:id/start_btn
+
+    End
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
