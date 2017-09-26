@@ -15,7 +15,7 @@ Feature: self test for adb-handy-appium
   Background: scratch background
     Given FASTBOOT Erase userdata
       And ADB Wait for device, timeout 60 seconds
-    Then ADB check boot completed, timeout 300 seconds
+    Then ADB check boot completed, timeout 600 seconds
 
   @test_adb_push_file
   Scenario: copy file from PC to android

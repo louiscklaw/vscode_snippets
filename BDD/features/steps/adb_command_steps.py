@@ -51,7 +51,6 @@ dParameters['PATH_PC_CHANGE_PROP']          = PATH_PC_CHANGE_PROP
 dParameters['PATH_PC_WPA_SUPPLICANT_CONF']  = PATH_PC_WPA_SUPPLICANT_CONF
 dParameters['PATH_PC_CHANGE_WPA_SUPPLICANT']  = PATH_PC_CHANGE_WPA_SUPPLICANT
 
-
 dParameters['PATH_ANDROID_TEMP']            = PATH_ANDROID_TEMP
 dParameters['PATH_ANDROID_TINKLABS1001']    = PATH_ANDROID_TINKLABS1001
 dParameters['PATH_ANDROID_CHANGE_SETTINGS'] = PATH_ANDROID_CHANGE_SETTINGS
@@ -81,6 +80,12 @@ def run(cmd, timeout_sec):
     stdout, stderr = proc.communicate()
     timer.cancel()
     return proc.returncode, stdout.decode("utf-8"), stderr.decode("utf-8"), timeout["value"]
+
+def get_epoch_time():
+    """
+        return the epoch of current time
+    """
+    return datetime.now().strftime('%s')
 
 
 @step(u'ADB Wait for device')
@@ -117,6 +122,9 @@ def step_impl(context):
 
 @step(u'ADB Reboot device')
 def step_impl(context):
+    """
+        to be obsoleted, reboot device
+    """
     if hasattr(context,'ADBSession'):
         pass
     else:
@@ -125,6 +133,25 @@ def step_impl(context):
     adb=context.ADBSession
     adb.run_cmd('reboot')
     sleep(10)
+
+@step(u'ADB ANDROID_TEMP directory is ready, timeout {sSeconds} seconds')
+def step_impl(context, sSeconds):
+    iTimeToEnd = int(get_epoch_time())+ int(sSeconds)
+    bDirectoryReady = False
+
+    while iTimeToEnd > int(get_epoch_time()):
+        (iReturnCode, sStdOut, sStdErr, bTimeout)=run('adb shell ls -l %s' % PATH_ANDROID_TEMP, timeout_sec=5)
+        if iReturnCode == 0 :
+            bDirectoryReady=True
+            break
+
+    if bDirectoryReady:
+        pass
+    else:
+        print('Error: cannot get android temp direcotory')
+        assert False
+
+    pass
 
 @step(u'ADB Initialize android')
 def step_impl(context):
@@ -531,13 +558,20 @@ def step_impl(context):
 
 @step(u'ADB check boot completed, timeout {sSeconds} seconds')
 def step_impl(context, sSeconds):
-    # adb shell getprop sys.boot_completed
+    """
+        to track the device status at fixed 15 seconds interval
+        :Args:
+            - sSeconds - timeout for the process
+    """
     bBootComplete = False
     sStdOut = ''
     sStdErr = ''
 
-    for i in range(0, int(sSeconds)):
-        sleep(1)
+    iTimeToEnd = int(get_epoch_time()) + int(sSeconds)
+
+    # for i in range(0, int(sSeconds)):
+    while iTimeToEnd > int(get_epoch_time()):
+        sleep(15)
         (sResultCode, sStdOut, sStdErr, bTimeout) = step_adb_getprop(context, "sys.boot_completed")
         sStdOut = sStdOut.strip()
 
