@@ -156,16 +156,25 @@ def step_impl(context, sSeconds):
 @step(u'ADB Initialize android')
 def step_impl(context):
     context.execute_steps(u'''
-        Given ADB settings put global package_verifier_enable 0
+        Given ADB PATH_ANDROID_TEMP directory is ready, timeout 60 seconds
+            And ADB push tinklabs1001
+            And ADB push change_settings
+
+        Then ADB change permission tinklabs1001
+            And ADB change permission change_prop
+
+        Then ADB settings put global package_verifier_enable 0
             And ADB settings put global stay_on_while_plugged_in 7
-            And ADB settings put secure install_non_market_apps 1
+
+        Then ADB settings put secure install_non_market_apps 1
             And ADB settings put secure screen_off_timeout 600000000
             And ADB settings put secure screensaver_activate_on_sleep 0
             And ADB settings put secure screensaver_components com.google.android.deskclock/com.android.deskclock.Screensaver
             And ADB settings put secure screensaver_default_component com.google.android.deskclock/com.android.deskclock.Screensaver
             And ADB settings put secure screensaver_enabled 0
-            And ADB settings put system dim_screen 0
-            And ADB settings put system screen_brightness 255
+
+        Then ADB settings put system dim_screen 0
+            And ADB settings put system screen_brightness 10
             And ADB settings put system screen_off_timeout 600000000
             And ADB settings put system transition_animation_scale 0
             And ADB settings put system window_animation_scale 0
@@ -185,6 +194,7 @@ def step_impl(context):
 def step_impl(context, sSourceFile, sTargetFile):
     """
         to handle file coping from PC to android
+        TODO: obsolete
 
         "Args":
             - sSourceFile - Source file from PC
@@ -211,13 +221,14 @@ def step_impl(context, sSourceFile, sTargetFile):
             - sTargetFile - Target file in android
     """
     print('i am supposed to adb push %s %s' % (sSourceFile, sTargetFile))
-
-    print('result')
-    pprint(run('adb push %s %s' % (sSourceFile, sTargetFile), timeout_sec=10))
+    run('adb push %s %s' % (sSourceFile, sTargetFile), timeout_sec=10)
     pass
 
 @step(u'ADB change permission "{sPermission}" "{sTargetFile}"')
 def step_impl(context, sTargetFile, sPermission):
+    """
+        to change the permission of file
+    """
     context.execute_steps(u'''
         Then ADB shell "chmod %s %s"
     ''' % (sPermission, sTargetFile))
@@ -304,18 +315,8 @@ def step_impl(context, sValue, sSettingName, sNamespace):
     print('I am supposed to change the %s to %s' % (sSettingName, sValue))
 
     context.execute_steps(u'''
-        Given ADB Init session
-            And ADB push tinklabs1001
-            And ADB push change_settings
-
-        Then ADB change permission tinklabs1001
-            And ADB change permission change_settings
-
         Then ADB shell ""source /data/local/tmp/change_settings.sh put %s %s %s""
     ''' % ( sNamespace, sSettingName, sValue))
-
-    print('change value done')
-
     pass
 
 
