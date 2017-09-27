@@ -83,6 +83,10 @@ Feature: self test for adb-handy-appium
       And ADB stop video capture process
       And ADB pull "/sdcard/testvideo.mp4" "/tmp"
 
+  @test_initialize_device
+  Scenario: test_initialize_device
+    Given ADB Initialize android
+
   @test_adb_reboot_device
   Scenario: test_reboot_device
     # wait device for reboot
