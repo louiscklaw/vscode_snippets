@@ -7,6 +7,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
+from appium.webdriver.common.touch_action import TouchAction
+
 
 
 def getDeviceStatus(dut):
@@ -158,6 +160,10 @@ class Util:
             # return False
             self.logv2(str, "FAIL")
             raise
+
+    def longPress(self, el):
+        action = TouchAction(self.driver)
+        action.press(el).wait(2000).perform()
 
     def scrollUntilGetElement(self, type, key, str=""):
         if(type == 'text'):

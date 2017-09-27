@@ -90,7 +90,7 @@ class Phone_Call(unittest.TestCase):
             with open('receiver_result', 'r') as content_file:
                 self.receiver_result = content_file.read()
                 content_file.close
-            while self.receiver_result is "" or times < 5:
+            while self.receiver_result == "" or times < 5:
                 time.sleep(3)
                 times += 1
                 with open('receiver_result', 'r') as content_file:

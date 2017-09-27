@@ -27,6 +27,12 @@ def dial_Receiver():
     # print("aaa")
     osCommand('python handyCall_Dial_Receiver.py')
 
+def VE_Sender():
+    osCommand("python handyCall_VE_Sender.py")
+
+def VE_Receiver():
+    osCommand("python handyCall_VE_Receiver.py")
+
 def jobRecord():
     print(datetime.datetime.time(datetime.datetime.now()))
 
@@ -35,5 +41,7 @@ scheduler.add_job(jobA, 'cron', minute='5,20,35,50')
 scheduler.add_job(jobB, 'cron', minute='5,20,35,50')
 scheduler.add_job(dial_Sender, 'cron', minute='10,25,40,55')
 scheduler.add_job(dial_Receiver, 'cron', minute='10,25,40,55')
+scheduler.add_job(VE_Sender, 'cron', minute='15,30,45,0')
+scheduler.add_job(VE_Receiver, 'cron', minute='15,30,45,0')
 scheduler.add_job(jobRecord, 'interval', seconds=30)
 scheduler.start()

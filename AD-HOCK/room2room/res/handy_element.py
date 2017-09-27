@@ -35,3 +35,4 @@ androidDialler_pannel_byRid['name'] = "com.android.dialer:id/name"
 androidDialler_pannel_byRid['state'] = "com.android.dialer:id/callStateLabel"
 androidDialler_pannel_byRid['RoomNumber'] = 'com.android.dialer:id/label'
 androidDialler_pannel_byRid['phoneNumber'] = 'com.android.dialer:id/phoneNumber'
+androidDialler_pannel_byRid['time'] = 'com.android.dialer:id/elapsedTime'

@@ -60,7 +60,7 @@ class Phone_Call(unittest.TestCase):
         ul.osCommand("adb -s " + handyconfig.senderDevice + " shell input keyevent KEYCODE_ENDCALL")
         self.driver.quit()
 
-    def test_roomToRoom(self):
+    def test_VE_Sender(self):
         try:
             # step 1 unlock screen
             window_size = self.driver.get_window_size()
@@ -72,35 +72,55 @@ class Phone_Call(unittest.TestCase):
             # step 2 click phone book then click room to room
             self.util.waitUntilAndGetElement('text', el.handyPhone_tab_byString['phonebook'], 'click phone book').click()
             time.sleep(1)
-            self.util.waitUntilAndGetElement('text', el.handyPhoneBook_function_byString['r2r'], 'click room to room').click()
+            self.util.waitUntilAndGetElement('text', el.handyPhoneBook_function_byString['local'], 'click room to room').click()
 
             # step 3 click receiver room number
-            for number in str(handyconfig.r2rReceiverNumber):
-                self.util.waitUntilAndGetElement('text', number, 'click '+ number).click()
+            for number in str(handyconfig.VENumber):
+                if number is '+':
+                    ele = self.util.waitUntilAndGetElement('text', '0', 'long press ' + number)
+                    self.util.longPress(ele)
+                else:
+                    self.util.waitUntilAndGetElement('text', number, 'click '+ number).click()
+
+            ele = self.util.waitUntilAndGetElement('text', '*', 'long press *')
+            self.util.longPress(ele)
+
+            for number in str(handyconfig.VEReceiver):
+                self.util.waitUntilAndGetElement('text', number, 'click ' + number).click()
+
 
             # step 4 click send
             self.util.waitUntilAndGetElement('id', el.handyPhoneDialler_pannel_byRID['call'], 'click send button').click()
 
             # step 5 get receiver info
-            callOutNumber = self.util.waitUntilAndGetElement('id', el.androidDialler_pannel_byRid['RoomNumber'], 'get call out number', 5)
-            callOutState = self.util.waitUntilAndGetElement('id', el.androidDialler_pannel_byRid['state'], 'get call out state')
+            callOutType = self.util.waitUntilAndGetElement('id', el.androidDialler_pannel_byRid['RoomNumber'], 'get VE', 5)
+            callOutVENumber = self.util.waitUntilAndGetElement('id', el.androidDialler_pannel_byRid['phoneNumber'], 'get call out VE number')
+            calloutTime = self.util.waitUntilAndGetElement('id', el.androidDialler_pannel_byRid['time'], 'get call out time')
+
+            verityStr = (callOutType.text).upper() + (callOutVENumber.text).replace(" ","") + calloutTime.text[0:3]
 
             # step 6 get receiver result and confirm the total test result
             times = 0
             with open('receiver_result', 'r') as content_file:
                 self.receiver_result = content_file.read()
                 content_file.close
-            while self.receiver_result == "" or times < 5:
+            while self.receiver_result == "":
+                if times > 7:
+                    break
                 time.sleep(3)
                 times += 1
                 with open('receiver_result', 'r') as content_file:
                     self.receiver_result = content_file.read()
                     content_file.close
-            self.assertEqual(callOutNumber.text + callOutState.text + self.receiver_result, "Room " + handyconfig.r2rReceiverNumber + 'DIALING' + 'True\n')
+
+            if handyconfig.VEReceiver in (callOutVENumber.text).replace(" ",""):
+                self.assertEqual(verityStr + self.receiver_result, "VIRTUAL EXTENSION" + handyconfig.VENumber + ',' +  handyconfig.VEReceiver + '00:' + 'True\n')
+            else:
+                self.assertEqual(verityStr + self.receiver_result, "VIRTUAL EXTENSION" + handyconfig.VENumber + '00:' + 'True\n')
 
         except Exception as e:
             print(e)
-            self.util.screenshot('roomToRoom_Sender')
+            self.util.screenshot('VE_Sender')
             self.assertTrue(False)
 
 
@@ -115,7 +135,7 @@ if __name__ == '__main__':
     # unittest.TextTestRunner(verbosity=2).run(suite)
 
     # for HTMLTestRunner
-    file = open(str(PATH(parentFolder + '/result/' + str(time.strftime("%Y%m%d-%H%M%S") + '_R2R_Sender.html'))), "wb")
+    file = open(str(PATH(parentFolder + '/result/' + str(time.strftime("%Y%m%d-%H%M%S") + '_VE_Sender.html'))), "wb")
 
     runner = HTMLTestRunner.HTMLTestRunner(
         stream=file,
