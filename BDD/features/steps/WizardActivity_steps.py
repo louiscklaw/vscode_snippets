@@ -71,15 +71,18 @@ def step_impl(context, Target):
 
     dWizardActivityPage[WV_SKIP_HANDYMEMBER] =u'''
         # Then bypass facebook registration currently, i should press the skip button
+        Then Wait until Text startwith "Become a handy member!" appears on screen, timeout "10" seconds
         Then sleep 1 seconds
-          And Fail if the resources-id"com.tinklabs.activateapp:id/tv_skip" not appears
-          And tap on button "android.widget.TextView":"resource-id":"com.tinklabs.activateapp:id/tv_skip"
+        #   And Fail if the resources-id"com.tinklabs.activateapp:id/tv_skip" not appears
+        #   And tap on button "android.widget.TextView":"resource-id":"com.tinklabs.activateapp:id/tv_skip"
           And tap on text "I'll do it later"
     '''
 
     dWizardActivityPage[WV_SKIP_PERSONALIZED_EXPERIENCE]=u'''
         # Then bypass personalize experience registration currently, i should press the skip button
-        Then sleep 1 seconds
+        # Then sleep 1 seconds
+        Then Wait until Text startwith "Let us personalize" appears on screen, timeout "10" seconds
+          And sleep 1 seconds
         #   And Fail if the resources-id"com.tinklabs.activateapp:id/tv_skip" not appears
         #   And tap on button "android.widget.TextView":"resource-id":"com.tinklabs.activateapp:id/tv_skip"
           And tap on text "SKIP"
@@ -91,7 +94,7 @@ def step_impl(context, Target):
         #   And Fail if the Video"com.tinklabs.launcher:id/video_view" not appears
 
         # Let's start should appears
-        Then Wait until "Let's Start" appears on screen, timeout "180" seconds
+        Then Wait until "Let's Start" appears on screen, timeout "120" seconds
           And Fail if the button "Let's Start" not appears on screen
           And tap on text "Let's Start"
     '''
