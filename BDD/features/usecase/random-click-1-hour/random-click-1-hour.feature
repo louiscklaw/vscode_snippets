@@ -4,6 +4,7 @@ Feature: Erase data from launcher
     Given FASTBOOT Erase userdata
       And ADB Wait for device, timeout 60 seconds
     Then ADB check boot completed, timeout 600 seconds
+      And ADB PATH_ANDROID_TEMP directory is ready, timeout 60 seconds
       And ADB Initialize android
 
     Given setup an android as below
