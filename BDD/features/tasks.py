@@ -6,9 +6,9 @@ lsCmd=[]
 lsCmd.append("pip install -r requirements.txt")
 lsCmd.append('behave -vk ./random-click-1-hour.feature')
 
-def lsCommandRunner(lsCommand):
-    for sCommand in lsCommand:
-        run(sCommand, hide=False,warn=True)
+def list_command_runner(commands):
+    for command in commands:
+        run(command, hide=False,warn=True)
 
 @task
 def screen_recording(context):
@@ -16,7 +16,10 @@ def screen_recording(context):
         screen recording task
         TODO: implement
     """
-    sCmd = r'python screenrecord.py 180 /home/louislaw/_workspace/handy-qa-automation/BDD/features/usecase/random-click-1-hour/screenrecord'
+    command= r'python screenrecord.py 180 /home/louislaw/_workspace/handy-qa-automation/BDD/features/usecase/random-click-1-hour/screenrecord'
+
+    run(command, hide=False, warn=True)
+
     pass
 
 
@@ -26,9 +29,10 @@ def archive_screen_capture(context):
         task to archive screen capture
         TODO: implement
     """
+    commands=[]
     for i in range(1,10+1):
-        for sCmd in lsCmd:
-            result = run(sCmd, hide=False, warn=True)
+        for command in commands:
+            result = run(command, hide=False, warn=True)
             print(result.ok)
 
 @task
@@ -54,14 +58,14 @@ def fastboot_clear(context):
         task to handle fastboot erase
         TODO: add adb reboot bootloader by threading
     """
-    lsCommand=[]
-    lsCommand.append('fastboot -i 0x489 oem fih on')
-    lsCommand.append('fastboot -i 0x489 oem devlock key')
-    lsCommand.append('fastboot -i 0x489 erase userdata')
-    lsCommand.append('fastboot -i 0x489 erase oem')
-    lsCommand.append('fastboot -i 0x489 erase logdump')
+    commands=[]
+    commands.append('fastboot -i 0x489 oem fih on')
+    commands.append('fastboot -i 0x489 oem devlock key')
+    commands.append('fastboot -i 0x489 erase userdata')
+    commands.append('fastboot -i 0x489 erase oem')
+    commands.append('fastboot -i 0x489 erase logdump')
 
-    lsCommandRunner(lsCommand)
+    list_command_runner(commands)
 
     pass
 
@@ -70,10 +74,10 @@ def fastboot_reboot(context):
     """
         task to handle fastboot reboot
     """
-    lsCommand=[]
-    lsCommand.append('fastboot -i 0x489 reboot')
+    commands=[]
+    commands.append('fastboot -i 0x489 reboot')
 
-    lsCommandRunner(lsCommand)
+    list_command_runner(commands)
 
     pass
 
@@ -85,15 +89,16 @@ def download_fastboot(context):
     """
     pass
 
+
 @task
 def test_adb_screencap(context):
     """
         to run the test_adb_screen_capture
         TODO: generalize me
     """
-    sCmd = 'behave -vk --tags=test_adb_screen_capture .'
-    # sCmd = r'echo -n 1'
-    result = run(sCmd, hide=False, warn=True)
+    command= 'behave -vk --tags=test_adb_screen_capture .'
+    # command= r'echo -n 1'
+    result = run(command, hide=False, warn=True)
     # print('helloworld')
 
 
@@ -102,8 +107,8 @@ def behave_test_listing(context):
     """
         to list out the testtag available from behave
     """
-    sCommand = 'behave '
-    run(sCommand, hide=False, warn=True)
+    command = 'behave '
+    run(command, hide=False, warn=True)
     pass
 
 @task
@@ -112,15 +117,16 @@ def test_rom_sanity(context):
         rom sanity test runner
     """
     for i in range(1, 5+1):
-        sCmd = 'behave -vk --tags=test_rom_sanity .'
-        run(sCmd, hide=False, warn=True)
+        command= 'behave -vk --tags=test_rom_sanity .'
+        run(command, hide=False, warn=True)
 
 @task
 def test_random_click_for_an_hour(context):
     """
         to run the random test click
     """
-    sCmd = 'behave -vk --tags=test_random_click_for_an_hour .'
-    # sCmd = r'echo -n 1'
-    result = run(sCmd, hide=False, warn=True)
-    # print('helloworld')
+    for i in range(1,999+1):
+        command= 'behave -vk --tags=test_random_click_for_an_hour .'
+        # command= r'echo -n 1'
+        result = run(command, hide=False, warn=True)
+        # print('helloworld')
