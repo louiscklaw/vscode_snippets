@@ -44,97 +44,6 @@ import re
 
 # fastboot reboot
 
-class FASTBOOT():
-
-    __adb_path = None
-    __output = None
-    __error = None
-    __devices = None
-    __target = None
-
-    # reboot modes
-    REBOOT_NORMAL = 0
-    REBOOT_RECOVERY = 1
-    REBOOT_BOOTLOADER = 2
-
-    # default TCP/IP port
-    DEFAULT_TCP_PORT = 5555
-    # default TCP/IP host
-    DEFAULT_TCP_HOST = "localhost"
-
-    def __init__(self, adb_path="adb"):
-        # By default we assume adb is in $PATH
-        self.__adb_path = adb_path
-        if not self.check_path():
-            self.__error = "[!] adb path not valid"
-
-    def __clean__(self):
-        self.__output = None
-        self.__error = None
-
-    def __read_output__(self, fd):
-        ret = ''
-        while 1:
-            line = fd.readline()
-            if not line:
-                break
-            ret += line
-
-        if len(ret) == 0:
-            ret = None
-
-        return ret
-
-    def __build_command__(self, cmd):
-        """
-        Build command parameters
-        """
-        if self.__devices is not None and len(self.__devices) > 1 and self.__target is None:
-            self.__error = "[!] Must set target device first"
-            return None
-
-        if type(cmd) is tuple:
-            a = list(cmd)
-        elif type(cmd) is list:
-            a = cmd
-        else:
-            # All arguments must be single list items
-            a = cmd.split(" ")
-
-        a.insert(0, self.__adb_path)
-        if self.__target is not None:
-            # add target device arguments to the command
-            a.insert(1, '-s')
-            a.insert(2, self.__target)
-
-        return a
-
-    def run_cmd(self, cmd):
-        """
-        Run a command against the adb tool ($ adb <cmd>)
-        """
-        self.__clean__()
-
-        if self.__adb_path is None:
-            self.__error = "[!] ADB path not set"
-            return False
-
-        try:
-            args = self.__build_command__(cmd)
-            if args is None:
-                return
-            cmdp = subprocess.Popen(args, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-            self.__output, self.__error = cmdp.communicate()
-            retcode = cmdp.wait()
-            if "device unauthorized" in self.__output:
-                self.__error = "[-] Device unauthorized"
-                return False
-            return self.__output.rstrip('\n')
-        except OSError, e:
-            self.__error = str(e)
-
-        return
-
 
 def kill_proc(proc, timeout):
     timeout["value"] = True
@@ -171,14 +80,28 @@ def step_impl(context, sCommand, sTimeout):
     assert iReturnCode == 0 and bTimeout == False
 
 
-@step(u'FASTBOOT Erase userdata,oem')
-def step_impl(context):
+
+
+@step(u'FASTBOOT Erase "{sPartitions}"')
+def step_impl(context, sPartitions):
+    """
+        procedure to erase partition
+    """
+
+    # wait until bootloader ready
     context.execute_steps(u'''
         Given ADB Reboot bootloader
-        Then FASTBOOT "-i 0x489 oem fih on"
-        Then FASTBOOT "-i 0x489 oem devlock key"
-        Then FASTBOOT "-i 0x489 erase userdata"
-        Then FASTBOOT "-i 0x489 erase oem"
+          And FASTBOOT unlock
+    ''')
+    for sPartition in sPartitions.split(','):
+        # simple massage of input data
+        sPartition=sPartition.strip()
+        if sPartition in ['userdata', 'oem', 'cache','system']:
+            context.execute_steps(u'''
+                Then FASTBOOT "-i 0x489 erase %s"
+            ''' % sPartition)
+
+    context.execute_steps(u'''
         Then FASTBOOT "reboot"
     ''')
     pass
@@ -187,8 +110,7 @@ def step_impl(context):
 def step_impl(context):
     context.execute_steps(u'''
         Given ADB Reboot bootloader
-        Then FASTBOOT "-i 0x489 oem fih on"
-        Then FASTBOOT "-i 0x489 oem devlock key"
+          And FASTBOOT unlock
         Then FASTBOOT "-i 0x489 erase userdata"
         Then FASTBOOT "reboot"
     ''')
@@ -196,7 +118,12 @@ def step_impl(context):
 
 
 
-
+@step(u'FASTBOOT unlock')
+def step_impl(context):
+    context.execute_steps(u'''
+        Then FASTBOOT "-i 0x489 oem fih on"
+          And FASTBOOT "-i 0x489 oem devlock key"
+    ''')
 
 @step(u'FASTBOOT download image')
 def step_impl(context):

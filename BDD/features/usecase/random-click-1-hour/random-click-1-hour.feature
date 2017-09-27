@@ -1,7 +1,7 @@
 @random_click_for_an_hour
 Feature: Erase data from launcher
   Background: scratch background
-    Given FASTBOOT Erase userdata
+    Given FASTBOOT Erase "userdata"
       And ADB Wait for device, timeout 60 seconds
     Then ADB check boot completed, timeout 600 seconds
       And ADB PATH_ANDROID_TEMP directory is ready, timeout 60 seconds
