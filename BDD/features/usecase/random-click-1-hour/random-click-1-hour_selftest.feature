@@ -16,6 +16,7 @@ Feature: test single step from random-click-1-hour
     Given FASTBOOT Erase userdata
       And ADB Wait for device, timeout 60 seconds
     Then ADB check boot completed, timeout 600 seconds
+      And ADB PATH_ANDROID_TEMP directory is ready, timeout 60 seconds
       And ADB Initialize android
 
     Given setup an android as below
@@ -27,10 +28,12 @@ Feature: test single step from random-click-1-hour
       And Skip the 1st time tutorial by launcher
 
   @test_endtoend
+  @sanity
   Scenario: test both end
     Description try to validate the skeleton for the test
       # the main random loop occurs here, ignore for the "must pass" case
 
+    Then sleep 5 seconds
     Then In launcher side menu, Erase data
       # unconditional wait due to loss connection to the phone
       And sleep 180 seconds

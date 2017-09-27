@@ -1,4 +1,4 @@
-@random_click_for_an_hour
+
 Feature: Erase data from launcher
   Background: scratch background
     Given FASTBOOT Erase "userdata"
@@ -10,7 +10,7 @@ Feature: Erase data from launcher
     Given setup an android as below
     | Package                  | Activity                        | platform | type  | version |
     | com.tinklabs.activateapp | .features.wizard.WizardActivity | Android  | phone | 7.0     |
-      And Wait until "English" appears on screen, timeout "180" seconds
+      And Wait until "English" appears on screen, timeout "300" seconds
 
     Given Reach "Happy flow The end" page in WizardActivity by skip
       And Skip the 1st time tutorial by launcher
@@ -18,7 +18,7 @@ Feature: Erase data from launcher
   @slow
   @usecase
   @long_duration
-  @random-click-1-hour
+  @test_random_click_for_an_hour
   Scenario: random tour for a long duration
     Then Random tour for 0.5 hour
 
