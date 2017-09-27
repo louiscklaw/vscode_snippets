@@ -17,8 +17,9 @@ Feature: Erase data from launcher
   @slow
   @usecase
   @long_duration
+  @random-click-1-hour
   Scenario: random tour for a long duration
-    Then Random tour for 1 hour
+    Then Random tour for 0.5 hour
 
     Then In launcher side menu, Erase data
       # unconditional wait due to loss connection to the phone
