@@ -1,7 +1,7 @@
 @test_rom_sanity
 Feature: Rom can wake the phone
   Background: scratch background
-    Given FASTBOOT Erase userdata
+    Given Clear all handy settings
       And ADB Wait for device, timeout 60 seconds
     Then ADB check boot completed, timeout 600 seconds
       And ADB Initialize android
