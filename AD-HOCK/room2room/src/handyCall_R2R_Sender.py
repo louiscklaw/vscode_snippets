@@ -82,21 +82,50 @@ class Phone_Call(unittest.TestCase):
             self.util.waitUntilAndGetElement('id', el.handyPhoneDialler_pannel_byRID['call'], 'click send button').click()
 
             # step 5 get receiver info
-            callOutNumber = self.util.waitUntilAndGetElement('id', el.androidDialler_pannel_byRid['RoomNumber'], 'get call out number', 5)
-            callOutState = self.util.waitUntilAndGetElement('id', el.androidDialler_pannel_byRid['state'], 'get call out state')
+            callOutState = self.util.waitUntilAndGetElement('id', el.androidDialler_pannel_byRid['state'],'get call out state',5)
+            isCallOutNumber = self.util.ieEleVisible(el.androidDialler_pannel_byRid['RoomNumber'], 5)
 
-            # step 6 get receiver result and confirm the total test result
-            times = 0
-            with open('receiver_result', 'r') as content_file:
-                self.receiver_result = content_file.read()
-                content_file.close
-            while self.receiver_result == "" or times < 5:
-                time.sleep(3)
-                times += 1
+            callOutStatStr = (callOutState.text).upper()
+
+            if isCallOutNumber:
+                callOutNumber = self.util.waitUntilAndGetElement('id', el.androidDialler_pannel_byRid['RoomNumber'], 'get call out number', 5)
+                callOutNumberStr = (callOutNumber.text).replace(" ","")
+                verifyStr = callOutNumberStr + callOutStatStr
+                # step 6 get receiver result and confirm the total test result
+                times = 0
                 with open('receiver_result', 'r') as content_file:
                     self.receiver_result = content_file.read()
-                    content_file.close
-            self.assertEqual(callOutNumber.text + callOutState.text + self.receiver_result, "Room " + handyconfig.r2rReceiverNumber + 'DIALING' + 'True\n')
+                    content_file.close()
+                while self.receiver_result == "" or times < 5:
+                    time.sleep(3)
+                    times += 1
+                    with open('receiver_result', 'r') as content_file:
+                        self.receiver_result = content_file.read()
+                        content_file.close()
+                # Room 78677DIALINGTrue
+                self.assertEqual( verifyStr + self.receiver_result, "Room" + handyconfig.r2rReceiverNumber + 'DIALING' + 'True\n')
+            else:
+                callOutNumber = self.util.waitUntilAndGetElement('id', el.androidDialler_pannel_byRid['name'], 'get call out number', 5)
+                callOutNumberStr = (callOutNumber.text).replace(" ", "")
+                # step 6 get receiver result and confirm the total test result
+                times = 0
+                with open('receiver_result', 'r') as content_file:
+                    self.receiver_result = content_file.read()
+                    content_file.close()
+                while self.receiver_result == "":
+                    if times > 5:
+                        break
+                    time.sleep(3)
+                    times += 1
+                    with open('receiver_result', 'r') as content_file:
+                        self.receiver_result = content_file.read()
+                        content_file.close()
+                if handyconfig.r2rReceiverNumber in (callOutNumber.text).replace(" ",""):
+                    # # 78677DIALINGTrue
+                    self.assertEqual(callOutNumberStr + callOutStatStr + self.receiver_result, "#" + handyconfig.r2rReceiverNumber + 'DIALING' + 'True\n')
+                elif handyconfig.ReceiverNumber_sim in (callOutNumber.text).replace(" ", ""):
+                    self.assertEqual(callOutNumberStr[4:] + callOutStatStr + self.receiver_result, handyconfig.r2rReceiverNumber[1:] + 'DIALING' + 'True\n')
+
 
         except Exception as e:
             print(e)

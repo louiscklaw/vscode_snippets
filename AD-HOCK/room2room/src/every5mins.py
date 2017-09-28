@@ -1,6 +1,7 @@
 from apscheduler.schedulers.blocking import BlockingScheduler
 import sys
 import datetime
+import time
 
 
 def osCommand(cmd):
@@ -12,7 +13,7 @@ def osCommand(cmd):
         import subprocess
         return subprocess.getoutput(cmd)
 def jobA():
-    # print("test")
+    print(str(time.strftime("%Y%m%d-%H%M%S")) + " Start to execute R2R Call")
     osCommand('python handyCall_R2R_Sender.py')
 
 def jobB():
@@ -20,7 +21,7 @@ def jobB():
     osCommand('python handyCall_R2R_Receiver.py')
 
 def dial_Sender():
-    # print("test")
+    print(str(time.strftime("%Y%m%d-%H%M%S")) + " Start to execute Dail a Call")
     osCommand('python handyCall_Dial_Sender.py')
 
 def dial_Receiver():
@@ -28,6 +29,7 @@ def dial_Receiver():
     osCommand('python handyCall_Dial_Receiver.py')
 
 def VE_Sender():
+    print(str(time.strftime("%Y%m%d-%H%M%S")) + " Start to execute VE Call")
     osCommand("python handyCall_VE_Sender.py")
 
 def VE_Receiver():

@@ -71,7 +71,7 @@ class Phone_Call(unittest.TestCase):
 
             # step 2 click phone book then click Local Call
             self.util.waitUntilAndGetElement('text', el.handyPhone_tab_byString['phonebook'], 'click phone book').click()
-            time.sleep(1)
+            time.sleep(2)
             self.util.waitUntilAndGetElement('text', el.handyPhoneBook_function_byString['local'], 'click Local Call').click()
 
             # step 3 click receiver room number
@@ -84,6 +84,7 @@ class Phone_Call(unittest.TestCase):
             # step 5 get receiver info
             callOutNumber = self.util.waitUntilAndGetElement('id', el.androidDialler_pannel_byRid['name'], 'get call out number', 5)
             callOutState = self.util.waitUntilAndGetElement('id', el.androidDialler_pannel_byRid['state'], 'get call out state')
+            verifyStr = (callOutNumber.text).replace(" ", "") + callOutState.text
 
             # step 6 get receiver result and confirm the total test result
             times = 0
@@ -96,7 +97,7 @@ class Phone_Call(unittest.TestCase):
                 with open('receiver_result', 'r') as content_file:
                     self.receiver_result = content_file.read()
                     content_file.close
-            self.assertEqual((callOutNumber.text).replace(" ", "") + callOutState.text + self.receiver_result, handyconfig.ReceiverNumber_sim + 'DIALING' + 'True\n')
+            self.assertEqual(verifyStr + self.receiver_result, handyconfig.ReceiverNumber_sim + 'DIALING' + 'True\n')
 
         except Exception as e:
             print(e)
