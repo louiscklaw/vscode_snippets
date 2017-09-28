@@ -1,3 +1,6 @@
+# ignore taskrunner
+tasks.py
+
 # ignore my screenplay unless forced
 *.mp4
 
