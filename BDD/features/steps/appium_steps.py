@@ -284,7 +284,7 @@ def step_impl(context, sText, sDetermin):
             assert False
 
 @step(u'Check if the {sText} appears on screen')
-def step_CheckIfTheTextAppearsOnScren(context, sText):
+def step_impl(context, sText):
     return len(finger.f_FindElementsWithText(
         context.appiumSession, sText
     ))
