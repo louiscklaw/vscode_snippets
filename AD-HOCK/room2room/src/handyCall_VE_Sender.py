@@ -71,8 +71,8 @@ class Phone_Call(unittest.TestCase):
 
             # step 2 click phone book then click room to room
             self.util.waitUntilAndGetElement('text', el.handyPhone_tab_byString['phonebook'], 'click phone book').click()
-            time.sleep(1)
-            self.util.waitUntilAndGetElement('text', el.handyPhoneBook_function_byString['local'], 'click room to room').click()
+            time.sleep(2)
+            self.util.waitUntilAndGetElement('text', el.handyPhoneBook_function_byString['local'], 'click local call').click()
 
             # step 3 click receiver room number
             for number in str(handyconfig.VENumber):

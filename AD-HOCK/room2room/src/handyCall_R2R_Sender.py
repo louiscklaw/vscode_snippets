@@ -71,7 +71,7 @@ class Phone_Call(unittest.TestCase):
 
             # step 2 click phone book then click room to room
             self.util.waitUntilAndGetElement('text', el.handyPhone_tab_byString['phonebook'], 'click phone book').click()
-            time.sleep(1)
+            time.sleep(2)
             self.util.waitUntilAndGetElement('text', el.handyPhoneBook_function_byString['r2r'], 'click room to room').click()
 
             # step 3 click receiver room number
