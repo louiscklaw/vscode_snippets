@@ -43,5 +43,5 @@ def step_impl(context):
         sleep across the handy initialization
     """
     context.execute_steps(u'''
-        Then
+        Then sleep 600 seconds
     ''')
