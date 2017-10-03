@@ -2,6 +2,13 @@ from apscheduler.schedulers.blocking import BlockingScheduler
 import sys
 import datetime
 import time
+import logging
+
+logging.basicConfig(level=logging.DEBUG,
+            format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
+           datafmt='%a, %d %b %Y %H:%M:%S',
+            filename='/var/log/handyCallOut5Mins.txt',
+            filemode='a')
 
 
 def osCommand(cmd):

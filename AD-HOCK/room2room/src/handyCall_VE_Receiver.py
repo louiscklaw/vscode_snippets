@@ -56,6 +56,10 @@ class Phone_Call(unittest.TestCase):
         #     desired_caps['appActivity'] = el.Package['appActivity_M808']
         self.driver = webdriver.Remote('http://localhost:4725/wd/hub', desired_caps)
         self.util = ul.Util(self.driver, parentFolder + "/screenshots/" + str(time.strftime("%Y%m%d")))
+        print("Device Battery Level")
+        ul.osCommand('adb -s ' + handyconfig.receiverDevice + ' shell dumpsys battery | grep level | head -1')
+        print("Device Info")
+        ul.osCommand('adb -s ' + handyconfig.receiverDevice + ' shell getprop | grep -i operator')
 
     def tearDown(self):
         ul.osCommand("adb -s " + handyconfig.receiverDevice + " shell input keyevent KEYCODE_ENDCALL")
