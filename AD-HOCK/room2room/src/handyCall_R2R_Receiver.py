@@ -31,9 +31,9 @@ def PATH(p):
 
 def checkFolder():
     today = time.strftime("%Y%m%d")
-    if not os.path.exists(parentFolder + "/result" + today):
-        os.makedirs(parentFolder + "/result" + today)
-    return parentFolder + "/result" + today + "/"
+    if not os.path.exists(parentFolder + "/result/" + today):
+        os.makedirs(parentFolder + "/result/" + today)
+    return parentFolder + "/result/" + today + "/"
 
 
 # get device info by udid
