@@ -96,7 +96,7 @@ def step_impl(context, confirm):
     """
         perform erase data in erase data screen
         :Args:
-            - confirm - Erase data, press yes after pressing erase data.
+            - confirm - "confirm/don't confirm",  Erase data, press yes after pressing erase data.
 
         TODO: AdHoc function, to be developed
         NOTE:
@@ -114,6 +114,7 @@ def step_impl(context, confirm):
         print('i supposed clicking "YES" to confirm ERASE DATA')
         context.execute_steps(u'''
             # NOTE given that i want to erase data
+            # i am standing on the "Erase Data" screen
             Then Wait until "ERASE DATA" appears on screen, timeout "30" seconds
               And tap on text "ERASE DATA"
               And Wait until "Confirmation" appears on screen, timeout "%(sConfirmationDialogShowTimeout)s" seconds
