@@ -30,8 +30,10 @@ def PATH(p):
 
 
 def checkFolder():
-        if not os.path.exists(parentFolder + "/result"):
-            os.makedirs(parentFolder + "/result")
+    today = time.strftime("%Y%m%d")
+    if not os.path.exists(parentFolder + "/result" + today):
+        os.makedirs(parentFolder + "/result" + today)
+    return parentFolder + "/result" + today + "/"
 
 
 # get device info by udid
@@ -91,7 +93,7 @@ if __name__ == '__main__':
     # unittest.TextTestRunner(verbosity=2).run(suite)
 
     # for HTMLTestRunner
-    file = open(str(PATH(parentFolder + '/result/' + today + '/' + str(time.strftime("%Y%m%d-%H%M%S") + '_R2R_Receiver.html'))), "wb")
+    file = open(str(PATH(checkReportFolder() + (time.strftime("%Y%m%d-%H%M%S") + '_R2R_Receiver.html'))), "wb")
 
     runner = HTMLTestRunner.HTMLTestRunner(
         stream=file,
