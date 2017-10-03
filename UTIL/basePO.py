@@ -9,12 +9,38 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 
-screenDir = os.path.dirname(os.path.normpath(sys.path[0]))
+today = time.strftime("%Y%m%d")
+screenDir = os.path.dirname(os.path.normpath(sys.path[0])) + "screenshot/" + today
+
 class PageObject:
     def __init__(self,device):
         self.driver = device
-        if not os.path.exists(self.screenDir):
-            os.makedirs(self.screenDir)
+        if not os.path.exists(screenDir):
+            os.makedirs(screenDir)
+
+    def unLockScreen(self):
+        window_size = self.driver.get_window_size()
+        max_width = window_size["width"]
+        max_height = window_size['height']
+        self.driver.swipe(max_width / 2, max_height - 10, max_width - 10, max_height - 10, 300)
+
+    def multiFindByID(self, id, log=''):
+        try:
+            elements = self.driver.find_elements_by_id(id)
+            return elements
+        except:
+            utils.logv2(log, 'Fail')
+            raise
+
+    def getEleByTextInMultiEleByID(self, id, text, log=''):
+        try:
+            elements = self.multiFindByID(id,log)
+            for item in elements:
+                if item.text is text:
+                    return item
+        except:
+            utils.logv2(log, 'Fail')
+            raise
 
     def findByID(self, id, log='', timeout=3):
         try:
@@ -151,6 +177,3 @@ class PageObject:
         if orig_context not in self.driver.current_context:
             self.driver.switch_to.context("WEBVIEW")
         # self.screenshot_count += 1
-
-    def test(self):
-        print(screenDir)

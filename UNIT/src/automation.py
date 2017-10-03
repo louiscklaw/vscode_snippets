@@ -11,7 +11,9 @@ unitParentFoler = os.path.dirname(os.path.normpath(srcParentFolder))
 sys.path.append(unitParentFoler)
 from UTIL.deviceInfo import DevicesInfo
 import UTIL.utils as utils
+import UNIT.res.general as handyConfig
 from UTIL.basePO import PageObject
+import homePO
 
 pyVesion = str(sys.version_info)
 if 'major=2' in pyVesion:
@@ -51,23 +53,22 @@ class Demo(unittest.TestCase):
         desired_caps['platformVersion'] = androidVersion
         desired_caps['deviceName'] = serialNo
         desired_caps['udid'] = serialNo
-        desired_caps['appPackage'] = 'com.tinklabs.handyphone'
-        desired_caps['appActivity'] = 'com.tinklabs.handyphone.features.splash.SplashActivity'
+        desired_caps['appPackage'] = handyConfig.pkg_launcher
+        desired_caps['appActivity'] = handyConfig.act_launcher
         desired_caps['noReset'] = True
         # connect to appium server
         self.driver = webdriver.Remote(appiumServer, desired_caps)
-        po = PageObject(self.driver)
-        po.test()
+        self.basePO = PageObject(self.driver)
+
 
     def tearDown(self):
         self.driver.quit()
 
     def test_case1(self):
-        window_size = self.driver.get_window_size()
-        max_width = window_size["width"]
-        max_height = window_size['height']
-        self.driver.swipe(max_width / 2, max_height - 10, max_width - 10, max_height - 10, 300)
+
         time.sleep(1)
+        home = homePO.homePO(self.basePO)
+        home.goToCallTab()
 
 
 
