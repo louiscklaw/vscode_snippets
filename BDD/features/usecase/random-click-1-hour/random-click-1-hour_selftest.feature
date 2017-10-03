@@ -13,11 +13,11 @@
 @random-click-1-hour
 Feature: test single step from random-click-1-hour
   Background: scratch background
-    Given FASTBOOT Erase userdata
+    Given Clear all handy settings
       And ADB Wait for device, timeout 60 seconds
     Then ADB check boot completed, timeout 600 seconds
       And ADB PATH_ANDROID_TEMP directory is ready, timeout 60 seconds
-      And ADB Initialize android
+      # And ADB Initialize android
 
     Given setup an android as below
     | Package                  | Activity                        | platform | type  | version |
