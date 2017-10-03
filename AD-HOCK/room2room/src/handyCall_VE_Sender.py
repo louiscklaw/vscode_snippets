@@ -143,7 +143,7 @@ if __name__ == '__main__':
     # unittest.TextTestRunner(verbosity=2).run(suite)
 
     # for HTMLTestRunner
-    file = open(str(PATH(checkReportFolder() + (time.strftime("%Y%m%d-%H%M%S") + '_VE_Sender.html'))), "wb")
+    file = open(str(PATH(checkFolder() + (time.strftime("%Y%m%d-%H%M%S") + '_VE_Sender.html'))), "wb")
 
     runner = HTMLTestRunner.HTMLTestRunner(
         stream=file,
