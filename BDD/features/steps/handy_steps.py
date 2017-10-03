@@ -36,3 +36,12 @@ def step_impl(context):
           And adb shell "pm clear com.tinklabs.softsim"
           And adb shell "pm clear com.tinklabs.wifiscanner"
     ''')
+
+@step(u'Wait for handy initialization')
+def step_impl(context):
+    """
+        sleep across the handy initialization
+    """
+    context.execute_steps(u'''
+        Then sleep 600 secondss
+    ''')
