@@ -36,29 +36,29 @@ def step_impl(context):
     #   GRAMMER:
     #       {Skip/Pass} the 1st time tutorial by launcher
     context.execute_steps(u'''
-        Then Wait until "Tap this show the hotel details." appears on screen, timeout "30" seconds
+        Then Wait until "Tap this show the hotel details." appears on screen, timeout "10" seconds
           And Tap screen 1 times at CENTER
           And sleep 1 seconds
 
-        # Tap_on_this_icon_to_open_the_side_bar
-        # com.tinklabs.launcher:id/click_through means back button on the top-left
-        Then Wait until "Tap on this icon to open the side bar." appears on screen, timeout "30" seconds
-          And tap on button "android.view.View":"resource-id":"com.tinklabs.launcher:id/click_through"
-          And sleep 1 seconds
+        # # Tap_on_this_icon_to_open_the_side_bar
+        # # com.tinklabs.launcher:id/click_through means back button on the top-left
+        # Then Wait until "Tap on this icon to open the side bar." appears on screen, timeout "10" seconds
+        #   And tap on button "android.view.View":"resource-id":"com.tinklabs.launcher:id/click_through"
+        #   And sleep 1 seconds
 
-        # Scroll_down_to_explore_all_the_main_features_of_handy
-        Then Wait until "Scroll down to explore all the main features of handy." appears on screen, timeout "30" seconds
-          And tap on button "android.view.View":"resource-id":"com.tinklabs.launcher:id/click_through"
-          And sleep 1 seconds
+        # # Scroll_down_to_explore_all_the_main_features_of_handy
+        # Then Wait until "Scroll down to explore all the main features of handy." appears on screen, timeout "10" seconds
+        #   And tap on button "android.view.View":"resource-id":"com.tinklabs.launcher:id/click_through"
+        #   And sleep 1 seconds
 
         # Shop_for_discounted_souvenirs
         # Shop for discounted souvenirs and the hottest new products, and enjoy free delivery.
-        Then Wait until "Shop for discounted souvenirs and the hottest new products, and enjoy free delivery." appears on screen, timeout "30" seconds
+        Then Wait until "Shop for discounted souvenirs and the hottest new products, and enjoy free delivery." appears on screen, timeout "10" seconds
           And tap on button "android.view.View":"resource-id":"com.tinklabs.launcher:id/click_through"
           And sleep 1 seconds
 
         # Tours_and_tickets_to_major_attractions
-        Then Wait until Text startwith "Tours and tickets to major attractions" appears on screen, timeout "30" seconds
+        Then Wait until Text startwith "Tours and tickets to major attractions" appears on screen, timeout "10" seconds
           And tap on Text "Tickets"
           And Wait until screen ready, timeout 30 seconds
           And sleep 5 seconds
