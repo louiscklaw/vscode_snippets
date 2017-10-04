@@ -74,6 +74,8 @@ def step_impl(context, sText):
         #   And Fail if the Text "%(sText)s" not appears on screen
 
         Then Swipe "com.tinklabs.launcher:id/mdContent" DOWN Distance "200" until "Home" appears on screen (max swipe "5")
+          And Wait until screen ready, timeout 10 seconds
+
           And ADB screen capture, save to "./_screenshot"
         # And Fail if the Text "Home" not appears on screen
     ''' % dParameter )
@@ -91,7 +93,9 @@ def step_impl(context):
         # To make sure Apps button appears
         Given press HOME button
           And Wait until screen ready, timeout 30 seconds
+
           And Swipe "com.tinklabs.launcher:id/mdContent" DOWN Distance "200" until "Apps" appears on screen (max swipe "5")
+          And Wait until screen ready, timeout 10 seconds
 
         Given User tap on "Apps" button
           And Wait until screen ready, timeout 30 seconds
@@ -118,7 +122,10 @@ def step_impl(context, sAppWantedOnScreen):
 
         Then press HOME button
           And Wait until screen ready, timeout 30 seconds
+
           And Swipe "com.tinklabs.launcher:id/mdContent" DOWN Distance "200" until "Apps" appears on screen (max swipe "5")
+          And Wait until screen ready, timeout 10 seconds
+
           And Wait until "Home" appears on screen, timeout "30" seconds
     ''' % sAppWantedOnScreen)
 
