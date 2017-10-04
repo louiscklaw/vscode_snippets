@@ -57,6 +57,7 @@ def step_impl(context):
             assert False
     except Exception, e:
         raise e
+        assert False
 
 
 
