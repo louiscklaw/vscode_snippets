@@ -51,7 +51,7 @@ def PATH(p): return os.path.abspath(
 @step('appium is running')
 def step_impl(context):
     try:
-        if os.popen( "ps -aef | grep -i 'appium' | grep -i 'node'" ).read().strip().find('appium') > -1:
+        if os.popen( "ps -ef | grep -i 'appium' | grep -v 'grep'" ).read().strip().find('appium') > -1:
             pass
         else:
             assert False
