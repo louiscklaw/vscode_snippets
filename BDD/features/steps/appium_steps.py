@@ -48,6 +48,17 @@ def PATH(p): return os.path.abspath(
 # com.example.android.apis
 # Given started package "<Package>" activity "<Activity>" on "<platform>" type "<type>" ver "<version>"#
 
+@step('appium is running')
+def step_impl(context):
+    try:
+        if os.popen( "ps -aef | grep -i 'appium' | grep -i 'node'" ).read().strip().find('appium') > -1:
+            pass
+        else:
+            assert False
+    except Exception, e:
+        raise e
+
+
 
 @step('setup an android as below')
 def step_impl(context):
