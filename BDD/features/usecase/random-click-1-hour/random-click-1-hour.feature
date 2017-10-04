@@ -1,6 +1,7 @@
 
 Feature: Erase data from launcher
   Background: scratch background
+    Given appium is running
     Given FASTBOOT Erase userdata
       And ADB Wait for device, timeout 60 seconds
       And ADB check boot completed, timeout 600 seconds
