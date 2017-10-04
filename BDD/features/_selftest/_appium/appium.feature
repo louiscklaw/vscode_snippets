@@ -2,6 +2,9 @@
 @appium_command
 Feature: appium
   @test_appium
-  Scenario: appium steps helloworld
+  Scenario: process wanted exist
     # Given ADB Init session
     Given appium is running
+  Scenario: process wanted is not exist
+    # Given ADB Init session
+    Given NotAProcess is running
