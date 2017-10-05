@@ -28,6 +28,9 @@ Feature: Erase data from launcher
       And sleep 180 seconds
 
     Then ADB Wait for device
+      And ADB check boot completed, timeout 600 seconds
+
+    Then Wait for handy initialization
       And ADB Initialize android
       And setup an android as below
       | Package                  | Activity                        | platform | type  | version |
