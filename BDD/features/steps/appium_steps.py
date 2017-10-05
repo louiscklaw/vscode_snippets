@@ -48,6 +48,10 @@ def PATH(p): return os.path.abspath(
 # com.example.android.apis
 # Given started package "<Package>" activity "<Activity>" on "<platform>" type "<type>" ver "<version>"#
 
+@step('Target device is {device}')
+def step_impl(context, device):
+    context.device = device
+
 @step('{process_wanted} is running')
 def step_impl(context, process_wanted):
     try:
@@ -143,7 +147,18 @@ def step_impl(context, button):
 #     if component + '/' + activity != finger.f_CheckCurrentActivity(context.appiumSession):
 #         assert False
 
+@step('Test setup is ready')
+def step_impl(context):
+    context.execute_steps(u'''
+      Given appium is running
 
+      Given FASTBOOT Erase userdata
+        And ADB Wait for device, timeout 600 seconds
+        And ADB check boot completed, timeout 1200 seconds
+
+      Then Wait for handy initialization
+        And ADB Initialize android
+    ''')
 
 @step('quit appium')
 def quit_appium(context):
