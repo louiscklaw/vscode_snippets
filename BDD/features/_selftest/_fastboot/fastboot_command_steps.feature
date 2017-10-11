@@ -17,6 +17,8 @@ Feature: FASTBOOT wrapper
 
     @fastboot_clear_userdata_only
     Scenario: test procedure to clear userdata only
+      Given Target device is T1 "VZHGLMA742800785"
+        And appium is running
       Given ADB Reboot bootloader
         And FASTBOOT unlock
         Then FASTBOOT "-i 0x489 erase userdata"
