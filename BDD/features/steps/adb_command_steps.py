@@ -90,12 +90,12 @@ def get_epoch_time():
 
 @step(u'ADB Wait for device')
 def step_impl(context):
-    if hasattr(context,'ADBSession'):
+    if hasattr(context,'adb_session'):
         pass
     else:
-        context.ADBSession = ADB()
+        context.adb_session = ADB()
 
-    adb=context.ADBSession
+    adb=context.adb_session
     adb.run_cmd('wait-for-device')
     sleep(10)
 
@@ -110,12 +110,12 @@ def step_impl(context, sSeconds):
 
 @step(u'ADB Reboot bootloader')
 def step_impl(context):
-    if hasattr(context,'ADBSession'):
+    if hasattr(context,'adb_session'):
         pass
     else:
-        context.ADBSession = ADB()
+        context.adb_session = ADB()
 
-    adb=context.ADBSession
+    adb=context.adb_session
     adb.run_cmd('reboot bootloader')
     sleep(10)
 
@@ -125,12 +125,12 @@ def step_impl(context):
     """
         to be obsoleted, reboot device
     """
-    if hasattr(context,'ADBSession'):
+    if hasattr(context,'adb_session'):
         pass
     else:
-        context.ADBSession = ADB()
+        context.adb_session = ADB()
 
-    adb=context.ADBSession
+    adb=context.adb_session
     adb.run_cmd('reboot')
     sleep(10)
 
@@ -187,7 +187,7 @@ def step_impl(context):
 # TODO: delete me
 @step(u'ADB Init session')
 def step_impl(context):
-    context.ADBSession = ADB()
+    context.adb_session = ADB()
 
 
 @step(u'ADB adb push "{sSourceFile}" "{sTargetFile}"')
@@ -200,7 +200,7 @@ def step_impl(context, sSourceFile, sTargetFile):
             - sSourceFile - Source file from PC
             - sTargetFile - Target file in android
     """
-    adb = context.ADBSession
+    adb = context.adb_session
     # adb.push_local_file(sSourceFile, sTargetFile)
 
     # adb.run_cmd('push %s %s' %(sSourceFile, sTargetFile))
@@ -291,7 +291,7 @@ def step_impl(context):
 @step(u'ADB adb shell test')
 def step_impl(context):
     import subprocess
-    adb = context.ADBSession
+    adb = context.adb_session
     print('test command')
     # adb.run_cmd('shell "/data/local/tmp/tinklabs1001 -c \\"settings put global package_verifier_enable 0\\""')
     subprocess.check_output(
@@ -460,7 +460,7 @@ def step_impl(context, sTargetPath):
         # NOTE create a landing directory for screen capture
         os.makedirs(dParameter['sTargetPathWithDatetime'], 0755)
 
-        adb = context.ADBSession
+        adb = context.adb_session
         for sADBCommand in lsADBCommand:
             adb.run_cmd(sADBCommand)
     except Exception:
