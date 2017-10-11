@@ -381,12 +381,14 @@ def step_impl(context, sName, sValue):
 
     pass
 
+
 @step(u'ADB getprop "{sName}"')
 def step_adb_getprop(context, sName):
     """
         to handle adb shell getprop
     """
-    return run('adb shell getprop %s' % (sName), timeout_sec=5)
+    # return run('adb shell getprop %s' % (sName), timeout_sec=5)
+    return context.adb_session.run_cmd('shell getprop %s' % (sName))
 
 
 @step(u'ADB prop "{sName}" should be "{sExpected}"')
@@ -411,12 +413,7 @@ def step_impl(context):
             And ADB change permission change_prop
 
     ''')
-    # pprint(run('''adb shell "/data/local/tmp/tinklabs1001 -c 'setprop persist.sys.usb.config adb,mtp'"''', timeout_sec=5))
-    # Then ADB shell ""source /data/local/tmp/change_settings.sh put %s %s %s""
-    print('command: %s' % '''adb shell "source /data/local/tmp/change_prop.sh persist.sys.usb.config adb,mtp"''')
     pprint(run('''adb shell "echo 0 > /sys/class/android_usb/f_mtp/device/f_mass_storage/enable"''', timeout_sec=5))
-    assert False
-    # pprint(run('''adb shell "source /data/local/tmp/change_prop.sh sys.usb.config adb,mtp"''', timeout_sec=5))
 
 
 @step(u'ADB disable usb mass storage')
