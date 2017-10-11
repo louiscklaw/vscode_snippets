@@ -15,6 +15,13 @@ Feature: FASTBOOT wrapper
   Background: scratch background
     Given ADB Wait for device, timeout 60 seconds
 
+    @fastboot_clear_userdata_only
+    Scenario: test procedure to clear userdata only
+      Given ADB Reboot bootloader
+        And FASTBOOT unlock
+        Then FASTBOOT "-i 0x489 erase userdata"
+        Then FASTBOOT "reboot"
+
     @fastboot_clear_user_data
     Scenario: test procedure to erase userdata
       Given ADB Reboot bootloader
