@@ -1,8 +1,10 @@
 
 from behave import given, when, then, step
-import os
-import sys
+import os, sys
+import logging
 import subprocess
+
+from pyand import ADB, Fastboot
 
 from collections import deque
 
@@ -24,47 +26,44 @@ from android_const import android_os_permission_button
 from appium.webdriver.common.touch_action import TouchAction
 from appium.webdriver.common.multi_action import MultiAction
 
-
-
-
-
-DUT_DEVICE = 'VZHGLMA750300169'
-
-
-
 def PATH(p): return os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
 
-# com.tinklabs.activateapp_base.apk
-# @step('the activateapp is running on "{platform}" "{type}" ver "{version}"')
-# def
-
-
-# com.example.android.apis
-# Given started package "<Package>" activity "<Activity>" on "<platform>" type "<type>" ver "<version>"#
-
-
-# com.example.android.apis
-# Given started package "<Package>" activity "<Activity>" on "<platform>" type "<type>" ver "<version>"#
-
-# @step('Target device is {device}')
-# def step_impl(context, device):
-#     context.device = device
-
-
 @step(u'Target device is {device} "{android_serial}"')
 def step_impl(context, device, android_serial):
     """
-    to initialize an android info to context.
-
-    Args:
-        device: Model of android , e.g. M812, T1
-        android_serial: the serial nnumber given by adb debices (16 chars)
-
+        specify android device by model and serial number
+        Args:
+            - device [T1, M812]
+            - android_serial  V2HGLMB721301100
     """
     context.device = device
-    context.android_serial = android_serial
+    context.android_serial = android_serial.encode('ascii', 'ignore')
+
+    temp_adb=ADB()
+    temp_fastboot=Fastboot()
+
+    list_by_serial = {
+        serial: idx
+        for (idx, serial) in temp_adb.get_devices().items()
+        }
+
+    if android_serial in list_by_serial.keys():
+        from pprint import pprint
+
+        # NOTE: debug
+        # pprint(list_by_serial)
+
+        target_id = list_by_serial[android_serial]
+        temp_adb.set_target_by_id(target_id)
+
+        context.adb_session = temp_adb
+        context.fastboot_session = temp_fastboot
+
+    else:
+        logging.error('cannot find the target device')
+        assert False, 'cannot find the target device'
 
 
 @step('{process_wanted} is running')
