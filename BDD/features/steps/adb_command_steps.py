@@ -113,6 +113,7 @@ def step_impl(context):
     if hasattr(context,'adb_session'):
         pass
     else:
+        logging.debug('create adb session')
         context.adb_session = ADB()
 
     adb=context.adb_session
