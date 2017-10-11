@@ -397,13 +397,14 @@ def step_impl(context, sName, sExpected):
         to compare the prop with the expected value
     """
     print(u'STEP: Given ADB getprop "{sName}" should be "{sExpected}"')
-    (sReturnCode, sStdOut, sStdErr, sTimeout) = step_adb_getprop(context, sName)
+    # (sReturnCode, sStdOut, sStdErr, sTimeout) = step_adb_getprop(context, sName)
+    sStdOut = step_adb_getprop(context, sName)
     print('props returned: %s' % sStdOut.strip())
     assert sExpected == sStdOut.strip()
 
 @step(u'ADB setprop test with shell True')
 def step_impl(context):
-    print(u'STEP: Given ADB setprop test with shell True')
+    logging.debug('STEP: Given ADB setprop test with shell True')
     context.execute_steps(u'''
         Given ADB Init session
             And ADB push tinklabs1001
@@ -421,7 +422,7 @@ def step_disable_usb_mass_storage(context):
     """
         disable usb mass storage function on the device
     """
-    print('STEP: disable usb mass storage')
+    logging.debug('STEP: disable usb mass storage')
     context.execute_steps(u'''
         Given ADB Init session
             And ADB push tinklabs1001
@@ -564,12 +565,14 @@ def step_impl(context, sSeconds):
     sStdOut = ''
     sStdErr = ''
 
-    iTimeToEnd = int(get_epoch_time()) + int(sSeconds)
+    time_start = get_epoch_time()
+    time_to_end = time_start + int(sSeconds)
 
     # for i in range(0, int(sSeconds)):
-    while iTimeToEnd > int(get_epoch_time()):
+    while time_to_end > get_epoch_time():
         sleep(15)
-        (sResultCode, sStdOut, sStdErr, bTimeout) = step_adb_getprop(context, "sys.boot_completed")
+        # (sResultCode, sStdOut, sStdErr, bTimeout) = step_adb_getprop(context, "sys.boot_completed")
+        sStdOut = step_adb_getprop(context, 'sys.boot_completed')
         sStdOut = sStdOut.strip()
 
         if sStdOut == '1':
@@ -577,10 +580,11 @@ def step_impl(context, sSeconds):
             break
 
     if bBootComplete:
+        context.time_sys_boot_animation = get_time_difference_to(time_start)
         pass
     else:
-        print('boot failed')
-        print("sStdOut: %s" % sStdOut)
+        logging.error('boot failed')
+        logging.error('sStdOut: %s' % sStdOut)
         assert False
 
 
