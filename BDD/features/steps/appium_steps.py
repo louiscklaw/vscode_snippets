@@ -52,6 +52,21 @@ def PATH(p): return os.path.abspath(
 def step_impl(context, device):
     context.device = device
 
+
+@step(u'Target device is {device} "{android_serial}"')
+def step_impl(context, device, android_serial):
+    """
+    to initialize an android info to context.
+
+    Args:
+        device: Model of android , e.g. M812, T1
+        android_serial: the serial nnumber given by adb debices (16 chars)
+
+    """
+    context.device = device
+    context.android_serial = android_serial
+
+
 @step('{process_wanted} is running')
 def step_impl(context, process_wanted):
     try:

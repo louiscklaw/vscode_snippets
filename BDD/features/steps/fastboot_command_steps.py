@@ -11,6 +11,7 @@ try:
 
     import subprocess, shlex
     from threading import Timer
+    from time import sleep
 
     from pprint import pprint
 
@@ -21,28 +22,17 @@ except ImportError as e:
 import re
 
 
-# possible sequence to reset device
-# check if device available
-# fastboot devices
+def get_index_by_serial(index_serial_pair, serial):
+    """
+        try to get index by serial number
+        Args:
+            - index_serial_pair - output from adb.get_devices() / fastboot.get_devices()
+    """
 
-# fastboot oem fih on
-# fastboot oem devlock key
-
-# fastboot erase userdata
-# fastboot erase cache
-# fastboot erase oem
-
-
-# to flash su rom
-# fastboot devices
-
-# fastboot oem fih on
-# fastboot oem devlock key
-
-# fastboot flash system /Users/louis_law/Downloads/boot-handySU-adb_0731.img.signed
-
-
-# fastboot reboot
+    return {
+        serial: idx
+        for (idx, serial) in index_serial_pair.items()
+        }[serial]
 
 
 def kill_proc(proc, timeout):
@@ -60,6 +50,25 @@ def run(cmd, timeout_sec):
 
 
 
+@step(u'Fastboot init')
+def step_impl(context):
+    """
+    To initialize fastboot session
+    """
+    if hasattr(context, 'android_serial'):
+        sleep(3)
+
+        # NOTE: this is a small technique for using the fastboot library.
+        # the get_devices also update the list inside the library.
+        f_session = context.fastboot_session
+
+        f_session.set_target_by_id(
+            get_index_by_serial(f_session.get_devices(), context.android_serial)
+            )
+    else:
+        # NOTE: no android_serial info here. assert error
+        logging.error('android_serial not found')
+        assert False, 'android_serial not found'
 
 
 @step(u'FASTBOOT "{sCommand}"')
@@ -108,6 +117,9 @@ def step_impl(context, sPartitions):
 
 @step(u'FASTBOOT Erase userdata')
 def step_impl(context):
+    """
+    stored procedure to erase user data by fastboot
+    """
     context.execute_steps(u'''
         Given ADB Reboot bootloader
           And FASTBOOT unlock
