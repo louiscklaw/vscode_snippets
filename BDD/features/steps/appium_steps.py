@@ -48,9 +48,9 @@ def PATH(p): return os.path.abspath(
 # com.example.android.apis
 # Given started package "<Package>" activity "<Activity>" on "<platform>" type "<type>" ver "<version>"#
 
-@step('Target device is {device}')
-def step_impl(context, device):
-    context.device = device
+# @step('Target device is {device}')
+# def step_impl(context, device):
+#     context.device = device
 
 
 @step(u'Target device is {device} "{android_serial}"')
