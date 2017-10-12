@@ -468,7 +468,10 @@ def step_impl(context, sId, sTimeout):
 
     lLookFor = []
 
-    for i in range(1, int(sTimeout) + 1):
+    start_time = get_epoch_time()
+    end_time = start_time + sTimeout
+
+    while end_time > get_epoch_time():
         sleep(1)
         lLookFor = finger.f_FindTargetById(
             context.appiumSession,
@@ -481,7 +484,7 @@ def step_impl(context, sId, sTimeout):
     if len(lLookFor) > 0:
         pass
     else:
-        assert False
+        assert False, 'cannot find expected resource'
     pass
 
 
