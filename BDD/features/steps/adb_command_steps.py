@@ -678,7 +678,7 @@ def step_impl(context, sSeconds):
     else:
         logging.error('boot failed')
         logging.error('sStdOut: %s' % sStdOut)
-        assert False
+        assert False, 'boot failed'
 
 
 @then(u'Fail if the time taken "{name_of_process}" is more than {seconds} seconds')
