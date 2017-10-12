@@ -120,7 +120,7 @@ class WizardActivityPageGenerator:
         if id_page == WV_PASS_PLAY_VIDEO:
             return u'''
         # Let's start should appears
-        Then Wait until "%(LET_S_START)s" appears on screen, timeout "120" seconds
+        Then Wait until "%(LET_S_START)s" appears on screen, timeout "60" seconds
             And tap on text "%(LET_S_START)s"
     ''' % self.Page
 
