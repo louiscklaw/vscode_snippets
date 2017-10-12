@@ -457,13 +457,13 @@ def step_impl(context, sId):
 @step(u'Wait until "resource-id" "{sId}" appears on screen, timeout {sTimeout} seconds')
 def step_impl(context, sId, sTimeout):
     """
-        Try to locate sId on current screen, timeout given by sTimeout
-        e.g.:
-            Wait until "resource-id" "com.tinklabs.launcher:id/ivBackground" appears on screen, timeout 60 seconds
+    Try to locate sId on current screen, timeout given by sTimeout
+    e.g.:
+        Wait until "resource-id" "com.tinklabs.launcher:id/ivBackground" appears on screen, timeout 60 seconds
 
-        :Args:
-            - sId - recource-id
-            - sTimeout - timeout second
+    :Args:
+        - sId - recource-id
+        - sTimeout - timeout second
     """
 
     lLookFor = []
