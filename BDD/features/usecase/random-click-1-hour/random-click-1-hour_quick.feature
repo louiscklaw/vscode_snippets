@@ -5,13 +5,13 @@ Feature: random click for a hour
     Given Target device is T1 "VZHGLMA742804186"
     And appium is running
 
-    # TODO: resume
-    Given Fastboot init
-    And FASTBOOT Erase userdata
+    # # TODO: resume
+    # Given Fastboot init
+    # And FASTBOOT Erase userdata
 
-    Then ADB Wait for device, timeout 60 seconds
-    And ADB check boot completed, timeout 600 seconds
-    And Wait for handy initialization
+    # Then ADB Wait for device, timeout 60 seconds
+    # And ADB check boot completed, timeout 600 seconds
+    # And Wait for handy initialization
 
     Then ADB Initialize android
 
@@ -20,7 +20,7 @@ Feature: random click for a hour
       | com.tinklabs.activateapp | .features.wizard.WizardActivity | Android  | phone | 7.0     |
     And Wait until "English" appears on screen, timeout "300" seconds
 
-    Given Reach "Happy flow The end" page in WizardActivity by skip, route "RESERVED_FOR_LATTER_USE"
+    Given Reach "Happy flow The end" page in WizardActivity by skip, route "THIS_TEXT_IS_RESERVED_FOR_LATTER_USE"
     And Skip the 1st time tutorial by launcher
 
     Then Random tour for 0.001 hour
