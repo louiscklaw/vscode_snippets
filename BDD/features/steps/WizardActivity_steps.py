@@ -76,8 +76,8 @@ def step_impl(context, target, route):
                 WizardActivityPage_T1.get_page(WV_SKIP_CHECKOUT_DATE))
             lsTemp.append(
                 WizardActivityPage_T1.get_page(WV_SKIP_HANDYMEMBER))
-            lsTemp.append(
-                WizardActivityPage_T1.get_page(WV_SKIP_PERSONALIZED_EXPERIENCE))
+            # lsTemp.append(
+            #     WizardActivityPage_T1.get_page(WV_SKIP_PERSONALIZED_EXPERIENCE))
             lsTemp.append(
                 WizardActivityPage_T1.get_page(WV_PASS_PLAY_VIDEO))
 
@@ -213,7 +213,7 @@ def step_impl(context, target):
 @step(u'Wait until "{Text}" {appears} on screen, timeout "{TimeOut}" seconds')
 def step_impl(context, Text, TimeOut, appears):
     """
-        Just wait the target Text appears, counted down by TimeOut seconds
+    Just wait the target Text appears, counted down by TimeOut seconds
     """
 
     # TODO: temporary solution
@@ -256,7 +256,7 @@ def step_impl(context, Text, TimeOut, appears):
 @step(u'Wait until Text startwith "{Text}" appears on screen, timeout "{TimeOut}" seconds')
 def step_impl(context, Text, TimeOut):
     """
-        Just wait the target Text appears, counted down by TimeOut seconds
+    Just wait the target Text appears, counted down by TimeOut seconds
     """
     # print('i am supposed a waiting until %s' % Text)
 
@@ -273,7 +273,7 @@ def step_impl(context, Text, TimeOut):
             break
 
     if not(TextFound):
-        assert False
+        assert False, '%s not found' % Text
 
     pass
 
