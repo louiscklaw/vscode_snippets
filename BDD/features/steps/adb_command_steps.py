@@ -751,7 +751,7 @@ def step_adb_root_shell(context, command):
     index = child.expect(["$", "@", pexpect.TIMEOUT])
 
     for (command_to_send, text_expected) in adb_commands:
-        logging.error('sending %s' % command_to_send)
+        logging.debug('sending %s' % command_to_send)
         send_command_to_adb(
             child, command_to_send, text_expected)
 
