@@ -51,13 +51,13 @@ def step_impl(context):
 @step(u'Reach "{target}" page in WizardActivity by skip, route "{route}"')
 def step_impl(context, target, route):
     """
-        a new WizardActivity to handle with different route
-        currently only target "Happy flow The end available
+    a new WizardActivity to handle with different route
+    currently only target "Happy flow The end available
 
-        :Args:
-            - target, target stage in Wizard tour
-            - route, not effective, reserved
-                route of Wizard, currently mapped with hotel of the device, e.g. QA Testing(IRX)
+    :Args:
+        - target, target stage in Wizard tour
+        - route, not effective, reserved
+            route of Wizard, currently mapped with hotel of the device, e.g. QA Testing(IRX)
     """
     lsTemp = []
 
