@@ -1,38 +1,39 @@
 
-Feature: Erase data from launcher
-  Background: scratch background
-    Given Target device is T1 "VZHGLMA742800785"
-      And appium is running
-    Given FASTBOOT Erase userdata
-      And ADB Wait for device, timeout 60 seconds
-      And ADB check boot completed, timeout 600 seconds
-    Then Wait for handy initialization
-      And ADB Initialize android
+Feature: random click for a hour
+  @initialize_rom
+  Scenario: initialize
+    Given Target device is T1 "VZHGLMA742804186"
+    And appium is running
 
-    Given setup an android as below
-    | Package                  | Activity                        | platform | type  | version |
-    | com.tinklabs.activateapp | .features.wizard.WizardActivity | Android  | phone | 7.0     |
-      And Wait until "English" appears on screen, timeout "300" seconds
+    # TODO: resume
+    Given Fastboot init
+    And FASTBOOT Erase userdata
 
-    Given Reach "Happy flow The end" page in WizardActivity by skip
-      And Skip the 1st time tutorial by launcher
+    Then ADB Wait for device, timeout 60 seconds
+    And ADB check boot completed, timeout 600 seconds
+    And Wait for handy initialization
 
-  @slow
-  @usecase
-  @long_duration
-  @test_random_click_for_an_hour
-  Scenario: random tour for a long duration
-    Then Random tour for 0.01 hour
+    Then ADB Initialize android
 
-    Then In launcher side menu, Erase data
-      # unconditional wait due to loss connection to the phone
-      And sleep 180 seconds
-
-    Then ADB Wait for device
-      And ADB check boot completed, timeout 600 seconds
-    Then Wait for handy initialization
-      And ADB Initialize android
-      And setup an android as below
+    Given setup an android as below, using appium port 4723
       | Package                  | Activity                        | platform | type  | version |
       | com.tinklabs.activateapp | .features.wizard.WizardActivity | Android  | phone | 7.0     |
-      And Wait until "English" appears on screen, timeout "180" seconds
+    And Wait until "English" appears on screen, timeout "300" seconds
+
+    Given Reach "Happy flow The end" page in WizardActivity by skip, route "RESERVED_FOR_LATTER_USE"
+    And Skip the 1st time tutorial by launcher
+
+    Then Random tour for 0.001 hour
+
+    Then In launcher side menu, Erase data
+    # unconditional wait due to loss connection to the phone
+    And sleep 180 seconds
+
+    Then ADB Wait for device
+    And ADB check boot completed, timeout 600 seconds
+    Then Wait for handy initialization
+    And ADB Initialize android
+    And setup an android as below, using appium port 4723
+      | Package                  | Activity                        | platform | type  | version |
+      | com.tinklabs.activateapp | .features.wizard.WizardActivity | Android  | phone | 7.0     |
+    And Wait until "English" appears on screen, timeout "180" seconds
