@@ -107,27 +107,6 @@ def run(cmd, timeout_sec):
     return proc.returncode, stdout.decode("utf-8"), stderr.decode("utf-8"), timeout["value"]
 
 
-def get_epoch_time():
-    """
-        return the epoch of current time
-    """
-    return int(datetime.now().strftime('%s'))
-
-
-def get_time_difference_to(given_time):
-    """
-    calculate the different (in seconds) between now and the given time
-
-    Args:
-        given_time: the int(in epoch format) want to check
-
-    Returns:
-        the time different between now and the given_time
-
-    """
-    return get_epoch_time() - given_time
-
-
 @step(u'ADB Wait for device')
 def step_impl(context):
     if hasattr(context, 'adb_session'):
