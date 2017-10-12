@@ -4,28 +4,14 @@ import os
 import sys
 import logging
 
-sys.path.append(os.path.dirname(__file__)+'/../_lib')
+sys.path.append(os.path.dirname(__file__) + '/../_lib')
 from android_function import finger
 from android_function import util
 
 from time import sleep
 
-# @step(u'finish LauncherActivity tutorial')
-# def step_impl(context):
-#     context.execute_steps(u'''
-#     # Tap_this_show_the_hostel_details
-#     Then Fail if the "Tap this show the hotel details." not appears on screen
-#       and Tap screen 1 times at CENTER
+from LauncherFirstTimeTutorialGenerator import *
 
-#     # Tap_on_this_icon_to_open_the_side_bar
-#     # com.tinklabs.launcher:id/click_through means back button on the top-left
-#     Then Fail if the "Tap on this icon to open the side bar." not appears on screen
-#       and tap on button "android.view.View":"resource-id":"com.tinklabs.launcher:id/click_through"
-
-#     # Scroll_down_to_explore_all_the_main_features_of_handy
-#     Then Fail if the "Scroll down to explore all the main features of handy." not appears on screen
-#       and tap on button "android.view.View":"resource-id":"com.tinklabs.launcher:id/click_through"
-#     ''')
 
 @step(u'Skip the 1st time tutorial by launcher')
 def step_impl(context):
@@ -36,46 +22,12 @@ def step_impl(context):
     # TODO: implement pass/fail option in the script
     #   GRAMMER:
     #       {Skip/Pass} the 1st time tutorial by launcher
-    context.execute_steps(u'''
-        Then Wait until "Tap this show the hotel details." appears on screen, timeout "10" seconds
-          And Tap screen 1 times at CENTER
-          And sleep 1 seconds
-
-        # # Tap_on_this_icon_to_open_the_side_bar
-        # # com.tinklabs.launcher:id/click_through means back button on the top-left
-        # Then Wait until "Tap on this icon to open the side bar." appears on screen, timeout "10" seconds
-        #   And tap on button "android.view.View":"resource-id":"com.tinklabs.launcher:id/click_through"
-        #   And sleep 1 seconds
-
-        # # Scroll_down_to_explore_all_the_main_features_of_handy
-        # Then Wait until "Scroll down to explore all the main features of handy." appears on screen, timeout "10" seconds
-        #   And tap on button "android.view.View":"resource-id":"com.tinklabs.launcher:id/click_through"
-        #   And sleep 1 seconds
-
-        # Shop_for_discounted_souvenirs
-        # Shop for discounted souvenirs and the hottest new products, and enjoy free delivery.
-        # Then Wait until "Shop for discounted souvenirs and the hottest new products, and enjoy free delivery." appears on screen, timeout "10" seconds
-        #   And tap on button "android.view.View":"resource-id":"com.tinklabs.launcher:id/click_through"
-        #   And sleep 1 seconds
-
-        # Tours_and_tickets_to_major_attractions
-        Then Wait until Text startwith "Tours and tickets to major attractions" appears on screen, timeout "10" seconds
-          And tap on Text "Tickets"
-          And Wait until screen ready, timeout 30 seconds
-          And sleep 5 seconds
-
-          # NOTE as the back at upper left corner got no names. need to press the button by coordinates.
-          # TODO: better naming
-          # And tap on position "56","88" using adb
-
-        Then press HOME button
-          And Wait until screen ready, timeout 30 seconds
-          And sleep 1 seconds
-
-        # Suppose tour done
-
-    ''')
+    tutorial_config = LauncherFirstTimeTutorialConfig('en_US')
+    tutorial_route = LauncherFirstTimeTutorialGenerator(
+        tutorial_config, 'M812')
+    context.execute_steps(tutorial_route.get_tutorial())
     pass
+
 
 @step(u'Press {sDialogAnswer} in {sDialogTitle} Dialog, timeout {sDialogTimeout} seconds')
 def step_impl(context, sDialogAnswer, sDialogTitle, sDialogTimeout):
@@ -112,8 +64,6 @@ def step_impl(context, confirm):
     dSettings['erase_data_confirmation_yes'] = CLIENT_RETURN_ACTIVITY['ERASE_DATA_CONFIRMATION_YES']
     dSettings['erase_data_confirmation_no'] = CLIENT_RETURN_ACTIVITY['ERASE_DATA_CONFIRMATION_NO']
 
-
-
     logging.debug('i supposed to click the "Erase Data" on left_drawer')
 
     context.execute_steps(u'''
@@ -143,7 +93,7 @@ def step_impl(context, confirm):
 
 
         ''' % dSettings
-        )
+                              )
     elif confirm in ["don't confirm"]:
         logging.debug('i supposed clicking "No" to confirm ERASE DATA')
         context.execute_steps(u'''
@@ -156,7 +106,7 @@ def step_impl(context, confirm):
               And tap on button "android.widget.Button":"resource-id":"%(erase_data_confirmation_no)s"
 
         ''' % dSettings
-        )
+                              )
     pass
 
 
@@ -205,6 +155,7 @@ def step_impl(context):
 
     pass
 
+
 @step(u'Scroll "{element1}" to "{element2}"')
 def step_scroll_elements(context, element1, element2):
     """
@@ -235,13 +186,14 @@ def step_impl(context, sText, countdown, sDirection):
 
         TODO: i need tidy up/better optimize
     """
-    bTextFound            = False
-    iCountdown            = int(countdown)
-    iNumberOfElementFound = len(finger.f_FindElementsWithText(context.appiumSession, sText))
-    sLeftDrawer           = "com.tinklabs.launcher:id/left_drawer_list"
-    sMenuItem             = "com.tinklabs.launcher:id/tab_item"
+    bTextFound = False
+    iCountdown = int(countdown)
+    iNumberOfElementFound = len(
+        finger.f_FindElementsWithText(context.appiumSession, sText))
+    sLeftDrawer = "com.tinklabs.launcher:id/left_drawer_list"
+    sMenuItem = "com.tinklabs.launcher:id/tab_item"
     # sUiQuery            = 'new UiSelector().resourceId("%s").childSelector(new UiSelector().resourceId("%s"))' % (sLeftDrawer, sMenuItem)
-    sUiQuery              = 'new UiSelector().resourceId("%s")' % ( sMenuItem)
+    sUiQuery = 'new UiSelector().resourceId("%s")' % (sMenuItem)
 
     if len(finger.f_FindElementsWithText(context.appiumSession, sText)) > 0:
         # NOTE given that the sText is already appears in the screen
@@ -256,7 +208,8 @@ def step_impl(context, sText, countdown, sDirection):
 
             else:
                 # NOTE: sText not found, go swipe {sDirection} and check please
-                finger.f_Swipe_Elements(context.appiumSession, 180, 900, 600, sDirection, 1000)
+                finger.f_Swipe_Elements(
+                    context.appiumSession, 180, 900, 600, sDirection, 1000)
 
     if bTextFound:
         # NOTE do something when found ?
@@ -268,7 +221,6 @@ def step_impl(context, sText, countdown, sDirection):
     pass
 
 
-
 @step(u'Swipe "{sResourceId}" {sDirection} Distance "{sDistance}" until text containing "{sText}" appears on screen (max swipe "{sCountdown}")')
 def step_impl(context, sResourceId, sDirection, sDistance, sText, sCountdown):
     """
@@ -277,7 +229,6 @@ def step_impl(context, sResourceId, sDirection, sDistance, sText, sCountdown):
     iDistance = int(sDistance)
     iCountdown = int(sCountdown)
     bTextFound = False
-
 
     els = finger.f_FindElementsById(context.appiumSession, sResourceId)
     if len(els) > 0:
@@ -291,7 +242,6 @@ def step_impl(context, sResourceId, sDirection, sDistance, sText, sCountdown):
         )
         # logging.debug('iCenterX:%d' % iCenterX)
         # logging.debug('iCenterY:%d' % iCenterY)
-
 
         if len(finger.f_FindElementsContainText(context.appiumSession, sText)) > 0:
             # NOTE given thatt the sText is already appears in the screen
@@ -309,7 +259,8 @@ def step_impl(context, sResourceId, sDirection, sDistance, sText, sCountdown):
 
                 else:
                     # NOTE: sText not found, go swipe {sDirection} and check please
-                    finger.f_Swipe_Elements(context.appiumSession, iCenterX, iCenterY, iDistance, sDirection, 300)
+                    finger.f_Swipe_Elements(
+                        context.appiumSession, iCenterX, iCenterY, iDistance, sDirection, 300)
 
         if bTextFound:
             # NOTE do something when found ?
@@ -323,8 +274,6 @@ def step_impl(context, sResourceId, sDirection, sDistance, sText, sCountdown):
         assert False
 
 
-
-
 @step(u'Swipe "{sResourceId}" {sDirection} Distance "{sDistance}" until "{sText}" appears on screen (max swipe "{sCountdown}")')
 def step_impl(context, sResourceId, sDirection, sDistance, sText, sCountdown):
     """
@@ -333,7 +282,6 @@ def step_impl(context, sResourceId, sDirection, sDistance, sText, sCountdown):
     iDistance = int(sDistance)
     iCountdown = int(sCountdown)
     bTextFound = False
-
 
     els = finger.f_FindElementsById(context.appiumSession, sResourceId)
     if len(els) > 0:
@@ -365,7 +313,8 @@ def step_impl(context, sResourceId, sDirection, sDistance, sText, sCountdown):
 
                 else:
                     # NOTE: sText not found, go swipe {sDirection} and check please
-                    finger.f_Swipe_Elements(context.appiumSession, iCenterX, iCenterY, iDistance, sDirection, 300)
+                    finger.f_Swipe_Elements(
+                        context.appiumSession, iCenterX, iCenterY, iDistance, sDirection, 300)
 
         if bTextFound:
             # NOTE do something when found ?
@@ -379,15 +328,12 @@ def step_impl(context, sResourceId, sDirection, sDistance, sText, sCountdown):
         assert False
 
 
-
-
-
 @then(u'type "{sText}" in "{sResourceId}"')
 def step_impl(context, sText, sResourceId):
-    logging.debug(u'I am supposed to type "'+sText+'" in ' + sResourceId)
+    logging.debug(u'I am supposed to type "' + sText + '" in ' + sResourceId)
 
     els = finger.f_FindElementsById(context.appiumSession, sResourceId)
-    if els>0:
+    if els > 0:
         els[0].send_keys(sText)
     else:
         logging.debug('wanted %s not found' % sResourceId)
