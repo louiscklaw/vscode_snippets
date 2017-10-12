@@ -734,11 +734,20 @@ def step_impl(context, name_of_process, seconds):
 def send_command_to_adb(adb_shell_process, command_to_send, texts_expected):
     """
         send command to adb shell and wait for ready
+        Args:
+            adb_shell_process - the process given by spawn (pexpect -> adb)
+            command_to_send - command i would like to send to the adb
+            texts_expected - list if text i am expecting
     """
 
-    logging.error(command_to_send)
+    # TODO: normalize the texts_expected accept single string as input
+
+    logging.debug(command_to_send)
+
+    # NOTE: construct the send process by command and timeout
     adb_shell_process.sendline(command_to_send)
     texts_expected.append(pexpect.TIMEOUT)
+
     return adb_shell_process.expect(texts_expected)
 
 
