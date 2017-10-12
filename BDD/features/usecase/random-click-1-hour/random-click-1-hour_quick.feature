@@ -1,17 +1,16 @@
 
-Feature: random click for a hour
+Feature: random click for a hour, pilot run
   @initialize_rom
   Scenario: initialize
     Given Target device is T1 "VZHGLMA742804186"
     And appium is running
 
-    # # TODO: resume
-    # Given Fastboot init
-    # And FASTBOOT Erase userdata
+    Given Fastboot init
+    And FASTBOOT Erase userdata
 
-    # Then ADB Wait for device, timeout 60 seconds
-    # And ADB check boot completed, timeout 600 seconds
-    # And Wait for handy initialization
+    Then ADB Wait for device, timeout 60 seconds
+    And ADB check boot completed, timeout 600 seconds
+    And Wait for handy initialization
 
     Then ADB Initialize android
 
