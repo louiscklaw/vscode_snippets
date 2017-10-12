@@ -72,6 +72,8 @@ def step_impl(context, target, route):
         WizardActivityPage_T1 = WizardActivityPageGenerator(config_T1)
 
         if target == 'Happy flow The end':
+            # IDEA: to create the route, will handle by a generator
+
             lsTemp.append(WizardActivityPage_T1.get_page(INIT))
             lsTemp.append(WizardActivityPage_T1.get_page(WV_GREETING))
             lsTemp.append(
@@ -87,19 +89,23 @@ def step_impl(context, target, route):
         # screen resolution is 1920 x 1080
         # temporary for M812
         # landing on checkout date page
+
+        config_M812 = WizardActivityPageConfig('M812')
+        WizardActivityPage_M812 = WizardActivityPageGenerator(config_M812)
+
         if target == 'Happy flow The end':
             # updating for QA Testing(IRX)
-            lsTemp.append(WizardActivityPage.dWizardActivityPage[INIT])
-            lsTemp.append(WizardActivityPage.dWizardActivityPage[WV_GREETING])
-            # lsTemp.append(WizardActivityPage.dWizardActivityPage[WV_SKIP_CHECKOUT_DATE])
+            lsTemp.append(WizardActivityPage_M812.get_page(INIT))
+            lsTemp.append(WizardActivityPage_M812.get_page(WV_GREETING))
+            # lsTemp.append(WizardActivityPage_M812.get_page(WV_SKIP_CHECKOUT_DATE))
             lsTemp.append(
-                WizardActivityPage.dWizardActivityPage[WV_SKIP_HANDYMEMBER])
-            # lsTemp.append(WizardActivityPage.dWizardActivityPage[WV_SKIP_PERSONALIZED_EXPERIENCE])
+                WizardActivityPage_M812.get_page(WV_SKIP_HANDYMEMBER))
+            # lsTemp.append(WizardActivityPage_M812.get_page(WV_SKIP_PERSONALIZED_EXPERIENCE))
             lsTemp.append(
-                WizardActivityPage.dWizardActivityPage[WV_PASS_TUTORIAL_IMAGE])
-        else:
-            logging.error('target: %s is not handled' % target)
-            assert False
+                WizardActivityPage_M812.get_page(WV_PASS_TUTORIAL_IMAGE))
+    else:
+        logging.error('target: %s is not handled' % target)
+        assert False, 'the %s is not handled' % context.device
 
     context.execute_steps(''.join(lsTemp))
 

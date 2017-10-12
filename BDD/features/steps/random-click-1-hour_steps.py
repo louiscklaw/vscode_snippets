@@ -127,7 +127,7 @@ def step_impl(context, sAppWantedOnScreen):
         Given User tap on "Apps" button
             And Wait until screen ready, timeout 30 seconds
 
-uncher:id/main_app_list" UP Distance "100" until "%s" appears on screen (max swipe "20")        Then Swipe "com.tinklabs.la
+        Then Swipe "com.tinklabs.launcher:id/main_app_list" UP Distance "100" until "%s" appears on screen (max swipe "20")
 
         Then press HOME button
           And Wait until screen ready, timeout 30 seconds
