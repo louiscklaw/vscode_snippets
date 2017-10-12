@@ -6,7 +6,7 @@ def setup_logger(sLoggerName):
         return -- logger with logger name defined by sLoggerName
     """
     logger = logging.getLogger('handy_behave_run_logger')
-    logger.setLevel(logging.DEBUG)
+    logger.setLevel(logging.INFO)
 
     ch = logging.StreamHandler()
     ch.setLevel(logging.INFO)
