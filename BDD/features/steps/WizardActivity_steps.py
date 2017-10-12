@@ -5,6 +5,8 @@ import sys
 import logging
 sys.path.append(os.path.dirname(__file__) + '/../_lib')
 
+from common import *
+
 from behave import given, when, then, step
 
 from config import *
@@ -219,14 +221,23 @@ def step_impl(context, Text, TimeOut, appears):
     # TODO: temporary solution
 
     # NOTE: defaults to T1 device
-    (dummy_tap_x, dummy_tap_y) = Device_T1.DUMMY_TAP
+    if context.device == 'T1':
+        (dummy_tap_x, dummy_tap_y) = Device_T1.DUMMY_TAP
 
-    if context.device == 'M812':
+    elif context.device == 'M812':
         (dummy_tap_x, dummy_tap_y) = Device_M812.DUMMY_TAP
+    else:
+        # TODO: define it in context
+        assert False, 'no dummy_tap defined'
 
     TextFound = False
-    TimeOut = int(TimeOut)
-    for i in range(1, TimeOut):
+    # TimeOut = int(TimeOut)
+    # for i in range(1, TimeOut):
+
+    start_time = get_epoch_time()
+    end_time = start_time + int(TimeOut)
+
+    while end_time > get_epoch_time():
         sleep(1)
         logging.debug('wait and retry')
         context.execute_steps(u'''
@@ -261,12 +272,19 @@ def step_impl(context, Text, TimeOut):
     # print('i am supposed a waiting until %s' % Text)
 
     TextFound = False
-    TimeOut = int(TimeOut)
-    for i in range(1, TimeOut):
+    # TimeOut = int(TimeOut)
+    # for i in range(1, TimeOut):
+    end_time = get_end_time(get_epoch_time(), int(TimeOut))
+
+    while end_time > get_epoch_time():
+
         sleep(1)
+        (dummy_tap_x, dummy_tap_y) = context.device_config.DUMMY_TAP
+
         context.execute_steps(u'''
-            Then tap on position "0","1201" using adb
-        ''')
+            Then tap on position "%d","%d" using adb
+        ''' % (dummy_tap_x, dummy_tap_y))
+
         els = finger.f_FindElementsStartWithText(context.appiumSession, Text)
         if len(els) > 0:
             TextFound = True

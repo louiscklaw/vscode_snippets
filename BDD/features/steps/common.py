@@ -38,3 +38,18 @@ def get_time_difference_to(given_time):
 
     """
     return get_epoch_time() - given_time
+
+
+def get_end_time(time_to_start, time_to_run):
+    """
+    return the target end time by a given start time, adding the time to keep run
+
+
+    Args:
+        time_to_start: epoch format of start time
+        time_to_run: length of the time to keep (seconds)
+
+    Returns:
+        the time to end in epoch format
+    """
+    return time_to_start + time_to_run

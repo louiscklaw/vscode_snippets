@@ -34,6 +34,9 @@ from appium.webdriver.common.touch_action import TouchAction
 from appium.webdriver.common.multi_action import MultiAction
 
 
+from devices import *
+
+
 def PATH(p): return os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
@@ -68,7 +71,15 @@ def step_impl(context, device, android_serial):
 
     else:
         print_fail('cannot find the target device')
-        assert False
+        assert False, 'cannot find the target device'
+
+    # NOTE: load class device config here
+    if device in ['T1']:
+        context.device_config = Device_T1
+    elif device in ['M812']:
+        context.device_config = Device_M812
+    else:
+        assert False, 'device configuration is missing device.py'
 
 
 @step(u'Target device is {device}')
@@ -469,7 +480,7 @@ def step_impl(context, sId, sTimeout):
     lLookFor = []
 
     start_time = get_epoch_time()
-    end_time = start_time + sTimeout
+    end_time = start_time + int(sTimeout)
 
     while end_time > get_epoch_time():
         sleep(1)
@@ -545,7 +556,7 @@ def step_impl(context, sText):
 
     """
     context.execute_steps(u'''
-        Then Wait until screen ready, timeout 30 seconds
+        Then Wait until screen ready, timeout 10 seconds
     ''')
 
     els = finger.f_FindElementsWithText(
