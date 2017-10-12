@@ -25,6 +25,3 @@ for device in ['T1', 'M812']:
     print WizardActivityPage_device.get_page(WV_SKIP_PERSONALIZED_EXPERIENCE)
     print WizardActivityPage_device.get_page(WV_PASS_PLAY_VIDEO)
     print WizardActivityPage_device.get_page(WV_PASS_TUTORIAL_IMAGE)
-
-
-print

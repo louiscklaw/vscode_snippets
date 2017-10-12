@@ -66,17 +66,20 @@ def step_impl(context, target, route):
 
         # IDEA: i think i need a route class here
         # happy flow means skip to the end
+        config_T1 = WizardActivityPageConfig('T1')
+        WizardActivityPage_T1 = WizardActivityPageGenerator(config_T1)
+
         if target == 'Happy flow The end':
-            lsTemp.append(WizardActivityPage.dWizardActivityPage[INIT])
-            lsTemp.append(WizardActivityPage.dWizardActivityPage[WV_GREETING])
+            lsTemp.append(WizardActivityPage_T1.get_page(INIT))
+            lsTemp.append(WizardActivityPage_T1.get_page(WV_GREETING))
             lsTemp.append(
-                WizardActivityPage.dWizardActivityPage[WV_SKIP_CHECKOUT_DATE])
+                WizardActivityPage_T1.get_page(WV_SKIP_CHECKOUT_DATE))
             lsTemp.append(
-                WizardActivityPage.dWizardActivityPage[WV_SKIP_HANDYMEMBER])
+                WizardActivityPage_T1.get_page(WV_SKIP_HANDYMEMBER))
             lsTemp.append(
-                WizardActivityPage.dWizardActivityPage[WV_SKIP_PERSONALIZED_EXPERIENCE])
+                WizardActivityPage_T1.get_page(WV_SKIP_PERSONALIZED_EXPERIENCE))
             lsTemp.append(
-                WizardActivityPage.dWizardActivityPage[WV_PASS_PLAY_VIDEO])
+                WizardActivityPage_T1.get_page(WV_PASS_PLAY_VIDEO))
 
     elif context.device == 'M812':
         # screen resolution is 1920 x 1080
