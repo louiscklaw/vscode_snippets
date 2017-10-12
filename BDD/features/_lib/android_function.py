@@ -7,18 +7,22 @@ from appium.webdriver.common.multi_action import MultiAction
 
 from datetime import datetime
 
+
 def kill_proc(proc, timeout):
     timeout["value"] = True
     proc.kill()
 
+
 def run(cmd, timeout_sec):
-    proc = subprocess.Popen(shlex.split(cmd), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    proc = subprocess.Popen(shlex.split(
+        cmd), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     timeout = {"value": False}
     timer = Timer(timeout_sec, kill_proc, [proc, timeout])
     timer.start()
     stdout, stderr = proc.communicate()
     timer.cancel()
     return proc.returncode, stdout.decode("utf-8"), stderr.decode("utf-8"), timeout["value"]
+
 
 class util():
     @staticmethod
@@ -52,9 +56,9 @@ class util():
                 - return a duple of center location (x, y)
         """
         return (
-            ((iLocX + iWidth)/2) + iLocX,
-            ((iLocY + iHeight)/2) + iLocX
-            )
+            ((iLocX + iWidth) / 2) + iLocX,
+            ((iLocY + iHeight) / 2) + iLocX
+        )
 
     # @staticmethod
     # def screencapture(sSaveToFile):
@@ -85,7 +89,6 @@ class finger():
         """
         action = TouchAction(appiumSession)
         return action.tap().perform()
-
 
     @staticmethod
     def f_ClickElementByText(appiumSession, sElement, sText):
@@ -130,11 +133,11 @@ class finger():
             #     'new UiSelector().clickable(true)'
             # )
             # els[sPermission_Answer].click()
-            appiumSession.f_FindButtonWithText(appiumSession,sPermission_Answer)[0].click()
+            appiumSession.f_FindButtonWithText(
+                appiumSession, sPermission_Answer)[0].click()
         else:
             # TODO handling here
             pass
-
 
     @staticmethod
     def f_AndroidAnswerToOSDialog(appiumSession, sPermission_message, sPermission_Answer):
@@ -147,17 +150,16 @@ class finger():
         els = appiumSession.find_element_by_android_uiautomator(
             '''new UiSelector().text("%s")''' % sPermission_message
         )
-        if len(els) > 0 :
+        if len(els) > 0:
             # els = appiumSession.find_elements_by_android_uiautomator(
             #     'new UiSelector().clickable(true)'
             # )
             # els[sPermission_Answer].click()
-            appiumSession.f_FindButtonWithText(appiumSession,sPermission_Answer)[0].click()
+            appiumSession.f_FindButtonWithText(
+                appiumSession, sPermission_Answer)[0].click()
         else:
             # TODO handling here
             pass
-
-
 
     @staticmethod
     def f_FindTargetByXPath(appiumSession, sWidget, sProperties, sValue):
@@ -179,7 +181,6 @@ class finger():
         return appiumSession.find_elements_by_id(
             '%s' % sId)
 
-
     @staticmethod
     def f_FindTargetByClass(appiumSession, sId):
         return appiumSession.find_elements_by_class_name(
@@ -187,7 +188,8 @@ class finger():
 
     @staticmethod
     def f_FindButtonWithText(appiumSession, sText):
-        els = appiumSession.find_elements_by_android_uiautomator('text("%s")' % sText)
+        els = appiumSession.find_elements_by_android_uiautomator(
+            'text("%s")' % sText)
         return els
 
     @staticmethod
@@ -195,30 +197,33 @@ class finger():
         """
             NOTE: TODO: for better name for f_FindButtonWithText, will phase out f_FindButtonWithText
         """
-        els = appiumSession.find_elements_by_android_uiautomator('text("%s")' % sText)
+        els = appiumSession.find_elements_by_android_uiautomator(
+            'text("%s")' % sText)
         return els
 
     @staticmethod
-    def f_FindElementsContainText(appiumSession ,sText):
+    def f_FindElementsContainText(appiumSession, sText):
         """
             NOTE: find elements with the text given by sText on screen
         """
         return appiumSession.find_elements_by_xpath('//android.widget.TextView[contains(@text, "%s")]' % sText)
 
-
     @staticmethod
     def f_FindElementsStartWithText(appiumSession, sText):
-        els = appiumSession.find_elements_by_android_uiautomator('new UiSelector().textStartsWith("%s")' % sText)
+        els = appiumSession.find_elements_by_android_uiautomator(
+            'new UiSelector().textStartsWith("%s")' % sText)
         return els
 
     @staticmethod
     def f_FindElementsClickable(appiumSession):
-        els = appiumSession.find_elements_by_android_uiautomator('new UiSelector().clickable(true)')
+        els = appiumSession.find_elements_by_android_uiautomator(
+            'new UiSelector().clickable(true)')
         return els
 
     @staticmethod
     def f_FindElementsWithContentDesc(appiumSession, sContentDesc):
-        els = appiumSession.find_elements_by_android_uiautomator('content-desc("%s")' % sContentDesc)
+        els = appiumSession.find_elements_by_android_uiautomator(
+            'content-desc("%s")' % sContentDesc)
         return els
 
     @staticmethod
@@ -287,7 +292,6 @@ class finger():
     @staticmethod
     def f_PressKey(appiumSession, sKey):
         appiumSession.press_keycode(sKey)
-
 
     # @staticmethod
     # def f_checkActivity(appiumSession, sActivity):

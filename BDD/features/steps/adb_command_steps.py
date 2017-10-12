@@ -1,8 +1,15 @@
-
-from behave import given, when, then, step
-import traceback
+#!/usr/bin/env python
+# coding:utf-8
 import os
 import sys
+import logging
+
+logging.basicConfig(level=logging.INFO)
+
+from behave import given, when, then, step
+from common import *
+
+import traceback
 
 from time import sleep
 from datetime import datetime
@@ -11,52 +18,60 @@ from pyand import ADB, Fastboot
 
 from pprint import pprint
 
-import subprocess, shlex
+import subprocess
+import shlex
 from threading import Timer
 
-sys.path.append(os.path.dirname(__file__)+'/../_lib')
+sys.path.append(os.path.dirname(__file__) + '/../_lib')
 from android_const import android_key_const
 
+import pexpect
 
 
-PATH_PC_LIB                                 = os.path.dirname(__file__)+'/../_lib/shell_script'
-PATH_ANDROID_TEMP                           = r'/data/local/tmp'
+PATH_PC_LIB = os.path.dirname(__file__) + '/../_lib/shell_script'
+PATH_ANDROID_TEMP = r'/data/local/tmp'
 
-FILE_TINKLABS1001                           = r'tinklabs1001'
-FILE_CHANGE_SETTINGS                        = r'change_settings.sh'
-FILE_CHANGE_PROP                            = r'change_prop.sh'
+FILE_TINKLABS1001 = r'tinklabs1001'
+FILE_CHANGE_SETTINGS = r'change_settings.sh'
+FILE_CHANGE_PROP = r'change_prop.sh'
 
-FILE_CHANGE_WPA_SUPPLICANT                  = r'change_wifi.sh'
-FILE_WPA_SUPPLICANT                         = r'wpa_supplicant.conf'
+FILE_CHANGE_WPA_SUPPLICANT = r'change_wifi.sh'
+FILE_WPA_SUPPLICANT = r'wpa_supplicant.conf'
 
-PATH_PC_TINKLABS1001                        = '/'.join([PATH_PC_LIB, FILE_TINKLABS1001])
-PATH_PC_CHANGE_SETTINGS                     = '/'.join([PATH_PC_LIB, FILE_CHANGE_SETTINGS])
-PATH_PC_CHANGE_PROP                         = '/'.join([PATH_PC_LIB, FILE_CHANGE_PROP])
+PATH_PC_TINKLABS1001 = '/'.join([PATH_PC_LIB, FILE_TINKLABS1001])
+PATH_PC_CHANGE_SETTINGS = '/'.join([PATH_PC_LIB, FILE_CHANGE_SETTINGS])
+PATH_PC_CHANGE_PROP = '/'.join([PATH_PC_LIB, FILE_CHANGE_PROP])
 
-PATH_ANDROID_TINKLABS1001                   = '/'.join([PATH_ANDROID_TEMP, FILE_TINKLABS1001])
-PATH_ANDROID_CHANGE_SETTINGS                = '/'.join([PATH_ANDROID_TEMP, FILE_CHANGE_SETTINGS])
-PATH_ANDROID_CHANGE_PROP                    = '/'.join([PATH_ANDROID_TEMP, FILE_CHANGE_PROP])
+PATH_ANDROID_TINKLABS1001 = '/'.join([PATH_ANDROID_TEMP, FILE_TINKLABS1001])
+PATH_ANDROID_CHANGE_SETTINGS = '/'.join(
+    [PATH_ANDROID_TEMP, FILE_CHANGE_SETTINGS])
+PATH_ANDROID_CHANGE_PROP = '/'.join([PATH_ANDROID_TEMP, FILE_CHANGE_PROP])
 
-PATH_PC_WPA_SUPPLICANT_CONF                 = '/'.join([PATH_PC_LIB, FILE_WPA_SUPPLICANT])
-PATH_PC_CHANGE_WPA_SUPPLICANT               = '/'.join([PATH_PC_LIB, FILE_CHANGE_WPA_SUPPLICANT])
-PATH_ANDROID_CHANGE_WPA_SUPPLICANT                    = '/'.join([PATH_ANDROID_TEMP, FILE_CHANGE_WPA_SUPPLICANT])
+PATH_PC_WPA_SUPPLICANT_CONF = '/'.join([PATH_PC_LIB, FILE_WPA_SUPPLICANT])
+PATH_PC_CHANGE_WPA_SUPPLICANT = '/'.join(
+    [PATH_PC_LIB, FILE_CHANGE_WPA_SUPPLICANT])
+PATH_ANDROID_CHANGE_WPA_SUPPLICANT = '/'.join(
+    [PATH_ANDROID_TEMP, FILE_CHANGE_WPA_SUPPLICANT])
+
+PATH_ANDROID_WIFI_WPA_SUPPLICANT = r'/data/misc/wifi/wpa_supplicant.conf'
+PATH_ANDROID_WIFI_WPA_SUPPLICANT_BACKUP = r'/data/local/tmp/wpa_supplicant.bak'
 
 
-dParameters                                 = {}
-dParameters['PATH_PC_LIB']                  = PATH_PC_LIB
-dParameters['PATH_PC_TINKLABS1001']         = PATH_PC_TINKLABS1001
-dParameters['PATH_PC_CHANGE_SETTINGS']      = PATH_PC_CHANGE_SETTINGS
-dParameters['PATH_PC_CHANGE_PROP']          = PATH_PC_CHANGE_PROP
+dParameters = {}
+dParameters['PATH_PC_LIB'] = PATH_PC_LIB
+dParameters['PATH_PC_TINKLABS1001'] = PATH_PC_TINKLABS1001
+dParameters['PATH_PC_CHANGE_SETTINGS'] = PATH_PC_CHANGE_SETTINGS
+dParameters['PATH_PC_CHANGE_PROP'] = PATH_PC_CHANGE_PROP
 
-dParameters['PATH_PC_WPA_SUPPLICANT_CONF']  = PATH_PC_WPA_SUPPLICANT_CONF
-dParameters['PATH_PC_CHANGE_WPA_SUPPLICANT']  = PATH_PC_CHANGE_WPA_SUPPLICANT
+dParameters['PATH_PC_WPA_SUPPLICANT_CONF'] = PATH_PC_WPA_SUPPLICANT_CONF
+dParameters['PATH_PC_CHANGE_WPA_SUPPLICANT'] = PATH_PC_CHANGE_WPA_SUPPLICANT
 
-dParameters['PATH_ANDROID_TEMP']            = PATH_ANDROID_TEMP
-dParameters['PATH_ANDROID_TINKLABS1001']    = PATH_ANDROID_TINKLABS1001
+dParameters['PATH_ANDROID_TEMP'] = PATH_ANDROID_TEMP
+dParameters['PATH_ANDROID_TINKLABS1001'] = PATH_ANDROID_TINKLABS1001
 dParameters['PATH_ANDROID_CHANGE_SETTINGS'] = PATH_ANDROID_CHANGE_SETTINGS
-dParameters['PATH_ANDROID_CHANGE_PROP']     = PATH_ANDROID_CHANGE_PROP
+dParameters['PATH_ANDROID_CHANGE_PROP'] = PATH_ANDROID_CHANGE_PROP
 
-dParameters['PATH_ANDROID_CHANGE_WPA_SUPPLICANT']     = PATH_ANDROID_CHANGE_WPA_SUPPLICANT
+dParameters['PATH_ANDROID_CHANGE_WPA_SUPPLICANT'] = PATH_ANDROID_CHANGE_WPA_SUPPLICANT
 
 
 # tinklabs-X555LNB% sudo fastboot -i 0x489 devices
@@ -68,12 +83,22 @@ dParameters['PATH_ANDROID_CHANGE_WPA_SUPPLICANT']     = PATH_ANDROID_CHANGE_WPA_
 # fastboot erase userdata
 # fastboot erase oem
 
+class adb_command():
+    def __init__():
+        pass
+
+    def run_command(command):
+        self.run
+
+
 def kill_proc(proc, timeout):
     timeout["value"] = True
     proc.kill()
 
+
 def run(cmd, timeout_sec):
-    proc = subprocess.Popen(shlex.split(cmd), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    proc = subprocess.Popen(shlex.split(
+        cmd), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     timeout = {"value": False}
     timer = Timer(timeout_sec, kill_proc, [proc, timeout])
     timer.start()
@@ -81,44 +106,83 @@ def run(cmd, timeout_sec):
     timer.cancel()
     return proc.returncode, stdout.decode("utf-8"), stderr.decode("utf-8"), timeout["value"]
 
+
 def get_epoch_time():
     """
         return the epoch of current time
     """
-    return datetime.now().strftime('%s')
+    return int(datetime.now().strftime('%s'))
+
+
+def get_time_difference_to(given_time):
+    """
+    calculate the different (in seconds) between now and the given time
+
+    Args:
+        given_time: the int(in epoch format) want to check
+
+    Returns:
+        the time different between now and the given_time
+
+    """
+    return get_epoch_time() - given_time
 
 
 @step(u'ADB Wait for device')
 def step_impl(context):
-    if hasattr(context,'adb_session'):
+    if hasattr(context, 'adb_session'):
         pass
     else:
-        context.adb_session = ADB()
+        # context.adb_session = ADB()
+        logging.debug('adb_session is missing')
+        assert False, 'adb_session is missing'
 
-    adb=context.adb_session
+    adb = context.adb_session
     adb.run_cmd('wait-for-device')
-    sleep(10)
+    sleep(3)
+
 
 @step(u'ADB Wait for device, timeout {sSeconds} seconds')
 def step_impl(context, sSeconds):
-    (iRetrunCode, sStdOut, sStdErr, bTimeout) = run('adb wait-for-device', timeout_sec=int(sSeconds))
+    """
+        probe the device by adb wait-for-device command.
+    """
+    time_to_start = get_epoch_time()
+
+    context.adb_session.run_cmd('wait-for-device')
+
+    # (iRetrunCode, sStdOut, sStdErr, bTimeout) = result
+    context.time_poweron_to_adb_ready = get_time_difference_to(time_to_start)
 
     # wait some seconds more to let device ready
-    sleep(10)
+    sleep(3)
 
     pass
 
+# TODO: delete
+# @step(u'ADB Reboot bootloader "{android_serial}"')
+# def step_impl(context, android_serial):
+#     """
+#         to be replaced by
+#     """
+#     (iRetrunCode, sStdOut, sStdErr, bTimeout) = run(
+#         'adb -s %s reboot bootloader' % android_serial,
+#         timeout_sec=int(sSeconds))
+
+
 @step(u'ADB Reboot bootloader')
 def step_impl(context):
-    if hasattr(context,'adb_session'):
+    """
+        reboot the android by adb command adb reboot
+    """
+    if hasattr(context, 'adb_session'):
         pass
     else:
-        logging.debug('create adb session')
-        context.adb_session = ADB()
+        assert False, "adb_session not found"
 
-    adb=context.adb_session
+    adb = context.adb_session
     adb.run_cmd('reboot bootloader')
-    sleep(10)
+    sleep(5)
 
 
 @step(u'ADB Reboot device')
@@ -126,36 +190,54 @@ def step_impl(context):
     """
         to be obsoleted, reboot device
     """
-    if hasattr(context,'adb_session'):
+    if hasattr(context, 'adb_session'):
         pass
     else:
+        # TODO: remove me
         context.adb_session = ADB()
 
-    adb=context.adb_session
+    adb = context.adb_session
     adb.run_cmd('reboot')
-    sleep(10)
+    sleep(5)
+
 
 @step(u'ADB PATH_ANDROID_TEMP directory is ready, timeout {sSeconds} seconds')
 def step_impl(context, sSeconds):
-    iTimeToEnd = int(get_epoch_time())+ int(sSeconds)
+    """
+    check if the filesystem in android is ready
+
+    Args:
+        sSeconds: seconds until timeout
+    """
+    time_to_end = int(get_epoch_time()) + int(sSeconds)
     bDirectoryReady = False
 
-    while iTimeToEnd > int(get_epoch_time()):
-        (iReturnCode, sStdOut, sStdErr, bTimeout)=run('adb shell ls -l %s' % PATH_ANDROID_TEMP, timeout_sec=5)
-        if iReturnCode == 0 :
-            bDirectoryReady=True
+    while time_to_end > int(get_epoch_time()):
+        # (iReturnCode, sStdOut, sStdErr, bTimeout)=run('adb shell ls -l %s' % PATH_ANDROID_TEMP, timeout_sec=5)
+
+        result = context.adb_session.run_cmd(
+            'shell ls -l %s' % PATH_ANDROID_TEMP)
+
+        # if iReturnCode == 0 :
+        if result.find('No such file or directory') > -1:
+            pass
+        else:
+            bDirectoryReady = True
             break
 
     if bDirectoryReady:
         pass
     else:
-        print('Error: cannot get android temp direcotory')
+        logging.error('cannot get android temp direcotory')
         assert False
-
     pass
+
 
 @step(u'ADB Initialize android')
 def step_impl(context):
+    """
+    packed action to initialize android
+    """
     context.execute_steps(u'''
         Given ADB PATH_ANDROID_TEMP directory is ready, timeout 60 seconds
             And ADB push tinklabs1001
@@ -201,13 +283,17 @@ def step_impl(context, sSourceFile, sTargetFile):
             - sSourceFile - Source file from PC
             - sTargetFile - Target file in android
     """
-    adb = context.adb_session
+    # adb = context.adb_session
     # adb.push_local_file(sSourceFile, sTargetFile)
 
     # adb.run_cmd('push %s %s' %(sSourceFile, sTargetFile))
-    subprocess.check_output(
-        'adb push %s %s' % (sSourceFile, sTargetFile)
-        ,shell= True)
+    # subprocess.check_output(
+    #     'adb push %s %s' % (sSourceFile, sTargetFile)
+    #     ,shell= True)
+
+    context.adb_session.run_cmd(
+        'push %s %s' % (sSourceFile, sTargetFile)
+    )
 
     pass
 
@@ -224,6 +310,7 @@ def step_impl(context, sSourceFile, sTargetFile):
     print('i am supposed to adb push %s %s' % (sSourceFile, sTargetFile))
     run('adb push %s %s' % (sSourceFile, sTargetFile), timeout_sec=10)
     pass
+
 
 @step(u'ADB change permission "{sPermission}" "{sTargetFile}"')
 def step_impl(context, sTargetFile, sPermission):
@@ -242,11 +329,13 @@ def step_impl(context):
         Then ADB push "%(PATH_PC_TINKLABS1001)s" "%(PATH_ANDROID_TEMP)s"
     ''' % dParameters)
 
+
 @step(u'ADB change permission tinklabs1001')
 def step_impl(context):
     context.execute_steps(u'''
         Then ADB change permission "777" "%(PATH_ANDROID_TINKLABS1001)s"
     ''' % dParameters)
+
 
 @step(u'ADB change permission change_settings')
 def step_impl(context):
@@ -255,6 +344,7 @@ def step_impl(context):
     ''' % dParameters)
     pass
 
+
 @step(u'ADB change permission change_prop')
 def step_impl(context):
     context.execute_steps(u'''
@@ -262,18 +352,22 @@ def step_impl(context):
     ''' % dParameters)
     pass
 
+
 @then(u'ADB change permission change_wpa_supplicant')
 def step_impl(context):
-    print(u'STEP: Then ADB change permission change_wpa_supplicant')
+    # NOTE: to be obsoleted
+    logging.debug('Then ADB change permission change_wpa_supplicant')
     context.execute_steps(u'''
         Then ADB change permission "777" "%(PATH_ANDROID_CHANGE_WPA_SUPPLICANT)s"
     ''' % dParameters)
+
 
 @step(u'ADB push change_settings')
 def step_impl(context):
     context.execute_steps(u'''
         Then ADB push "%(PATH_PC_CHANGE_SETTINGS)s" "%(PATH_ANDROID_TEMP)s"
     ''' % dParameters)
+
 
 @step(u'ADB push change_prop')
 def step_impl(context):
@@ -289,18 +383,6 @@ def step_impl(context):
     ''' % dParameters)
 
 
-@step(u'ADB adb shell test')
-def step_impl(context):
-    import subprocess
-    adb = context.adb_session
-    print('test command')
-    # adb.run_cmd('shell "/data/local/tmp/tinklabs1001 -c \\"settings put global package_verifier_enable 0\\""')
-    subprocess.check_output(
-        'adb shell "/data/local/tmp/tinklabs1001 -c \\"settings put global package_verifier_enable 0\\""'
-        ,shell= True)
-
-
-
 # VZH:/ $ settings
 # usage:  settings [--user <USER_ID> | current] get namespace key
 #         settings [--user <USER_ID> | current] put namespace key value
@@ -313,18 +395,26 @@ def step_impl(context, sValue, sSettingName, sNamespace):
         :Args:
             - sValue - value of package_verifier_enable wanted
     """
-    print('I am supposed to change the %s to %s' % (sSettingName, sValue))
+    logging.debug('I am supposed to change the %s to %s' %
+                  (sSettingName, sValue))
+
+    # TODO: better implementation
+
+    # context.execute_steps(u'''
+    #     Then ADB shell ""source /data/local/tmp/change_settings.sh put %s %s %s""
+    # ''' % (sNamespace, sSettingName, sValue))
 
     context.execute_steps(u'''
-        Then ADB shell ""source /data/local/tmp/change_settings.sh put %s %s %s""
-    ''' % ( sNamespace, sSettingName, sValue))
+        Then adb root shell "settings put %s %s %s"
+    ''' % (sNamespace, sSettingName, sValue))
+
     pass
 
 
 @step(u'ADB settings get {sNamespace} {sKey}')
 def step_adb_settings_get(context, sNamespace, sKey):
     """
-        a wrapper for adb settings get
+        a wrapper for adb settings get <namespace> <key>
     """
 
     return run('adb shell settings get %s %s' % (sNamespace, sKey), timeout_sec=5)
@@ -335,9 +425,11 @@ def step_adb_settings_compare(context, sNamespace, sKey, sExpected):
     """
         getting value from adb settings, with checking
     """
-    (sReturnCode, sStdOut, sStdErr, sTimeout) = step_adb_settings_get(context, sNamespace, sKey)
-    assert sExpected == sStdOut.strip()
-
+    # (sReturnCode, sStdOut, sStdErr, sTimeout) = step_adb_settings_get(context, sNamespace, sKey)
+    # assert sExpected == sStdOut.strip()
+    return context.adb_session.run_cmd(
+        'shell settings get %s %s' % (sNamespace, sKey)
+    )
 
 
 # setprop, getprop
@@ -402,6 +494,7 @@ def step_impl(context, sName, sExpected):
     print('props returned: %s' % sStdOut.strip())
     assert sExpected == sStdOut.strip()
 
+
 @step(u'ADB setprop test with shell True')
 def step_impl(context):
     logging.debug('STEP: Given ADB setprop test with shell True')
@@ -412,9 +505,7 @@ def step_impl(context):
 
         Then ADB change permission tinklabs1001
             And ADB change permission change_prop
-
     ''')
-    pprint(run('''adb shell "echo 0 > /sys/class/android_usb/f_mtp/device/f_mass_storage/enable"''', timeout_sec=5))
 
 
 @step(u'ADB disable usb mass storage')
@@ -446,14 +537,18 @@ def step_impl(context, sTargetPath):
         dParameter = {}
         dParameter['sEpoch'] = datetime.now().strftime('%s')
         dParameter['sTargetPath'] = sTargetPath
-        dParameter['sTargetPathWithDatetime'] = os.path.join(dParameter['sTargetPath'], dParameter['sEpoch'])
+        dParameter['sTargetPathWithDatetime'] = os.path.join(
+            dParameter['sTargetPath'], dParameter['sEpoch'])
 
-        lsADBCommand=[]
-        lsADBCommand.append('shell screencap -p /sdcard/%(sEpoch)s.png' % dParameter)
-        lsADBCommand.append('pull /sdcard/%(sEpoch)s.png %(sTargetPathWithDatetime)s' % dParameter)
+        lsADBCommand = []
+        lsADBCommand.append(
+            'shell screencap -p /sdcard/%(sEpoch)s.png' % dParameter)
+        lsADBCommand.append(
+            'pull /sdcard/%(sEpoch)s.png %(sTargetPathWithDatetime)s' % dParameter)
         lsADBCommand.append('shell rm /sdcard/%(sEpoch)s.png' % dParameter)
         lsADBCommand.append('shell uiautomator dump')
-        lsADBCommand.append('pull /sdcard/window_dump.xml %(sTargetPathWithDatetime)s/dump.uix' % dParameter)
+        lsADBCommand.append(
+            'pull /sdcard/window_dump.xml %(sTargetPathWithDatetime)s/dump.uix' % dParameter)
         lsADBCommand.append('shell rm /sdcard/window_dump.xml' % dParameter)
 
         # NOTE create a landing directory for screen capture
@@ -469,6 +564,7 @@ def step_impl(context, sTargetPath):
 
     pass
 
+
 @step(u'ADB video capture, save it to "{sTargetFile}"')
 def step_impl(context, sTargetFile):
     """
@@ -480,9 +576,11 @@ def step_impl(context, sTargetFile):
     """
     print(u'I am supposed start video capture')
     sCommand = 'adb shell screenrecord --bit-rate 3000000 %s' % sTargetFile
-    proc = subprocess.Popen(shlex.split(sCommand), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    proc = subprocess.Popen(shlex.split(sCommand),
+                            stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     context.adbScreenRecord = proc
     pass
+
 
 @step(u'ADB stop video capture process')
 def step_impl(context):
@@ -497,6 +595,7 @@ def step_impl(context):
         pass
     pass
 
+
 @step(u'ADB pull "{sSourceFile}" "{sTargetFile}"')
 def step_impl(context, sSourceFile, sTargetFile):
     """
@@ -510,18 +609,31 @@ def step_impl(context, sSourceFile, sTargetFile):
     run('adb pull %s %s' % (sSourceFile, sTargetFile), timeout_sec=60)
 
 
-@step(u'ADB shell "{sCommand}"')
-def step_adb_shell(context, sCommand):
+@step(u'ADB shell "{command}"')
+def step_adb_shell(context, command):
     """
-        debug command
+        send command using adb shell
 
         :Args:
-            - sEventCode - key event code given by 3 -->  "KEYCODE_HOME"
+            - command - command would like to pass to adb shell
     """
-    sAdbCommand = 'adb shell %s' % sCommand
-    print('i am supposed to run adb command %s' % sAdbCommand)
-    (iResultCode, sStdOut, sStdErr, bTimeout) = run(sAdbCommand, timeout_sec = 5)
-    return
+    adb_command = 'shell %s' % command
+    # print('i am supposed to run adb command %s' % sAdbCommand)
+    # (iResultCode, sStdOut, sStdErr, bTimeout) = run(sAdbCommand, timeout_sec = 5)
+
+    context.adb_command_result = context.adb_session.run_cmd(adb_command)
+    pass
+
+
+@step(u'ADB command result should be "{text}"')
+def step_impl(context, text):
+    if text == context.adb_command_result.strip():
+        pass
+    else:
+        print_fail('text:%s' % text)
+        print_fail('context.adb_command_result:%s' %
+                   context.adb_command_result)
+        assert False
 
 
 @step(u'ADB setup wifi')
@@ -546,6 +658,7 @@ def step_impl(context):
     # ))
     assert False
 
+
 @then(u'ADB push wpa_supplicant')
 def step_impl(context):
     print(u'STEP: Then ADB push wpa_supplicant')
@@ -553,6 +666,7 @@ def step_impl(context):
     context.execute_steps(u'''
         Then ADB push "%(PATH_PC_WPA_SUPPLICANT_CONF)s" "%(PATH_ANDROID_TEMP)s"
     ''' % dParameters)
+
 
 @step(u'ADB check boot completed, timeout {sSeconds} seconds')
 def step_impl(context, sSeconds):
@@ -588,143 +702,129 @@ def step_impl(context, sSeconds):
         assert False
 
 
-# global options:
-#  -a         listen on all network interfaces, not just localhost
-#  -d         use USB device (error if multiple devices connected)
-#  -e         use TCP/IP device (error if multiple TCP/IP devices available)
-#  -s SERIAL
-#      use device with given serial number (overrides $ANDROID_SERIAL)
-#  -p PRODUCT
-#      name or path ('angler'/'out/target/product/angler');
-#      default $ANDROID_PRODUCT_OUT
-#  -H         name of adb server host [default=localhost]
-#  -P         port of adb server [default=5037]
-#  -L SOCKET  listen on given socket for adb server [default=tcp:localhost:5037]
+@then(u'Fail if the time taken "{name_of_process}" is more than {seconds} seconds')
+def step_impl(context, name_of_process, seconds):
+    """
+        to fail the test if the time take by name_of_process is larger than a give time
+    """
+    print(u'STEP: Fail if the time taken %s is more than %s seconds' %
+          (name_of_process, seconds))
 
-# general commands:
-#  devices [-l]             list connected devices (-l for long output)
-#  help                     show this help message
-#  version                  show version num
+    challenger_time = eval('context.%s' % name_of_process)
 
-# networking:
-#  connect HOST[:PORT]      connect to a device via TCP/IP [default port=5555]
-#  disconnect [HOST[:PORT]]
-#      disconnect from given TCP/IP device [default port=5555], or all
-#  forward --list           list all forward socket connections
-#  forward [--no-rebind] LOCAL REMOTE
-#      forward socket connection using:
-#        tcp:<port> (<local> may be "tcp:0" to pick any open port)
-#        localabstract:<unix domain socket name>
-#        localreserved:<unix domain socket name>
-#        localfilesystem:<unix domain socket name>
-#        dev:<character device name>
-#        jdwp:<process pid> (remote only)
-#  forward --remove LOCAL   remove specific forward socket connection
-#  forward --remove-all     remove all forward socket connections
-#  ppp TTY [PARAMETER...]   run PPP over USB
-#  reverse --list           list all reverse socket connections from device
-#  reverse [--no-rebind] REMOTE LOCAL
-#      reverse socket connection using:
-#        tcp:<port> (<remote> may be "tcp:0" to pick any open port)
-#        localabstract:<unix domain socket name>
-#        localreserved:<unix domain socket name>
-#        localfilesystem:<unix domain socket name>
-#  reverse --remove REMOTE  remove specific reverse socket connection
-#  reverse --remove-all     remove all reverse socket connections from device
+    try:
+        if int(challenger_time) > int(seconds):
+            print_fail('challenger %s time %d' %
+                       (name_of_process, int(challenger_time)))
+            assert False
+        else:
+            print_verdict('challenger %s time %d is less than %d' % (
+                name_of_process, int(challenger_time), int(seconds)))
 
-# file transfer:
-#  push LOCAL... REMOTE
-#      copy local files/directories to device
-#  pull [-a] REMOTE... LOCAL
-#      copy files/dirs from device
-#      -a: preserve file timestamp and mode
-#  sync [DIR]
-#      copy all changed files to device; if DIR is "system", "vendor", "oem",
-#      or "data", only sync that partition (default all)
-#      -l: list but don't copy
+    except Exception:
+        # TODO: a error class here
+        print('exception raise during measure the time')
+        traceback.print_stack()
+        print('--------------')
+        traceback.print_exc()
+        assert False
+        pass
 
-# shell:
-#  shell [-e ESCAPE] [-n] [-Tt] [-x] [COMMAND...]
-#      run remote shell command (interactive shell if no command given)
-#      -e: choose escape character, or "none"; default '~'
-#      -n: don't read from stdin
-#      -T: disable PTY allocation
-#      -t: force PTY allocation
-#      -x: disable remote exit codes and stdout/stderr separation
-#  emu COMMAND              run emulator console command
 
-# app installation:
-#  install [-lrtsdg] PACKAGE
-#  install-multiple [-lrtsdpg] PACKAGE...
-#      push package(s) to the device and install them
-#      -l: forward lock application
-#      -r: replace existing application
-#      -t: allow test packages
-#      -s: install application on sdcard
-#      -d: allow version code downgrade (debuggable packages only)
-#      -p: partial application install (install-multiple only)
-#      -g: grant all runtime permissions
-#  uninstall [-k] PACKAGE
-#      remove this app package from the device
-#      '-k': keep the data and cache directories
+def send_command_to_adb(adb_shell_process, command_to_send, texts_expected):
+    """
+        send command to adb shell and wait for ready
+    """
 
-# backup/restore:
-#  backup [-f FILE] [-apk|-noapk] [-obb|-noobb] [-shared|-noshared] [-all] [-system|-nosystem] [PACKAGE...]
-#      write an archive of the device's data to FILE [default=backup.adb]
-#      package list optional if -all/-shared are supplied
-#      -apk/-noapk: do/don't back up .apk files (default -noapk)
-#      -obb/-noobb: do/don't back up .obb files (default -noobb)
-#      -shared|-noshared: do/don't back up shared storage (default -noshared)
-#      -all: back up all installed applications
-#      -system|-nosystem: include system apps in -all (default -system)
-#  restore FILE             restore device contents from FILE
+    logging.error(command_to_send)
+    adb_shell_process.sendline(command_to_send)
+    texts_expected.append(pexpect.TIMEOUT)
+    return adb_shell_process.expect(texts_expected)
 
-# debugging:
-#  bugreport [PATH]
-#      write bugreport to given PATH [default=bugreport.zip];
-#      if PATH is a directory, the bug report is saved in that directory.
-#      devices that don't support zipped bug reports output to stdout.
-#  jdwp                     list pids of processes hosting a JDWP transport
-#  logcat                   show device log (logcat --help for more)
 
-# security:
-#  disable-verity           disable dm-verity checking on userdebug builds
-#  enable-verity            re-enable dm-verity checking on userdebug builds
-#  keygen FILE
-#      generate adb public/private key; private key stored in FILE,
-#      public key stored in FILE.pub (existing files overwritten)
+@step(u'adb root shell "{command}"')
+def step_adb_root_shell(context, command):
+    """
+        send command by root shell (tinklabs1001)
+        this is a workaround as tinklabs1001 -c {command} doesn't work
 
-# scripting:
-#  wait-for[-TRANSPORT]-STATE
-#      wait for device to be in the given state
-#      State: device, recovery, sideload, or bootloader
-#      Transport: usb, local, or any [default=any]
-#  get-state                print offline | bootloader | device
-#  get-serialno             print <serial-number>
-#  get-devpath              print <device-path>
-#  remount
-#      remount /system, /vendor, and /oem partitions read-write
-#  reboot [bootloader|recovery|sideload|sideload-auto-reboot]
-#      reboot the device; defaults to booting system image but
-#      supports bootloader and recovery too. sideload reboots
-#      into recovery and automatically starts sideload mode,
-#      sideload-auto-reboot is the same but reboots after sideloading.
-#  sideload OTAPACKAGE      sideload the given full OTA package
-#  root                     restart adbd with root permissions
-#  unroot                   restart adbd without root permissions
-#  usb                      restart adb server listening on USB
-#  tcpip PORT               restart adb server listening on TCP on PORT
+        :Args:
+            - command - command would like to send by root shell
+    """
+    logging.basicConfig(level=logging.DEBUG)
 
-# internal debugging:
-#  start-server             ensure that there is a server running
-#  kill-server              kill the server if it is running
-#  reconnect                kick connection from host side to force reconnect
-#  reconnect device         kick connection from device side to force reconnect
+    adb_commands = []
+    adb_commands.append((PATH_ANDROID_TINKLABS1001, ['#']))
+    adb_commands.append((command, ['#']))
 
-# environment variables:
-#  $ADB_TRACE
-#      comma-separated list of debug info to log:
-#      all,adb,sockets,packets,rwx,usb,sync,sysdeps,transport,jdwp
-#  $ADB_VENDOR_KEYS         colon-separated list of keys (files or directories)
-#  $ANDROID_SERIAL          serial number to connect to (see -s)
-#  $ANDROID_LOG_TAGS        tags to be used by logcat (see logcat --help)
+    child = pexpect.spawn(
+        context.adb_binary + " -s %s shell" % context.android_serial
+    )
+    index = child.expect(["$", "@", pexpect.TIMEOUT])
+
+    for (command_to_send, text_expected) in adb_commands:
+        logging.error('sending %s' % command_to_send)
+        send_command_to_adb(
+            child, command_to_send, text_expected)
+
+
+@then(u'inject wifi configuration "{wifi_configuration}" to android')
+def step_impl(context, wifi_configuration):
+    logging.debug(u'STEP: Then inject wifi configuration to android')
+
+    context.execute_steps(u'''
+        Then ADB backup wifi configuration
+          And adb root shell "cat %s >> %s"
+    ''' % (wifi_configuration, PATH_ANDROID_WIFI_WPA_SUPPLICANT))
+
+
+@step(u'ADB svc {subcommand} {control}')
+def step_impl(context, subcommand, control):
+    """
+    Available commands:
+    help     Show information about the subcommands
+    power    Control the power manager
+    data     Control mobile data connectivity
+    wifi     Control the Wi-Fi manager
+    usb      Control Usb state
+    """
+    context.execute_steps(u'''
+        Then adb root shell "svc %s %s"
+    ''' % (subcommand, control))
+
+
+@then(u'ADB restart wifi')
+def step_impl(context):
+    logging.debug(u'STEP: Then adb restart wifi')
+
+    context.execute_steps(u'''
+        Then adb root shell "svc wifi disable"
+    ''')
+    sleep(5)
+
+
+@then(u'Fail if the android cannot ping to {host}')
+def step_impl(context, host):
+    logging.debug(u'STEP: Then Fail if the android cannot ping to %s' % host)
+
+    result = context.adb_session.run_cmd('''shell ping -c 5 %s ''' % host)
+
+    if result.find('unknown host') > -1:
+        logging.error(result)
+        assert False, "cannot connect to internet"
+
+
+@then(u'ADB check if file exist {file}')
+def step_impl(context, file):
+    """
+        IDEA/TODO: do i need this ?
+    """
+
+
+@then(u'ADB backup wifi configuration')
+def step_impl(context):
+    logging.debug(u'STEP: Then ADB backup wifi configuration')
+
+    context.execute_steps(u'''
+        Then adb root shell "cp %s %s"
+    ''' % (PATH_ANDROID_WIFI_WPA_SUPPLICANT, PATH_ANDROID_WIFI_WPA_SUPPLICANT_BACKUP))

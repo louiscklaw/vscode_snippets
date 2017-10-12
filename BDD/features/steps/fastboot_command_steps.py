@@ -1,6 +1,5 @@
-#!/usr/bin/env python2
-# -*- coding: utf-8 -*-
-# https://tinklabs.atlassian.net/wiki/spaces/ENG/pages/3871490/VZH+-+How+to+push+apk+into+devices
+#!/usr/bin/env python
+# coding:utf-8
 
 try:
     import sys
@@ -9,11 +8,15 @@ try:
     import platform
     from os import popen3 as pipe
 
-    import subprocess, shlex
+    import subprocess
+    import shlex
     from threading import Timer
     from time import sleep
 
     from pprint import pprint
+
+    import logging
+    logging.basicConfig(level=logging.INFO)
 
 except ImportError as e:
     print("[!] Required module missing. %s" % e.args[0])
@@ -32,15 +35,17 @@ def get_index_by_serial(index_serial_pair, serial):
     return {
         serial: idx
         for (idx, serial) in index_serial_pair.items()
-        }[serial]
+    }[serial]
 
 
 def kill_proc(proc, timeout):
     timeout["value"] = True
     proc.kill()
 
+
 def run(cmd, timeout_sec):
-    proc = subprocess.Popen(shlex.split(cmd), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    proc = subprocess.Popen(shlex.split(
+        cmd), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     timeout = {"value": False}
     timer = Timer(timeout_sec, kill_proc, [proc, timeout])
     timer.start()
@@ -49,22 +54,29 @@ def run(cmd, timeout_sec):
     return proc.returncode, stdout.decode("utf-8"), stderr.decode("utf-8"), timeout["value"]
 
 
-
 @step(u'Fastboot init')
 def step_impl(context):
     """
     To initialize fastboot session
+    implict reboot by adb occur.
     """
     if hasattr(context, 'android_serial'):
         sleep(3)
+        logging.debug('android_serial:%s is used for fastboot')
+
+        logging.debug('reboot device by adb')
+        context.execute_steps(u'''
+            Then ADB Reboot bootloader
+        ''')
 
         # NOTE: this is a small technique for using the fastboot library.
         # the get_devices also update the list inside the library.
         f_session = context.fastboot_session
 
         f_session.set_target_by_id(
-            get_index_by_serial(f_session.get_devices(), context.android_serial)
-            )
+            get_index_by_serial(f_session.get_devices(),
+                                context.android_serial)
+        )
     else:
         # NOTE: no android_serial info here. assert error
         logging.error('android_serial not found')
@@ -75,20 +87,21 @@ def step_impl(context):
 def step_impl(context, sCommand):
     sFastbootCommand = 'fastboot ' + sCommand
 
-    (iReturnCode, sStdOut, sStdErr, bTimeout) = run(sFastbootCommand, timeout_sec=30)
+    (iReturnCode, sStdOut, sStdErr, bTimeout) = run(
+        sFastbootCommand, timeout_sec=30)
     pprint((iReturnCode, sStdOut, sStdErr, bTimeout))
     assert iReturnCode == 0 and bTimeout == False
+
 
 @step(u'FASTBOOT "{sCommand}", timeout {sTimeout} seconds')
 def step_impl(context, sCommand, sTimeout):
 
     sFastbootCommand = 'fastboot ' + sCommand
 
-    (iReturnCode, sStdOut, sStdErr, bTimeout) = run(sFastbootCommand, timeout_sec=int(sTimeout))
+    (iReturnCode, sStdOut, sStdErr, bTimeout) = run(
+        sFastbootCommand, timeout_sec=int(sTimeout))
     pprint((iReturnCode, sStdOut, sStdErr, bTimeout))
     assert iReturnCode == 0 and bTimeout == False
-
-
 
 
 @step(u'FASTBOOT Erase "{sPartitions}"')
@@ -104,8 +117,8 @@ def step_impl(context, sPartitions):
     ''')
     for sPartition in sPartitions.split(','):
         # simple massage of input data
-        sPartition=sPartition.strip()
-        if sPartition in ['userdata', 'oem', 'cache','system']:
+        sPartition = sPartition.strip()
+        if sPartition in ['userdata', 'oem', 'cache', 'system']:
             context.execute_steps(u'''
                 Then FASTBOOT "-i 0x489 erase %s"
             ''' % sPartition)
@@ -114,6 +127,7 @@ def step_impl(context, sPartitions):
         Then FASTBOOT "reboot"
     ''')
     pass
+
 
 @step(u'FASTBOOT Erase userdata')
 def step_impl(context):
@@ -129,13 +143,13 @@ def step_impl(context):
     pass
 
 
-
 @step(u'FASTBOOT unlock')
 def step_impl(context):
     context.execute_steps(u'''
         Then FASTBOOT "-i 0x489 oem fih on"
           And FASTBOOT "-i 0x489 oem devlock key"
     ''')
+
 
 @step(u'FASTBOOT download image')
 def step_impl(context):

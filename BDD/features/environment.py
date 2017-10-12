@@ -7,12 +7,16 @@ import sys
 import subprocess
 
 # NOTE: add custom library path
-pLib = os.path.dirname(__file__)+'/_lib'
+pLib = os.path.dirname(__file__) + '/_lib'
 sys.path.append(pLib)
 
 from android_function import finger
 from android_function import util
 from handy_logger import *
+
+from config import *
+
+import logging
 
 # (sApkName, sHKOAppId) = ('../_apk/com.tinklabs.activateapp_base.apk', 'com.tinklabs.activateapp.features.wizard.WizardActivity')
 
@@ -31,8 +35,6 @@ from handy_logger import *
 BEHAVE_DEBUG_ON_ERROR = os.getenv("BEHAVE_DEBUG_ON_ERROR", False)
 
 
-
-
 def setup_debug_on_error(userdata):
     global BEHAVE_DEBUG_ON_ERROR
     BEHAVE_DEBUG_ON_ERROR = userdata.getbool("BEHAVE_DEBUG_ON_ERROR")
@@ -42,16 +44,20 @@ def quit_appiumSession(context):
     context.appiumSession.quit()
     pass
 
+
 def before_all(context):
     setup_debug_on_error(context.config.userdata)
     context.logger = setup_logger('handy_behave_run_logger')
+    context.adb_binary = PATH_ADB_BINARY
+
+    # behave initialization
+    context.appium_port = []
+    context.appium_pid = []
+
 
 def after_all(context):
     pass
 
-def before_all(context):
-    setup_debug_on_error(context.config.userdata)
-    context.logger = setup_logger('handy_behave_run_logger')
 
 def after_step(context, step):
     if BEHAVE_DEBUG_ON_ERROR and step.status == "failed":
@@ -67,17 +73,19 @@ def after_step(context, step):
     #     ''')
 
 
-
 def before_step(context, scenario):
     pass
+
 
 def PATH(p): return os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
 
+
 def uninstall_app(context, app_id):
     context.appiumSession.remove_app(app_id)
     pass
+
 
 def quit_appiumSession(context):
     try:
@@ -87,8 +95,10 @@ def quit_appiumSession(context):
 
     pass
 
+
 def before_feature(context, feature):
     pass
+
 
 def before_scenario(context, scenario):
     pass
@@ -101,14 +111,18 @@ def after_scenario(context, scenario):
         print('quit appium session')
     pass
 
+
 def before_tag(context, tag):
     pass
+
 
 def after_tag(context, tag):
     pass
 
+
 def before_feature(context, feature):
     pass
+
 
 def after_feature(context, feature):
     pass
