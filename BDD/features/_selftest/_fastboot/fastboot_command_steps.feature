@@ -13,7 +13,8 @@
 @fastboot
 Feature: FASTBOOT wrapper
   Background: scratch background
-    Given ADB Wait for device, timeout 60 seconds
+    Given Target device is T1 "VZHGLMA742804186"
+      And ADB Wait for device, timeout 60 seconds
 
     @fastboot_clear_userdata_only
     Scenario: test procedure to clear userdata only
@@ -36,7 +37,8 @@ Feature: FASTBOOT wrapper
 
     @fastboot_clear_user_data_oneline
     Scenario: test packed procedure
-      Given FASTBOOT Erase userdata
+       Then Fastboot init
+        And FASTBOOT Erase userdata
 
 
     @fastboot_download_image
@@ -60,3 +62,4 @@ Feature: FASTBOOT wrapper
     @fastboot_download_image_oneline
     Scenario: test packed procedure for download image
       Given FASTBOOT download image
+
