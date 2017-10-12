@@ -3,6 +3,10 @@ from behave import given, when, then, step
 import os
 import sys
 
+import logging
+logging.basicConfig(level=logging.INFO)
+
+from behave import given, when, then, step
 import time
 import random
 
@@ -37,13 +41,14 @@ def step_impl(context, sDuration):
     # lsRandomTour.append(u'Then Swipe up in App Drawer until "Erase Data" appears')
     # lsRandomTour.append(u'Then Click on a random clickable (depth:4)')
 
-    print(u'I am supposed to click on clickable for %f seconds' % fDurationInSecond)
+    print(u'I am supposed to click on clickable for %f seconds' %
+          fDurationInSecond)
 
     iRunCount = 0
     while time.time() < iTimeToStop:
-    # for iRoute in range(0,len(lsRandomTour)):
-        iRunCount+=1
-        iRoute = random.randint(0, len(lsRandomTour)-1)
+        # for iRoute in range(0,len(lsRandomTour)):
+        iRunCount += 1
+        iRoute = random.randint(0, len(lsRandomTour) - 1)
 
         print('continue to random click, run count %d' % iRunCount)
         context.execute_steps(
@@ -55,9 +60,12 @@ def step_impl(context, sDuration):
 @step(u'Swipe the feed until {sText} appears')
 def step_impl(context, sText):
     """
-        Just an random click route 1, reference by mixpanel
-    """
-    dParameter={}
+    Just an random click route 1, reference by mixpanel
+
+    Args:
+        sText: the text expected, represent the text in the feed.
+     """
+    dParameter = {}
     dParameter['sText'] = sText
 
     context.execute_steps(u'''
@@ -73,52 +81,53 @@ def step_impl(context, sText):
         # Temporary workaround for the swipe down
         #   And Fail if the Text "%(sText)s" not appears on screen
 
-        Then Swipe "com.tinklabs.launcher:id/mdContent" DOWN Distance "200" until "Home" appears on screen (max swipe "5")
-          And Wait until screen ready, timeout 10 seconds
-
+        Then Swipe "com.tinklabs.launcher:id/mdContent" DOWN Distance "200" until "Home" appears on screen (max swipe "10")
           And ADB screen capture, save to "./_screenshot"
         # And Fail if the Text "Home" not appears on screen
-    ''' % dParameter )
+    ''' % dParameter)
 
 # App drawer
+
+
 @step(u'Activate App Drawer from launcher')
 def step_impl(context):
     """
         Try to bring up App Drawer page
     """
-
-    print('i am supposed to bring up the app drawer')
+    logging.debug('i am supposed to bring up the app drawer')
 
     context.execute_steps(u'''
         # To make sure Apps button appears
         Given press HOME button
           And Wait until screen ready, timeout 30 seconds
-
-          And Swipe "com.tinklabs.launcher:id/mdContent" DOWN Distance "200" until "Apps" appears on screen (max swipe "5")
-          And Wait until screen ready, timeout 10 seconds
+          And Swipe "com.tinklabs.launcher:id/mdContent" DOWN Distance "200" until "Google" appears on screen (max swipe "5")
 
         Given User tap on "Apps" button
           And Wait until screen ready, timeout 30 seconds
-          And Wait until "Shop" appears on screen, timeout "30" seconds
+          And Wait until "Google" appears on screen, timeout "30" seconds
 
         Then press HOME button
           And Wait until screen ready, timeout 30 seconds
           And Wait until "Home" appears on screen, timeout "30" seconds
     ''')
 
+
 @step(u'Swipe up in App Drawer until "{sAppWantedOnScreen}" appears')
 def step_impl(context, sAppWantedOnScreen):
     """
-        Try to do some swipe in App Drawer
+    Tap the App drawer and swipe until the sAppWantedOnScreen appears on screen
+
+    Args:
+        sAppWantedOnScreen: The wanted application.
     """
 
-    print('i am supposed to do some swipe in App Drawer')
+    logging.debug('i am supposed to do some swipe in App Drawer')
 
     context.execute_steps(u'''
         Given User tap on "Apps" button
             And Wait until screen ready, timeout 30 seconds
 
-        Then Swipe "com.tinklabs.launcher:id/main_app_list" UP Distance "400" until "%s" appears on screen (max swipe "10")
+uncher:id/main_app_list" UP Distance "100" until "%s" appears on screen (max swipe "20")        Then Swipe "com.tinklabs.la
 
         Then press HOME button
           And Wait until screen ready, timeout 30 seconds
@@ -142,7 +151,7 @@ def step_impl(context):
     ''')
 
     els = finger.f_FindElementsClickable(context.appiumSession)
-    els[randint(0,len(els)-1)].click()
+    els[randint(0, len(els) - 1)].click()
 
     # NOTE try to hold until page load complete
     context.execute_steps(u'''
@@ -158,7 +167,7 @@ def step_impl(context, sDepth):
         make use of random clickable, and sleep for n seconds
     """
 
-    for i in range(1,int(sDepth)):
+    for i in range(1, int(sDepth)):
         context.execute_steps(u'''
             Then ADB screen capture, save to "./_screenshot"
             Then Click on a random clickable

@@ -2,6 +2,7 @@
 from behave import given, when, then, step
 import os
 import sys
+import logging
 
 sys.path.append(os.path.dirname(__file__)+'/../_lib')
 from android_function import finger
@@ -53,9 +54,9 @@ def step_impl(context):
 
         # Shop_for_discounted_souvenirs
         # Shop for discounted souvenirs and the hottest new products, and enjoy free delivery.
-        Then Wait until "Shop for discounted souvenirs and the hottest new products, and enjoy free delivery." appears on screen, timeout "10" seconds
-          And tap on button "android.view.View":"resource-id":"com.tinklabs.launcher:id/click_through"
-          And sleep 1 seconds
+        # Then Wait until "Shop for discounted souvenirs and the hottest new products, and enjoy free delivery." appears on screen, timeout "10" seconds
+        #   And tap on button "android.view.View":"resource-id":"com.tinklabs.launcher:id/click_through"
+        #   And sleep 1 seconds
 
         # Tours_and_tickets_to_major_attractions
         Then Wait until Text startwith "Tours and tickets to major attractions" appears on screen, timeout "10" seconds
@@ -69,7 +70,7 @@ def step_impl(context):
 
         Then press HOME button
           And Wait until screen ready, timeout 30 seconds
-          And sleep 10 seconds
+          And sleep 1 seconds
 
         # Suppose tour done
 
@@ -103,33 +104,57 @@ def step_impl(context, confirm):
             - sConfirmationDialogShowTime - means the time between clicking "ERASE DATA" in erase data screen and the pop-up for dialog for confirmation
     """
     dSettings = {}
-    dSettings['sConfirmationDialogShowTimeout'] = '30'
-    print('i supposed to click the "Erase Data" on left_drawer')
+    dSettings['confirmation_dialog_show_timeout'] = '30'
+    dSettings['left_drawer_erase_data'] = ELEMENTS['LEFT_DRAWER_ERASE_DATA']
+    dSettings['erase_data_button'] = ERASE_DATA_BUTTON
+    dSettings['erase_data_button_resource_id'] = CLIENT_RETURN_ACTIVITY['ERASE_DATA_BUTTON_RESOURCE_ID']
+
+    dSettings['erase_data_confirmation_yes'] = CLIENT_RETURN_ACTIVITY['ERASE_DATA_CONFIRMATION_YES']
+    dSettings['erase_data_confirmation_no'] = CLIENT_RETURN_ACTIVITY['ERASE_DATA_CONFIRMATION_NO']
 
 
-    context.execute_steps(u'''Then tap on text "Erase Data"
-          And Wait until "Erase Data" appears on screen, timeout "%(sConfirmationDialogShowTimeout)s" seconds
+
+    logging.debug('i supposed to click the "Erase Data" on left_drawer')
+
+    context.execute_steps(u'''
+        # Tap on the Erase Data option on left drawer
+        Then tap on text "%(left_drawer_erase_data)s"
+
+          # the screen pop-up with erase data caption
+          And Wait until "Erase Data" appears on screen, timeout "%(confirmation_dialog_show_timeout)s" seconds
     ''' % dSettings)
     if confirm in ['confirm']:
-        print('i supposed clicking "YES" to confirm ERASE DATA')
+        logging.debug('i supposed clicking "YES" to confirm ERASE DATA')
         context.execute_steps(u'''
             # NOTE given that i want to erase data
             # i am standing on the "Erase Data" screen
-            Then Wait until "ERASE DATA" appears on screen, timeout "30" seconds
-              And tap on text "ERASE DATA"
-              And Wait until "Confirmation" appears on screen, timeout "%(sConfirmationDialogShowTimeout)s" seconds
-              And tap on text "YES"
+
+            # The erase data / cancel selection at the bottom
+            # Then Wait until "%(erase_data_button)s" appears on screen, timeout "30" seconds
+            #   And tap on text "%(erase_data_button)s"
+
+            Then Wait until "resource-id" "%(erase_data_button_resource_id)s" appears on screen, timeout 60 seconds
+              And tap on button "android.widget.Button":"resource-id":"%(erase_data_button_resource_id)s"
+
+              And Wait until "Confirmation" appears on screen, timeout "%(confirmation_dialog_show_timeout)s" seconds
+
+            # And tap on text "YES"
+              And tap on button "android.widget.Button":"resource-id":"%(erase_data_confirmation_yes)s"
+
 
         ''' % dSettings
         )
     elif confirm in ["don't confirm"]:
-        print('i supposed clicking "No" to confirm ERASE DATA')
+        logging.debug('i supposed clicking "No" to confirm ERASE DATA')
         context.execute_steps(u'''
             # NOTE given that i erase data, and then cancel/revert
             Then Wait until "ERASE DATA" appears on screen, timeout "5" seconds
               And tap on text "ERASE DATA"
-              And Wait until "Confirmation" appears on screen, timeout "%(sConfirmationDialogShowTimeout)s" seconds
-              And tap on text "NO"
+              And Wait until "Confirmation" appears on screen, timeout "%(confirmation_dialog_show_timeout)s" seconds
+
+              # And tap on text "NO"
+              And tap on button "android.widget.Button":"resource-id":"%(erase_data_confirmation_no)s"
+
         ''' % dSettings
         )
     pass
@@ -137,7 +162,7 @@ def step_impl(context, confirm):
 
 @step(u'In launcher side menu, Erase data')
 def step_impl(context):
-    print('i am supposed to be tapping "Erase data" from left_drawer')
+    logging.debug('i am supposed to be tapping "Erase data" from left_drawer')
     context.execute_steps(u'''
         # Given In launcher side menu, Erase data
         Then press HOME button
@@ -145,18 +170,18 @@ def step_impl(context):
           And sleep 3 seconds
 
         Then tap hamburger button on launcher
-          And Wait until "Taxi Card" appears on screen, timeout "5" seconds
-          And Swipe the menu UP until "Erase Data" appears on screen (max swipe "15")
+          And Wait until "Taxi Card" appears on screen, timeout "10" seconds
+          And Swipe the menu UP until "%(LEFT_DRAWER_ERASE_DATA)s" appears on screen (max swipe "15")
 
           # select Erase Data in menu
           And Perform and confirm erase data in Erase Data screen
-    ''')
+    ''' % ELEMENTS)
     pass
 
 
 @step(u'random click for an hour')
 def step_impl(context):
-    print('i am supposed to be a random click for an hour')
+    logging.debug('i am supposed to be a random click for an hour')
     pass
 
 
@@ -264,8 +289,8 @@ def step_impl(context, sResourceId, sDirection, sDistance, sText, sCountdown):
             el.size['width'],
             el.size['height']
         )
-        print('iCenterX:%d' % iCenterX)
-        print('iCenterY:%d' % iCenterY)
+        # logging.debug('iCenterX:%d' % iCenterX)
+        # logging.debug('iCenterY:%d' % iCenterY)
 
 
         if len(finger.f_FindElementsContainText(context.appiumSession, sText)) > 0:
@@ -294,7 +319,7 @@ def step_impl(context, sResourceId, sDirection, sDistance, sText, sCountdown):
             pass
         pass
     else:
-        print('len of elements %d' % len(els))
+        logging.debug('len of elements %d' % len(els))
         assert False
 
 
@@ -320,13 +345,14 @@ def step_impl(context, sResourceId, sDirection, sDistance, sText, sCountdown):
             el.size['width'],
             el.size['height']
         )
-        print('iCenterX:%d' % iCenterX)
-        print('iCenterY:%d' % iCenterY)
+        # logging.debug('iCenterX:%d' % iCenterX)
+        # logging.debug('iCenterY:%d' % iCenterY)
 
         if len(finger.f_FindElementsWithText(context.appiumSession, sText)) > 0:
             # NOTE given thatt the sText is already appears in the screen
             pass
         else:
+            # NOTE text not in the screen, need swipe
             for i in range(1, iCountdown):
                 context.execute_steps(u'''
                     Then Wait until screen ready, timeout 10 seconds
@@ -349,7 +375,7 @@ def step_impl(context, sResourceId, sDirection, sDistance, sText, sCountdown):
             pass
         pass
     else:
-        print('len of elements %d' % len(els))
+        logging.debug('len of elements %d' % len(els))
         assert False
 
 
@@ -358,13 +384,13 @@ def step_impl(context, sResourceId, sDirection, sDistance, sText, sCountdown):
 
 @then(u'type "{sText}" in "{sResourceId}"')
 def step_impl(context, sText, sResourceId):
-    print(u'I am supposed to type "'+sText+'" in ' + sResourceId)
+    logging.debug(u'I am supposed to type "'+sText+'" in ' + sResourceId)
 
     els = finger.f_FindElementsById(context.appiumSession, sResourceId)
     if els>0:
         els[0].send_keys(sText)
     else:
-        print('wanted %s not found' % sResourceId)
+        logging.debug('wanted %s not found' % sResourceId)
         assert False
 
 
@@ -406,7 +432,7 @@ def step_impl(context, sText, sResourceId):
 #     sTargetUiSelector = ('%(sLeftDrawer)s.childSelector(%(sMenuItem)s)' % dMenu)
 
 #     els = finger.f_FindElementsById(context.appiumSession, 'com.tinklabs.launcher:id/tab_item')
-#     print(len(els))
+#     logging.debug(len(els))
 
 #     # NOTE the menu is given by
 #     if len(els) > 1 :
@@ -416,10 +442,10 @@ def step_impl(context, sText, sResourceId):
 #                 bTextFound = True
 #                 break
 #             else:
-#                 print('length of elements %d' % len(els))
+#                 logging.debug('length of elements %d' % len(els))
 #                 finger.f_Scroll_Elements(context.appiumSession, els[2], els[1])
 #     else:
-#         print('no elements found')
+#         logging.debug('no elements found')
 
 #     if bTextFound:
 #         # NOTE do something when found ?

@@ -10,6 +10,7 @@ from behave import given, when, then, step
 from common import *
 import subprocess
 
+from config import *
 from pyand import ADB, Fastboot
 
 from collections import deque
@@ -263,6 +264,7 @@ def step_impl(context):
       Given adb binary is available
       Given appium is running
 
+      Given Fastboot init
       Given FASTBOOT Erase userdata
         And ADB Wait for device, timeout 600 seconds
 
@@ -556,7 +558,7 @@ def step_impl(context, sText):
 
     """
     context.execute_steps(u'''
-        Then Wait until screen ready, timeout 10 seconds
+        Then Wait until screen ready, timeout 30 seconds
     ''')
 
     els = finger.f_FindElementsWithText(
@@ -566,7 +568,6 @@ def step_impl(context, sText):
         sleep(1)
         els[0].click()
 
-        # NOTE for debug
     else:
         logging.error('cannot find the wanted text')
         assert False
@@ -782,6 +783,6 @@ def step_impl(context):
 #     """
 #     print('i am supposed to wait until page load complete, timeout %s seconds' % sSeconds)
 
-#     context.execute_step(u'''
+#     context.execute_steps(u'''
 #         Then
 #     ''')

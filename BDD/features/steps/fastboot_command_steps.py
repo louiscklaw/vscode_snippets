@@ -136,19 +136,60 @@ def step_impl(context):
     """
     context.execute_steps(u'''
         Given ADB Reboot bootloader
-          And FASTBOOT unlock
-        Then FASTBOOT "-i 0x489 erase userdata"
-        Then FASTBOOT "reboot"
+          And Fastboot init
     ''')
+
+    if hasattr(context, 'device'):
+        if context.device == 'M812':
+            context.execute_steps(u'''
+                Then FASTBOOT "erase userdata"
+                  And FASTBOOT "reboot"
+            ''')
+            pass
+        elif context.device == 'T1':
+            context.execute_steps(u'''
+                Then FASTBOOT unlock
+                  And FASTBOOT "-i 0x489 erase userdata"
+                  And FASTBOOT "reboot"
+            ''')
+        else:
+            print('unhandled fastboot rease userdata')
+            assert False
+            pass
+    else:
+        # Temporary default action for T1
+        # TODO: put it into if branch, as currently the context.device didn't implement there yet. so i need put it here
+        context.execute_steps(u'''
+            Given ADB Reboot bootloader
+                And FASTBOOT unlock
+                Then FASTBOOT "-i 0x489 erase userdata"
+                Then FASTBOOT "reboot"
+        ''')
+        pass
     pass
 
 
 @step(u'FASTBOOT unlock')
 def step_impl(context):
-    context.execute_steps(u'''
-        Then FASTBOOT "-i 0x489 oem fih on"
-          And FASTBOOT "-i 0x489 oem devlock key"
-    ''')
+    if hasattr(context,'device'):
+        if context.device == 'M812':
+            pass
+        elif context.device == 'T1':
+            print('unhandled fastboot unlock')
+            context.execute_steps(u'''
+                Then FASTBOOT "-i 0x489 oem fih on"
+                And FASTBOOT "-i 0x489 oem devlock key"
+            ''')
+        else:
+            assert False
+            pass
+    else:
+        # Temporary default action for T1
+        # TODO: put it into if branch, as currently the context.device didn't implement there yet. so i need put it here
+        context.execute_steps(u'''
+            Then FASTBOOT "-i 0x489 oem fih on"
+            And FASTBOOT "-i 0x489 oem devlock key"
+        ''')
 
 
 @step(u'FASTBOOT download image')
@@ -166,3 +207,11 @@ def step_impl(context):
             And FASTBOOT "reboot"
     ''')
     pass
+
+@step(u'fastboot erase M812')
+def step_impl(context):
+    context.execute_steps(u'''
+        Given ADB Reboot bootloader
+            Then FASTBOOT " erase userdata"
+            Then FASTBOOT "reboot"
+    ''' )

@@ -1,6 +1,7 @@
 from behave import given, when, then, step
 import os
 import sys
+import logging
 
 # https://github.com/appium/python-client
 from appium import webdriver
@@ -13,6 +14,8 @@ def PATH(p): return os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
 
+
+from config import *
 
 @step(u'Clear all handy settings')
 def step_impl(context):
