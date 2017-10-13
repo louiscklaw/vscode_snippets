@@ -27,7 +27,8 @@ class LauncherFirstTimeTutorialConfig:
 
     TUTORIAL_STEP = {}
     TUTORIAL_STEP[TAP_THIS_SHOW_THE_HOTEL_DETAILS] = u"""
-    Then Wait until "Tap this show the hotel details." appears on screen, timeout "10" seconds
+    Then sleep 5 seconds
+        And Wait until "Tap this show the hotel details." appears on screen, timeout "30" seconds
         And Tap screen 1 times at CENTER
         And sleep 1 seconds
     """
@@ -35,14 +36,16 @@ class LauncherFirstTimeTutorialConfig:
     TUTORIAL_STEP[TAP_ON_THIS_ICON_TO_OPEN_THE_SIDE_BAR] = u"""
     # Tap_on_this_icon_to_open_the_side_bar
     # com.tinklabs.launcher:id/click_through means back button on the top-left
-    Then Wait until "Tap on this icon to open the side bar." appears on screen, timeout "10" seconds
+    Then sleep 5 seconds
+      And Wait until "Tap on this icon to open the side bar." appears on screen, timeout "30" seconds
       And tap on button "android.view.View":"resource-id":"com.tinklabs.launcher:id/click_through"
       And sleep 1 seconds
     """
 
     TUTORIAL_STEP[SCROLL_DOWN_TO_EXPLORE_ALL_THE_MAIN_FEATURES_OF_HANDY] = u"""
     # Scroll_down_to_explore_all_the_main_features_of_handy
-    Then Wait until "Scroll down to explore all the main features of handy." appears on screen, timeout "10" seconds
+    Then sleep 5 seconds
+      And Wait until "Scroll down to explore all the main features of handy." appears on screen, timeout "30" seconds
       And tap on button "android.view.View":"resource-id":"com.tinklabs.launcher:id/click_through"
       And sleep 1 seconds
     """
