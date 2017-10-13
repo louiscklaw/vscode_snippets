@@ -27,7 +27,8 @@ class LauncherFirstTimeTutorialConfig:
 
     TUTORIAL_STEP = {}
     TUTORIAL_STEP[TAP_THIS_SHOW_THE_HOTEL_DETAILS] = u"""
-    Then Wait until "Tap this show the hotel details." appears on screen, timeout "10" seconds
+    Then sleep 5 seconds
+        And Wait until "Tap this show the hotel details." appears on screen, timeout "30" seconds
         And Tap screen 1 times at CENTER
         And sleep 1 seconds
     """
