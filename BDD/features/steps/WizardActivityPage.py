@@ -51,7 +51,7 @@ class WizardActivityPageConfig:
             self.Config['TUTORIAL_IMAGE_LET_S_START'] = u"Let's start"
 
             # left_drawer / side menu
-            self.Config['LEFT_DRAWER_ERASE_DATA'] = u"Erase Data"
+            self.Config['LEFT_DRAWER_ERASE_DATA'] = u"Erase All Data"
 
 
 class WizardActivityPageGenerator:
@@ -90,7 +90,7 @@ class WizardActivityPageGenerator:
         if id_page == WV_SKIP_CHECKOUT_DATE:
             return u'''
         # bypass checkout day currently, i should press the skip button
-        Then Wait until "When are you checking out?" appears on screen, timeout "10" seconds
+        Then Wait until "When are you checking out?" appears on screen, timeout "60" seconds
         #   And Fail if the resources-id"com.tinklabs.activateapp:id/tv_skip" not appears
         #   And tap on button "android.widget.TextView":"resource-id":"com.tinklabs.activateapp:id/tv_skip"
             And tap on text "%(SKIP)s"
@@ -99,7 +99,7 @@ class WizardActivityPageGenerator:
         if id_page == WV_SKIP_HANDYMEMBER:
             return u'''
         # Then bypass facebook registration currently, i should press the skip button
-        Then Wait until Text startwith "Become a handy member!" appears on screen, timeout "10" seconds
+        Then Wait until Text startwith "Become a handy member!" appears on screen, timeout "60" seconds
         Then sleep 1 seconds
         #   And Fail if the resources-id"com.tinklabs.activateapp:id/tv_skip" not appears
         #   And tap on button "android.widget.TextView":"resource-id":"com.tinklabs.activateapp:id/tv_skip"
@@ -110,7 +110,7 @@ class WizardActivityPageGenerator:
             return u'''
         # Then bypass personalize experience registration currently, i should press the skip button
         # Then sleep 1 seconds
-        Then Wait until Text startwith "Let us personalize" appears on screen, timeout "10" seconds
+        Then Wait until Text startwith "Let us personalize" appears on screen, timeout "60" seconds
             And sleep 1 seconds
         #   And Fail if the resources-id"com.tinklabs.activateapp:id/tv_skip" not appears
         #   And tap on button "android.widget.TextView":"resource-id":"com.tinklabs.activateapp:id/tv_skip"
@@ -182,7 +182,7 @@ class WizardActivityPage:
 
     dWizardActivityPage[WV_SKIP_CHECKOUT_DATE] = u'''
         # bypass checkout day currently, i should press the skip button
-        Then Wait until "When are you checking out?" appears on screen, timeout "10" seconds
+        Then Wait until "When are you checking out?" appears on screen, timeout "60" seconds
         #   And Fail if the resources-id"com.tinklabs.activateapp:id/tv_skip" not appears
         #   And tap on button "android.widget.TextView":"resource-id":"com.tinklabs.activateapp:id/tv_skip"
             And tap on text "%(SKIP)s"
@@ -190,7 +190,7 @@ class WizardActivityPage:
 
     dWizardActivityPage[WV_SKIP_HANDYMEMBER] = u'''
         # Then bypass facebook registration currently, i should press the skip button
-        Then Wait until Text startwith "Become a handy member!" appears on screen, timeout "10" seconds
+        Then Wait until Text startwith "Become a handy member!" appears on screen, timeout "60" seconds
         Then sleep 1 seconds
         #   And Fail if the resources-id"com.tinklabs.activateapp:id/tv_skip" not appears
         #   And tap on button "android.widget.TextView":"resource-id":"com.tinklabs.activateapp:id/tv_skip"
@@ -200,7 +200,7 @@ class WizardActivityPage:
     dWizardActivityPage[WV_SKIP_PERSONALIZED_EXPERIENCE] = u'''
         # Then bypass personalize experience registration currently, i should press the skip button
         # Then sleep 1 seconds
-        Then Wait until Text startwith "Let us personalize" appears on screen, timeout "10" seconds
+        Then Wait until Text startwith "Let us personalize" appears on screen, timeout "60" seconds
             And sleep 1 seconds
         #   And Fail if the resources-id"com.tinklabs.activateapp:id/tv_skip" not appears
         #   And tap on button "android.widget.TextView":"resource-id":"com.tinklabs.activateapp:id/tv_skip"
