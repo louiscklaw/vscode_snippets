@@ -171,16 +171,16 @@ def step_impl(context):
 
 @step(u'FASTBOOT unlock')
 def step_impl(context):
-    if hasattr(context,'device'):
+    if hasattr(context, 'device'):
         if context.device == 'M812':
             pass
         elif context.device == 'T1':
-            print('unhandled fastboot unlock')
             context.execute_steps(u'''
                 Then FASTBOOT "-i 0x489 oem fih on"
                 And FASTBOOT "-i 0x489 oem devlock key"
             ''')
         else:
+            logging.error('unhandled fastboot unlock')
             assert False
             pass
     else:
@@ -208,10 +208,11 @@ def step_impl(context):
     ''')
     pass
 
+
 @step(u'fastboot erase M812')
 def step_impl(context):
     context.execute_steps(u'''
         Given ADB Reboot bootloader
             Then FASTBOOT " erase userdata"
             Then FASTBOOT "reboot"
-    ''' )
+    ''')
