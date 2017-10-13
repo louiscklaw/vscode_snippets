@@ -11,6 +11,7 @@ from android_function import util
 from time import sleep
 
 from LauncherFirstTimeTutorialGenerator import *
+from LauncherActivity_config import *
 
 
 @step(u'Skip the 1st time tutorial by launcher')
@@ -59,14 +60,16 @@ def step_impl(context, confirm):
         NOTE:
             - sConfirmationDialogShowTime - means the time between clicking "ERASE DATA" in erase data screen and the pop-up for dialog for confirmation
     """
+    LauncherActivityConfig = LauncherActivity_config(context.device)
+
     dSettings = {}
     dSettings['confirmation_dialog_show_timeout'] = '30'
-    dSettings['left_drawer_erase_data'] = ELEMENTS['LEFT_DRAWER_ERASE_DATA']
-    dSettings['erase_data_button'] = ERASE_DATA_BUTTON
-    dSettings['erase_data_button_resource_id'] = CLIENT_RETURN_ACTIVITY['ERASE_DATA_BUTTON_RESOURCE_ID']
+    dSettings['left_drawer_erase_data'] = LauncherActivityConfig.LEFT_DRAWER_ERASE_DATA
+    dSettings['erase_data_button'] = LauncherActivityConfig.ERASE_ALL_DATA
+    dSettings['erase_data_button_resource_id'] = LauncherActivityConfig.ERASE_DATA_BUTTON_RESOURCE_ID
 
-    dSettings['erase_data_confirmation_yes'] = CLIENT_RETURN_ACTIVITY['ERASE_DATA_CONFIRMATION_YES']
-    dSettings['erase_data_confirmation_no'] = CLIENT_RETURN_ACTIVITY['ERASE_DATA_CONFIRMATION_NO']
+    dSettings['erase_data_confirmation_yes'] = LauncherActivityConfig.ERASE_DATA_CONFIRMATION_YES
+    dSettings['erase_data_confirmation_no'] = LauncherActivityConfig.ERASE_DATA_CONFIRMATION_NO
 
     logging.debug('i supposed to click the "Erase Data" on left_drawer')
 
@@ -109,13 +112,14 @@ def step_impl(context, confirm):
               # And tap on text "NO"
               And tap on button "android.widget.Button":"resource-id":"%(erase_data_confirmation_no)s"
 
-        ''' % dSettings
-                              )
+        ''' % dSettings)
     pass
 
 
 @step(u'In launcher side menu, Erase data')
 def step_impl(context):
+    LauncherActivityConfig = LauncherActivity_config(context.device)
+
     logging.debug('i am supposed to be tapping "Erase data" from left_drawer')
     context.execute_steps(u'''
         # Given In launcher side menu, Erase data
@@ -125,11 +129,11 @@ def step_impl(context):
 
         Then tap hamburger button on launcher
           And Wait until "Taxi Card" appears on screen, timeout "10" seconds
-          And Swipe the menu UP until "%(LEFT_DRAWER_ERASE_DATA)s" appears on screen (max swipe "15")
+          And Swipe the menu UP until "%s" appears on screen (max swipe "15")
 
           # select Erase Data in menu
           And Perform and confirm erase data in Erase Data screen
-    ''' % ELEMENTS)
+    ''' % LauncherActivityConfig.LEFT_DRAWER_ERASE_DATA)
     pass
 
 
