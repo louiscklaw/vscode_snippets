@@ -220,26 +220,11 @@ def step_impl(context):
     context.execute_steps(u'''
         Given ADB PATH_ANDROID_TEMP directory is ready, timeout 60 seconds
             And ADB push tinklabs1001
-            And ADB push change_settings
 
         Then ADB change permission tinklabs1001
-            And ADB change permission change_prop
 
         Then ADB settings put global package_verifier_enable 0
             And ADB settings put global stay_on_while_plugged_in 7
-
-        Then ADB settings put secure install_non_market_apps 1
-            And ADB settings put secure screen_off_timeout 600000000
-            And ADB settings put secure screensaver_activate_on_sleep 0
-            And ADB settings put secure screensaver_components com.google.android.deskclock/com.android.deskclock.Screensaver
-            And ADB settings put secure screensaver_default_component com.google.android.deskclock/com.android.deskclock.Screensaver
-            And ADB settings put secure screensaver_enabled 0
-
-        Then ADB settings put system dim_screen 0
-            And ADB settings put system screen_brightness 10
-            And ADB settings put system screen_off_timeout 600000000
-            And ADB settings put system transition_animation_scale 0
-            And ADB settings put system window_animation_scale 0
 
             # disable USB file transfer
             # And ADB setprop "persist.sys.usb.config" "adb,mtp"
