@@ -22,10 +22,14 @@ def step_impl(context):
     # TODO: implement pass/fail option in the script
     #   GRAMMER:
     #       {Skip/Pass} the 1st time tutorial by launcher
-    tutorial_config = LauncherFirstTimeTutorialConfig('en_US')
-    tutorial_route = LauncherFirstTimeTutorialGenerator(
-        tutorial_config, 'M812')
-    context.execute_steps(tutorial_route.get_tutorial())
+    if hasattr(context, 'device'):
+        tutorial_config = LauncherFirstTimeTutorialConfig('en_US')
+        tutorial_route = LauncherFirstTimeTutorialGenerator(
+            tutorial_config, context.device)
+        context.execute_steps(tutorial_route.get_tutorial())
+    else:
+        logging.error('the device is not handled')
+        assert False, 'the device is not handled'
     pass
 
 
