@@ -21,6 +21,8 @@ EXIT_TUTORIAL = 5
 
 class LauncherFirstTimeTutorialConfig:
     def __init__(self, lanauage):
+        # NOTE: place holder for apply language options
+
         pass
 
     TUTORIAL_STEP = {}
