@@ -13,6 +13,7 @@
 @adb_command
 Feature: self test for adb-handy-appium
   Background: scratch background
+    Given Target device is T1 "VZHGLMA742804186"
     Given FASTBOOT Erase userdata
       And ADB Wait for device, timeout 60 seconds
     Then ADB check boot completed, timeout 600 seconds
