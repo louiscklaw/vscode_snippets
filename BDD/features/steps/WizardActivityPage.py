@@ -217,7 +217,7 @@ class WizardActivityPage:
     # Tutorial Image 2
     dWizardActivityPage[WV_PASS_TUTORIAL_IMAGE] = u'''
         Then press HOME button
-        Then Wait until "resource-id" "com.tinklabs.launcher:id/ivBackground" appears on screen, timeout 60 seconds
+        Then Wait until "resource-id" "com.tinklabs.launcher:id/ivBackground" appears on screen, timeout 120 seconds
         Then Swipe "com.tinklabs.launcher:id/ivBackground" LEFT Distance "200" until "Let's start" appears on screen (max swipe "10")
             And tap on text "%(TUTORIAL_IMAGE_LET_S_START)s"
     ''' % ELEMENTS
