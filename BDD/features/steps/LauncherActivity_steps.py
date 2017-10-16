@@ -257,7 +257,7 @@ def step_impl(context, sResourceId, sDirection, sDistance, sText, sCountdown):
         else:
             for i in range(1, iCountdown):
                 context.execute_steps(u'''
-                    Then Wait until screen ready, timeout 10 seconds
+                    Then Wait until screen ready, timeout 30 seconds
                 ''')
 
                 if len(finger.f_FindElementsContainText(context.appiumSession, sText)) > 0:
@@ -311,7 +311,7 @@ def step_impl(context, sResourceId, sDirection, sDistance, sText, sCountdown):
             # NOTE text not in the screen, need swipe
             for i in range(1, iCountdown):
                 context.execute_steps(u'''
-                    Then Wait until screen ready, timeout 10 seconds
+                    Then Wait until screen ready, timeout 30 seconds
                 ''')
 
                 if len(finger.f_FindElementsWithText(context.appiumSession, sText)) > 0:
