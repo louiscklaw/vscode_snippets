@@ -2,7 +2,7 @@
 Feature: random click for a hour, pilot run
   @initialize_rom
   Scenario: initialize
-    Given Target device is T1 "VZHGLMA742800785"
+    Given Target device is T1 "VZHGLMA742804186"
     And Test setup is ready
 
     Given setup an android as below, using appium port 4723
