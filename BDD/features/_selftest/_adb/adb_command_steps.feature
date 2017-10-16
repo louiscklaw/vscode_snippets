@@ -66,18 +66,23 @@ Feature: self test for adb-handy-appium
     Then ADB settings system screen_brightness should be 50
 
 
-
-  @wip
-  @not_working
-  Scenario: test adb shell with true
+  @test_adb_settings_secure
+  Scenario: change settings value
     # Given ADB Init session
     Given ADB push tinklabs1001
-      And ADB push change_prop
+    And ADB settings put secure screensaver_enabled 0
+    Then ADB settings secure screensaver_enabled should be 0
+  # Given ADB adb shell test
 
-    Then ADB change permission tinklabs1001
-      And ADB change permission change_prop
+  @test_adb_settings_secure
+  Scenario: android settings
+    Given ADB settings put secure screensaver_enabled 0
+    Then ADB settings secure screensaver_enabled should be 0
+    Given ADB settings put secure screensaver_enabled 1
+    Then ADB settings secure screensaver_enabled should be 1
+    Given ADB settings put secure screensaver_enabled 0
+    Then ADB settings secure screensaver_enabled should be 0
 
-    Then ADB setprop test with shell True
 
   @not_working
   @test_adb_props
