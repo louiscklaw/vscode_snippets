@@ -296,6 +296,9 @@ def step_impl(context, sTargetFile, sPermission):
 
 @step(u'ADB push tinklabs1001')
 def step_impl(context):
+    """
+    packed process to transfer the tinklabs1001 to android
+    """
     context.execute_steps(u'''
         Then ADB push "%(PATH_PC_TINKLABS1001)s" "%(PATH_ANDROID_TEMP)s"
     ''' % dParameters)
@@ -303,6 +306,9 @@ def step_impl(context):
 
 @step(u'ADB change permission tinklabs1001')
 def step_impl(context):
+    """
+    packed process to change the file permission of tinklabs1001
+    """
     context.execute_steps(u'''
         Then ADB change permission "777" "%(PATH_ANDROID_TINKLABS1001)s"
     ''' % dParameters)
@@ -415,7 +421,7 @@ def step_impl(context, sName, sValue):
         :Args:
             - sValue - value of package_verifier_enable wanted
     """
-    print(u'STEP: Given ADB setprop "%s" "%s"' % (sName, sValue))
+    logging.debug(u'STEP: Given ADB setprop "%s" "%s"' % (sName, sValue))
 
     # context.execute_steps(u'''
     #     Given ADB Init session
@@ -744,6 +750,7 @@ def step_impl(context, wifi_configuration):
 @step(u'ADB svc {subcommand} {control}')
 def step_impl(context, subcommand, control):
     """
+    insert command by adb svc <sub_command> <control>,
     Available commands:
     help     Show information about the subcommands
     power    Control the power manager
@@ -758,6 +765,11 @@ def step_impl(context, subcommand, control):
 
 @then(u'ADB restart wifi')
 def step_impl(context):
+    """
+    to restart wifi service using adb command
+    by handy app default beheaviour, the wifi connection will be wake up again by handy app
+    no explicit enabled issued right now.
+    """
     logging.debug(u'STEP: Then adb restart wifi')
 
     context.execute_steps(u'''
