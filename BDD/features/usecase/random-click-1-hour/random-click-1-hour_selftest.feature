@@ -33,7 +33,26 @@ Feature: test single step from random-click-1-hour
   @test_quick_selftest
   @sanity
   Scenario: test both end
-  Description try to validate the skeleton for the test
+    POC of the random-click-1-hour test
+    # the main random loop occurs here, ignore for the "must pass" case
+
+    Then Random tour for 0.001 hour
+
+    Then In launcher side menu, Erase data
+    # unconditional wait due to loss connection to the phone
+    And sleep 180 seconds
+
+    Then ADB Wait for device
+    And ADB Initialize android
+    And setup an android as below, using appium port 4723
+      | Package                  | Activity                        | platform | type  | version |
+      | com.tinklabs.activateapp | .features.wizard.WizardActivity | Android  | phone | 7.0     |
+    And Wait until "English" appears on screen, timeout "300" seconds
+
+  @test_route
+  @sanity
+  Scenario: test both end
+    testing of the route used by the random-click-1-hour
     # the main random loop occurs here, ignore for the "must pass" case
 
     Then Random tour selftest, route 0
@@ -56,7 +75,7 @@ Feature: test single step from random-click-1-hour
   @test_endtoend
   @sanity
   Scenario: test both end
-  Description try to validate the skeleton for the test
+    test the setup/destroy of the random-click-1-hour test
     # the main random loop occurs here, ignore for the "must pass" case
 
     Then sleep 5 seconds
@@ -74,6 +93,7 @@ Feature: test single step from random-click-1-hour
   @test_swipe_feed
   @test_swipe_feed_handy_shopping
   Scenario: Swipe the feed until handy SHOPPING appears
+    test the route handy SHOPPING
     Then Swipe the feed until handy SHOPPING appears
 
     Then In launcher side menu, Erase data
@@ -91,6 +111,8 @@ Feature: test single step from random-click-1-hour
   @test_swipe_feed
   @test_swipe_feed_discount_tickets
   Scenario: Swipe the feed until DISCOUNT TICKETS appears
+    test the route DISCOUNT TICKETS
+
     Then Swipe the feed until DISCOUNT TICKETS appears
 
     Then In launcher side menu, Erase data
@@ -108,6 +130,7 @@ Feature: test single step from random-click-1-hour
   @test_swipe_feed
   @test_swipe_feed_trending
   Scenario: Swipe the feed until TRENDING appears
+    test the route TRENDING
     Then Swipe the feed until TRENDING appears
 
     Then In launcher side menu, Erase data
@@ -142,6 +165,7 @@ Feature: test single step from random-click-1-hour
   @test_swipe_feed
   @test_swipe_feed_long
   Scenario: Swipe the feed until days ago appears
+    obsoleted route "days ago"
     Then Swipe the feed until days ago appears
 
     Then In launcher side menu, Erase data
@@ -157,6 +181,7 @@ Feature: test single step from random-click-1-hour
 
   @test_app_drawer
   Scenario: Activate App Drawer from launcher
+    test the route App Drawer
     Then Activate App Drawer from launcher
 
     Then In launcher side menu, Erase data
@@ -172,6 +197,7 @@ Feature: test single step from random-click-1-hour
 
   @test_app_drawer
   Scenario: Swipe up in App Drawer until Erase Data appears
+    test the route App Drawer
     Then Swipe up in App Drawer until "Erase Data" appears
 
     Then In launcher side menu, Erase data
