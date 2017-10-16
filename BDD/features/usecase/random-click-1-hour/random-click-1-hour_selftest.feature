@@ -21,8 +21,8 @@ Feature: test single step from random-click-1-hour
     # Then Wait for handy initialization
     # And ADB Initialize android
     # And ADB PATH_ANDROID_TEMP directory is ready, timeout 60 seconds
-
-    Given setup an android as below
+    Given ADB Initialize android
+    Given setup an android as below, using appium port 4723
       | Package                  | Activity                        | platform | type  | version |
       | com.tinklabs.activateapp | .features.wizard.WizardActivity | Android  | phone | 7.0     |
     # 180 seconds, assume no update/OTA pending
@@ -43,15 +43,15 @@ Feature: test single step from random-click-1-hour
 
     Then ADB Wait for device
     And ADB Initialize android
-    And setup an android as below
+    And setup an android as below, using appium port 4723
       | Package                  | Activity                        | platform | type  | version |
       | com.tinklabs.activateapp | .features.wizard.WizardActivity | Android  | phone | 7.0     |
     And Wait until "English" appears on screen, timeout "300" seconds
 
   @test_swipe_feed
-  @test_swipe_feed_short
-  Scenario: Swipe the feed until hours ago appears
-    Then Swipe the feed until hours ago appears
+  @test_swipe_feed_handy_shopping
+  Scenario: Swipe the feed until handy SHOPPING appears
+    Then Swipe the feed until handy SHOPPING appears
 
     Then In launcher side menu, Erase data
     # unconditional wait due to loss connection to the phone
@@ -59,10 +59,62 @@ Feature: test single step from random-click-1-hour
 
     Then ADB Wait for device
     And ADB Initialize android
-    And setup an android as below
+    And setup an android as below, using appium port 4723
       | Package                  | Activity                        | platform | type  | version |
       | com.tinklabs.activateapp | .features.wizard.WizardActivity | Android  | phone | 7.0     |
     And Wait until "English" appears on screen, timeout "300" seconds
+
+
+  @test_swipe_feed
+  @test_swipe_feed_discount_tickets
+  Scenario: Swipe the feed until DISCOUNT TICKETS appears
+    Then Swipe the feed until DISCOUNT TICKETS appears
+
+    Then In launcher side menu, Erase data
+    # unconditional wait due to loss connection to the phone
+    And sleep 180 seconds
+
+    Then ADB Wait for device
+    And ADB Initialize android
+    And setup an android as below, using appium port 4723
+      | Package                  | Activity                        | platform | type  | version |
+      | com.tinklabs.activateapp | .features.wizard.WizardActivity | Android  | phone | 7.0     |
+    And Wait until "English" appears on screen, timeout "300" seconds
+
+
+  @test_swipe_feed
+  @test_swipe_feed_trending
+  Scenario: Swipe the feed until TRENDING appears
+    Then Swipe the feed until TRENDING appears
+
+    Then In launcher side menu, Erase data
+    # unconditional wait due to loss connection to the phone
+    And sleep 180 seconds
+
+    Then ADB Wait for device
+    And ADB Initialize android
+    And setup an android as below, using appium port 4723
+      | Package                  | Activity                        | platform | type  | version |
+      | com.tinklabs.activateapp | .features.wizard.WizardActivity | Android  | phone | 7.0     |
+    And Wait until "English" appears on screen, timeout "300" seconds
+
+  @test_swipe_feed
+  @test_swipe_feed_fun_facts
+  Scenario: Swipe the feed until fun facts appears
+    Then Swipe the feed until FUN FACTS appears
+
+    Then In launcher side menu, Erase data
+    # unconditional wait due to loss connection to the phone
+    And sleep 180 seconds
+
+    Then ADB Wait for device
+    And ADB Initialize android
+    And setup an android as below, using appium port 4723
+      | Package                  | Activity                        | platform | type  | version |
+      | com.tinklabs.activateapp | .features.wizard.WizardActivity | Android  | phone | 7.0     |
+    And Wait until "English" appears on screen, timeout "300" seconds
+
+
 
   @test_swipe_feed
   @test_swipe_feed_long
@@ -75,7 +127,7 @@ Feature: test single step from random-click-1-hour
 
     Then ADB Wait for device
     And ADB Initialize android
-    And setup an android as below
+    And setup an android as below, using appium port 4723
       | Package                  | Activity                        | platform | type  | version |
       | com.tinklabs.activateapp | .features.wizard.WizardActivity | Android  | phone | 7.0     |
     And Wait until "English" appears on screen, timeout "300" seconds
@@ -89,7 +141,7 @@ Feature: test single step from random-click-1-hour
 
     Then ADB Wait for device
     And ADB Initialize android
-    And setup an android as below
+    And setup an android as below, using appium port 4723
       | Package                  | Activity                        | platform | type  | version |
       | com.tinklabs.activateapp | .features.wizard.WizardActivity | Android  | phone | 7.0     |
     And Wait until "English" appears on screen, timeout "300" seconds
@@ -104,7 +156,7 @@ Feature: test single step from random-click-1-hour
 
     Then ADB Wait for device
     And ADB Initialize android
-    And setup an android as below
+    And setup an android as below, using appium port 4723
       | Package                  | Activity                        | platform | type  | version |
       | com.tinklabs.activateapp | .features.wizard.WizardActivity | Android  | phone | 7.0     |
     And Wait until "English" appears on screen, timeout "300" seconds
@@ -117,7 +169,7 @@ Feature: test single step from random-click-1-hour
 
     Then ADB Wait for device
     And ADB Initialize android
-    And setup an android as below
+    And setup an android as below, using appium port 4723
       | Package                  | Activity                        | platform | type  | version |
       | com.tinklabs.activateapp | .features.wizard.WizardActivity | Android  | phone | 7.0     |
     And Wait until "English" appears on screen, timeout "300" seconds
