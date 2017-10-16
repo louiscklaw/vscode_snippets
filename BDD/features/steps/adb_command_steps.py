@@ -724,7 +724,7 @@ def step_adb_root_shell(context, command):
         :Args:
             - command - command would like to send by root shell
     """
-    logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(level=logging.INFO)
 
     adb_commands = []
     adb_commands.append((PATH_ANDROID_TINKLABS1001, ['#']))
