@@ -657,10 +657,10 @@ def step_impl(context, sText, sDetermine):
     if els:
         # NOTE content-desc appears on screen
         if sDetermine in ['is']:
-            assert False
+            assert False, 'the unwanted elements %s appears on screen' % sText
     else:
         if sDetermine in ['not']:
-            assert False
+            assert False, 'the wanted elements %s not appears on screen' % sText
     pass
 
 
