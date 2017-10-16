@@ -12,10 +12,13 @@ logging.basicConfig(level=logging.DEBUG,
                     filename='debug.log',
                     filemode='a')
 
-from fabric.api import cd, run, local
+from fabric.api import cd, run, local, env
 from datetime import datetime
 today = datetime.now().strftime('%d%m%Y-%H%M%S')
 
+
+class FabricException(Exception):
+    pass
 
 def run_test(command):
     # NOTE: behave random-click-1-hour_selftest.feature --tags=test_swipe_feed_trending -vk
@@ -35,7 +38,26 @@ def run_test_VZH_selftest():
     run_test('behave  random-click-1-hour_selftest.feature')
     pass
 
+def run_llaw_localtest(number_of_run):
+    env.abort_exception = FabricException
+
+    logging.debug('for llaw self test on local machine')
+    number_of_run = int(number_of_run)
+
+    for run in range(1,number_of_run+1):
+        logging.debug('running %d of %d ...' % (run, number_of_run))
+
+        try:
+            logging.debug(local('behave random-click-1-hour_selftest.feature --tags=test_quick_selftest -vk'))
+            pass
+        except FabricException:
+            logging.debug('ignore exception')
+            # NOTE: ignore exception
+            pass
+        else:
+            pass
+
 
 def helloworld():
     local('echo helloworld')
-    logging.info('filename: %s' % __file__)
+    logging.debug('filename: %s' % __file__)
