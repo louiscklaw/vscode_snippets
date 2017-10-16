@@ -128,6 +128,9 @@ def step_impl(context, port):
         desired_caps['deviceName'] = context.android_serial
         logging.debug('context.android_serial defined, use as deviceName')
 
+        desired_caps['udid'] = context.android_serial
+        logging.debug('context.android_serial defined, use as udid')
+
     else:
         desired_caps['deviceName'] = 'Android'
         logging.debug(
