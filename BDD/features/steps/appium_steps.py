@@ -477,6 +477,7 @@ def step_impl(context, sId, sTimeout):
     :Args:
         - sId - recource-id
         - sTimeout - timeout second
+    # TODO: replace com.tinklabs.launcher:id/ivBackground using meaningful name
     """
 
     lLookFor = []
