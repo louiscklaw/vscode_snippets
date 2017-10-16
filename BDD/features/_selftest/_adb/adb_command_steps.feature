@@ -52,17 +52,17 @@ Feature: self test for adb-handy-appium
   Scenario: change settings value
     # Given ADB Init session
     Given ADB push tinklabs1001
-    And ADB settings put system system screen_brightness 50
+    And ADB settings put system screen_brightness 50
     Then ADB settings system screen_brightness should be 50
   # Given ADB adb shell test
 
   @test_adb_settings_system
   Scenario: android settings
-    Given ADB settings put system system screen_brightness 50
+    Given ADB settings put system screen_brightness 50
     Then ADB settings system screen_brightness should be 50
     Given ADB settings put system screen_brightness 10
     Then ADB settings system screen_brightness should be 10
-    Given ADB settings put system system screen_brightness 50
+    Given ADB settings put system screen_brightness 50
     Then ADB settings system screen_brightness should be 50
 
 
