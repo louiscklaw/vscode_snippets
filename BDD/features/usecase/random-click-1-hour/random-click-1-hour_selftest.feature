@@ -36,7 +36,7 @@ Feature: test single step from random-click-1-hour
     POC of the random-click-1-hour test
     # the main random loop occurs here, ignore for the "must pass" case
 
-    Then Random tour for 0.001 hour
+    Then Random tour for 0.5 hour
 
     Then In launcher side menu, Erase data
     # unconditional wait due to loss connection to the phone
@@ -91,10 +91,10 @@ Feature: test single step from random-click-1-hour
     And Wait until "English" appears on screen, timeout "300" seconds
 
   @test_swipe_feed
-  @test_swipe_feed_handy_shopping
-  Scenario: Swipe the feed until handy SHOPPING appears
-    test the route handy SHOPPING
-    Then Swipe the feed until handy SHOPPING appears
+  @test_swipe_feed_survey
+  Scenario: Swipe the feed until Survey appears
+    test the route Survey
+    Then Swipe the feed until Survey appears
 
     Then In launcher side menu, Erase data
     # unconditional wait due to loss connection to the phone

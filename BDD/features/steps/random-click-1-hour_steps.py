@@ -17,7 +17,7 @@ from random import randint
 sys.path.append(os.path.dirname(__file__) + '/../_lib')
 
 lsRandomTour = []
-lsRandomTour.append(u'Then Swipe the feed until %s appears' % 'handy SHOPPING')
+lsRandomTour.append(u'Then Swipe the feed until %s appears' % 'Survey')
 lsRandomTour.append(u'Then Swipe the feed until %s appears' % 'DISCOUNT TICKETS')
 lsRandomTour.append(u'Then Swipe the feed until %s appears' % 'TRENDING')
 lsRandomTour.append(u'Then Swipe the feed until %s appears' % 'FUN FACTS')
@@ -92,7 +92,7 @@ def step_impl(context, sText):
           And ADB screen capture, save to "./_screenshot"
         # And Fail if the Text "Home" not appears on screen
 
-        Then Swipe "com.tinklabs.launcher:id/mdContent" UP Distance "400" until text containing "%(sText)s" appears on screen (max swipe "300")
+        Then Swipe "com.tinklabs.launcher:id/mdContent" UP Distance "400" until text containing "%(sText)s" appears on screen (max swipe "900")
           And ADB screen capture, save to "./_screenshot"
 
         # Check after work
