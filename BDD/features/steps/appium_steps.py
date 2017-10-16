@@ -126,8 +126,12 @@ def step_impl(context, port):
 
     if hasattr(context, 'android_serial') and len(context.android_serial) == 16:
         desired_caps['deviceName'] = context.android_serial
+        logging.debug('context.android_serial defined, use as deviceName')
+
     else:
         desired_caps['deviceName'] = 'Android'
+        logging.debug(
+            'context.android_serial not defined, use "Android" as deviceName')
 
     # desired_caps['app'] = row['PATH(packageName)']
     desired_caps['appPackage'] = row['Package']
