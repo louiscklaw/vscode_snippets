@@ -420,33 +420,21 @@ def step_impl(context, sName, sValue):
         to handle the google application verification before test run
         :Args:
             - sValue - value of package_verifier_enable wanted
+
+        NOTE: example usage
+        adb shell setprop sys.usb.config mtp,adb
+        adb shell setprop sys.usb.config mass_storage,adb
+
     """
     logging.debug(u'STEP: Given ADB setprop "%s" "%s"' % (sName, sValue))
 
-    # context.execute_steps(u'''
-    #     Given ADB Init session
-    #         And ADB push tinklabs1001
-    #         And ADB push change_prop
-
-    #     Then ADB change permission tinklabs1001
-    #         And ADB change permission change_prop
-
-    #     Then ADB shell ""%s -c 'setprop %s %s'""
-    #     Then ADB shell ""source /data/local/tmp/change_prop.sh setprop %s %s %s""
-    # ''' % (dParameters['PATH_ANDROID_TINKLABS1001'], sName, sValue))
-
     context.execute_steps(u'''
-        Given ADB Init session
-            And ADB push tinklabs1001
-            And ADB push change_prop
+        Given ADB push tinklabs1001
+          And ADB change permission tinklabs1001
+        Then ADB root shell "setprop %s %s"
+        ''' % (sName, sValue))
 
-        Then ADB change permission tinklabs1001
-            And ADB change permission change_prop
-
-        Then ADB shell "source %s setprop %s %s"
-    ''' % (dParameters['PATH_ANDROID_CHANGE_PROP'], sName, sValue))
-
-    print('change props %s done' % sName)
+    logging.debug('change props %s done' % sName)
 
     pass
 
@@ -718,7 +706,10 @@ def step_adb_root_shell(context, command):
 
     adb_commands = []
     adb_commands.append((PATH_ANDROID_TINKLABS1001, ['#']))
-    adb_commands.append((command, ['#']))
+
+    # NOTE: normally '#' is enough for this, the reason i adding the '\n' as the text to grep because it helps escape from the error/disconnect condition.
+    # otherwise it will cause pexpect a failure and escape from loop.
+    adb_commands.append((command, ['#','\n']))
 
     child = pexpect.spawn(
         context.adb_binary + " -s %s shell" % context.android_serial

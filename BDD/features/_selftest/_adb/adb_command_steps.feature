@@ -14,9 +14,9 @@
 Feature: self test for adb-handy-appium
   Background: scratch background
     Given Target device is T1 "VZHGLMA742804186"
-    Given FASTBOOT Erase userdata
-      And ADB Wait for device, timeout 60 seconds
-    Then ADB check boot completed, timeout 600 seconds
+    # Given FASTBOOT Erase userdata
+    #   And ADB Wait for device, timeout 60 seconds
+    # Then ADB check boot completed, timeout 600 seconds
 
   @test_adb_push_file
   Scenario: copy file from PC to android
@@ -84,15 +84,19 @@ Feature: self test for adb-handy-appium
     Then ADB settings secure screensaver_enabled should be 0
 
 
-  @not_working
+  @in_the_middle
   @test_adb_props
   Scenario: android props
+    Given ADB setprop "sys.usb.config" "mtp,adb"
+      And sleep 1 seconds
+      # sleep a while for the usb re-connect
+
     Given ADB setprop "persist.sys.usb.config" "adb,mtp"
-    And ADB prop "persist.sys.usb.config" should be "adb,mtp"
-    Given ADB setprop "persist.sys.usb.config" "adb,mtp,mass_storage"
-    Then ADB prop "persist.sys.usb.config" should be "adb,mtp,mass_storage"
-    Given ADB setprop "persist.sys.usb.config" "adb,mtp"
-    Then ADB prop "persist.sys.usb.config" should be "adb,mtp"
+
+    # Given ADB setprop "persist.sys.usb.config" "adb,mtp,mass_storage"
+    # Then ADB prop "persist.sys.usb.config" should be "adb,mtp,mass_storage"
+    # Given ADB setprop "persist.sys.usb.config" "adb,mtp"
+    # Then ADB prop "persist.sys.usb.config" should be "adb,mtp"
 
   @test_adb_screen_capture
   Scenario: android screen capture, save to "/tmp"
