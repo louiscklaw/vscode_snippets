@@ -607,29 +607,6 @@ def step_impl(context, text):
         assert False
 
 
-@step(u'ADB setup wifi')
-def step_impl(context):
-    """
-        try to setup wifi before phone boots up
-        TODO: remove the hardcode on last part
-    """
-
-    context.execute_steps(u'''
-        Then ADB push tinklabs1001
-            And ADB change permission tinklabs1001
-
-        Then ADB push change_wpa_supplicant
-            And ADB change permission change_wpa_supplicant
-
-        Then ADB push wpa_supplicant
-        Then ADB shell ""/data/local/tmp/change_wifi.sh""
-    ''')
-    # pprint(run('''adb shell "/data/local/tmp/change_wifi.sh"''',
-    # timeout_sec=5
-    # ))
-    assert False
-
-
 @then(u'ADB push wpa_supplicant')
 def step_impl(context):
     print(u'STEP: Then ADB push wpa_supplicant')
@@ -750,6 +727,12 @@ def step_adb_root_shell(context, command):
 
 @then(u'inject wifi configuration "{wifi_configuration}" to android')
 def step_impl(context, wifi_configuration):
+    """
+    to inject the wifi configureation defined by wifi_configuration
+
+    Args:
+        wifi_configuration: The first parameter.
+    """
     logging.debug(u'STEP: Then inject wifi configuration to android')
 
     context.execute_steps(u'''
@@ -780,6 +763,9 @@ def step_impl(context):
     context.execute_steps(u'''
         Then adb root shell "svc wifi disable"
     ''')
+
+    # NOTE: by the nature of handy app(wizardActivity), the wifi will turn itself on
+
     sleep(5)
 
 
