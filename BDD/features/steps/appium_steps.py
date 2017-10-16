@@ -578,7 +578,7 @@ def step_impl(context, sText):
 
     else:
         logging.error('cannot find the wanted text')
-        assert False
+        assert False, 'cannot find the wanted text: %s' % sText
     pass
 
 
