@@ -34,8 +34,8 @@ def step_impl(context, sDuration):
     iTimeToStop = time.time() + fDurationInSecond
 
     lsRandomTour = []
-    lsRandomTour.append(u'Then Swipe the feed until %s appears' % 'Yesterday')
-    lsRandomTour.append(u'Then Swipe the feed until %s appears' % 'hours ago')
+    lsRandomTour.append(u'Then Swipe the feed until %s appears' % 'days ago')
+    lsRandomTour.append(u'Then Swipe the feed until %s appears' % 'ago')
     lsRandomTour.append(u'Then Try to activate handy phone from launcher')
     # lsRandomTour.append(u'Then Activate App Drawer from launcher')
     # lsRandomTour.append(u'Then Swipe up in App Drawer until "Erase Data" appears')
