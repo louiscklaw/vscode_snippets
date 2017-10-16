@@ -109,11 +109,11 @@ def step_impl(context, process_wanted):
         if os.popen("ps -ef | grep -i %s | grep -v 'grep'" % process_wanted).read().strip().find(process_wanted) > -1:
             pass
         else:
-            assert False
+            assert False, 'the wanted application %s is not running' % process_wanted
     except Exception, e:
-        logging.error('the wanted application %s is not running ' %
-                      process_wanted)
-        assert False
+        # logging.error('the wanted application %s is not running ' %
+        #               process_wanted)
+        assert False, 'exception raised during catching the wanted application'
 
 
 @step(u'setup an android as below, using appium port {port}')
