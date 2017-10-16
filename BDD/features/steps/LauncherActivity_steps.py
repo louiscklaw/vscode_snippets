@@ -279,7 +279,7 @@ def step_impl(context, sResourceId, sDirection, sDistance, sText, sCountdown):
         pass
     else:
         logging.debug('len of elements %d' % len(els))
-        assert False
+        assert False, 'cannot find the element wanted: %s' % sText
 
 
 @step(u'Swipe "{sResourceId}" {sDirection} Distance "{sDistance}" until "{sText}" appears on screen (max swipe "{sCountdown}")')
