@@ -30,6 +30,29 @@ Feature: test single step from random-click-1-hour
     Given Reach "Happy flow The end" page in WizardActivity by skip, route "THIS_TEXT_IS_RESERVED_FOR_LATTER_USE"
     And Skip the 1st time tutorial by launcher
 
+  @test_quick_selftest
+  @sanity
+  Scenario: test both end
+  Description try to validate the skeleton for the test
+    # the main random loop occurs here, ignore for the "must pass" case
+
+    Then Random tour selftest, route 0
+    Then Random tour selftest, route 1
+    Then Random tour selftest, route 2
+    Then Random tour selftest, route 3
+    Then Random tour selftest, route 4
+
+    Then In launcher side menu, Erase data
+    # unconditional wait due to loss connection to the phone
+    And sleep 180 seconds
+
+    Then ADB Wait for device
+    And ADB Initialize android
+    And setup an android as below, using appium port 4723
+      | Package                  | Activity                        | platform | type  | version |
+      | com.tinklabs.activateapp | .features.wizard.WizardActivity | Android  | phone | 7.0     |
+    And Wait until "English" appears on screen, timeout "300" seconds
+
   @test_endtoend
   @sanity
   Scenario: test both end
