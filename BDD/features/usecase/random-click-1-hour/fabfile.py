@@ -47,8 +47,12 @@ def run_llaw_localtest(number_of_run):
     for run in range(1,number_of_run+1):
         logging.debug('running %d of %d ...' % (run, number_of_run))
 
+        log_file_filename = today +'.out'
+
         try:
-            logging.debug(local('behave random-click-1-hour_selftest.feature --tags=test_quick_selftest -vk'))
+            logging.debug(
+                local('behave random-click-1-hour_selftest.feature --tags=test_quick_selftest -vk | tee %s.out' % log_file_filename)
+                )
             pass
         except FabricException:
             logging.debug('ignore exception')
