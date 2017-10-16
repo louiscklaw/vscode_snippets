@@ -22,7 +22,7 @@ Feature: random click for a hour, pilot run
     And ADB check boot completed, timeout 600 seconds
     Then Wait for handy initialization
     And ADB Initialize android
-    And setup an android as below, using appium port 4723
+    And setup an android as below, using appium port 4725
       | Package                  | Activity                        | platform | type  | version |
       | com.tinklabs.activateapp | .features.wizard.WizardActivity | Android  | phone | 7.0     |
     And Wait until "English" appears on screen, timeout "600" seconds
