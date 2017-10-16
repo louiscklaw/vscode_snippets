@@ -38,4 +38,4 @@ def run_test_VZH_selftest():
 
 def helloworld():
     local('echo helloworld')
-    print('filename: %s' % __file__)
+    logging.info('filename: %s' % __file__)
