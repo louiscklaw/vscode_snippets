@@ -1,5 +1,6 @@
-Feature: Refund item
+Feature: wifi connection
 
+  @setup
   Scenario: test for insert the wifi configuration into android
     Given Target device is T1 "VZHGLMA742804186"
     Given ADB push tinklabs1001
