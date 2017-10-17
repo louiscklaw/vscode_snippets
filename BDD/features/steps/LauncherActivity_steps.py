@@ -301,14 +301,14 @@ def step_impl(context, sResourceId, sDirection, sDistance, sText, sCountdown):
             el.size['width'],
             el.size['height']
         )
-        # logging.debug('iCenterX:%d' % iCenterX)
-        # logging.debug('iCenterY:%d' % iCenterY)
 
         if len(finger.f_FindElementsWithText(context.appiumSession, sText)) > 0:
             # NOTE given thatt the sText is already appears in the screen
+            logging.debug('the wanted text is already found, no need to swipe')
             pass
         else:
             # NOTE text not in the screen, need swipe
+            logging.debug('cannot find the target text %s, start swipe' % sText)
             for i in range(1, iCountdown):
                 context.execute_steps(u'''
                     Then Wait until screen ready, timeout 30 seconds
@@ -326,14 +326,15 @@ def step_impl(context, sResourceId, sDirection, sDistance, sText, sCountdown):
 
         if bTextFound:
             # NOTE do something when found ?
+            logging.debug('the wanted text found after swipe')
             pass
         else:
-            # NOTE do something when not found ?
+            logging.debug('the wanted text cannot found after swipe')
             pass
         pass
     else:
         logging.debug('len of elements %d' % len(els))
-        assert False
+        assert False, 'cannot find the element by resource-id %s' % sResourceId
 
 
 @then(u'type "{sText}" in "{sResourceId}"')
