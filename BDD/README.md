@@ -27,4 +27,4 @@
 
 
 ### TODO:
-[ ] - merge the branch M812 back to the MAIN BDD branchg
+* [ ] - merge the branch M812 back to the MAIN BDD branchg
