@@ -14,14 +14,9 @@
 Feature: test single step from random-click-1-hour
   Background: scratch background
     Given Target device is T1 "VZHGLMA742804186"
-    # Given appium is running
-    # Given FASTBOOT Erase userdata
-    # And ADB Wait for device, timeout 60 seconds
-    # And ADB check boot completed, timeout 600 seconds
-    # Then Wait for handy initialization
-    # And ADB Initialize android
-    # And ADB PATH_ANDROID_TEMP directory is ready, timeout 60 seconds
-    Given ADB Initialize android
+    And Test setup is ready
+    Then ADB Initialize android
+
     Given setup an android as below, using appium port 4723
       | Package                  | Activity                        | platform | type  | version |
       | com.tinklabs.activateapp | .features.wizard.WizardActivity | Android  | phone | 7.0     |
@@ -30,7 +25,7 @@ Feature: test single step from random-click-1-hour
     Given Reach "Happy flow The end" page in WizardActivity by skip, route "THIS_TEXT_IS_RESERVED_FOR_LATTER_USE"
     And Skip the 1st time tutorial by launcher
 
-  @test_quick_selftest
+  @test_quick_selftest @integrate
   @sanity
   Scenario: test both end
     POC of the random-click-1-hour test
@@ -43,6 +38,8 @@ Feature: test single step from random-click-1-hour
     And sleep 180 seconds
 
     Then ADB Wait for device
+    And ADB check boot completed, timeout 600 seconds
+    Then Wait for handy initialization
     And ADB Initialize android
     And setup an android as below, using appium port 4723
       | Package                  | Activity                        | platform | type  | version |
