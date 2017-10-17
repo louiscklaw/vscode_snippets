@@ -94,7 +94,7 @@ def run_llaw_localtest(tags,number_of_run):
         try:
             logging.debug(
                 local(
-                    'behave random-click-1-hour_selftest.feature --tags=%s -vk | tee ./result/%s.out' % (tags, log_file_filename))
+                    'behave random-click-1-hour_selftest.feature --tags=%s -vk | tee ./result/%s' % (tags, log_file_filename))
                 )
             pass
         except FabricException:
