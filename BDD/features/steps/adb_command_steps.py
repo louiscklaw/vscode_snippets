@@ -412,7 +412,7 @@ def step_adb_settings_compare(context, namespace, key, expected):
         'shell settings get %s %s' % (namespace, key))
 
     if value_in_device.strip() == expected.strip():
-        logging.debug('value_in_device:key:%s = %s' (key, value_in_device.strip()))
+        logging.debug('value_in_device:key:%s = %s' % (key, value_in_device.strip()))
     else:
         logging.error('the value is not match with the expected value %s' % expected)
         assert False, 'the value is not match with the expected value %s' % expected
@@ -718,7 +718,8 @@ def step_adb_root_shell(context, command):
 
     # NOTE: normally '#' is enough for this, the reason i adding the '\n' as the text to grep because it helps escape from the error/disconnect condition.
     # otherwise it will cause pexpect a failure and escape from loop.
-    adb_commands.append((command, ['#','\n']))
+    # NOTE: by adding '\n', the implementation destroy the functionality of the 'ADB settings xxx ', so i cancel the work. need to find another way.
+    adb_commands.append((command, ['#']))
 
     child = pexpect.spawn(
         context.adb_binary + " -s %s shell" % context.android_serial
