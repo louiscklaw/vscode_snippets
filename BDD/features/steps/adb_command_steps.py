@@ -232,7 +232,6 @@ def step_impl(context):
             And ADB settings put system transition_animation_scale 0
             And ADB settings put system window_animation_scale 0
 
-
             # disable USB file transfer
             # And ADB setprop "persist.sys.usb.config" "adb,mtp"
       ''')
