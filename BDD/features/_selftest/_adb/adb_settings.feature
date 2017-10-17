@@ -1,5 +1,5 @@
 
-@adb_command
+@adb_command @integration
 Feature: self test for adb-handy-appium
   Background: scratch background
     Given Target device is T1 "VZHGLMA742804186"
