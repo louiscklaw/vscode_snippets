@@ -15,7 +15,6 @@ Feature: test single step from random-click-1-hour
   Background: scratch background
     Given Target device is T1 "VZHGLMA742804186"
     And Test setup is ready
-    Then ADB Initialize android
 
     Given setup an android as below, using appium port 4723
       | Package                  | Activity                        | platform | type  | version |
