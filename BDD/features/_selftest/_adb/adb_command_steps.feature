@@ -96,13 +96,6 @@ Feature: self test for adb-handy-appium
       # And ADB setprop test with shell True
     Then sleep 10 seconds
 
-
-
-  @not_working
-  @test_adb_setup_wifi
-  Scenario: user want to setup wifi using ADB
-    Given ADB setup wifi
-
 # TODO: to turn on airplane mode
 # settings put global airplane_mode_on 1
 # am broadcast -a android.intent.action.AIRPLANE_MODE --ez state true
