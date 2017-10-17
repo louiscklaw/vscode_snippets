@@ -1,0 +1,32 @@
+digraph{
+    power_on, reset
+    non_activated
+    activated
+    welcome_screen
+    wizardActivation
+    Launcher
+    initializing
+    checking_for_update
+
+    power_on ->
+    bootanimation ->
+    waiting_for_network_connection ->
+    initializing -> checking_for_update
+    checking_for_update -> non_activated [label=not_activated_in_the_past]
+    checking_for_update -> activated [label=activated_in_the_past]
+
+    waiting_for_network_connection -> waiting_for_network_connection
+
+    non_activated ->
+    welcome_screen ->
+    wizardActivation
+
+    welcome_screen -> checking_for_update
+
+    wizardActivation -> Launcher
+    activated -> Launcher
+
+    Launcher ->
+    reset ->
+    power_on
+}
