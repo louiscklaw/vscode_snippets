@@ -22,6 +22,35 @@ def get_today_string():
 class FabricException(Exception):
     pass
 
+
+APPIUM_BINARY = r'/usr/local/bin/appium'
+
+def create_appium_process(port, bootstrapport, android_serial):
+    """
+    create appium process, provided that the listening port, bootstrap port and android serial to catch.abs
+
+    Args:
+        port: appium listening port
+        bootstrapport: TODO: fill me up, the appium's bootstrap port
+        android_serial: android_serial number udid
+
+    TODO: background run this process.
+    """
+    local(APPIUM_BINARY + '-p %s  -bp %s  -s %s' %
+          (port, bootstrapport, android_serial))
+
+
+def destroy_appium_process(android_serial):
+    """
+    to kill the appium process identified by it's android_serial
+
+    Args:
+        android_serial: android serial number udid
+    """
+    appium_pid_by_serial = local("ps -axl|grep -i %s|grep -i appium |awk '{print $2}'" % android_serial)
+    local('kill %s' % appium_pid_by_serial)
+
+
 def run_test(command):
     # NOTE: behave random-click-1-hour_selftest.feature --tags=test_swipe_feed_trending -vk
     log_file_filename = get_today_string() + '.out'
@@ -47,6 +76,10 @@ def run_llaw_localtest(tags,number_of_run):
     Args:
         tags: tags of behave test script
         number_of_run: the times of test should be executed
+
+    EXAMPLE:
+        fab run_llaw_localtest:test_quick_selftest,1
+        fab run_llaw_localtest:integrate,1
     """
     env.abort_exception = FabricException
 
