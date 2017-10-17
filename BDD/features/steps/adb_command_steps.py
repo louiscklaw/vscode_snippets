@@ -397,16 +397,25 @@ def step_adb_settings_get(context, sNamespace, sKey):
     return run('adb shell settings get %s %s' % (sNamespace, sKey), timeout_sec=5)
 
 
-@step(u'ADB settings {sNamespace} {sKey} should be {sExpected}')
-def step_adb_settings_compare(context, sNamespace, sKey, sExpected):
+@step(u'ADB settings {namespace} {key} should be {expected}')
+def step_adb_settings_compare(context, namespace, key, expected):
     """
-        getting value from adb settings, with checking
+    getting value from adb settings, with checking
+    namespace: namespace defined by adb command
+    key: the parameters wanted
+    expected: Expected values
     """
-    # (sReturnCode, sStdOut, sStdErr, sTimeout) = step_adb_settings_get(context, sNamespace, sKey)
-    # assert sExpected == sStdOut.strip()
-    return context.adb_session.run_cmd(
-        'shell settings get %s %s' % (sNamespace, sKey)
-    )
+    # (sReturnCode, sStdOut, sStdErr, sTimeout) = step_adb_settings_get(context, namespace, key)
+    # assert expected == sStdOut.strip()
+
+    value_in_device = context.adb_session.run_cmd(
+        'shell settings get %s %s' % (namespace, key))
+
+    if value_in_device.strip() == expected.strip():
+        logging.debug('value_in_device:key:%s = %s' (key, value_in_device.strip()))
+    else:
+        logging.error('the value is not match with the expected value %s' % expected)
+        assert False, 'the value is not match with the expected value %s' % expected
 
 
 # setprop, getprop
