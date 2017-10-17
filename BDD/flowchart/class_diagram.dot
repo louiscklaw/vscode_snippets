@@ -1,0 +1,145 @@
+digraph G {
+  fontname = "Bitstream Vera Sans"
+  fontsize = 8
+
+  node [
+    fontname = "Bitstream Vera Sans"
+    fontsize = 8
+    shape = "record"
+  ]
+
+  edge [
+    fontname = "Bitstream Vera Sans"
+    fontsize = 8
+  ]
+
+  ScreenSize [
+    label = "
+      {ScreenSize[model]|
+      + width : int\l
+      + height : int\l
+      }"
+  ]
+
+  Language [
+    label = "
+      {Language[homeEle]|
+      + Lang : string\l
+      + ?? : \{label : text\}\l
+      + Tap this show the hotel details\l
+      }"
+  ]
+
+  Page [
+    label = "
+      {Page[homePO?]|
+      + page :  ??  \l
+      + ?? : \{label : text\}\l
+      }"
+  ]
+
+  Route [
+    label = "
+      {Route[hotel_config]|
+      + hotel_config : string\l
+      + happy_flow_to_activation : \{label : text\}\l
+      }"
+  ]
+
+  Device [
+    label = "
+      {Device|
+      + boot_time : int\l
+      + GREETING_TAC_CHECKBOX : (x,y)\l
+      }"
+  ]
+
+
+  BasicDeviceConfig [
+    label = "
+      {BasicDeviceConfig|
+      + DUMMY_TAP : (x,y)\l
+      }"
+  ]
+
+
+  finger [
+    label = "
+      {finger|
+      + TBA : tap, swipe, check screen components...\l
+      }"
+  ]
+
+  UTIL [
+    label = "
+      {UTIL|
+      + TBBA\l
+      }"
+  ]
+
+  cannedaction [
+    label = "
+      {CannedAction|
+      + just_like_erase_device\l
+      + find_string_from_screen\l
+      + tap_by_text\l
+      + block_until_text_appears\l
+      + wait_for_page_ready\l
+      }"
+  ]
+
+
+  components [
+    label = "
+      {Components|
+      + confirmation_box\l
+      }"
+  ]
+
+  adb [
+    label = "
+      {adb|
+      + create_session\l
+      }"
+  ]
+
+  appium [
+    label = "
+      {appium|
+      + create_session\l
+      }"
+  ]
+
+
+  log_n_report [
+    label = "
+      {Log and report|
+      + logcat\l
+      + dump\l
+      + screenshot\l
+      + screen recording\l
+      }"
+  ]
+  ScreenSize -> Page
+  Language -> Page
+  Page -> Route
+  Route -> Page
+  Device -> Page
+  BasicDeviceConfig -> Device
+
+  cannedaction -> Page
+  Language -> cannedaction
+  components -> cannedaction
+  ScreenSize -> components
+
+  cannedaction -> Device
+
+  Route -> finger
+  finger -> Route
+
+  finger -> UTIL
+  UTIL -> finger
+  Page -> UTIL
+  UTIL -> Page
+
+}

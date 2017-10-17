@@ -140,7 +140,10 @@ def step_impl(context, port):
     desired_caps['appPackage'] = row['Package']
     desired_caps['appActivity'] = row['Activity']
     desired_caps['deviceReadyTimeout'] = 30
-    desired_caps['noReset'] = False
+    desired_caps['noReset'] = True
+
+    # NOTE: using UiAutomator2 increase capataibility
+    desired_caps['automationName'] = 'UiAutomator2'
 
     # provision of more than 1 session there, so the context_port is a list
     # context.appiumSession = webdriver.Remote(
