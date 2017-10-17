@@ -32,7 +32,7 @@ Feature: self test for adb-handy-appium
 
 
   @in_the_middle
-  @test_adb_props
+  @test_adb_props @wip
   Scenario: android props
     Given ADB setprop "sys.usb.config" "mtp,adb"
       And sleep 1 seconds
