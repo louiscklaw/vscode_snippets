@@ -13,7 +13,7 @@
 * python
     `pip install -r requirements.txt`
 
-# to start the appium for the test
+### to start the appium for the test
 1. connect to the device by USB
 1. enable the ADB on device, if the reset/reboot is required during the test. a "ADB always enabled" ROM is required.
 1. start a appium session, seperated by the android_serial(udid)
@@ -21,7 +21,7 @@
 1. start the test,
     * `behave -vk <path_to_the_feature_file>`
 
-# branch definitation
+### branch definitation
 * feature/random-click-1-hour
     * working branch for random-click-1-hour development
 
