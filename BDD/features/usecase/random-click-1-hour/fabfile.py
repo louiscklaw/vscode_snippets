@@ -145,22 +145,33 @@ def construct_beahve_command(feature_file_name, feature_result_filename='', tags
 
     return behave_command
 
-def run_never_end_test(feature_file_name,beahve_tags=''):
+
+def run_never_end_test(feature_file_name, result_collect_directory, beahve_tags=''):
     """
     keep running of the test
 
     Args:
         feature_file_name: the .feature file want to execute
+        result_collect_directory: result collection directory
         behave_tags: the tags wanted
+
+    Doc:
+        http://docs.fabfile.org/en/1.13/usage/fab.html -> Per-task arguments
+
+    NOTE: Example
+        fab run_never_end_test:random-click-1-hour_quick_T1.feature,./result/T1
+        fab run_never_end_test:random-click-1-hour_quick_M812.feature,./result/M812
 
     """
 
     while 1:
         sleep(1)
-        log_file_filename = get_today_string() + '.out'
+        logging.debug('result_collect_directory:%s' % result_collect_directory)
+        log_file_filename = result_collect_directory + '/' + get_today_string() + '.out'
 
-        feature_execution_log_path = './behave_log/'
-        setup_daily_log(feature_execution_log_path, feature_file_name)
+
+        behave_execution_log_path = './behave_log/'
+        setup_daily_log(behave_execution_log_path, feature_file_name)
 
         logging.error('feature_file_name:%s' % feature_file_name)
 
@@ -174,7 +185,8 @@ def run_never_end_test(feature_file_name,beahve_tags=''):
             # local('fastboot reboot')
             logging.debug(
                 run_command(
-                    construct_beahve_command(feature_file_name,'./result/'+log_file_filename, '')
+                    construct_beahve_command(
+                        feature_file_name, log_file_filename, '')
                     )
             )
 
