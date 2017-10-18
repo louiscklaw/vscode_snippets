@@ -52,6 +52,13 @@ def destroy_appium_process(android_serial):
 
 
 def run_test(command):
+    """
+    behave test runner
+
+    Args:
+        command: command to run using behave (including behave).
+
+    """
     # NOTE: behave random-click-1-hour_selftest.feature --tags=test_swipe_feed_trending -vk
     log_file_filename = get_today_string() + '.out'
     local('%s |tee %s' % (command, log_file_filename))
