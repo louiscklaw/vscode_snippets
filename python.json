@@ -16,9 +16,7 @@
 	*/
 	"test python": {
 		"prefix": "findme",
-		"body": [
-			"logging.info('findme')"
-		],
+		"body": ["logging.info('findme')"],
 		"description": "helloworld"
 	},
 	"test python": {
@@ -55,29 +53,29 @@
 			"import traceback",
 			"from pprint import pprint",
 			"",
-			"logging.basicConfig(level=logging.debug)"
+			"logging.basicConfig(level=logging.DEBUG,",
+			"   format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',",
+			"   datefmt='%a, %d %b %Y %H:%M:%S',",
+			"   filename='debug.log',",
+			"   filemode='a')",
+			"",
+			""
 		],
 		"description": "init_python"
 	},
 	"logging_debug": {
 		"prefix": "logging_debug",
-		"body": [
-			"logging.debug('${1:??}')"
-		],
+		"body": ["logging.debug('${1:??}')"],
 		"description": "logging_debug"
 	},
 	"logging_error": {
 		"prefix": "logging_error",
-		"body": [
-			"logging.error('${1:??}')"
-		],
+		"body": ["logging.error('${1:??}')"],
 		"description": "logging_error"
 	},
 	"logging_info": {
 		"prefix": "logging_info",
-		"body": [
-			"logging.info('${1:??}')"
-		],
+		"body": ["logging.info('${1:??}')"],
 		"description": "logging_info"
 	},
 	"unittest_example": {
@@ -125,24 +123,81 @@
 	},
 	"TODO": {
 		"prefix": "TODO",
-		"body": [
-			"# TODO: ${1:Temporary solution}"
-		],
+		"body": ["# TODO: ${1:Temporary solution...}"],
 		"description": "TODO"
 	},
 	"NOTE": {
 		"prefix": "NOTE",
-		"body": [
-			"# NOTE: ${1:Temporary solution}"
-		],
+		"body": ["# NOTE: ${1:I would like to... }"],
 		"description": "NOTE"
 	},
 	"FIXME": {
 		"prefix": "FIXME",
-		"body": [
-			"# FIXME: ${1:FIXME please}"
-		],
+		"body": ["# FIXME: ${1:FIXME please...}"],
 		"description": "FIXME"
+	},
+	"IDEA": {
+		"prefix": "IDEA",
+		"body": ["# IDEA: ${1:Is it possible to ... ??}"],
+		"description": "descriptions"
+	},
+
+	"init_unittest": {
+		"prefix": "init_unittest",
+		"body": [
+			"import unittest",
+			"",
+			"class TestStringMethods(unittest.TestCase):",
+			"",
+			"    def test_upper(self):",
+			"        self.assertEqual('foo'.upper(), 'FOO')",
+			"",
+			"    def test_isupper(self):",
+			"        self.assertTrue('FOO'.isupper())",
+			"        self.assertFalse('Foo'.isupper())",
+			"",
+			"    def test_split(self):",
+			"        s = 'hello world'",
+			"        self.assertEqual(s.split(), ['hello', 'world'])",
+			"        # check that s.split fails when the separator is not a string",
+			"        with self.assertRaises(TypeError):",
+			"            s.split(2)",
+			"",
+			"if __name__ == '__main__':",
+			"    unittest.main()",
+			""
+		],
+		"description": "init_unittest"
+	},
+	"context_steps": {
+		"prefix": "context_steps",
+		"body": [
+			" context.execute_steps(u'''",
+			"Then ADB Reboot bootloader",
+			"''')"
+		],
+		"description": "execute_steps by "
+	},
+	"doc_input_param": {
+		"prefix": "doc_input_param",
+		"body": [
+			"${1:para_name}: ${2:para_description}"
+		],
+		"description": "insert parameter documentation in docstring"
+	},
+	"init_new_task": {
+		"prefix": "init_new_task",
+		"body": [
+			"@task",
+			"def helloworld(context):",
+			"    \"\"\"",
+			"        TODO: fill here",
+			"    \"\"\"",
+			"    print('helloworld')",
+			"    pass"
+		],
+		"description": "init a new inv task"
 	}
+
 
 }
