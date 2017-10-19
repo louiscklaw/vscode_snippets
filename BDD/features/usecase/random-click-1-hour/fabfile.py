@@ -164,6 +164,8 @@ def run_never_end_test(feature_file_name, result_collect_directory, beahve_tags=
 
     """
 
+    env.abort_exception = FabricException
+
     while 1:
         sleep(1)
         logging.debug('result_collect_directory:%s' % result_collect_directory)
