@@ -1,0 +1,203 @@
+{
+	/*
+		// Place your snippets for Python here. Each snippet is defined under a snippet name and has a prefix, body and 
+		// description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+		// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the 
+		// same ids are connected.
+		// Example:
+		"Print to console": {
+			"prefix": "log",
+			"body": [
+				"console.log('$1');",
+				"$2"
+			],
+			"description": "Log output to console"
+		}
+	*/
+	"test python": {
+		"prefix": "findme",
+		"body": ["logging.info('findme')"],
+		"description": "helloworld"
+	},
+	"test python": {
+		"prefix": "def_cust",
+		"body": [
+			"def ${1:name}(${3:parameters}):",
+			"	\"\"\"",
+			"		${2:description}",
+			"	\"\"\"",
+			"",
+			"	pass"
+		],
+		"description": "helloworld"
+	},
+	"test python": {
+		"prefix": "def_cust",
+		"body": [
+			"def ${1:name}(${3:parameters}):",
+			"	\"\"\"",
+			"		${2:description}",
+			"	\"\"\"",
+			"",
+			"	pass"
+		],
+		"description": "helloworld"
+	},
+	"init_python": {
+		"prefix": "init_python",
+		"body": [
+			"#!/usr/bin/env python",
+			"# coding:utf-8",
+			"import os, sys",
+			"import logging",
+			"import traceback",
+			"from pprint import pprint",
+			"",
+			"logging.basicConfig(level=logging.DEBUG,",
+			"   format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',",
+			"   datefmt='%a, %d %b %Y %H:%M:%S',",
+			"   filename='debug.log',",
+			"   filemode='a')",
+			"",
+			""
+		],
+		"description": "init_python"
+	},
+	"logging_debug": {
+		"prefix": "logging_debug",
+		"body": ["logging.debug('${1:??}')"],
+		"description": "logging_debug"
+	},
+	"logging_error": {
+		"prefix": "logging_error",
+		"body": ["logging.error('${1:??}')"],
+		"description": "logging_error"
+	},
+	"logging_info": {
+		"prefix": "logging_info",
+		"body": ["logging.info('${1:??}')"],
+		"description": "logging_info"
+	},
+	"unittest_example": {
+		"prefix": "unittest_example",
+		"body": [
+			"",
+			"import unittest",
+			"",
+			"class TestStringMethods(unittest.TestCase):",
+			"",
+			"    def test_upper(self):",
+			"        self.assertEqual('foo'.upper(), 'FOO')",
+			"",
+			"    def test_isupper(self):",
+			"        self.assertTrue('FOO'.isupper())",
+			"        self.assertFalse('Foo'.isupper())",
+			"",
+			"    def test_split(self):",
+			"        s = 'hello world'",
+			"        self.assertEqual(s.split(), ['hello', 'world'])",
+			"        # check that s.split fails when the separator is not a string",
+			"        with self.assertRaises(TypeError):",
+			"            s.split(2)",
+			"",
+			"if __name__ == '__main__':",
+			"    unittest.main()",
+			""
+		],
+		"description": "unittest_example"
+	},
+	"docstring_pep484": {
+		"prefix": "docstring_pep484",
+		"body": [
+			"\"\"\"${1:Example function with PEP 484 type annotations.}",
+			"",
+			"Args:",
+			"    ${2:param1}: ${3:The first parameter.}",
+			"",
+			"Returns:",
+			"    ${4:The return value. True for success, False otherwise.}",
+			"",
+			"\"\"\""
+		],
+		"description": "docstring_pep484"
+	},
+	"TODO": {
+		"prefix": "TODO",
+		"body": ["# TODO: ${1:Temporary solution...}"],
+		"description": "TODO"
+	},
+	"NOTE": {
+		"prefix": "NOTE",
+		"body": ["# NOTE: ${1:I would like to... }"],
+		"description": "NOTE"
+	},
+	"FIXME": {
+		"prefix": "FIXME",
+		"body": ["# FIXME: ${1:FIXME please...}"],
+		"description": "FIXME"
+	},
+	"IDEA": {
+		"prefix": "IDEA",
+		"body": ["# IDEA: ${1:Is it possible to ... ??}"],
+		"description": "descriptions"
+	},
+
+	"init_unittest": {
+		"prefix": "init_unittest",
+		"body": [
+			"import unittest",
+			"",
+			"class TestStringMethods(unittest.TestCase):",
+			"",
+			"    def test_upper(self):",
+			"        self.assertEqual('foo'.upper(), 'FOO')",
+			"",
+			"    def test_isupper(self):",
+			"        self.assertTrue('FOO'.isupper())",
+			"        self.assertFalse('Foo'.isupper())",
+			"",
+			"    def test_split(self):",
+			"        s = 'hello world'",
+			"        self.assertEqual(s.split(), ['hello', 'world'])",
+			"        # check that s.split fails when the separator is not a string",
+			"        with self.assertRaises(TypeError):",
+			"            s.split(2)",
+			"",
+			"if __name__ == '__main__':",
+			"    unittest.main()",
+			""
+		],
+		"description": "init_unittest"
+	},
+	"context_steps": {
+		"prefix": "context_steps",
+		"body": [
+			" context.execute_steps(u'''",
+			"Then ADB Reboot bootloader",
+			"''')"
+		],
+		"description": "execute_steps by "
+	},
+	"doc_input_param": {
+		"prefix": "doc_input_param",
+		"body": [
+			"${1:para_name}: ${2:para_description}"
+		],
+		"description": "insert parameter documentation in docstring"
+	},
+	"init_new_task": {
+		"prefix": "init_new_task",
+		"body": [
+			"@task",
+			"def helloworld(context):",
+			"    \"\"\"",
+			"        TODO: fill here",
+			"    \"\"\"",
+			"    print('helloworld')",
+			"    pass"
+		],
+		"description": "init a new inv task"
+	}
+
+
+}
