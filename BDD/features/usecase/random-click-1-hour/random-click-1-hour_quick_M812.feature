@@ -3,7 +3,6 @@ Feature: random click for a hour, pilot run
   @initialize_rom
   Scenario: initialize
     Given Target device is M812 "V2HGLMB721301100"
-    And Test setup is ready
 
     Given setup an android as below, using appium port 4725
       | Package                  | Activity                        | platform | type  | version |
