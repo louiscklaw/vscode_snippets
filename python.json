@@ -200,10 +200,14 @@
 	},
 	"step": {
 		"prefix": "step",
-		"body": ["STEP: ${1: i am a new step}"],
+		"body": ["# STEP: ${1: i am a new step}"],
 		"description": "descriptions"
+	},
+	"env_python": {
+		"prefix": "env_python",
+		"body":
+	["#!/usr/bin/env python"],
+		"description": "#!/usr/bin/env python"
 	}
-
-
 
 }
