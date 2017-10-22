@@ -67,7 +67,18 @@
 			"```"
 		],
 		"description": "descriptions"
+	},
+	"init_flow_subgraph": {
+		"prefix": "init_flow_subgraph",
+		"body":
+	[
+	"    subgraph one",
+	"    a1-->a2",
+	"    end"
+	],
+		"description": "descriptions"
 	}
+
 
 
 
