@@ -17,13 +17,16 @@
 	"new snippets": {
 		"prefix": "new_snippets",
 		"body": [
-			"\"${1:name}\": {",
-			"	\"prefix\": \"${2:shortcut}\",",
+			"\"init_${1:shortcut}\": {",
+			"	\"prefix\": \"init_${1:shortcut}\",",
 			"	\"body\": ",
+			"//"
 			"[",
 			"${3:#code}",
+			"${3:#code}",
+			"${3:#code}"
 			"],"
-			"	\"description\": \"${4:descriptions}\"",
+			"	\"description\": \"${4:description}\"",
 			"}",
 			""
 		],
