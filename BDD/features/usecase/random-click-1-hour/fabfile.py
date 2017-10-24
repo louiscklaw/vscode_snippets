@@ -13,12 +13,34 @@ logging.basicConfig(level=logging.DEBUG,
                     filemode='a')
 
 from fabric.api import cd, run, local, env
-from datetime import datetime
+import datetime
 from time import sleep
 
 
-def get_today_string():
-    return datetime.now().strftime('%d%m%Y-%H%M%S')
+def get_today_string(offset=0):
+    """get the day string using the format "yymmdd-hhmmss" with the given offset(default=0)
+
+    Args:
+        offset : offset by days
+
+    Returns:
+        Return1 : the 1st arguments
+    """
+    t = datetime.datetime.now()
+    return (t-datetime.timedelta(days=offset)).strftime('%d%m%Y-%H%M%S')
+
+
+def getLogFileName(suffix):
+    """generate a log file name only
+
+    Args:
+        appendix: the .3 format of the filename
+
+    Returns:
+        a filename with date string and suffix
+    """
+    print(get_today_string()+'.'+suffix)
+    return get_today_string()+'.'+suffix
 
 
 class FabricException(Exception):
@@ -62,8 +84,7 @@ def run_test(command):
 
     """
     # NOTE: behave random-click-1-hour_selftest.feature --tags=test_swipe_feed_trending -vk
-    log_file_filename = get_today_string() + '.out'
-    local('%s |tee %s' % (command, log_file_filename))
+    local('%s |tee %s' % (command, getLogFileName('out')))
 
 def run_command(command):
     """
@@ -98,10 +119,14 @@ def setup_daily_log(base_path, base_filename):
         base_path: the path to collect the log file
 
     """
-    daily_log_endstring = get_today_string() + '.log'
-    daily_log_filename = base_filename.replace(
-        ".", '_') + '_' + daily_log_endstring
+    # daily_log_endstring = get_today_string() + '.log'
+    # daily_log_filename = base_filename.replace(
+    #     ".", '_') + '_' + daily_log_endstring
 
+    daily_log_filename = base_filename.replace(
+        ".", '_') + '_' + getLogFileName('log')
+
+    # print('daily_log_filename:%s' % daily_log_filename)
     logging.basicConfig(level=logging.DEBUG,
                         filename=base_path + daily_log_filename,
                         filemode='a')
@@ -169,7 +194,8 @@ def run_never_end_test(feature_file_name, result_collect_directory, beahve_tags=
     while 1:
         sleep(1)
         logging.debug('result_collect_directory:%s' % result_collect_directory)
-        log_file_filename = result_collect_directory + '/' + get_today_string() + '.out'
+        # log_file_filename = result_collect_directory + '/' + get_today_string() + '.out'
+        log_file_filename = result_collect_directory + '/' + getLogFileName('out')
 
 
         behave_execution_log_path = './behave_log/'
@@ -225,7 +251,8 @@ def run_llaw_localtest(tags,number_of_run):
     for run in range(1,number_of_run+1):
         logging.debug('running %d of %d ...' % (run, number_of_run))
 
-        log_file_filename = get_today_string() +'.out'
+        # log_file_filename = get_today_string() +'.out'
+        log_file_filename = getLogFileName('out')
 
         try:
             logging.debug(
