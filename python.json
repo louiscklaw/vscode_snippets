@@ -148,15 +148,13 @@
 	"docstring_pep484": {
 		"prefix": "docstring_pep484",
 		"body": [
-			"",
-			"\"\"\"Example function with PEP 484 type annotations.",
+			"\"\"\"${1:Example function with PEP 484 type annotations.}",
 			"",
 			"Args:",
-			"    param1: The first parameter.",
+			"    ${2:Args1 : the 1st arguments}",
 			"",
 			"Returns:",
-			"    The return value. True for success, False otherwise.",
-			"",
+			"    ${3:Return1 : the 1st arguments}",
 			"\"\"\"",
 			""
 		],
