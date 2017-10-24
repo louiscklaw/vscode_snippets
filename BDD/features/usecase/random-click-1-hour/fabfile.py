@@ -267,6 +267,28 @@ def run_llaw_localtest(tags,number_of_run):
         else:
             pass
 
+def daily_count_passing_rate():
+    env.user='louislaw'
+    remote_count_pass_rate(get_today_string(1).split('-')[0])
+
+def remote_count_pass_rate(date_string):
+    PROJECT_DIRECTORY = r'/home/louislaw/_workspace/handy-qa-automation-BDD'
+    RESULT_DIRECTORY = os.path.sep.join([PROJECT_DIRECTORY, 'BDD/features/usecase/random-click-1-hour/result'])
+
+    result_configs = {
+        'T1': os.path.sep.join([RESULT_DIRECTORY,  'T1'] ),
+        'M812':os.path.sep.join([RESULT_DIRECTORY,  'M812'] )
+    }
+
+    for (model, result_directory) in result_configs.items():
+        with cd(result_directory):
+            run('pwd')
+            run('inv calculate-passing-rate %s' % date_string)
+
+
+
+
+
 
 def helloworld():
     local('echo helloworld')
