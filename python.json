@@ -223,10 +223,10 @@
 		"description": "init a new inv task"
 	},
 	"step": {
-		"prefix": "init_new_step",
+		"prefix": "step:",
 		"body": [
 			"# STEP: ${1: i am a new step}",
-			"print(\"STEP: ${1: i am a new step\")}"
+			"print(\"STEP: ${1: i am a new step}\")"
 		],
 		"description": "descriptions"
 	},
