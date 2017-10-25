@@ -226,7 +226,29 @@
 		"prefix": "step:",
 		"body": [
 			"# STEP: ${1: i am a new step}",
-			"print(\"STEP: ${1: i am a new step}\")"
+			"print(\"STEP: ${1: i am a new step}\")",
+			"",
+			"${2:}"
+		],
+		"description": "descriptions"
+	},
+	"Screen": {
+		"prefix": "screen:",
+		"body": [
+			"# Screen: '${1: screenname}'",
+			"print(\"Screen: '${1: screenname}'\")",
+			"",
+			"${2:}"
+		],
+		"description": "descriptions"
+	},
+	"Screen": {
+		"prefix": "wait:",
+		"body": [
+			"# wait: '${1: waitname}'",
+			"print(\"wait: '${1: waitname}'\")",
+			"",
+			"${2:}"
 		],
 		"description": "descriptions"
 	},
