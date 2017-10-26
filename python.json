@@ -271,7 +271,20 @@
 			"    return output"
 		],
 		"description": "normalize string to an array, do nothing if array already"
+	},
+	"init_all_exception": {
+		"prefix": "init_all_exception",
+		"body": 
+	//
+	[
+		"# TODO: remove me",
+		"except Exception as e:",
+		"	raise e",
+		"# TODO: remove me"
+	],
+		"description": "description"
 	}
+	
 
 
 
