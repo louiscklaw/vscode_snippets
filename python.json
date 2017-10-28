@@ -274,7 +274,7 @@
 	},
 	"init_all_exception": {
 		"prefix": "init_all_exception",
-		"body": 
+		"body":
 	//
 	[
 		"# TODO: remove me",
@@ -283,8 +283,15 @@
 		"# TODO: remove me"
 	],
 		"description": "description"
+	},
+	"join_path": {
+		"prefix": "join_path",
+		"body":
+	["os.path.sep.join([${1:path_to_join},${2:__file__}])"'"],
+		"description": "description"
 	}
-	
+
+
 
 
 
