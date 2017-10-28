@@ -254,8 +254,7 @@
 	},
 	"env_python": {
 		"prefix": "env_python",
-		"body":
-	["#!/usr/bin/env python"],
+		"body": ["#!/usr/bin/env python"],
 		"description": "#!/usr/bin/env python"
 	},
 
@@ -275,30 +274,31 @@
 	"init_all_exception": {
 		"prefix": "init_all_exception",
 		"body":
-	//
-	[
-		"# TODO: remove me",
-		"except Exception as e:",
-		"	raise",
-		"# TODO: remove me"
-	],
+			//
+			[
+				"# TODO: remove me",
+				"except Exception as e:",
+				"	raise",
+				"# TODO: remove me"
+			],
 		"description": "description"
 	},
 	"join_path": {
 		"prefix": "join_path",
-		"body":
-	["os.path.sep.join([${1:path_to_join},${2:__file__}])"'"],
+		"body": [
+			"os.path.sep.join([${1:path_to_join},${2:__file__}])"
+		],
 		"description": "description"
 	},
 	"init_get_or_create_directory": {
 		"prefix": "init_get_or_create_directory",
 		"body":
-	//
-	[
-	'if not os.path.exists(directory):',
-	'    os.makedirs(directory)'
-	''
-	],
+			//
+			[
+				'if not os.path.exists(directory):',
+				'    os.makedirs(directory)'
+				''
+			],
 		"description": "description"
 	}
 
