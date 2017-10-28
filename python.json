@@ -289,7 +289,19 @@
 		"body":
 	["os.path.sep.join([${1:path_to_join},${2:__file__}])"'"],
 		"description": "description"
+	},
+	"init_get_or_create_directory": {
+		"prefix": "init_get_or_create_directory",
+		"body":
+	//
+	[
+	'if not os.path.exists(directory):',
+	'    os.makedirs(directory)'
+	''
+	],
+		"description": "description"
 	}
+
 
 
 
