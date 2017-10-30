@@ -6,7 +6,7 @@ import logging
 import traceback
 from pprint import pprint
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 
 
 TAP_THIS_SHOW_THE_HOTEL_DETAILS = 0

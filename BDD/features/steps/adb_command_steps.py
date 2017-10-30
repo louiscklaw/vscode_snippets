@@ -290,6 +290,9 @@ def step_impl(context, sTargetFile, sPermission):
 
 @step(u'ADB push tinklabs1001')
 def step_impl(context):
+    """
+    packed process to transfer the tinklabs1001 to android
+    """
     context.execute_steps(u'''
         Then ADB push "%(PATH_PC_TINKLABS1001)s" "%(PATH_ANDROID_TEMP)s"
     ''' % dParameters)
@@ -297,6 +300,9 @@ def step_impl(context):
 
 @step(u'ADB change permission tinklabs1001')
 def step_impl(context):
+    """
+    packed process to change the file permission of tinklabs1001
+    """
     context.execute_steps(u'''
         Then ADB change permission "777" "%(PATH_ANDROID_TINKLABS1001)s"
     ''' % dParameters)
@@ -385,16 +391,25 @@ def step_adb_settings_get(context, sNamespace, sKey):
     return run('adb shell settings get %s %s' % (sNamespace, sKey), timeout_sec=5)
 
 
-@step(u'ADB settings {sNamespace} {sKey} should be {sExpected}')
-def step_adb_settings_compare(context, sNamespace, sKey, sExpected):
+@step(u'ADB settings {namespace} {key} should be {expected}')
+def step_adb_settings_compare(context, namespace, key, expected):
     """
-        getting value from adb settings, with checking
+    getting value from adb settings, with checking
+    namespace: namespace defined by adb command
+    key: the parameters wanted
+    expected: Expected values
     """
-    # (sReturnCode, sStdOut, sStdErr, sTimeout) = step_adb_settings_get(context, sNamespace, sKey)
-    # assert sExpected == sStdOut.strip()
-    return context.adb_session.run_cmd(
-        'shell settings get %s %s' % (sNamespace, sKey)
-    )
+    # (sReturnCode, sStdOut, sStdErr, sTimeout) = step_adb_settings_get(context, namespace, key)
+    # assert expected == sStdOut.strip()
+
+    value_in_device = context.adb_session.run_cmd(
+        'shell settings get %s %s' % (namespace, key))
+
+    if value_in_device.strip() == expected.strip():
+        logging.debug('value_in_device:key:%s = %s' % (key, value_in_device.strip()))
+    else:
+        logging.error('the value is not match with the expected value %s' % expected)
+        assert False, 'the value is not match with the expected value %s' % expected
 
 
 # setprop, getprop
@@ -408,33 +423,21 @@ def step_impl(context, sName, sValue):
         to handle the google application verification before test run
         :Args:
             - sValue - value of package_verifier_enable wanted
+
+        NOTE: example usage
+        adb shell setprop sys.usb.config mtp,adb
+        adb shell setprop sys.usb.config mass_storage,adb
+
     """
-    print(u'STEP: Given ADB setprop "%s" "%s"' % (sName, sValue))
-
-    # context.execute_steps(u'''
-    #     Given ADB Init session
-    #         And ADB push tinklabs1001
-    #         And ADB push change_prop
-
-    #     Then ADB change permission tinklabs1001
-    #         And ADB change permission change_prop
-
-    #     Then ADB shell ""%s -c 'setprop %s %s'""
-    #     Then ADB shell ""source /data/local/tmp/change_prop.sh setprop %s %s %s""
-    # ''' % (dParameters['PATH_ANDROID_TINKLABS1001'], sName, sValue))
+    logging.debug(u'STEP: Given ADB setprop "%s" "%s"' % (sName, sValue))
 
     context.execute_steps(u'''
-        Given ADB Init session
-            And ADB push tinklabs1001
-            And ADB push change_prop
+        Given ADB push tinklabs1001
+          And ADB change permission tinklabs1001
+        Then ADB root shell "setprop %s %s"
+        ''' % (sName, sValue))
 
-        Then ADB change permission tinklabs1001
-            And ADB change permission change_prop
-
-        Then ADB shell "source %s setprop %s %s"
-    ''' % (dParameters['PATH_ANDROID_CHANGE_PROP'], sName, sValue))
-
-    print('change props %s done' % sName)
+    logging.debug('change props %s done' % sName)
 
     pass
 
@@ -601,29 +604,6 @@ def step_impl(context, text):
         assert False
 
 
-@step(u'ADB setup wifi')
-def step_impl(context):
-    """
-        try to setup wifi before phone boots up
-        TODO: remove the hardcode on last part
-    """
-
-    context.execute_steps(u'''
-        Then ADB push tinklabs1001
-            And ADB change permission tinklabs1001
-
-        Then ADB push change_wpa_supplicant
-            And ADB change permission change_wpa_supplicant
-
-        Then ADB push wpa_supplicant
-        Then ADB shell ""/data/local/tmp/change_wifi.sh""
-    ''')
-    # pprint(run('''adb shell "/data/local/tmp/change_wifi.sh"''',
-    # timeout_sec=5
-    # ))
-    assert False
-
-
 @then(u'ADB push wpa_supplicant')
 def step_impl(context):
     print(u'STEP: Then ADB push wpa_supplicant')
@@ -725,10 +705,14 @@ def step_adb_root_shell(context, command):
         :Args:
             - command - command would like to send by root shell
     """
-    logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(level=logging.INFO)
 
     adb_commands = []
     adb_commands.append((PATH_ANDROID_TINKLABS1001, ['#']))
+
+    # NOTE: normally '#' is enough for this, the reason i adding the '\n' as the text to grep because it helps escape from the error/disconnect condition.
+    # otherwise it will cause pexpect a failure and escape from loop.
+    # NOTE: by adding '\n', the implementation destroy the functionality of the 'ADB settings xxx ', so i cancel the work. need to find another way.
     adb_commands.append((command, ['#']))
 
     child = pexpect.spawn(
@@ -744,6 +728,12 @@ def step_adb_root_shell(context, command):
 
 @then(u'inject wifi configuration "{wifi_configuration}" to android')
 def step_impl(context, wifi_configuration):
+    """
+    to inject the wifi configureation defined by wifi_configuration
+
+    Args:
+        wifi_configuration: The first parameter.
+    """
     logging.debug(u'STEP: Then inject wifi configuration to android')
 
     context.execute_steps(u'''
@@ -755,6 +745,7 @@ def step_impl(context, wifi_configuration):
 @step(u'ADB svc {subcommand} {control}')
 def step_impl(context, subcommand, control):
     """
+    insert command by adb svc <sub_command> <control>,
     Available commands:
     help     Show information about the subcommands
     power    Control the power manager
@@ -769,11 +760,19 @@ def step_impl(context, subcommand, control):
 
 @then(u'ADB restart wifi')
 def step_impl(context):
+    """
+    to restart wifi service using adb command
+    by handy app default beheaviour, the wifi connection will be wake up again by handy app
+    no explicit enabled issued right now.
+    """
     logging.debug(u'STEP: Then adb restart wifi')
 
     context.execute_steps(u'''
         Then adb root shell "svc wifi disable"
     ''')
+
+    # NOTE: by the nature of handy app(wizardActivity), the wifi will turn itself on
+
     sleep(5)
 
 

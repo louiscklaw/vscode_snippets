@@ -16,6 +16,26 @@ from random import randint
 
 sys.path.append(os.path.dirname(__file__) + '/../_lib')
 
+lsRandomTour = []
+lsRandomTour.append(u'Then Swipe the feed until %s appears' % 'Survey')
+lsRandomTour.append(u'Then Swipe the feed until %s appears' % 'DISCOUNT TICKETS')
+lsRandomTour.append(u'Then Swipe the feed until %s appears' % 'TRENDING')
+lsRandomTour.append(u'Then Swipe the feed until %s appears' % 'FUN FACTS')
+lsRandomTour.append(u'Then Try to activate handy phone from launcher')
+
+
+@step(u'Random tour selftest, route{route_number}')
+def step_impl(context, route_number):
+    """
+    self test for random tour, run a predefined tour
+
+    Args:
+        route_number: the index of the tour
+    """
+
+    # NOTE: self test
+    context.execute_steps(lsRandomTour[int(route_number)])
+
 
 @step(u'Random tour for {sDuration} hour')
 def step_impl(context, sDuration):
@@ -33,10 +53,8 @@ def step_impl(context, sDuration):
     fDurationInSecond = fDuration * 3600
     iTimeToStop = time.time() + fDurationInSecond
 
-    lsRandomTour = []
-    lsRandomTour.append(u'Then Swipe the feed until %s appears' % 'days ago')
-    lsRandomTour.append(u'Then Swipe the feed until %s appears' % 'ago')
-    lsRandomTour.append(u'Then Try to activate handy phone from launcher')
+
+    # TODO: need troubleshoot
     # lsRandomTour.append(u'Then Activate App Drawer from launcher')
     # lsRandomTour.append(u'Then Swipe up in App Drawer until "Erase Data" appears')
     # lsRandomTour.append(u'Then Click on a random clickable (depth:4)')
@@ -74,7 +92,7 @@ def step_impl(context, sText):
           And ADB screen capture, save to "./_screenshot"
         # And Fail if the Text "Home" not appears on screen
 
-        Then Swipe "com.tinklabs.launcher:id/mdContent" UP Distance "400" until text containing "%(sText)s" appears on screen (max swipe "300")
+        Then Swipe "com.tinklabs.launcher:id/mdContent" UP Distance "400" until text containing "%(sText)s" appears on screen (max swipe "900")
           And ADB screen capture, save to "./_screenshot"
 
         # Check after work

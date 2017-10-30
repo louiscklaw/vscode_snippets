@@ -109,11 +109,11 @@ def step_impl(context, process_wanted):
         if os.popen("ps -ef | grep -i %s | grep -v 'grep'" % process_wanted).read().strip().find(process_wanted) > -1:
             pass
         else:
-            assert False
+            assert False, 'the wanted application %s is not running' % process_wanted
     except Exception, e:
-        logging.error('the wanted application %s is not running ' %
-                      process_wanted)
-        assert False
+        # logging.error('the wanted application %s is not running ' %
+        #               process_wanted)
+        assert False, 'exception raised during catching the wanted application'
 
 
 @step(u'setup an android as below, using appium port {port}')
@@ -140,7 +140,10 @@ def step_impl(context, port):
     desired_caps['appPackage'] = row['Package']
     desired_caps['appActivity'] = row['Activity']
     desired_caps['deviceReadyTimeout'] = 30
-    desired_caps['noReset'] = False
+    desired_caps['noReset'] = True
+
+    # NOTE: using UiAutomator2 increase capataibility
+    desired_caps['automationName'] = 'UiAutomator2'
 
     # provision of more than 1 session there, so the context_port is a list
     # context.appiumSession = webdriver.Remote(
@@ -578,7 +581,7 @@ def step_impl(context, sText):
 
     else:
         logging.error('cannot find the wanted text')
-        assert False
+        assert False, 'cannot find the wanted text: %s' % sText
     pass
 
 
@@ -657,10 +660,10 @@ def step_impl(context, sText, sDetermine):
     if els:
         # NOTE content-desc appears on screen
         if sDetermine in ['is']:
-            assert False
+            assert False, 'the unwanted elements %s appears on screen' % sText
     else:
         if sDetermine in ['not']:
-            assert False
+            assert False, 'the wanted elements %s not appears on screen' % sText
     pass
 
 

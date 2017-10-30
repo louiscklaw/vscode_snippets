@@ -13,9 +13,10 @@
 @adb_command
 Feature: self test for adb-handy-appium
   Background: scratch background
-    Given FASTBOOT Erase userdata
-      And ADB Wait for device, timeout 60 seconds
-    Then ADB check boot completed, timeout 600 seconds
+    Given Target device is T1 "VZHGLMA742804186"
+    # Given FASTBOOT Erase userdata
+    #   And ADB Wait for device, timeout 60 seconds
+    # Then ADB check boot completed, timeout 600 seconds
 
   @test_adb_push_file
   Scenario: copy file from PC to android
@@ -29,44 +30,20 @@ Feature: self test for adb-handy-appium
     Given ADB push tinklabs1001
       And ADB change permission tinklabs1001
 
-  @test_adb_settings
-  Scenario: change settings value
-    # Given ADB Init session
-    Given ADB push tinklabs1001
-      And ADB settings put global package_verifier_enable 0
-    Then ADB settings global package_verifier_enable should be 0
-    # Given ADB adb shell test
 
-  @test_adb_settings
-  Scenario: android settings
-    Given ADB settings put global package_verifier_enable 0
-    Then ADB settings global package_verifier_enable should be 0
-    Given ADB settings put global package_verifier_enable 1
-    Then ADB settings global package_verifier_enable should be 1
-    Given ADB settings put global package_verifier_enable 0
-    Then ADB settings global package_verifier_enable should be 0
-
-  @wip
-  @not_working
-  Scenario: test adb shell with true
-    # Given ADB Init session
-    Given ADB push tinklabs1001
-      And ADB push change_prop
-
-    Then ADB change permission tinklabs1001
-      And ADB change permission change_prop
-
-    Then ADB setprop test with shell True
-
-  @not_working
-  @test_adb_props
+  @in_the_middle
+  @test_adb_props @wip
   Scenario: android props
+    Given ADB setprop "sys.usb.config" "mtp,adb"
+      And sleep 1 seconds
+      # sleep a while for the usb re-connect
+
     Given ADB setprop "persist.sys.usb.config" "adb,mtp"
-    And ADB prop "persist.sys.usb.config" should be "adb,mtp"
-    Given ADB setprop "persist.sys.usb.config" "adb,mtp,mass_storage"
-    Then ADB prop "persist.sys.usb.config" should be "adb,mtp,mass_storage"
-    Given ADB setprop "persist.sys.usb.config" "adb,mtp"
-    Then ADB prop "persist.sys.usb.config" should be "adb,mtp"
+
+    # Given ADB setprop "persist.sys.usb.config" "adb,mtp,mass_storage"
+    # Then ADB prop "persist.sys.usb.config" should be "adb,mtp,mass_storage"
+    # Given ADB setprop "persist.sys.usb.config" "adb,mtp"
+    # Then ADB prop "persist.sys.usb.config" should be "adb,mtp"
 
   @test_adb_screen_capture
   Scenario: android screen capture, save to "/tmp"
@@ -118,13 +95,6 @@ Feature: self test for adb-handy-appium
       # And ADB setprop "persist.sys.usb.config" "adb,mtp"
       # And ADB setprop test with shell True
     Then sleep 10 seconds
-
-
-
-  @not_working
-  @test_adb_setup_wifi
-  Scenario: user want to setup wifi using ADB
-    Given ADB setup wifi
 
 # TODO: to turn on airplane mode
 # settings put global airplane_mode_on 1

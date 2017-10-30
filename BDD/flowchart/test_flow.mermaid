@@ -1,0 +1,46 @@
+```mermaid
+sequenceDiagram
+note over shell, DUT: fastboot download ROM
+shell ->> appium: start appium
+appium ->> shell: started
+shell->>DUT: wake device up
+
+loop f_reset
+  shell ->> DUT: adbClearAndReboot
+  note over DUT: killApps
+  note over DUT: cleanApps
+  note over DUT: reboot
+  note over DUT: ROM boot
+  DUT ->> shell: reset complete
+end
+
+shell->>python: initialize test
+
+loop f_RunTest
+  appium-->>DUT: download_APK device
+  DUT-->>appium: download_APK done
+
+  note over DUT,python: little time to process may be
+  note over DUT: waitWifi
+  note over DUT: waitInit
+  note over DUT: waitCheckUpdate
+
+    loop Run f_RunTestScript
+
+      appium->>DUT: run the test
+      note over DUT, shell: setup trace ?
+
+
+      note over DUT, appium: test running
+      note over DUT, appium: test done
+
+      note over DUT, shell: collect trace
+      DUT->>appium: test done
+    end
+
+
+
+end
+appium->>python: test done
+python->>shell: test done
+```

@@ -1,0 +1,72 @@
+digraph new_activation_flow {
+	#size="1200,1200"
+	node
+      [label ="???"] [shape = rectangle];
+      ActStart [label = "start"] [shape = circle] [color=blue style=bold]
+      ActEnd [label = "end"] [shape = circle] [color=blue style=bold]
+
+      wv_start [label = "greetings,
+      features.wizard.WizardActivity"]
+      wv_PrivacyAndSecurity [label = "privacy_and_security"]
+      wv_AskForCheckoutDate [label = "ask for checkout date"]
+      wv_TermAndCond [label = "term_and_cond"]
+      wv_HandyMember [label = "ask for handy member"]
+      wv_PesonalizeExperience [label = "personalize experience"]
+      wv_LoginToAccount [label = "loginToHandy"]
+      wv_BecomeMember [label = "become_member"]
+      wv_FacebookLoginform [label = "facebook form"]
+      wv_loadvideo [label = "play video"]
+      unknown_facebook [label = "unknown facebook"] [color=red]
+      unknown_CMS [label = "unknown CMS"] [color=red]
+
+      cond_eraseData [label="by erase data??"] [shape = egg]
+
+
+      proc_newflow [label="new flow"]
+      proc_oldflow [label="old flow"]
+
+
+    cond_eraseData -> ActStart
+
+    ActStart -> proc_newflow
+    ActStart -> proc_oldflow
+
+    proc_newflow -> wv_start
+
+    wv_start -> wv_AskForCheckoutDate [ label = "tick box, right arrow button" ];
+    wv_start -> wv_start [ label = "language_selector" ];
+    wv_start -> wv_TermAndCond [ label = "Term_and_cond" ];
+    wv_TermAndCond -> wv_start [ label = "Got it" ];
+    wv_PrivacyAndSecurity -> wv_AskForCheckoutDate [ label = "Got it" ];
+    wv_AskForCheckoutDate -> wv_PrivacyAndSecurity [ label = "why_need_this" ];
+    wv_AskForCheckoutDate -> wv_HandyMember [ label = "skip" ];
+    wv_AskForCheckoutDate -> wv_HandyMember [ label = "Next 'w/ date selected'" ];
+    wv_HandyMember -> wv_AskForCheckoutDate [ label = "Back" ];
+    wv_HandyMember -> wv_PesonalizeExperience [ label = "i'll do it later" ];
+    wv_PesonalizeExperience -> wv_HandyMember [label="back"]
+    wv_HandyMember -> wv_TermAndCond [ label = "Term_and_cond" ];
+    wv_TermAndCond -> wv_HandyMember [ label = "Got it" ];
+    wv_HandyMember -> wv_LoginToAccount [ label = "already have an a/c" ];
+    wv_LoginToAccount -> wv_HandyMember [ label = "back" ];
+    wv_LoginToAccount -> wv_TermAndCond [ label = "Term_and_cond" ];
+    wv_TermAndCond -> wv_LoginToAccount [ label = "Got it" ];
+    wv_LoginToAccount -> wv_BecomeMember [ label = "sign_up" ];
+    wv_BecomeMember -> unknown_CMS [color="red"] [ label = "sign up" ];
+    wv_BecomeMember -> unknown_CMS [color="red"] [ label = "Log in" ];
+    wv_BecomeMember -> wv_TermAndCond [ label = "Term_and_cond" ];
+    wv_TermAndCond -> wv_BecomeMember [ label = "Got it" ];
+    wv_BecomeMember -> wv_LoginToAccount [ label = "back" ];
+    wv_HandyMember -> unknown_CMS [color="red"] [ label = "sign up" ];
+    wv_HandyMember -> unknown_CMS [color="red"] [ label = "login" ];
+    wv_HandyMember -> wv_FacebookLoginform [ label = "continue_with_facebook" ];
+    wv_FacebookLoginform -> wv_HandyMember [ label = "close" ];
+    wv_FacebookLoginform -> unknown_facebook [color="red"] [ label = "login" ];
+    wv_FacebookLoginform -> unknown_facebook [color="red"] [ label = "create_ac" ];
+    wv_FacebookLoginform -> unknown_facebook [color="red"] [ label = "not_now" ];
+    wv_LoginToAccount -> unknown_CMS [color="red"] [ label = "login" ];
+    wv_PesonalizeExperience -> wv_PesonalizeExperience [ label = "Next invalid answer" ];
+
+    wv_PesonalizeExperience -> wv_loadvideo [ label = "Next, valid answer" ];
+    wv_PesonalizeExperience -> wv_loadvideo [ label = "skip" ];
+    wv_loadvideo -> ActEnd [ label = "LetStart" ];
+}
