@@ -18,10 +18,10 @@ from time import sleep
 
 
 def get_today_string(offset=0):
-    """get the day string using the format "yymmdd-hhmmss" with the given offset(default=0)
+    """get the day string using the format "yymmdd-hhmmss" with the given offset(default=0, +ve number for the day in the past)
 
     Args:
-        offset : offset by days
+        offset : offset by days, 1 for yesterday, 2 for day before yesterday and so on...
 
     Returns:
         Return1 : the 1st arguments
@@ -267,9 +267,12 @@ def run_llaw_localtest(tags,number_of_run):
         else:
             pass
 
-def daily_count_passing_rate():
+def daily_count_passing_rate(days=0):
     env.user='louislaw'
-    remote_count_pass_rate(get_today_string(1).split('-')[0])
+    import datetime
+
+    print('https://docs.google.com/spreadsheets/d/1M7ppXj-3Pyy-khi2PjfrqbpkjWtJSaH9tBM4_GfULTQ/edit#gid=1418892851')
+    remote_count_pass_rate(get_today_string(int(days)).split('-')[0])
 
 def remote_count_pass_rate(date_string):
     PROJECT_DIRECTORY = r'/home/louislaw/_workspace/handy-qa-automation-BDD'
