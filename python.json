@@ -232,6 +232,15 @@
 		],
 		"description": "descriptions"
 	},
+	"step_color": {
+		"prefix": "step_color:",
+		"body": [
+			"# STEP: ${1: i am a new step}",
+			"print(fabric.colors.${2:green}(\"STEP: ${1: i am a new step}\"))",
+			""
+		],
+		"description": "descriptions"
+	},
 	"Screen": {
 		"prefix": "screen:",
 		"body": [
