@@ -23,11 +23,11 @@
 		"prefix": "def_cust",
 		"body": [
 			"def ${1:name}(${3:parameters}):",
-			"	\"\"\"",
-			"		${2:description}",
-			"	\"\"\"",
+			"    \"\"\"",
+			"        ${2:description}",
+			"    \"\"\"",
 			"",
-			"	pass"
+			"    pass"
 		],
 		"description": "helloworld"
 	},
@@ -35,11 +35,11 @@
 		"prefix": "def_cust",
 		"body": [
 			"def ${1:name}(${3:parameters}):",
-			"	\"\"\"",
-			"		${2:description}",
-			"	\"\"\"",
+			"    \"\"\"",
+			"        ${2:description}",
+			"    \"\"\"",
 			"",
-			"	pass"
+			"    pass"
 		],
 		"description": "helloworld"
 	},
@@ -278,7 +278,7 @@
 			[
 				"# TODO: remove me",
 				"except Exception as e:",
-				"	raise",
+				"    raise",
 				"# TODO: remove me"
 			],
 		"description": "description"
