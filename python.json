@@ -309,7 +309,17 @@
 				""
 			],
 		"description": "description"
+	},
+	"check_dir_exists": {
+		"prefix": "check_dir_exists",
+		"body":
+			//
+			[
+				"os.path.isdir('/home/el')"
+			],
+		"description": "description"
 	}
+
 
 
 
