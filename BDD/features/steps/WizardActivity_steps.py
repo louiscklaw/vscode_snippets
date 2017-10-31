@@ -82,8 +82,10 @@ def step_impl(context, target, route):
                 WizardActivityPage_T1.get_page(WV_SKIP_HANDYMEMBER))
             # lsTemp.append(
             #     WizardActivityPage_T1.get_page(WV_SKIP_PERSONALIZED_EXPERIENCE))
-            lsTemp.append(
-                WizardActivityPage_T1.get_page(WV_PASS_PLAY_VIDEO))
+
+            # NOTE: the playing of video is disabled.
+            # lsTemp.append(
+            #     WizardActivityPage_T1.get_page(WV_PASS_PLAY_VIDEO))
 
     elif context.device == 'M812':
         # screen resolution is 1920 x 1080
