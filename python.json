@@ -322,8 +322,19 @@
 		"body":
 			//
 			[
-				"os.path.isdir('/home/el')"
+				"os.path.isdir('${1:directory-want-to-check}')"
 			],
+		"description": "description"
+	},
+	"findme_debug": {
+		"prefix": "findme_debug",
+		"body":
+		//
+		[
+			"# TODO: remove me",
+			"print('findme ${1:??}')",
+			"# TODO: remove me"
+		],
 		"description": "description"
 	}
 
