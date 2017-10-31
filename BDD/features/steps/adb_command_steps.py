@@ -226,11 +226,6 @@ def step_impl(context):
         Then ADB settings put global package_verifier_enable 0
             And ADB settings put global stay_on_while_plugged_in 7
             And ADB settings put system screen_brightness 10
-            And ADB settings put secure screensaver_enabled 0
-            And ADB settings put secure install_non_market_apps 1
-            And ADB settings put system dim_screen 0
-            And ADB settings put system transition_animation_scale 0
-            And ADB settings put system window_animation_scale 0
 
             # disable USB file transfer
             # And ADB setprop "persist.sys.usb.config" "adb,mtp"
