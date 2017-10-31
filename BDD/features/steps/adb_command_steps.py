@@ -138,16 +138,6 @@ def step_impl(context, sSeconds):
 
     pass
 
-# TODO: delete
-# @step(u'ADB Reboot bootloader "{android_serial}"')
-# def step_impl(context, android_serial):
-#     """
-#         to be replaced by
-#     """
-#     (iRetrunCode, sStdOut, sStdErr, bTimeout) = run(
-#         'adb -s %s reboot bootloader' % android_serial,
-#         timeout_sec=int(sSeconds))
-
 
 @step(u'ADB Reboot bootloader')
 def step_impl(context):
