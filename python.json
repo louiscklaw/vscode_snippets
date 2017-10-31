@@ -159,6 +159,9 @@
 			"Exceptions:",
 			"    ${4:Exception : Special Exception handling strategy}",
 			"",
+			"NOTES/IDEAS:${5: NOTES AND IDEAS}",
+			"Assumptions:${6: ASSUMPTION at the moment on design}",
+			"",
 			"\"\"\"",
 			""
 		],
