@@ -37,42 +37,89 @@ from appium.webdriver.common.multi_action import MultiAction
 
 from devices import *
 
+import subprocess
+
 
 def PATH(p): return os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
 )
 
+def bootstrap_from_unknown_state(android_serial):
+    """ for handle the device at the very beginnibng
+        I would like to make the device printable from "adb devices" while escape from this loop
+
+    Args:
+        android_serial: the serial number of android
+
+    NOTES/IDEAS:
+        to guide the device incase the device is trapped into the fastboot mode.
+    """
+
+    keep_loop = True
+
+    while keep_loop:
+        sleep(1)
+        adb_devices_output = subprocess.check_output(['adb','devices'])
+        if adb_devices_output.find(android_serial) > -1:
+            # if the device serial is found from adb devices output, escape from the loop
+            keep_loop = False
+            pass
+        else:
+            # if the device serial cannot found from adb devices output
+            # possibly the device is in the bootloader mode, fastboot -> reboot the device to recover
+            fastboot_output = subprocess.check_output(['fastboot','devices'])
+            if fastboot_output.find(android_serial) > -1:
+                subprocess.check_output(['fastboot','-s',android_serial,'reboot'])
+                sleep(90)
+
 
 @step(u'Target device is {device} "{android_serial}"')
 def step_impl(context, device, android_serial):
+    """specify android device by model and serial number
+
+    Args:
+        - device [T1, M812]
+        - android_serial  V2HGLMB721301100
+    Assumption:
+        The device is in normal state with ADB ready
     """
-        specify android device by model and serial number
-        Args:
-            - device [T1, M812]
-            - android_serial  V2HGLMB721301100
-    """
-    context.device = device
-    context.android_serial = android_serial.encode('ascii', 'ignore')
+    try:
+        context.device = device
+        context.android_serial = android_serial.encode('ascii', 'ignore')
 
-    temp_adb = ADB()
-    temp_fastboot = Fastboot()
+        bootstrap_from_unknown_state(android_serial)
 
-    list_by_serial = {
-        serial: idx
-        for (idx, serial) in temp_adb.get_devices().items()
-    }
 
-    if android_serial in list_by_serial.keys():
+        temp_adb = ADB()
+        temp_fastboot = Fastboot()
 
-        target_id = list_by_serial[android_serial]
-        temp_adb.set_target_by_id(target_id)
+        list_by_serial = {
+            serial: idx
+            for (idx, serial) in temp_adb.get_devices().items()
+        }
 
-        context.adb_session = temp_adb
-        context.fastboot_session = temp_fastboot
+        if android_serial in list_by_serial.keys():
 
+            target_id = list_by_serial[android_serial]
+            temp_adb.set_target_by_id(target_id)
+
+            context.adb_session = temp_adb
+            context.fastboot_session = temp_fastboot
+
+        else:
+
+            print_fail('cannot find the target device')
+            assert False, 'cannot find the target device'
+
+        pass
+    except Exception as e:
+
+        # subprocess.check_output(['adb', 'devices'], shell=True)
+        raise e
     else:
-        print_fail('cannot find the target device')
-        assert False, 'cannot find the target device'
+        pass
+
+
 
     # NOTE: load class device config here
     if device in ['T1']:
