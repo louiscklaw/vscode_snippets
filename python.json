@@ -155,6 +155,10 @@
 			"",
 			"Returns:",
 			"    ${3:Return1 : the 1st arguments}",
+			"",
+			"Exceptions:",
+			"    ${4:Exception : Special Exception handling strategy}",
+			"",
 			"\"\"\"",
 			""
 		],
