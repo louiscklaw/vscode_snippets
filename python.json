@@ -300,6 +300,26 @@
 				""
 			],
 		"description": "description"
+	},
+	"check_dir_exists": {
+		"prefix": "check_dir_exists",
+		"body":
+			//
+			[
+				"os.path.isdir('/home/el')"
+			],
+		"description": "description"
+	},
+	"findme_debug": {
+		"prefix": "findme_debug",
+		"body":
+		//
+		[
+			"# TODO: remove me",
+			"print('findme ${1:??}')",
+			"# TODO: remove me"
+		],
+		"description": "description"
 	}
 
 
