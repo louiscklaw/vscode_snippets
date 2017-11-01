@@ -37,18 +37,18 @@ def step_impl(context, Text, n):
             bTextNotFound = False
     pass
 
+# TODO: remove me
+# @given(u'Reach "Become a handy member" page')
+# def step_impl(context):
+#     raise NotImplementedError(
+#         u'STEP: Given Reach "Become a handy member" page')
 
-@given(u'Reach "Become a handy member" page')
-def step_impl(context):
-    raise NotImplementedError(
-        u'STEP: Given Reach "Become a handy member" page')
 
-
-@given(u'Reach "Log in to yo your handy account" page')
-def step_impl(context):
-    raise NotImplementedError(
-        u'STEP: Given Reach "Log in to yo your handy account" page')
-
+# @given(u'Reach "Log in to yo your handy account" page')
+# def step_impl(context):
+#     raise NotImplementedError(
+#         u'STEP: Given Reach "Log in to yo your handy account" page')
+# TODO: remove me
 
 @step(u'Reach "{target}" page in WizardActivity by skip, route "{route}"')
 def step_impl(context, target, route):
@@ -61,55 +61,61 @@ def step_impl(context, target, route):
         - route, not effective, reserved
             route of Wizard, currently mapped with hotel of the device, e.g. QA Testing(IRX)
     """
-    lsTemp = []
+    try:
+        lsTemp = []
 
-    if context.device == 'T1':
-        # 1280 x 700
+        if context.device == 'T1':
+            # 1280 x 700
 
-        # IDEA: i think i need a route class here
-        # happy flow means skip to the end
-        config_T1 = WizardActivityPageConfig('T1')
-        WizardActivityPage_T1 = WizardActivityPageGenerator(config_T1)
+            # IDEA: i think i need a route class here
+            # happy flow means skip to the end
+            config_T1 = WizardActivityPageConfig('T1')
+            WizardActivityPage_T1 = WizardActivityPageGenerator(config_T1)
 
-        if target == 'Happy flow The end':
-            # IDEA: to create the route, will handle by a generator
+            if target == 'Happy flow The end':
+                # IDEA: to create the route, will handle by a generator
 
-            lsTemp.append(WizardActivityPage_T1.get_page(INIT))
-            lsTemp.append(WizardActivityPage_T1.get_page(WV_GREETING))
-            lsTemp.append(
-                WizardActivityPage_T1.get_page(WV_SKIP_CHECKOUT_DATE))
-            lsTemp.append(
-                WizardActivityPage_T1.get_page(WV_SKIP_HANDYMEMBER))
-            # lsTemp.append(
-            #     WizardActivityPage_T1.get_page(WV_SKIP_PERSONALIZED_EXPERIENCE))
+                lsTemp.append(WizardActivityPage_T1.get_page(INIT))
+                lsTemp.append(WizardActivityPage_T1.get_page(WV_GREETING))
+                lsTemp.append(
+                    WizardActivityPage_T1.get_page(WV_SKIP_CHECKOUT_DATE))
+                lsTemp.append(
+                    WizardActivityPage_T1.get_page(WV_SKIP_HANDYMEMBER))
+                # lsTemp.append(
+                #     WizardActivityPage_T1.get_page(WV_SKIP_PERSONALIZED_EXPERIENCE))
 
-            # NOTE: the playing of video is disabled.
-            # lsTemp.append(
-            #     WizardActivityPage_T1.get_page(WV_PASS_PLAY_VIDEO))
+                # NOTE: the playing of video is disabled.
+                # lsTemp.append(
+                #     WizardActivityPage_T1.get_page(WV_PASS_PLAY_VIDEO))
 
-    elif context.device == 'M812':
-        # screen resolution is 1920 x 1080
-        # temporary for M812
-        # landing on checkout date page
+        elif context.device == 'M812':
+            # screen resolution is 1920 x 1080
+            # temporary for M812
+            # landing on checkout date page
 
-        config_M812 = WizardActivityPageConfig('M812')
-        WizardActivityPage_M812 = WizardActivityPageGenerator(config_M812)
+            config_M812 = WizardActivityPageConfig('M812')
+            WizardActivityPage_M812 = WizardActivityPageGenerator(config_M812)
 
-        if target == 'Happy flow The end':
-            # updating for QA Testing(IRX)
-            lsTemp.append(WizardActivityPage_M812.get_page(INIT))
-            lsTemp.append(WizardActivityPage_M812.get_page(WV_GREETING))
-            # lsTemp.append(WizardActivityPage_M812.get_page(WV_SKIP_CHECKOUT_DATE))
-            lsTemp.append(
-                WizardActivityPage_M812.get_page(WV_SKIP_HANDYMEMBER))
-            # lsTemp.append(WizardActivityPage_M812.get_page(WV_SKIP_PERSONALIZED_EXPERIENCE))
-            lsTemp.append(
-                WizardActivityPage_M812.get_page(WV_PASS_TUTORIAL_IMAGE))
+            if target == 'Happy flow The end':
+                # updating for QA Testing(IRX)
+                lsTemp.append(WizardActivityPage_M812.get_page(INIT))
+                lsTemp.append(WizardActivityPage_M812.get_page(WV_GREETING))
+                # lsTemp.append(WizardActivityPage_M812.get_page(WV_SKIP_CHECKOUT_DATE))
+                lsTemp.append(
+                    WizardActivityPage_M812.get_page(WV_SKIP_HANDYMEMBER))
+                # lsTemp.append(WizardActivityPage_M812.get_page(WV_SKIP_PERSONALIZED_EXPERIENCE))
+                lsTemp.append(
+                    WizardActivityPage_M812.get_page(WV_PASS_TUTORIAL_IMAGE))
+        else:
+            logging.error('target: %s is not handled' % target)
+            assert False, 'the %s is not handled' % context.device
+
+        context.execute_steps(''.join(lsTemp))
+        pass
+    except Exception as e:
+        raise e
     else:
-        logging.error('target: %s is not handled' % target)
-        assert False, 'the %s is not handled' % context.device
-
-    context.execute_steps(''.join(lsTemp))
+        pass
 
     pass
 
