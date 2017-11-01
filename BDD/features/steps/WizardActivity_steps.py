@@ -190,36 +190,42 @@ def step_impl(context, target):
     '''
 
     lsTemp = []
-    # landing on checkout date page
-    if target == 'ask for checkout date':
-        lsTemp.append(dWizardActivityPage[INIT])
-        lsTemp.append(dWizardActivityPage[WV_GREETING])
-    # landing on "Become a handy member" page
-    elif target == 'Become a handy member':
-        lsTemp.append(dWizardActivityPage[INIT])
-        lsTemp.append(dWizardActivityPage[WV_GREETING])
-        lsTemp.append(dWizardActivityPage[WV_SKIP_CHECKOUT_DATE])
+    try:
+        # landing on checkout date page
+        if target == 'ask for checkout date':
+            lsTemp.append(dWizardActivityPage[INIT])
+            lsTemp.append(dWizardActivityPage[WV_GREETING])
+        # landing on "Become a handy member" page
+        elif target == 'Become a handy member':
+            lsTemp.append(dWizardActivityPage[INIT])
+            lsTemp.append(dWizardActivityPage[WV_GREETING])
+            lsTemp.append(dWizardActivityPage[WV_SKIP_CHECKOUT_DATE])
 
-    elif target == 'Personalized experience':
-        lsTemp.append(dWizardActivityPage[INIT])
-        lsTemp.append(dWizardActivityPage[WV_GREETING])
-        lsTemp.append(dWizardActivityPage[WV_SKIP_CHECKOUT_DATE])
-        lsTemp.append(dWizardActivityPage[WV_SKIP_HANDYMEMBER])
+        elif target == 'Personalized experience':
+            lsTemp.append(dWizardActivityPage[INIT])
+            lsTemp.append(dWizardActivityPage[WV_GREETING])
+            lsTemp.append(dWizardActivityPage[WV_SKIP_CHECKOUT_DATE])
+            lsTemp.append(dWizardActivityPage[WV_SKIP_HANDYMEMBER])
 
-    elif target == 'Play video':
-        lsTemp.append(dWizardActivityPage[INIT])
-        lsTemp.append(dWizardActivityPage[WV_GREETING])
-        lsTemp.append(dWizardActivityPage[WV_SKIP_CHECKOUT_DATE])
-        lsTemp.append(dWizardActivityPage[WV_SKIP_HANDYMEMBER])
-        lsTemp.append(dWizardActivityPage[WV_SKIP_PERSONALIZED_EXPERIENCE])
+        elif target == 'Play video':
+            lsTemp.append(dWizardActivityPage[INIT])
+            lsTemp.append(dWizardActivityPage[WV_GREETING])
+            lsTemp.append(dWizardActivityPage[WV_SKIP_CHECKOUT_DATE])
+            lsTemp.append(dWizardActivityPage[WV_SKIP_HANDYMEMBER])
+            lsTemp.append(dWizardActivityPage[WV_SKIP_PERSONALIZED_EXPERIENCE])
 
-    elif target == 'Happy flow The end':
-        lsTemp.append(dWizardActivityPage[INIT])
-        lsTemp.append(dWizardActivityPage[WV_GREETING])
-        lsTemp.append(dWizardActivityPage[WV_SKIP_CHECKOUT_DATE])
-        lsTemp.append(dWizardActivityPage[WV_SKIP_HANDYMEMBER])
-        lsTemp.append(dWizardActivityPage[WV_SKIP_PERSONALIZED_EXPERIENCE])
-        lsTemp.append(dWizardActivityPage[WV_PASS_PLAY_VIDEO])
+        elif target == 'Happy flow The end':
+            lsTemp.append(dWizardActivityPage[INIT])
+            lsTemp.append(dWizardActivityPage[WV_GREETING])
+            lsTemp.append(dWizardActivityPage[WV_SKIP_CHECKOUT_DATE])
+            lsTemp.append(dWizardActivityPage[WV_SKIP_HANDYMEMBER])
+            lsTemp.append(dWizardActivityPage[WV_SKIP_PERSONALIZED_EXPERIENCE])
+            lsTemp.append(dWizardActivityPage[WV_PASS_PLAY_VIDEO])
+        pass
+    except Exception as e:
+        raise e
+    else:
+        pass
 
     context.execute_steps(''.join(lsTemp))
 
