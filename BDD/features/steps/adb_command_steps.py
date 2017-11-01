@@ -109,16 +109,22 @@ def run(cmd, timeout_sec):
 
 @step(u'ADB Wait for device')
 def step_impl(context):
-    if hasattr(context, 'adb_session'):
-        pass
-    else:
-        # context.adb_session = ADB()
-        logging.debug('adb_session is missing')
-        assert False, 'adb_session is missing'
+    try:
+        if hasattr(context, 'adb_session'):
+            pass
+        else:
+            # context.adb_session = ADB()
+            logging.debug('adb_session is missing')
+            assert False, 'adb_session is missing'
 
-    adb = context.adb_session
-    adb.run_cmd('wait-for-device')
-    sleep(3)
+        adb = context.adb_session
+        adb.run_cmd('wait-for-device')
+        sleep(3)
+        pass
+    except Exception as e:
+        raise e
+    else:
+        pass
 
 
 @step(u'ADB Wait for device, timeout {sSeconds} seconds')
@@ -126,15 +132,21 @@ def step_impl(context, sSeconds):
     """
         probe the device by adb wait-for-device command.
     """
-    time_to_start = get_epoch_time()
+    try:
+        time_to_start = get_epoch_time()
 
-    context.adb_session.run_cmd('wait-for-device')
+        context.adb_session.run_cmd('wait-for-device')
 
-    # (iRetrunCode, sStdOut, sStdErr, bTimeout) = result
-    context.time_poweron_to_adb_ready = get_time_difference_to(time_to_start)
+        # (iRetrunCode, sStdOut, sStdErr, bTimeout) = result
+        context.time_poweron_to_adb_ready = get_time_difference_to(time_to_start)
 
-    # wait some seconds more to let device ready
-    sleep(3)
+        # wait some seconds more to let device ready
+        sleep(3)
+        pass
+    except Exception as e:
+        raise e
+    else:
+        pass
 
     pass
 
@@ -207,19 +219,25 @@ def step_impl(context):
     """
     packed action to initialize android
     """
-    context.execute_steps(u'''
-        Given ADB PATH_ANDROID_TEMP directory is ready, timeout 60 seconds
-            And ADB push tinklabs1001
+    try:
+        context.execute_steps(u'''
+            Given ADB PATH_ANDROID_TEMP directory is ready, timeout 60 seconds
+                And ADB push tinklabs1001
 
-        Then ADB change permission tinklabs1001
+            Then ADB change permission tinklabs1001
 
-        Then ADB settings put global package_verifier_enable 0
-            And ADB settings put global stay_on_while_plugged_in 7
-            And ADB settings put system screen_brightness 10
+            Then ADB settings put global package_verifier_enable 0
+                And ADB settings put global stay_on_while_plugged_in 7
+                And ADB settings put system screen_brightness 10
 
-            # disable USB file transfer
-            # And ADB setprop "persist.sys.usb.config" "adb,mtp"
-      ''')
+                # disable USB file transfer
+                # And ADB setprop "persist.sys.usb.config" "adb,mtp"
+        ''')
+        pass
+    except Exception as e:
+        raise e
+    else:
+        pass
 
 
 # TODO: delete me
@@ -610,31 +628,38 @@ def step_impl(context, sSeconds):
         :Args:
             - sSeconds - timeout for the process
     """
-    bBootComplete = False
-    sStdOut = ''
-    sStdErr = ''
+    try:
 
-    time_start = get_epoch_time()
-    time_to_end = time_start + int(sSeconds)
+        bBootComplete = False
+        sStdOut = ''
+        sStdErr = ''
 
-    # for i in range(0, int(sSeconds)):
-    while time_to_end > get_epoch_time():
-        sleep(15)
-        # (sResultCode, sStdOut, sStdErr, bTimeout) = step_adb_getprop(context, "sys.boot_completed")
-        sStdOut = step_adb_getprop(context, 'sys.boot_completed')
-        sStdOut = sStdOut.strip()
+        time_start = get_epoch_time()
+        time_to_end = time_start + int(sSeconds)
 
-        if sStdOut == '1':
-            bBootComplete = True
-            break
+        # for i in range(0, int(sSeconds)):
+        while time_to_end > get_epoch_time():
+            sleep(15)
+            # (sResultCode, sStdOut, sStdErr, bTimeout) = step_adb_getprop(context, "sys.boot_completed")
+            sStdOut = step_adb_getprop(context, 'sys.boot_completed')
+            sStdOut = sStdOut.strip()
 
-    if bBootComplete:
-        context.time_sys_boot_animation = get_time_difference_to(time_start)
+            if sStdOut == '1':
+                bBootComplete = True
+                break
+
+        if bBootComplete:
+            context.time_sys_boot_animation = get_time_difference_to(time_start)
+            pass
+        else:
+            logging.error('boot failed')
+            logging.error('sStdOut: %s' % sStdOut)
+            assert False, 'boot failed'
         pass
+    except Exception as e:
+        raise e
     else:
-        logging.error('boot failed')
-        logging.error('sStdOut: %s' % sStdOut)
-        assert False, 'boot failed'
+        pass
 
 
 @then(u'Fail if the time taken "{name_of_process}" is more than {seconds} seconds')

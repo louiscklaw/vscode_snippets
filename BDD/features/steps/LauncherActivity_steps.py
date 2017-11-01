@@ -23,15 +23,20 @@ def step_impl(context):
     # TODO: implement pass/fail option in the script
     #   GRAMMER:
     #       {Skip/Pass} the 1st time tutorial by launcher
-    if hasattr(context, 'device'):
-        tutorial_config = LauncherFirstTimeTutorialConfig('en_US')
-        tutorial_route = LauncherFirstTimeTutorialGenerator(
-            tutorial_config, context.device)
-        context.execute_steps(tutorial_route.get_tutorial())
+    try:
+        if hasattr(context, 'device'):
+            tutorial_config = LauncherFirstTimeTutorialConfig('en_US')
+            tutorial_route = LauncherFirstTimeTutorialGenerator(
+                tutorial_config, context.device)
+            context.execute_steps(tutorial_route.get_tutorial())
+        else:
+            logging.error('the device is not handled')
+            assert False, 'the device is not handled'
+        pass
+    except Exception as e:
+        raise e
     else:
-        logging.error('the device is not handled')
-        assert False, 'the device is not handled'
-    pass
+        pass
 
 
 @step(u'Press {sDialogAnswer} in {sDialogTitle} Dialog, timeout {sDialogTimeout} seconds')
@@ -118,22 +123,29 @@ def step_impl(context, confirm):
 
 @step(u'In launcher side menu, Erase data')
 def step_impl(context):
-    LauncherActivityConfig = LauncherActivity_config(context.device)
+    try:
 
-    logging.debug('i am supposed to be tapping "Erase data" from left_drawer')
-    context.execute_steps(u'''
-        # Given In launcher side menu, Erase data
-        Then press HOME button
-          And Wait until screen ready, timeout 30 seconds
-          And sleep 3 seconds
+        LauncherActivityConfig = LauncherActivity_config(context.device)
 
-        Then tap hamburger button on launcher
-          And Wait until "Taxi Card" appears on screen, timeout "10" seconds
-          And Swipe the menu UP until "%s" appears on screen (max swipe "15")
+        logging.debug('i am supposed to be tapping "Erase data" from left_drawer')
+        context.execute_steps(u'''
+            # Given In launcher side menu, Erase data
+            Then press HOME button
+            And Wait until screen ready, timeout 30 seconds
+            And sleep 3 seconds
 
-          # select Erase Data in menu
-          And Perform and confirm erase data in Erase Data screen
-    ''' % LauncherActivityConfig.LEFT_DRAWER_ERASE_DATA)
+            Then tap hamburger button on launcher
+            And Wait until "Taxi Card" appears on screen, timeout "10" seconds
+            And Swipe the menu UP until "%s" appears on screen (max swipe "15")
+
+            # select Erase Data in menu
+            And Perform and confirm erase data in Erase Data screen
+        ''' % LauncherActivityConfig.LEFT_DRAWER_ERASE_DATA)
+        pass
+    except Exception as e:
+        raise e
+    else:
+        pass
     pass
 
 
