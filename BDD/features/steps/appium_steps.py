@@ -56,21 +56,32 @@ def bootstrap_from_unknown_state(android_serial):
     """
 
     keep_loop = True
+    countdown = 10
 
-    while keep_loop:
-        sleep(1)
-        adb_devices_output = subprocess.check_output(['adb','devices'])
-        if adb_devices_output.find(android_serial) > -1:
-            # if the device serial is found from adb devices output, escape from the loop
-            keep_loop = False
-            pass
-        else:
-            # if the device serial cannot found from adb devices output
-            # possibly the device is in the bootloader mode, fastboot -> reboot the device to recover
-            fastboot_output = subprocess.check_output(['fastboot','devices'])
-            if fastboot_output.find(android_serial) > -1:
-                subprocess.check_output(['fastboot','-s',android_serial,'reboot'])
-                sleep(90)
+    try:
+        while keep_loop and countdown > 0:
+            print('countdown remains for bootstrap :%d' % countdown)
+            countdown -= 1
+            sleep(1)
+            adb_devices_output = subprocess.check_output(['adb', 'devices'])
+            if adb_devices_output.find(android_serial) > -1:
+                # if the device serial is found from adb devices output, escape from the loop
+                keep_loop = False
+                pass
+            else:
+                # if the device serial cannot found from adb devices output
+                # possibly the device is in the bootloader mode, fastboot -> reboot the device to recover
+                fastboot_output = subprocess.check_output(['fastboot', 'devices'])
+                if fastboot_output.find(android_serial) > -1:
+                    subprocess.check_output(
+                        ['fastboot', '-s', android_serial, 'reboot'])
+                    sleep(90)
+
+        pass
+    except Exception as e:
+        raise e
+    else:
+        pass
 
 
 @step(u'Target device is {device} "{android_serial}"')
@@ -89,7 +100,6 @@ def step_impl(context, device, android_serial):
 
         bootstrap_from_unknown_state(android_serial)
 
-
         temp_adb = ADB()
         temp_fastboot = Fastboot()
 
@@ -107,19 +117,16 @@ def step_impl(context, device, android_serial):
             context.fastboot_session = temp_fastboot
 
         else:
-
             print_fail('cannot find the target device')
             assert False, 'cannot find the target device'
 
         pass
     except Exception as e:
-
+        print('cannot contact device')
         # subprocess.check_output(['adb', 'devices'], shell=True)
         raise e
     else:
         pass
-
-
 
     # NOTE: load class device config here
     if device in ['T1']:
@@ -139,9 +146,15 @@ def step_impl(context, device):
         device: the model of the device
 
     """
-    context.device = device
-    context.adb_session = ADB()
-    context.fastboot_session = Fastboot()
+    try:
+        context.device = device
+        context.adb_session = ADB()
+        context.fastboot_session = Fastboot()
+        pass
+    except Exception as e:
+        raise e
+    else:
+        pass
 
 
 @step(u'{process_wanted} is running')
@@ -152,12 +165,14 @@ def step_impl(context, process_wanted):
     Args:
         process_wanted: the process wanted
     """
+
     try:
         if os.popen("ps -ef | grep -i %s | grep -v 'grep'" % process_wanted).read().strip().find(process_wanted) > -1:
             pass
         else:
             assert False, 'the wanted application %s is not running' % process_wanted
     except Exception, e:
+        print('cannot find the wanted process %s' % process_wanted)
         # logging.error('the wanted application %s is not running ' %
         #               process_wanted)
         assert False, 'exception raised during catching the wanted application'
@@ -165,43 +180,49 @@ def step_impl(context, process_wanted):
 
 @step(u'setup an android as below, using appium port {port}')
 def step_impl(context, port):
-    row = context.table[0]
+    try:
+        row = context.table[0]
 
-    desired_caps = {}
-    desired_caps['platformName'] = 'Android'
-    # desired_caps['platformVersion'] = row['version']
+        desired_caps = {}
+        desired_caps['platformName'] = 'Android'
+        # desired_caps['platformVersion'] = row['version']
 
-    if hasattr(context, 'android_serial') and len(context.android_serial) == 16:
-        desired_caps['deviceName'] = context.android_serial
-        logging.debug('context.android_serial defined, use as deviceName')
+        if hasattr(context, 'android_serial') and len(context.android_serial) == 16:
+            desired_caps['deviceName'] = context.android_serial
+            logging.debug('context.android_serial defined, use as deviceName')
 
-        desired_caps['udid'] = context.android_serial
-        logging.debug('context.android_serial defined, use as udid')
+            desired_caps['udid'] = context.android_serial
+            logging.debug('context.android_serial defined, use as udid')
 
+        else:
+            desired_caps['deviceName'] = 'Android'
+            logging.debug(
+                'context.android_serial not defined, use "Android" as deviceName')
+
+        # desired_caps['app'] = row['PATH(packageName)']
+        desired_caps['appPackage'] = row['Package']
+        desired_caps['appActivity'] = row['Activity']
+        desired_caps['deviceReadyTimeout'] = 30
+        desired_caps['noReset'] = True
+
+        # NOTE: using UiAutomator2 increase capataibility
+        desired_caps['automationName'] = 'UiAutomator2'
+
+        # provision of more than 1 session there, so the context_port is a list
+        # context.appiumSession = webdriver.Remote(
+        #     'http://localhost:%d/wd/hub' % context.appium_port[0],
+        #     desired_caps)
+
+        # TODO: remove me
+        context.appiumSession = webdriver.Remote(
+            'http://localhost:%d/wd/hub' % int(port),
+            desired_caps)
+
+    except Exception as e:
+        print('cannot connect to the appium')
+        raise e
     else:
-        desired_caps['deviceName'] = 'Android'
-        logging.debug(
-            'context.android_serial not defined, use "Android" as deviceName')
-
-    # desired_caps['app'] = row['PATH(packageName)']
-    desired_caps['appPackage'] = row['Package']
-    desired_caps['appActivity'] = row['Activity']
-    desired_caps['deviceReadyTimeout'] = 30
-    desired_caps['noReset'] = True
-
-    # NOTE: using UiAutomator2 increase capataibility
-    desired_caps['automationName'] = 'UiAutomator2'
-
-    # provision of more than 1 session there, so the context_port is a list
-    # context.appiumSession = webdriver.Remote(
-    #     'http://localhost:%d/wd/hub' % context.appium_port[0],
-    #     desired_caps)
-
-    # TODO: remove me
-    context.appiumSession = webdriver.Remote(
-        'http://localhost:%d/wd/hub' % int(port),
-        desired_caps)
-
+        pass
 
 @step(u'setup an android as below')
 def step_impl(context):
@@ -234,29 +255,26 @@ def step_impl(context):
 
 @given('started package "{packageName}" activity "{sActivity}" on "{sPlatform}" type "{sType}" ver "{sVersion}"')
 def step_impl(context, packageName, sActivity, sType, sPlatform, sVersion):
-    desired_caps = {}
-    desired_caps['platformName'] = 'Android'
-    # TODO: remove me
-    # desired_caps['platformVersion'] = sVersion
-    desired_caps['deviceName'] = 'Android'
-    desired_caps['appPackage'] = packageName
-    desired_caps['appActivity'] = sActivity
-    desired_caps['deviceReadyTimeout'] = 30
-    desired_caps['noReset'] = False
+    try:
 
-    # output a appiumSession for latter use
-    context.appiumSession = webdriver.Remote(
-        'http://localhost:4723/wd/hub', desired_caps)
+        desired_caps = {}
+        desired_caps['platformName'] = 'Android'
+        # TODO: remove me
+        # desired_caps['platformVersion'] = sVersion
+        desired_caps['deviceName'] = 'Android'
+        desired_caps['appPackage'] = packageName
+        desired_caps['appActivity'] = sActivity
+        desired_caps['deviceReadyTimeout'] = 30
+        desired_caps['noReset'] = False
 
-    # desired_caps = {}
-    # desired_caps['platformName'] = 'Android'
-    # desired_caps['platformVersion'] = '7.0'
-    # desired_caps['deviceName'] = 'test device'
-
-    # desired_caps['deviceName'] = 'Android Emulator'
-    # desired_caps['app'] = '/Users/louis_law/Documents/_workspace/handy_appium/_apk/ApiDemos-debug.apk'
-
-    # self.driver = webdriver.Remote('http://localhost:4723/wd/hub', desired_caps)
+        # output a appiumSession for latter use
+        context.appiumSession = webdriver.Remote(
+            'http://localhost:4723/wd/hub', desired_caps)
+    except Exception as e:
+        print('cannot connect to appium')
+        raise e
+    else:
+        pass
 
 
 @step(u'sleep {n} seconds')
@@ -295,7 +313,14 @@ def step_impl(context, button):
     Args:
         button: the text on the button
     """
-    finger.f_FindButtonWithText(context.appiumSession, button)[0].click()
+    try:
+        finger.f_FindButtonWithText(context.appiumSession, button)[0].click()
+        pass
+    except Exception as e:
+        print('error occur while trying to tap on button %s' % button)
+        raise e
+    else:
+        pass
 
 
 # @then(u'Fail if "{component}", "{activity}" not active')
@@ -309,10 +334,16 @@ def step_impl(context):
     """
     assert the adb binary is available
     """
-    if os.path.isfile(context.adb_binary):
-        pass
+    try:
+        if os.path.isfile(context.adb_binary):
+            pass
+        else:
+            assert False, '%s is not exist' % context.adb_binary
+    except Exception as e:
+        print('error occur during locating the adb binary')
+        raise e
     else:
-        assert False, '%s is not exist' % context.adb_binary
+        pass
 
 
 @step(u'Test setup is ready')
@@ -321,8 +352,8 @@ def step_impl(context):
       Given adb binary is available
       Given appium is running
 
-      Given Fastboot init
-      Given FASTBOOT Erase userdata
+    #   Given Fastboot init
+    #   Given FASTBOOT Erase userdata
         And ADB Wait for device, timeout 600 seconds
 
         # about 600 for T1
@@ -338,17 +369,30 @@ def step_impl(context):
 
 @step(u'quit appium')
 def quit_appium(context):
-    if hasattr(context, 'appiumSession'):
-        context.appiumSession.quit()
+    try:
+        if hasattr(context, 'appiumSession'):
+            context.appiumSession.quit()
+    except Exception as e:
+        raise e
+    else:
         pass
 
 
 @step(u'Find "{Text}" on screen')
 def find_text_on_screen(context, Text):
-    return finger.f_FindTargetByXPath(
-        context.appiumSession,
-        "android.widget.TextView", "text", Text
-    )
+    els =[]
+    try:
+        els = finger.f_FindTargetByXPath(
+            context.appiumSession,
+            "android.widget.TextView", "text", Text
+        )
+    except Exception as e:
+        print('error occur during try to locate the text %s on screen ' % Text)
+        raise e
+    else:
+        pass
+
+    return els
 
 
 @step(u'Find "{sId}" on screen, timeout {sTimeout} seconds')
@@ -356,15 +400,23 @@ def find_recourceid_on_screen_with_timeout(context, sId, sTimeout):
     """
         loop until the element available on screen. return the elements found.
     """
+
     els = []
-    for i in range(1, int(sTimeout) + 1):
-        sleep(1)
-        els = finger.f_FindTargetById(
-            context.appiumSession,
-            sId
-        )
-        if len(els) > 0:
-            break
+    try:
+        for i in range(1, int(sTimeout) + 1):
+            sleep(1)
+            els = finger.f_FindTargetById(
+                context.appiumSession,
+                sId
+            )
+            if len(els) > 0:
+                break
+        pass
+    except Exception as e:
+        raise e
+    else:
+        pass
+
 
     return els
 
@@ -375,14 +427,21 @@ def wait_recourceid_on_screen_with_timeout(context, sId, sTimeout):
         loop until the element not appears on screen, assume the element is already on screen.
     """
     els = []
-    for i in range(1, int(sTimeout) + 1):
-        sleep(1)
-        els = finger.f_FindTargetById(
-            context.appiumSession,
-            sId
-        )
-        if len(els) < 1:
-            break
+    try:
+        for i in range(1, int(sTimeout) + 1):
+            sleep(1)
+            els = finger.f_FindTargetById(
+                context.appiumSession,
+                sId
+            )
+            if len(els) < 1:
+                break
+
+    except Exception as e:
+        print('error occur while try to find the sId %s on screen ' % sId)
+        raise e
+    else:
+        pass
 
     return els
 
@@ -396,64 +455,50 @@ def step_impl(context, ready_timeout):
     """
     # Resource-id com.tinklabs.launcher:id/loading
 
-    iTimeout = int(ready_timeout)
-    dqiElementFound = deque([1, 1, 1])
+    try:
+        iTimeout = int(ready_timeout)
+        dqiElementFound = deque([1, 1, 1])
 
-    for i in range(1, iTimeout):
-        sleep(1)
-        dqiElementFound.popleft()
-        dqiElementFound.append(
-            len(wait_recourceid_on_screen_with_timeout(
-                context, "com.tinklabs.launcher:id/loading", '1'))
-        )
+        for i in range(1, iTimeout):
+            sleep(1)
+            dqiElementFound.popleft()
+            dqiElementFound.append(
+                len(wait_recourceid_on_screen_with_timeout(
+                    context, "com.tinklabs.launcher:id/loading", '1'))
+            )
 
-        if not(any(dqiElementFound)):
-            break
+            if not(any(dqiElementFound)):
+                break
 
-    # if any(dqiElementFound):
-    #     logging.debug('screen keeps busy in %s seconds' % ready_timeout)
-    #     # assert False
+        # if any(dqiElementFound):
+        #     logging.debug('screen keeps busy in %s seconds' % ready_timeout)
+        #     # assert False
+
+        pass
+    except Exception as e:
+        print('the screen not ready within timeout value %d' % ready_timeout)
+        raise e
+    else:
+        pass
 
     pass
-
-# TODO: delete me
-# @step(u'{sAction} "{sId}" on screen, timeout {sTimeout} seconds')
-# def step_impl(context, sAction, sId, sTimeout):
-#     """
-#         to Find/Wait ResourceId on screen, given by timeout sTimeout
-
-#         :Args:
-#             - sAction - Find / Wait
-#             - sId - resourceId
-#             - sTimeout - Timeout of this operation
-#     """
-#     dParameter = {}
-#     dParameter['sId'] = sId
-#     dParameter['sTimeout'] = sTimeout
-#     dParameter['sAction'] = sAction
-
-#     if sAction in ['Find']:
-#         context.execute_steps(u'''
-#             Then Find "%(sId)s" on screen, timeout %(sTimeout)s seconds
-#         ''' % dParameter)
-#     elif sAction in ['Wait']:
-#         context.execute_steps(u'''
-#             Then Wait "%(sId)s"
-#         ''')
-#         if len(lLookFor)<1:
-#             break
-#     elif:
-#         print('the sAction=%s have nothing match' % sAction)
-#         assert False
 
 
 @step(u'Fail if the "{Text}" not appears on screen')
 def fail_if_the_text_not_appears(content, Text):
-    lLookFor = find_text_on_screen(content, Text)
-    if isinstance(lLookFor, list) and len(lLookFor) == 1:
+    try:
+        lLookFor = find_text_on_screen(content, Text)
+        if isinstance(lLookFor, list) and len(lLookFor) == 1:
+            pass
+        else:
+            assert False, 'the unwanted text is appearing'
         pass
+    except Exception as e:
+        print('error occur during try to locate the text on screen or unwanted text is appearing')
+        raise e
     else:
-        assert False
+        pass
+
 
 # @step(u'Fail if the button "{sText}" not appears')
 
@@ -464,15 +509,24 @@ def step_impl(context, Text):
         find the button/textview by the text given by Text
         assert fail if nothing found
     """
-    lLookFor = finger.f_FindButtonWithText(
-        context.appiumSession, Text
-    )
+    try:
+        lLookFor = finger.f_FindButtonWithText(
+            context.appiumSession, Text
+        )
 
-    if isinstance(lLookFor, list) and len(lLookFor) == 1:
+        if isinstance(lLookFor, list) and len(lLookFor) == 1:
+            pass
+        else:
+            print(lLookFor)
+            assert False, 'the Text is not appearing on screen'
         pass
+    except Exception as e:
+        print('error occur while locating the Text %s ' % Text)
+
+        raise e
     else:
-        print(lLookFor)
-        assert False
+        pass
+
 
 
 @step(u'Fail if the Text "{sText}" {sDetermin} appears on screen')
@@ -483,29 +537,49 @@ def step_impl(context, sText, sDetermin):
             1. sDetermin = is , the False assertion applied when text found on screen
             2. sDetermin = not, the False assertion applied when text not found on screen
     """
-    context.execute_steps(u'''
-        Then Wait until screen ready, timeout 60 seconds
-    ''')
+    try:
+        context.execute_steps(u'''
+            Then Wait until screen ready, timeout 60 seconds
+        ''')
 
-    lLookFor = finger.f_FindElementsWithText(
-        context.appiumSession, sText
-    )
+        lLookFor = finger.f_FindElementsWithText(
+            context.appiumSession, sText
+        )
 
-    if isinstance(lLookFor, list) and len(lLookFor) > 0:
-        # NOTE the text found which is unwanted
-        if sDetermin in ['is']:
-            assert False
+        if isinstance(lLookFor, list) and len(lLookFor) > 0:
+            # NOTE the text found which is unwanted
+            if sDetermin in ['is']:
+                assert False, ' Failed as the wanted text is appearing on screen'
+        else:
+            # NOTE the text not found which is wanted
+            if sDetermin in ['not']:
+                assert False, ' Failed as the unwanted text is appearing on screen'
+
+        pass
+    except Exception as e:
+        print(
+            'error occur during the Fail if the Text "{sText}" {sDetermin} appears on screen')
+        raise e
     else:
-        # NOTE the text not found which is wanted
-        if sDetermin in ['not']:
-            assert False
+        pass
 
 
 @step(u'Check if the {sText} appears on screen')
 def step_impl(context, sText):
-    return len(finger.f_FindElementsWithText(
-        context.appiumSession, sText
-    ))
+    els=0
+    try:
+        els = len(finger.f_FindElementsWithText(
+            context.appiumSession, sText
+        ))
+
+        pass
+    except Exception as e:
+        print('error occur during checking if the text appears on screen')
+        raise e
+    else:
+        pass
+
+    return els
 
 
 @step(u'Fail if the resources-id"{sId}" not appears')
@@ -513,15 +587,23 @@ def step_impl(context, sId):
     """
         NOTE: debug function for llaw
     """
-    lLookFor = finger.f_FindTargetById(
-        context.appiumSession,
-        sId
-    )
+    try:
+        lLookFor = finger.f_FindTargetById(
+            context.appiumSession,
+            sId
+        )
 
-    if isinstance(lLookFor, list) and len(lLookFor) == 1:
+        if isinstance(lLookFor, list) and len(lLookFor) == 1:
+            pass
+        else:
+            assert False, ' Failed as the resources-id"{sId}" not appears'
         pass
+    except Exception as e:
+        print('error occur during trying to located the sId')
+        raise e
     else:
-        assert False
+        pass
+
 
 
 @step(u'Wait until "resource-id" "{sId}" appears on screen, timeout {sTimeout} seconds')
@@ -536,74 +618,93 @@ def step_impl(context, sId, sTimeout):
         - sTimeout - timeout second
     # TODO: replace com.tinklabs.launcher:id/ivBackground using meaningful name
     """
+    try:
+        lLookFor = []
 
-    lLookFor = []
+        start_time = get_epoch_time()
+        end_time = start_time + int(sTimeout)
 
-    start_time = get_epoch_time()
-    end_time = start_time + int(sTimeout)
+        while end_time > get_epoch_time():
+            sleep(1)
+            lLookFor = finger.f_FindTargetById(
+                context.appiumSession,
+                sId
+            )
 
-    while end_time > get_epoch_time():
-        sleep(1)
-        lLookFor = finger.f_FindTargetById(
-            context.appiumSession,
-            sId
-        )
+            if len(lLookFor) > 0:
+                break
 
         if len(lLookFor) > 0:
-            break
-
-    if len(lLookFor) > 0:
+            pass
+        else:
+            assert False, 'cannot find expected resource'
         pass
+    except Exception as e:
+        print('error occur during try to locate the sId on screen ' % sId)
+        raise e
     else:
-        assert False, 'cannot find expected resource'
-    pass
+        pass
+
 
 
 @step(u'Wait until Video"{sId}" appears, timeout {sTimeout} seconds')
 def step_impl(context, sId, sTimeout):
-    lLookFor = []
+    try:
+        lLookFor = []
 
-    for i in range(1, int(sTimeout) + 1):
-        sleep(1)
+        for i in range(1, int(sTimeout) + 1):
+            sleep(1)
+            lLookFor = finger.f_FindTargetById(
+                context.appiumSession,
+                sId
+            )
+
+            if len(lLookFor) > 0:
+                break
+
+        if len(lLookFor) > 0:
+            pass
+        else:
+            assert False, 'error occur during try to locate the sId for Video'
+
+        pass
+    except Exception as e:
+        print('error occur during try to locate the sId for Video')
+        raise e
+    else:
+        pass
+
+
+@step(u'Fail if the Video"{sId}" not appears')
+def step_impl(context, sId):
+    try:
         lLookFor = finger.f_FindTargetById(
             context.appiumSession,
             sId
         )
 
-        if len(lLookFor) > 0:
-            break
-
-    if len(lLookFor) > 0:
+        if isinstance(lLookFor, list) and len(lLookFor) > 0:
+            pass
+        else:
+            assert False, ' Failed as the Video not appears'
         pass
+    except Exception as e:
+        print('error occur while try to locate the Video:sId %s' % sId)
+        raise e
     else:
-        assert False
-
-
-@step(u'Fail if the Video"{sId}" not appears')
-def step_impl(context, sId):
-    lLookFor = finger.f_FindTargetById(
-        context.appiumSession,
-        sId
-    )
-
-    if isinstance(lLookFor, list) and len(lLookFor) > 0:
         pass
-    else:
-        assert False
-
-# @step(u'Fail if the button "{sText}" not appears')
-# def step_impl(context, sText):
-#     lLookFor = finger.f_FindButtonWithText(sText)
-
-#     if isinstance(lLookFor, list) and len(lLookFor) == 1:
-#         pass
-#     else:
-#         assert False
 
 
 @step(u'tap screen {n} times at {somewhere}')
 def step_impl(context, n, somewhere):
-    finger.f_TapScreen(context.appiumSession, 1, 1, 1)
+    try:
+        finger.f_TapScreen(context.appiumSession, 1, 1, 1)
+        pass
+    except Exception as e:
+        print('error occur during try to tap the screen')
+        raise e
+    else:
+        pass
 
 
 @step(u'tap on Text "{sText}"')
@@ -615,52 +716,83 @@ def step_impl(context, sText):
         sText: the text wanted to tap
 
     """
-    context.execute_steps(u'''
-        Then Wait until screen ready, timeout 30 seconds
-    ''')
+    try:
+        context.execute_steps(u'''
+            Then Wait until screen ready, timeout 30 seconds
+        ''')
 
-    els = finger.f_FindElementsWithText(
-        context.appiumSession, sText
-    )
-    if els:
-        sleep(1)
-        els[0].click()
+        els = finger.f_FindElementsWithText(
+            context.appiumSession, sText
+        )
+        if els:
+            sleep(1)
+            els[0].click()
 
+        else:
+            logging.error('cannot find the wanted text')
+            assert False, 'cannot find the wanted text: %s' % sText
+        pass
+    except Exception as e:
+        print('error occur during try to want until the screen is ready')
+        raise e
     else:
-        logging.error('cannot find the wanted text')
-        assert False, 'cannot find the wanted text: %s' % sText
-    pass
+        pass
+
 
 
 @step(u'press "{dPadKey}" button')
 def step_impl(context, dPadKey):
-    finger.f_PressKey(context.appiumSession, dPadKey)
+    try:
+        finger.f_PressKey(context.appiumSession, dPadKey)
+        pass
+    except Exception as e:
+        raise e
+    else:
+        pass
 
 
 @step(u'press {ButtonName} button')
 def step_impl(context, ButtonName):
-    if ButtonName == 'HOME':
-        finger.f_PressKey(context.appiumSession, android_key_const.HOME)
+    try:
+        if ButtonName == 'HOME':
+            finger.f_PressKey(context.appiumSession, android_key_const.HOME)
+        pass
+    except Exception as e:
+        raise e
+    else:
+        pass
 
 
 @step(u'tap on button "{sWidget}":"{sProperties}":"{sDescription}"')
 def step_impl(context, sWidget, sProperties, sDescription):
-    context.execute_steps(u'''
-        Given Wait until screen ready, timeout 60 seconds
-    ''')
-    finger.f_TapWidgetByPropertiesAndValue(
-        context.appiumSession,
-        sWidget, sProperties, sDescription)
-    sleep(1)
+    try:
+        context.execute_steps(u'''
+            Given Wait until screen ready, timeout 60 seconds
+        ''')
+        finger.f_TapWidgetByPropertiesAndValue(
+            context.appiumSession,
+            sWidget, sProperties, sDescription)
+        sleep(1)
+        pass
+    except Exception as e:
+        raise e
+    else:
+        pass
     pass
 
 
 @step(u'tap on checkbox "{sWidget}":"{sProperties}":"{sDescription}"')
 def step_impl(context, sWidget, sProperties, sDescription):
-    finger.f_TapWidgetByPropertiesAndValue(
-        context.appiumSession,
-        sWidget, sProperties, sDescription)
-    sleep(1)
+    try:
+        finger.f_TapWidgetByPropertiesAndValue(
+            context.appiumSession,
+            sWidget, sProperties, sDescription)
+        sleep(1)
+        pass
+    except Exception as e:
+        raise e
+    else:
+        pass
     pass
 
 
@@ -670,17 +802,23 @@ def step_impl(context, sActivity, sSeconds):
     """
         wrapper for appium wait_activity
     """
-    bResult = finger.f_waitForActivity(
-        context.appiumSession,
-        sActivity,
-        int(sSeconds)
-    )
+    try:
+        bResult = finger.f_waitForActivity(
+            context.appiumSession,
+            sActivity,
+            int(sSeconds)
+        )
 
-    if bResult:
+        if bResult:
+            pass
+        else:
+            print('cannot find activity %s' % sActivity)
+            assert False
         pass
+    except Exception as e:
+        raise e
     else:
-        print('cannot find activity %s' % sActivity)
-        assert False
+        pass
 
 
 @step(u'tap on position "{sX}","{sY}" using adb')
@@ -693,24 +831,36 @@ def step_impl(context, sX, sY):
     # sTapCmd = "adb shell input tap %s %s" % (sX, sY)
     # lCmd = sTapCmd.split(' ')
     # subprocess.check_output(lCmd)
-
-    logging.debug('adb tap on screen position %s, %s' % (sX, sY))
-    context.adb_session.run_cmd('shell input tap %s %s' % (sX, sY))
+    try:
+        logging.debug('adb tap on screen position %s, %s' % (sX, sY))
+        context.adb_session.run_cmd('shell input tap %s %s' % (sX, sY))
+        pass
+    except Exception as e:
+        raise e
+    else:
+        pass
 
     pass
 
 
 @then(u'Fail if the content-desc "{sText}" {sDetermine} appears on screen')
 def step_impl(context, sText, sDetermine):
-    els = finger.f_FindElementsWithContentDesc(context.appiumSession, sText)
+    try:
+        els = finger.f_FindElementsWithContentDesc(context.appiumSession, sText)
 
-    if els:
-        # NOTE content-desc appears on screen
-        if sDetermine in ['is']:
-            assert False, 'the unwanted elements %s appears on screen' % sText
+        if els:
+            # NOTE content-desc appears on screen
+            if sDetermine in ['is']:
+                assert False, 'the unwanted elements %s appears on screen' % sText
+        else:
+            if sDetermine in ['not']:
+                assert False, 'the wanted elements %s not appears on screen' % sText
+        pass
+    except Exception as e:
+        raise e
     else:
-        if sDetermine in ['not']:
-            assert False, 'the wanted elements %s not appears on screen' % sText
+        pass
+
     pass
 
 
@@ -723,29 +873,37 @@ def get_free_port(port_range):
         returns:
             a free port, -1 if not found
     """
+
     import random
     import socket
 
     result = -1
-    free_port_found = False
-    random.shuffle(port_range)
+    try:
 
-    for port in port_range:
-        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        sock.settimeout(1)  # 2 Second Timeout
-        if sock.connect_ex(('0.0.0.0', port)) == 61:
-            # port is free
-            free_port_found = True
-            result = port
-            break
-        else:
+        free_port_found = False
+        random.shuffle(port_range)
+
+        for port in port_range:
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sock.settimeout(1)  # 2 Second Timeout
+            if sock.connect_ex(('0.0.0.0', port)) == 61:
+                # port is free
+                free_port_found = True
+                result = port
+                break
+            else:
+                pass
+
+        if free_port_found:
             pass
-
-    if free_port_found:
+        else:
+            logging.error('cannot find free port for appium')
+            assert False, 'cannot find free port for appium'
         pass
+    except Exception as e:
+        raise e
     else:
-        logging.error('cannot find free port for appium')
-        assert False, 'cannot find free port for appium'
+        pass
 
     return result
 
@@ -762,11 +920,17 @@ def step_impl(context):
 
 @given(u'a file named "{filename}" with')
 def step_impl(context, filename):
-    logging.debug(u'STEP: create file with content')
+    try:
+        logging.debug(u'STEP: create file with content')
 
-    f = open(filename, 'w')
-    f.write(context.text)
-    f.close()
+        f = open(filename, 'w')
+        f.write(context.text)
+        f.close()
+        pass
+    except Exception as e:
+        raise e
+    else:
+        pass
 
 
 @given(u'start appium')
@@ -778,57 +942,75 @@ def step_impl(context):
     """
     logging.debug(u'STEP: Given start appium')
 
-    appium_port = get_free_port(range(4723, 4723 + 999))
+    try:
+        appium_port = get_free_port(range(4723, 4723 + 999))
 
-    # NOTE: using 1 on 1 strategy, currently supposed the number of appium session is same as the number of device attached
+        # NOTE: using 1 on 1 strategy, currently supposed the number of appium session is same as the number of device attached
 
-    appium_command = PATH_APPIUM_BINARY + \
-        ' -U %s --port %d' % (context.android_serial, appium_port)
-    logging.debug('android_serial:%s' % context.android_serial)
-    logging.debug('appium_port:%d' % appium_port)
-    logging.debug("appium_command: %s" % appium_command)
+        appium_command = PATH_APPIUM_BINARY + \
+            ' -U %s --port %d' % (context.android_serial, appium_port)
+        logging.debug('android_serial:%s' % context.android_serial)
+        logging.debug('appium_port:%d' % appium_port)
+        logging.debug("appium_command: %s" % appium_command)
 
-    appium_process = subprocess.Popen(
-        appium_command.split(' '), stdout=subprocess.PIPE
-    )
-    logging.debug(appium_command)
+        appium_process = subprocess.Popen(
+            appium_command.split(' '), stdout=subprocess.PIPE
+        )
+        logging.debug(appium_command)
 
-    # TODO: remove me
-    # context.appiumSession = webdriver.Remote(
-    #     'http://localhost:4723/wd/hub',
-    #     desired_caps)
-    context.appium_port.append(appium_port)
-    context.appium_pid.append(appium_process.pid)
+        # TODO: remove me
+        # context.appiumSession = webdriver.Remote(
+        #     'http://localhost:4723/wd/hub',
+        #     desired_caps)
+        context.appium_port.append(appium_port)
+        context.appium_pid.append(appium_process.pid)
 
-    # wait some seconds for appium start
-    sleep(5)
+        # wait some seconds for appium start
+        sleep(5)
+        pass
+    except Exception as e:
+        raise e
+    else:
+        pass
 
 
 @step(u'stop appium')
 def step_impl(context):
     logging.debug(u'STEP: stop appium')
 
-    # TODO: move me up
-    import psutil
+    try:
+        # TODO: move me up
+        import psutil
 
-    for pid in context.appium_pid:
-        os.kill(pid, signal.SIGTERM)
+        for pid in context.appium_pid:
+            os.kill(pid, signal.SIGTERM)
+        pass
+    except Exception as e:
+        raise e
+    else:
+        pass
 
 
 @given(u'setup android appium demo app')
 def step_impl(context):
-    logging.debug(u'STEP: Given setup android appium demo app')
+    try:
+        logging.debug(u'STEP: Given setup android appium demo app')
 
-    desired_caps = {}
-    desired_caps['platformName'] = 'android'
-    # desired_caps['platformVersion'] = '7.0'
-    desired_caps['deviceName'] = 'VZHGLMA742804186'
-    desired_caps['app'] = PATH(
-        '/Users/louis_law/.android_tinklabs/ApiDemos-debug.apk'
-    )
+        desired_caps = {}
+        desired_caps['platformName'] = 'android'
+        # desired_caps['platformVersion'] = '7.0'
+        desired_caps['deviceName'] = 'VZHGLMA742804186'
+        desired_caps['app'] = PATH(
+            '/Users/louis_law/.android_tinklabs/ApiDemos-debug.apk'
+        )
 
-    context.appium_session = webdriver.Remote(
-        'http://localhost:%s/wd/hub' % context.appium_port[0], desired_caps)
+        context.appium_session = webdriver.Remote(
+            'http://localhost:%s/wd/hub' % context.appium_port[0], desired_caps)
+        pass
+    except Exception as e:
+        raise e
+    else:
+        pass
 
 
 # @step(u'Wait until screen load complete, timeout {sSeconds} seconds')
