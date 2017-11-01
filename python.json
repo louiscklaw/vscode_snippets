@@ -30,17 +30,22 @@
 		],
 		"description": "helloworld"
 	},
-	"test python": {
-		"prefix": "def_cust",
+	"def_with_try": {
+		"prefix": "def_with_try",
 		"body": [
-			"def ${1:name}(${3:parameters}):",
-			"    \"\"\"",
-			"        ${2:description}",
-			"    \"\"\"",
+			"def ${1:functionName}(self):",
+			"    try:",
 			"",
-			"    pass"
+			"        pass",
+			"    except Exception as e:",
+			"        print(e)",
+			"        utils.logv2('error occur during ${1:functionName}', 'Fail')",
+			"        raise e",
+			"",
+			"    pass",
+			""
 		],
-		"description": "helloworld"
+		"description": "def with try loop, used in TL"
 	},
 	"init_python": {
 		"prefix": "init_python",
