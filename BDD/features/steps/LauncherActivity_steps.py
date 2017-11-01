@@ -164,14 +164,20 @@ def step_impl(context):
         TODO: documenation here, generalization
     """
 
-    context.execute_steps(u'''
-      Then Wait until "resource-id" "com.tinklabs.launcher:id/menu_button" appears on screen, timeout 60 seconds
+    try:
+        context.execute_steps(u'''
+        Then Wait until "resource-id" "com.tinklabs.launcher:id/menu_button" appears on screen, timeout 60 seconds
 
-        # And tap on button "android.widget.ImageView":"resource-id":"com.tinklabs.launcher:id/menu_button"
+            # And tap on button "android.widget.ImageView":"resource-id":"com.tinklabs.launcher:id/menu_button"
 
-        # As of 7.0, the hamburger menu button is a FrameLayout instead of ImageView.
-        And tap on button "android.widget.FrameLayout":"resource-id":"com.tinklabs.launcher:id/menu_button"
-    ''')
+            # As of 7.0, the hamburger menu button is a FrameLayout instead of ImageView.
+            And tap on button "android.widget.FrameLayout":"resource-id":"com.tinklabs.launcher:id/menu_button"
+        ''')
+        pass
+    except Exception as e:
+        raise e
+    else:
+        pass
 
     pass
 

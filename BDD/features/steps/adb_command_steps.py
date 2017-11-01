@@ -301,9 +301,15 @@ def step_impl(context):
     """
     packed process to transfer the tinklabs1001 to android
     """
-    context.execute_steps(u'''
-        Then ADB push "%(PATH_PC_TINKLABS1001)s" "%(PATH_ANDROID_TEMP)s"
-    ''' % dParameters)
+    try:
+        context.execute_steps(u'''
+            Then ADB push "%(PATH_PC_TINKLABS1001)s" "%(PATH_ANDROID_TEMP)s"
+        ''' % dParameters)
+        pass
+    except Exception as e:
+        raise e
+    else:
+        pass
 
 
 @step(u'ADB change permission tinklabs1001')
@@ -311,16 +317,28 @@ def step_impl(context):
     """
     packed process to change the file permission of tinklabs1001
     """
-    context.execute_steps(u'''
-        Then ADB change permission "777" "%(PATH_ANDROID_TINKLABS1001)s"
-    ''' % dParameters)
+    try:
+        context.execute_steps(u'''
+            Then ADB change permission "777" "%(PATH_ANDROID_TINKLABS1001)s"
+        ''' % dParameters)
+        pass
+    except Exception as e:
+        raise e
+    else:
+        pass
 
 
 @step(u'ADB change permission change_settings')
 def step_impl(context):
-    context.execute_steps(u'''
-        Then ADB change permission "777" "%(PATH_ANDROID_CHANGE_SETTINGS)s"
-    ''' % dParameters)
+    try:
+        context.execute_steps(u'''
+            Then ADB change permission "777" "%(PATH_ANDROID_CHANGE_SETTINGS)s"
+        ''' % dParameters)
+        pass
+    except Exception as e:
+        raise e
+    else:
+        pass
     pass
 
 
@@ -383,9 +401,16 @@ def step_impl(context, sValue, sSettingName, sNamespace):
     #     Then ADB shell ""source /data/local/tmp/change_settings.sh put %s %s %s""
     # ''' % (sNamespace, sSettingName, sValue))
 
-    context.execute_steps(u'''
-        Then adb root shell "settings put %s %s %s"
-    ''' % (sNamespace, sSettingName, sValue))
+    try:
+
+        context.execute_steps(u'''
+            Then adb root shell "settings put %s %s %s"
+        ''' % (sNamespace, sSettingName, sValue))
+        pass
+    except Exception as e:
+        raise e
+    else:
+        pass
 
     pass
 
@@ -722,23 +747,29 @@ def step_adb_root_shell(context, command):
     """
     logging.basicConfig(level=logging.INFO)
 
-    adb_commands = []
-    adb_commands.append((PATH_ANDROID_TINKLABS1001, ['#']))
+    try:
+        adb_commands = []
+        adb_commands.append((PATH_ANDROID_TINKLABS1001, ['#']))
 
-    # NOTE: normally '#' is enough for this, the reason i adding the '\n' as the text to grep because it helps escape from the error/disconnect condition.
-    # otherwise it will cause pexpect a failure and escape from loop.
-    # NOTE: by adding '\n', the implementation destroy the functionality of the 'ADB settings xxx ', so i cancel the work. need to find another way.
-    adb_commands.append((command, ['#']))
+        # NOTE: normally '#' is enough for this, the reason i adding the '\n' as the text to grep because it helps escape from the error/disconnect condition.
+        # otherwise it will cause pexpect a failure and escape from loop.
+        # NOTE: by adding '\n', the implementation destroy the functionality of the 'ADB settings xxx ', so i cancel the work. need to find another way.
+        adb_commands.append((command, ['#']))
 
-    child = pexpect.spawn(
-        context.adb_binary + " -s %s shell" % context.android_serial
-    )
-    index = child.expect(["$", "@", pexpect.TIMEOUT])
+        child = pexpect.spawn(
+            context.adb_binary + " -s %s shell" % context.android_serial
+        )
+        index = child.expect(["$", "@", pexpect.TIMEOUT])
 
-    for (command_to_send, text_expected) in adb_commands:
-        logging.debug('sending %s' % command_to_send)
-        send_command_to_adb(
-            child, command_to_send, text_expected)
+        for (command_to_send, text_expected) in adb_commands:
+            logging.debug('sending %s' % command_to_send)
+            send_command_to_adb(
+                child, command_to_send, text_expected)
+        pass
+    except Exception as e:
+        raise e
+    else:
+        pass
 
 
 @then(u'inject wifi configuration "{wifi_configuration}" to android')

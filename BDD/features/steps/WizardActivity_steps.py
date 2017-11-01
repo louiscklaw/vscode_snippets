@@ -234,46 +234,52 @@ def step_impl(context, Text, TimeOut, appears):
 
     # TODO: temporary solution
 
-    # NOTE: defaults to T1 device
-    if context.device == 'T1':
-        (dummy_tap_x, dummy_tap_y) = Device_T1.DUMMY_TAP
+    try:
 
-    elif context.device == 'M812':
-        (dummy_tap_x, dummy_tap_y) = Device_M812.DUMMY_TAP
+        # NOTE: defaults to T1 device
+        if context.device == 'T1':
+            (dummy_tap_x, dummy_tap_y) = Device_T1.DUMMY_TAP
+
+        elif context.device == 'M812':
+            (dummy_tap_x, dummy_tap_y) = Device_M812.DUMMY_TAP
+        else:
+            # TODO: define it in context
+            assert False, 'no dummy_tap defined'
+
+        TextFound = False
+        # TimeOut = int(TimeOut)
+        # for i in range(1, TimeOut):
+
+        start_time = get_epoch_time()
+        end_time = start_time + int(TimeOut)
+
+        while end_time > get_epoch_time():
+            sleep(1)
+            logging.debug('wait and retry')
+            context.execute_steps(u'''
+                Given Wait until screen ready, timeout 1 seconds
+                Then tap on position "%d","%d" using adb
+            ''' % (dummy_tap_x, dummy_tap_y)
+            )
+
+            els = finger.f_FindElementsWithText(context.appiumSession, Text)
+            if appears in ['appears']:
+                # NOTE i want it on screen
+                if len(els) > 0:
+                    TextFound = True
+                    break
+            elif appears in ['not appears']:
+                # NOTE i don't want it on screen
+                if len(els) < 1:
+                    break
+
+        if not(TextFound):
+            if appears in ['appears']:
+                assert False
+    except Exception as e:
+        raise e
     else:
-        # TODO: define it in context
-        assert False, 'no dummy_tap defined'
-
-    TextFound = False
-    # TimeOut = int(TimeOut)
-    # for i in range(1, TimeOut):
-
-    start_time = get_epoch_time()
-    end_time = start_time + int(TimeOut)
-
-    while end_time > get_epoch_time():
-        sleep(1)
-        logging.debug('wait and retry')
-        context.execute_steps(u'''
-            Given Wait until screen ready, timeout 1 seconds
-            Then tap on position "%d","%d" using adb
-        ''' % (dummy_tap_x, dummy_tap_y)
-        )
-
-        els = finger.f_FindElementsWithText(context.appiumSession, Text)
-        if appears in ['appears']:
-            # NOTE i want it on screen
-            if len(els) > 0:
-                TextFound = True
-                break
-        elif appears in ['not appears']:
-            # NOTE i don't want it on screen
-            if len(els) < 1:
-                break
-
-    if not(TextFound):
-        if appears in ['appears']:
-            assert False
+        pass
 
     pass
 
@@ -285,27 +291,34 @@ def step_impl(context, Text, TimeOut):
     """
     # print('i am supposed a waiting until %s' % Text)
 
-    TextFound = False
-    # TimeOut = int(TimeOut)
-    # for i in range(1, TimeOut):
-    end_time = get_end_time(get_epoch_time(), int(TimeOut))
+    try:
 
-    while end_time > get_epoch_time():
+        TextFound = False
+        # TimeOut = int(TimeOut)
+        # for i in range(1, TimeOut):
+        end_time = get_end_time(get_epoch_time(), int(TimeOut))
 
-        sleep(1)
-        (dummy_tap_x, dummy_tap_y) = context.device_config.DUMMY_TAP
+        while end_time > get_epoch_time():
 
-        context.execute_steps(u'''
-            Then tap on position "%d","%d" using adb
-        ''' % (dummy_tap_x, dummy_tap_y))
+            sleep(1)
+            (dummy_tap_x, dummy_tap_y) = context.device_config.DUMMY_TAP
 
-        els = finger.f_FindElementsStartWithText(context.appiumSession, Text)
-        if len(els) > 0:
-            TextFound = True
-            break
+            context.execute_steps(u'''
+                Then tap on position "%d","%d" using adb
+            ''' % (dummy_tap_x, dummy_tap_y))
 
-    if not(TextFound):
-        assert False, '%s not found' % Text
+            els = finger.f_FindElementsStartWithText(context.appiumSession, Text)
+            if len(els) > 0:
+                TextFound = True
+                break
+
+        if not(TextFound):
+            assert False, '%s not found' % Text
+        pass
+    except Exception as e:
+        raise e
+    else:
+        pass
 
     pass
 
