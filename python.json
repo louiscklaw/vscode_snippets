@@ -229,6 +229,17 @@
 		],
 		"description": "init a new inv task"
 	},
+	"troubleshoot_temp": {
+		"prefix": "troubleshoot_temp",
+		"body": [
+			"# TODO: FOR TROUBLESHOOT, REMOVE ME",
+			"# ",
+			"print('findme')",
+			"",
+			"# TODO: FOR TROUBLESHOOT, REMOVE ME"
+		],
+		"description": "init a new inv task"
+	},
 	"step": {
 		"prefix": "step:",
 		"body": [
@@ -290,13 +301,22 @@
 	"init_all_exception": {
 		"prefix": "init_all_exception",
 		"body":
-			//
-			[
-				"# TODO: remove me",
-				"except Exception as e:",
-				"    raise",
-				"# TODO: remove me"
-			],
+		//
+		[
+			"# TODO: remove me",
+			"except Exception as e:",
+			"    raise",
+			"# TODO: remove me"
+		],
+		"description": "description"
+	},
+	"todo_remove_me": {
+		"prefix": "todo_remove_me",
+		"body":
+		//
+		[
+			"# TODO: remove me"
+		],
 		"description": "description"
 	},
 	"join_path": {
@@ -337,11 +357,5 @@
 		],
 		"description": "description"
 	}
-
-
-
-
-
-
 
 }
