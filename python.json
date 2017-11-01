@@ -23,9 +23,8 @@
 		"prefix": "def_cust",
 		"body": [
 			"def ${1:name}(${3:parameters}):",
-			"    \"\"\"",
-			"        ${2:description}",
-			"    \"\"\"",
+			"    \"\"\"${2:description}\"\"\"",
+			"",
 			"",
 			"    pass"
 		],
@@ -301,22 +300,22 @@
 	"init_all_exception": {
 		"prefix": "init_all_exception",
 		"body":
-		//
-		[
-			"# TODO: remove me",
-			"except Exception as e:",
-			"    raise",
-			"# TODO: remove me"
-		],
+			//
+			[
+				"# TODO: remove me",
+				"except Exception as e:",
+				"    raise",
+				"# TODO: remove me"
+			],
 		"description": "description"
 	},
 	"todo_remove_me": {
 		"prefix": "todo_remove_me",
 		"body":
-		//
-		[
-			"# TODO: remove me"
-		],
+			//
+			[
+				"# TODO: remove me"
+			],
 		"description": "description"
 	},
 	"join_path": {
@@ -349,13 +348,33 @@
 	"findme_debug": {
 		"prefix": "findme_debug",
 		"body":
-		//
-		[
-			"# TODO: remove me",
-			"print('findme ${1:??}')",
-			"# TODO: remove me"
-		],
+			//
+			[
+				"# TODO: remove me",
+				"print('findme ${1:??}')",
+				"# TODO: remove me"
+			],
+		"description": "description"
+	},
+	"utils_logv2_value": {
+		"prefix": "utils_logv2_value",
+		"body":
+			//
+			[
+				"utils.logv2('${1:value_text}:%s'% ${1:value},'')"
+			],
+		"description": "description"
+	},
+	"utils_logv2": {
+		"prefix": "utils_logv2",
+		"body":
+			//
+			[
+				"utils.logv2('error occur during ${1:value_text}','${2:value}')"
+			],
 		"description": "description"
 	}
+
+
 
 }
