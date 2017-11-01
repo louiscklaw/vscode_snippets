@@ -11,7 +11,8 @@ Feature: random click for a hour, pilot run
     Given Reach "Happy flow The end" page in WizardActivity by skip, route "THIS_TEXT_IS_RESERVED_FOR_LATTER_USE"
     And Skip the 1st time tutorial by launcher
 
-    Then Random tour for 0.001 hour
+    # disable swipe
+    # Then Random tour for 0.001 hour
 
     Then In launcher side menu, Erase data
     # unconditional wait due to loss connection to the phone
