@@ -74,13 +74,13 @@
 	},
 	"logging_error": {
 		"prefix": "logging_error",
-		"body": ["logging.error('${1:error occur at ${2:??}}')"],
+		"body": ["logging.error('${1:error occur at ${2:??}})"],
 		"description": "logging_error"
 	},
 	"logging_error_value": {
 		"prefix": "logging_error_value",
 		"body": [
-			"logging.error('${1:print_value}:%s' % ${1:??}')"
+			"logging.error('${1:print_value}:%s' % ${1:??})"
 		],
 		"description": "logging_error_value"
 	},
