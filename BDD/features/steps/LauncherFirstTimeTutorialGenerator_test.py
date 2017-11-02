@@ -6,8 +6,6 @@ import logging
 import traceback
 from pprint import pprint
 
-logging.basicConfig(level=logging.INFO)
-
 from LauncherFirstTimeTutorialGenerator import *
 
 tutorial_config = LauncherFirstTimeTutorialConfig('en_US')

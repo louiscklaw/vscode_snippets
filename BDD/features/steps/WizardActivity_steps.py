@@ -108,11 +108,15 @@ def step_impl(context, target, route):
                     WizardActivityPage_M812.get_page(WV_PASS_TUTORIAL_IMAGE))
         else:
             logging.error('target: %s is not handled' % target)
+
             assert False, 'the %s is not handled' % context.device
 
         context.execute_steps(''.join(lsTemp))
         pass
     except Exception as e:
+        logging.error('error occur at reach page in WizardActivity')
+        logging.error('context.device:%s' % context.device)
+        logging.error('target:%s' % target)
         raise e
     else:
         pass

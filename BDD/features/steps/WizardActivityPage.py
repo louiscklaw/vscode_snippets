@@ -6,8 +6,6 @@ import logging
 import traceback
 from pprint import pprint
 
-# logging.basicConfig(level=logging.debug)
-
 INIT = 0
 WV_GREETING = 1
 WV_SKIP_CHECKOUT_DATE = 2

@@ -4,8 +4,6 @@ import os
 import sys
 import logging
 
-logging.basicConfig(level=logging.INFO)
-
 from behave import given, when, then, step
 from common import *
 import subprocess

@@ -16,7 +16,6 @@ try:
     from pprint import pprint
 
     import logging
-    logging.basicConfig(level=logging.INFO)
 
 except ImportError as e:
     print("[!] Required module missing. %s" % e.args[0])
