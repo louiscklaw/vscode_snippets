@@ -84,7 +84,7 @@
 		],
 		"description": "logging_error_value"
 	},
-	
+
 	"logging_info": {
 		"prefix": "logging_info",
 		"body": ["logging.info('${1:??}')"],
@@ -214,7 +214,7 @@
 		],
 		"description": "story"
 	},
-	
+
 	"init_unittest": {
 		"prefix": "init_unittest",
 		"body": [
@@ -398,9 +398,24 @@
 		"body":
 			//
 			[
-				"utils.logv2('error occur during ${1:value_text}','${2:value}')"
+				"utils.logv2('error occur during ${1:value_text}', ${2:value})"
 			],
 		"description": "description"
+	},
+	"print_value_debug": {
+		"prefix": "print_value_debug",
+		"body":
+			//
+			[
+				"",
+				"TODO: remove me",
+				"from pprint import pprint",
+        		"print('dump the value of: ${1:value}')",
+				"pprint(${1:value})",
+				"TODO: remove me",
+				""
+			],
+		"description": "simple print value debug for python"
 	}
 
 
