@@ -16,6 +16,8 @@ from fabric.api import cd, run, local, env
 import datetime
 from time import sleep
 
+import fabric
+
 
 def get_today_string(offset=0):
     """get the day string using the format "yymmdd-hhmmss" with the given offset(default=0, +ve number for the day in the past)
@@ -204,8 +206,10 @@ def run_never_end_test(feature_file_name, result_collect_directory, beahve_tags=
         logging.error('feature_file_name:%s' % feature_file_name)
 
         try:
-            print('start')
-            print('logfilename: %s' % log_file_filename)
+            # STEP: start
+            print(fabric.colors.green("STEP: start"))
+            print(fabric.colors.green('logfilename: %s' % log_file_filename))
+
             logging.debug('start run the feature file: %s :' % feature_file_name)
             # logging.debug(
             #     run_command('behave %s | tee ./result/%s' % (feature_file_name, log_file_filename))
@@ -274,13 +278,29 @@ def daily_count_passing_rate(days=0):
     print('https://docs.google.com/spreadsheets/d/1M7ppXj-3Pyy-khi2PjfrqbpkjWtJSaH9tBM4_GfULTQ/edit#gid=1418892851')
     remote_count_pass_rate(get_today_string(int(days)).split('-')[0])
 
+
+
 def remote_count_pass_rate(date_string):
     PROJECT_DIRECTORY = r'/home/louislaw/_workspace/handy-qa-automation-BDD'
     RESULT_DIRECTORY = os.path.sep.join([PROJECT_DIRECTORY, 'BDD/features/usecase/random-click-1-hour/result'])
+    ARCHIVE_DIRECTORY = os.path.sep.join([RESULT_DIRECTORY, 'archive'])
 
     result_configs = {
-        'T1': os.path.sep.join([RESULT_DIRECTORY,  'T1'] ),
-        'M812':os.path.sep.join([RESULT_DIRECTORY,  'M812'] )
+        'T1': os.path.sep.join(
+            [RESULT_DIRECTORY,  'T1']
+            ),
+        'M812':os.path.sep.join(
+            [RESULT_DIRECTORY,  'M812']
+            )
+    }
+
+    archive_configs = {
+        'T1': os.path.sep.join(
+            [ARCHIVE_DIRECTORY,  'T1']
+        ),
+        'M812': os.path.sep.join(
+            [ARCHIVE_DIRECTORY,  'M812']
+        )
     }
 
     for (model, result_directory) in result_configs.items():
@@ -288,11 +308,43 @@ def remote_count_pass_rate(date_string):
             run('pwd')
             run('inv calculate-passing-rate %s' % date_string)
 
+    # for (model, archive_directory) in archive_configs.items():
+    #     last_month_archive_dir = datetime.datetime.now().strftime('%s')
+    #     with cd(archive_directory):
+    #         # STEP: make archive directory
+    #         print("STEP: make archive directory")
+    #         run('mkdir -p %s' % archive_directory)
+
+
+def archive_log(days=0):
+    print('archiving log')
 
 
 
+
+
+def pull_test_script(device):
+    """i would like to pull code and run the test"""
+
+    with fabric.cd(os.path.dirname(__file__)):
+        local('git fetch --all')
+        local('git checkout feature/random-click-1-hour')
+
+        if device in ['VZH']:
+            local('fab run_never_end_test:random-click-1-hour_T1.feature')
+
+        elif device in ['M812']:
+            local('fab run_never_end_test:random-click-1-hour_M812.feature')
+        else:
+            fabric.colors.red('the device is not handled %s' % device, True)
+
+
+def fab_compileall(target_directory):
+    with cd(target_directory):
+        local('python -m compileall *.py')
 
 
 def helloworld():
     local('echo helloworld')
     logging.debug('filename: %s' % __file__)
+
