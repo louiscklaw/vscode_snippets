@@ -209,6 +209,7 @@
 	"STORY?": {
 		"prefix": "STORY?",
 		"body": [
+			// work with todohighlight.keywords
 			"# STORY?: ${1:This is a story about ${2:...} ??}"
 		],
 		"description": "story"
