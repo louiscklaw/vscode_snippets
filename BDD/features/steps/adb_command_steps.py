@@ -109,16 +109,22 @@ def run(cmd, timeout_sec):
 
 @step(u'ADB Wait for device')
 def step_impl(context):
-    if hasattr(context, 'adb_session'):
-        pass
-    else:
-        # context.adb_session = ADB()
-        logging.debug('adb_session is missing')
-        assert False, 'adb_session is missing'
+    try:
+        if hasattr(context, 'adb_session'):
+            pass
+        else:
+            # context.adb_session = ADB()
+            logging.debug('adb_session is missing')
+            assert False, 'adb_session is missing'
 
-    adb = context.adb_session
-    adb.run_cmd('wait-for-device')
-    sleep(3)
+        adb = context.adb_session
+        adb.run_cmd('wait-for-device')
+        sleep(3)
+        pass
+    except Exception as e:
+        raise e
+    else:
+        pass
 
 
 @step(u'ADB Wait for device, timeout {sSeconds} seconds')
@@ -126,27 +132,23 @@ def step_impl(context, sSeconds):
     """
         probe the device by adb wait-for-device command.
     """
-    time_to_start = get_epoch_time()
+    try:
+        time_to_start = get_epoch_time()
 
-    context.adb_session.run_cmd('wait-for-device')
+        context.adb_session.run_cmd('wait-for-device')
 
-    # (iRetrunCode, sStdOut, sStdErr, bTimeout) = result
-    context.time_poweron_to_adb_ready = get_time_difference_to(time_to_start)
+        # (iRetrunCode, sStdOut, sStdErr, bTimeout) = result
+        context.time_poweron_to_adb_ready = get_time_difference_to(time_to_start)
 
-    # wait some seconds more to let device ready
-    sleep(3)
+        # wait some seconds more to let device ready
+        sleep(3)
+        pass
+    except Exception as e:
+        raise e
+    else:
+        pass
 
     pass
-
-# TODO: delete
-# @step(u'ADB Reboot bootloader "{android_serial}"')
-# def step_impl(context, android_serial):
-#     """
-#         to be replaced by
-#     """
-#     (iRetrunCode, sStdOut, sStdErr, bTimeout) = run(
-#         'adb -s %s reboot bootloader' % android_serial,
-#         timeout_sec=int(sSeconds))
 
 
 @step(u'ADB Reboot bootloader')
@@ -217,19 +219,25 @@ def step_impl(context):
     """
     packed action to initialize android
     """
-    context.execute_steps(u'''
-        Given ADB PATH_ANDROID_TEMP directory is ready, timeout 60 seconds
-            And ADB push tinklabs1001
+    try:
+        context.execute_steps(u'''
+            Given ADB PATH_ANDROID_TEMP directory is ready, timeout 60 seconds
+                And ADB push tinklabs1001
 
-        Then ADB change permission tinklabs1001
+            Then ADB change permission tinklabs1001
 
-        Then ADB settings put global package_verifier_enable 0
-            And ADB settings put global stay_on_while_plugged_in 7
-            And ADB settings put system screen_brightness 10
+            Then ADB settings put global package_verifier_enable 0
+                And ADB settings put global stay_on_while_plugged_in 7
+                And ADB settings put system screen_brightness 10
 
-            # disable USB file transfer
-            # And ADB setprop "persist.sys.usb.config" "adb,mtp"
-      ''')
+                # disable USB file transfer
+                # And ADB setprop "persist.sys.usb.config" "adb,mtp"
+        ''')
+        pass
+    except Exception as e:
+        raise e
+    else:
+        pass
 
 
 # TODO: delete me
@@ -293,9 +301,15 @@ def step_impl(context):
     """
     packed process to transfer the tinklabs1001 to android
     """
-    context.execute_steps(u'''
-        Then ADB push "%(PATH_PC_TINKLABS1001)s" "%(PATH_ANDROID_TEMP)s"
-    ''' % dParameters)
+    try:
+        context.execute_steps(u'''
+            Then ADB push "%(PATH_PC_TINKLABS1001)s" "%(PATH_ANDROID_TEMP)s"
+        ''' % dParameters)
+        pass
+    except Exception as e:
+        raise e
+    else:
+        pass
 
 
 @step(u'ADB change permission tinklabs1001')
@@ -303,16 +317,28 @@ def step_impl(context):
     """
     packed process to change the file permission of tinklabs1001
     """
-    context.execute_steps(u'''
-        Then ADB change permission "777" "%(PATH_ANDROID_TINKLABS1001)s"
-    ''' % dParameters)
+    try:
+        context.execute_steps(u'''
+            Then ADB change permission "777" "%(PATH_ANDROID_TINKLABS1001)s"
+        ''' % dParameters)
+        pass
+    except Exception as e:
+        raise e
+    else:
+        pass
 
 
 @step(u'ADB change permission change_settings')
 def step_impl(context):
-    context.execute_steps(u'''
-        Then ADB change permission "777" "%(PATH_ANDROID_CHANGE_SETTINGS)s"
-    ''' % dParameters)
+    try:
+        context.execute_steps(u'''
+            Then ADB change permission "777" "%(PATH_ANDROID_CHANGE_SETTINGS)s"
+        ''' % dParameters)
+        pass
+    except Exception as e:
+        raise e
+    else:
+        pass
     pass
 
 
@@ -375,9 +401,16 @@ def step_impl(context, sValue, sSettingName, sNamespace):
     #     Then ADB shell ""source /data/local/tmp/change_settings.sh put %s %s %s""
     # ''' % (sNamespace, sSettingName, sValue))
 
-    context.execute_steps(u'''
-        Then adb root shell "settings put %s %s %s"
-    ''' % (sNamespace, sSettingName, sValue))
+    try:
+
+        context.execute_steps(u'''
+            Then adb root shell "settings put %s %s %s"
+        ''' % (sNamespace, sSettingName, sValue))
+        pass
+    except Exception as e:
+        raise e
+    else:
+        pass
 
     pass
 
@@ -620,31 +653,38 @@ def step_impl(context, sSeconds):
         :Args:
             - sSeconds - timeout for the process
     """
-    bBootComplete = False
-    sStdOut = ''
-    sStdErr = ''
+    try:
 
-    time_start = get_epoch_time()
-    time_to_end = time_start + int(sSeconds)
+        bBootComplete = False
+        sStdOut = ''
+        sStdErr = ''
 
-    # for i in range(0, int(sSeconds)):
-    while time_to_end > get_epoch_time():
-        sleep(15)
-        # (sResultCode, sStdOut, sStdErr, bTimeout) = step_adb_getprop(context, "sys.boot_completed")
-        sStdOut = step_adb_getprop(context, 'sys.boot_completed')
-        sStdOut = sStdOut.strip()
+        time_start = get_epoch_time()
+        time_to_end = time_start + int(sSeconds)
 
-        if sStdOut == '1':
-            bBootComplete = True
-            break
+        # for i in range(0, int(sSeconds)):
+        while time_to_end > get_epoch_time():
+            sleep(15)
+            # (sResultCode, sStdOut, sStdErr, bTimeout) = step_adb_getprop(context, "sys.boot_completed")
+            sStdOut = step_adb_getprop(context, 'sys.boot_completed')
+            sStdOut = sStdOut.strip()
 
-    if bBootComplete:
-        context.time_sys_boot_animation = get_time_difference_to(time_start)
+            if sStdOut == '1':
+                bBootComplete = True
+                break
+
+        if bBootComplete:
+            context.time_sys_boot_animation = get_time_difference_to(time_start)
+            pass
+        else:
+            logging.error('boot failed')
+            logging.error('sStdOut: %s' % sStdOut)
+            assert False, 'boot failed'
         pass
+    except Exception as e:
+        raise e
     else:
-        logging.error('boot failed')
-        logging.error('sStdOut: %s' % sStdOut)
-        assert False, 'boot failed'
+        pass
 
 
 @then(u'Fail if the time taken "{name_of_process}" is more than {seconds} seconds')
@@ -707,23 +747,29 @@ def step_adb_root_shell(context, command):
     """
     logging.basicConfig(level=logging.INFO)
 
-    adb_commands = []
-    adb_commands.append((PATH_ANDROID_TINKLABS1001, ['#']))
+    try:
+        adb_commands = []
+        adb_commands.append((PATH_ANDROID_TINKLABS1001, ['#']))
 
-    # NOTE: normally '#' is enough for this, the reason i adding the '\n' as the text to grep because it helps escape from the error/disconnect condition.
-    # otherwise it will cause pexpect a failure and escape from loop.
-    # NOTE: by adding '\n', the implementation destroy the functionality of the 'ADB settings xxx ', so i cancel the work. need to find another way.
-    adb_commands.append((command, ['#']))
+        # NOTE: normally '#' is enough for this, the reason i adding the '\n' as the text to grep because it helps escape from the error/disconnect condition.
+        # otherwise it will cause pexpect a failure and escape from loop.
+        # NOTE: by adding '\n', the implementation destroy the functionality of the 'ADB settings xxx ', so i cancel the work. need to find another way.
+        adb_commands.append((command, ['#']))
 
-    child = pexpect.spawn(
-        context.adb_binary + " -s %s shell" % context.android_serial
-    )
-    index = child.expect(["$", "@", pexpect.TIMEOUT])
+        child = pexpect.spawn(
+            context.adb_binary + " -s %s shell" % context.android_serial
+        )
+        index = child.expect(["$", "@", pexpect.TIMEOUT])
 
-    for (command_to_send, text_expected) in adb_commands:
-        logging.debug('sending %s' % command_to_send)
-        send_command_to_adb(
-            child, command_to_send, text_expected)
+        for (command_to_send, text_expected) in adb_commands:
+            logging.debug('sending %s' % command_to_send)
+            send_command_to_adb(
+                child, command_to_send, text_expected)
+        pass
+    except Exception as e:
+        raise e
+    else:
+        pass
 
 
 @then(u'inject wifi configuration "{wifi_configuration}" to android')

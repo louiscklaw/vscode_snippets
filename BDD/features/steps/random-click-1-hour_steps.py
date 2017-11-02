@@ -17,11 +17,16 @@ from random import randint
 sys.path.append(os.path.dirname(__file__) + '/../_lib')
 
 lsRandomTour = []
-lsRandomTour.append(u'Then Swipe the feed until %s appears' % 'Survey')
-lsRandomTour.append(u'Then Swipe the feed until %s appears' % 'DISCOUNT TICKETS')
-lsRandomTour.append(u'Then Swipe the feed until %s appears' % 'TRENDING')
-lsRandomTour.append(u'Then Swipe the feed until %s appears' % 'FUN FACTS')
-lsRandomTour.append(u'Then Try to activate handy phone from launcher')
+# lsRandomTour.append(u'Then Swipe the feed until %s appears' % 'Survey')
+# lsRandomTour.append(u'Then Swipe the feed until %s appears' % 'DISCOUNT TICKETS')
+# lsRandomTour.append(u'Then Swipe the feed until %s appears' % 'TRENDING')
+# lsRandomTour.append(u'Then Swipe the feed until %s appears' % 'FUN FACTS')
+# lsRandomTour.append(u'Then Try to activate handy phone from launcher')
+
+# TODO: need troubleshoot
+lsRandomTour.append(u'Then Activate App Drawer from launcher')
+lsRandomTour.append(u'Then Swipe up in App Drawer until "Erase Data" appears')
+lsRandomTour.append(u'Then Click on a random clickable (depth:4)')
 
 
 @step(u'Random tour selftest, route{route_number}')
@@ -48,30 +53,32 @@ def step_impl(context, sDuration):
         :NOTE:
             - corelated the mixpanel
     """
+    iRoute = 0
+    try:
+        fDuration = float(sDuration)
+        fDurationInSecond = fDuration * 3600
+        iTimeToStop = time.time() + fDurationInSecond
 
-    fDuration = float(sDuration)
-    fDurationInSecond = fDuration * 3600
-    iTimeToStop = time.time() + fDurationInSecond
+        print(u'I am supposed to click on clickable for %f seconds' %
+            fDurationInSecond)
 
+        iRunCount = 0
+        while time.time() < iTimeToStop:
+            # for iRoute in range(0,len(lsRandomTour)):
+            iRunCount += 1
+            iRoute = random.randint(0, len(lsRandomTour) - 1)
 
-    # TODO: need troubleshoot
-    # lsRandomTour.append(u'Then Activate App Drawer from launcher')
-    # lsRandomTour.append(u'Then Swipe up in App Drawer until "Erase Data" appears')
-    # lsRandomTour.append(u'Then Click on a random clickable (depth:4)')
+            print('continue to random click, run count %d' % iRunCount)
+            context.execute_steps(
+                lsRandomTour[iRoute]
+            )
 
-    print(u'I am supposed to click on clickable for %f seconds' %
-          fDurationInSecond)
-
-    iRunCount = 0
-    while time.time() < iTimeToStop:
-        # for iRoute in range(0,len(lsRandomTour)):
-        iRunCount += 1
-        iRoute = random.randint(0, len(lsRandomTour) - 1)
-
-        print('continue to random click, run count %d' % iRunCount)
-        context.execute_steps(
-            lsRandomTour[iRoute]
-        )
+        pass
+    except Exception as e:
+        print('iRoute:%d' % iRoute)
+        raise e
+    else:
+        pass
 
 
 # HOME
@@ -118,7 +125,7 @@ def step_impl(context):
         # To make sure Apps button appears
         Given press HOME button
           And Wait until screen ready, timeout 30 seconds
-          And Swipe "com.tinklabs.launcher:id/mdContent" DOWN Distance "200" until "Google" appears on screen (max swipe "5")
+          And Swipe "com.tinklabs.launcher:id/mdContent" DOWN Distance "200" until "Apps" appears on screen (max swipe "5")
 
         Given User tap on "Apps" button
           And Wait until screen ready, timeout 30 seconds

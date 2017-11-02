@@ -2,7 +2,7 @@
 Feature: random click for a hour, pilot run
   @initialize_rom
   Scenario: initialize
-    Given Target device is T1 "VZHGLMA742800785"
+    Given Target device is T1 "VZHGLMA742804186"
     And Test setup is ready
 
     Given setup an android as below, using appium port 4723
@@ -12,7 +12,8 @@ Feature: random click for a hour, pilot run
     Given Reach "Happy flow The end" page in WizardActivity by skip, route "THIS_TEXT_IS_RESERVED_FOR_LATTER_USE"
     And Skip the 1st time tutorial by launcher
 
-    Then Random tour for 0.5 hour
+    # disable swipe random route,
+    # Then Random tour for 0.5 hour
 
     Then In launcher side menu, Erase data
     # unconditional wait due to loss connection to the phone

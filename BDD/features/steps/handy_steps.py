@@ -45,6 +45,12 @@ def step_impl(context):
     """
         sleep across the handy initialization
     """
-    context.execute_steps(u'''
-        Then sleep 600 seconds
-    ''')
+    try:
+        context.execute_steps(u'''
+            Then sleep 600 seconds
+        ''')
+        pass
+    except Exception as e:
+        raise e
+    else:
+        pass

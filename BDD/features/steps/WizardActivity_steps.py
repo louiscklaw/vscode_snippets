@@ -37,18 +37,18 @@ def step_impl(context, Text, n):
             bTextNotFound = False
     pass
 
+# TODO: remove me
+# @given(u'Reach "Become a handy member" page')
+# def step_impl(context):
+#     raise NotImplementedError(
+#         u'STEP: Given Reach "Become a handy member" page')
 
-@given(u'Reach "Become a handy member" page')
-def step_impl(context):
-    raise NotImplementedError(
-        u'STEP: Given Reach "Become a handy member" page')
 
-
-@given(u'Reach "Log in to yo your handy account" page')
-def step_impl(context):
-    raise NotImplementedError(
-        u'STEP: Given Reach "Log in to yo your handy account" page')
-
+# @given(u'Reach "Log in to yo your handy account" page')
+# def step_impl(context):
+#     raise NotImplementedError(
+#         u'STEP: Given Reach "Log in to yo your handy account" page')
+# TODO: remove me
 
 @step(u'Reach "{target}" page in WizardActivity by skip, route "{route}"')
 def step_impl(context, target, route):
@@ -61,53 +61,61 @@ def step_impl(context, target, route):
         - route, not effective, reserved
             route of Wizard, currently mapped with hotel of the device, e.g. QA Testing(IRX)
     """
-    lsTemp = []
+    try:
+        lsTemp = []
 
-    if context.device == 'T1':
-        # 1280 x 700
+        if context.device == 'T1':
+            # 1280 x 700
 
-        # IDEA: i think i need a route class here
-        # happy flow means skip to the end
-        config_T1 = WizardActivityPageConfig('T1')
-        WizardActivityPage_T1 = WizardActivityPageGenerator(config_T1)
+            # IDEA: i think i need a route class here
+            # happy flow means skip to the end
+            config_T1 = WizardActivityPageConfig('T1')
+            WizardActivityPage_T1 = WizardActivityPageGenerator(config_T1)
 
-        if target == 'Happy flow The end':
-            # IDEA: to create the route, will handle by a generator
+            if target == 'Happy flow The end':
+                # IDEA: to create the route, will handle by a generator
 
-            lsTemp.append(WizardActivityPage_T1.get_page(INIT))
-            lsTemp.append(WizardActivityPage_T1.get_page(WV_GREETING))
-            lsTemp.append(
-                WizardActivityPage_T1.get_page(WV_SKIP_CHECKOUT_DATE))
-            lsTemp.append(
-                WizardActivityPage_T1.get_page(WV_SKIP_HANDYMEMBER))
-            # lsTemp.append(
-            #     WizardActivityPage_T1.get_page(WV_SKIP_PERSONALIZED_EXPERIENCE))
-            lsTemp.append(
-                WizardActivityPage_T1.get_page(WV_PASS_PLAY_VIDEO))
+                lsTemp.append(WizardActivityPage_T1.get_page(INIT))
+                lsTemp.append(WizardActivityPage_T1.get_page(WV_GREETING))
+                lsTemp.append(
+                    WizardActivityPage_T1.get_page(WV_SKIP_CHECKOUT_DATE))
+                lsTemp.append(
+                    WizardActivityPage_T1.get_page(WV_SKIP_HANDYMEMBER))
+                # lsTemp.append(
+                #     WizardActivityPage_T1.get_page(WV_SKIP_PERSONALIZED_EXPERIENCE))
 
-    elif context.device == 'M812':
-        # screen resolution is 1920 x 1080
-        # temporary for M812
-        # landing on checkout date page
+                # NOTE: the playing of video is disabled.
+                # lsTemp.append(
+                #     WizardActivityPage_T1.get_page(WV_PASS_PLAY_VIDEO))
 
-        config_M812 = WizardActivityPageConfig('M812')
-        WizardActivityPage_M812 = WizardActivityPageGenerator(config_M812)
+        elif context.device == 'M812':
+            # screen resolution is 1920 x 1080
+            # temporary for M812
+            # landing on checkout date page
 
-        if target == 'Happy flow The end':
-            # updating for QA Testing(IRX)
-            lsTemp.append(WizardActivityPage_M812.get_page(INIT))
-            lsTemp.append(WizardActivityPage_M812.get_page(WV_GREETING))
-            # lsTemp.append(WizardActivityPage_M812.get_page(WV_SKIP_CHECKOUT_DATE))
-            lsTemp.append(
-                WizardActivityPage_M812.get_page(WV_SKIP_HANDYMEMBER))
-            # lsTemp.append(WizardActivityPage_M812.get_page(WV_SKIP_PERSONALIZED_EXPERIENCE))
-            lsTemp.append(
-                WizardActivityPage_M812.get_page(WV_PASS_TUTORIAL_IMAGE))
+            config_M812 = WizardActivityPageConfig('M812')
+            WizardActivityPage_M812 = WizardActivityPageGenerator(config_M812)
+
+            if target == 'Happy flow The end':
+                # updating for QA Testing(IRX)
+                lsTemp.append(WizardActivityPage_M812.get_page(INIT))
+                lsTemp.append(WizardActivityPage_M812.get_page(WV_GREETING))
+                # lsTemp.append(WizardActivityPage_M812.get_page(WV_SKIP_CHECKOUT_DATE))
+                lsTemp.append(
+                    WizardActivityPage_M812.get_page(WV_SKIP_HANDYMEMBER))
+                # lsTemp.append(WizardActivityPage_M812.get_page(WV_SKIP_PERSONALIZED_EXPERIENCE))
+                lsTemp.append(
+                    WizardActivityPage_M812.get_page(WV_PASS_TUTORIAL_IMAGE))
+        else:
+            logging.error('target: %s is not handled' % target)
+            assert False, 'the %s is not handled' % context.device
+
+        context.execute_steps(''.join(lsTemp))
+        pass
+    except Exception as e:
+        raise e
     else:
-        logging.error('target: %s is not handled' % target)
-        assert False, 'the %s is not handled' % context.device
-
-    context.execute_steps(''.join(lsTemp))
+        pass
 
     pass
 
@@ -182,36 +190,42 @@ def step_impl(context, target):
     '''
 
     lsTemp = []
-    # landing on checkout date page
-    if target == 'ask for checkout date':
-        lsTemp.append(dWizardActivityPage[INIT])
-        lsTemp.append(dWizardActivityPage[WV_GREETING])
-    # landing on "Become a handy member" page
-    elif target == 'Become a handy member':
-        lsTemp.append(dWizardActivityPage[INIT])
-        lsTemp.append(dWizardActivityPage[WV_GREETING])
-        lsTemp.append(dWizardActivityPage[WV_SKIP_CHECKOUT_DATE])
+    try:
+        # landing on checkout date page
+        if target == 'ask for checkout date':
+            lsTemp.append(dWizardActivityPage[INIT])
+            lsTemp.append(dWizardActivityPage[WV_GREETING])
+        # landing on "Become a handy member" page
+        elif target == 'Become a handy member':
+            lsTemp.append(dWizardActivityPage[INIT])
+            lsTemp.append(dWizardActivityPage[WV_GREETING])
+            lsTemp.append(dWizardActivityPage[WV_SKIP_CHECKOUT_DATE])
 
-    elif target == 'Personalized experience':
-        lsTemp.append(dWizardActivityPage[INIT])
-        lsTemp.append(dWizardActivityPage[WV_GREETING])
-        lsTemp.append(dWizardActivityPage[WV_SKIP_CHECKOUT_DATE])
-        lsTemp.append(dWizardActivityPage[WV_SKIP_HANDYMEMBER])
+        elif target == 'Personalized experience':
+            lsTemp.append(dWizardActivityPage[INIT])
+            lsTemp.append(dWizardActivityPage[WV_GREETING])
+            lsTemp.append(dWizardActivityPage[WV_SKIP_CHECKOUT_DATE])
+            lsTemp.append(dWizardActivityPage[WV_SKIP_HANDYMEMBER])
 
-    elif target == 'Play video':
-        lsTemp.append(dWizardActivityPage[INIT])
-        lsTemp.append(dWizardActivityPage[WV_GREETING])
-        lsTemp.append(dWizardActivityPage[WV_SKIP_CHECKOUT_DATE])
-        lsTemp.append(dWizardActivityPage[WV_SKIP_HANDYMEMBER])
-        lsTemp.append(dWizardActivityPage[WV_SKIP_PERSONALIZED_EXPERIENCE])
+        elif target == 'Play video':
+            lsTemp.append(dWizardActivityPage[INIT])
+            lsTemp.append(dWizardActivityPage[WV_GREETING])
+            lsTemp.append(dWizardActivityPage[WV_SKIP_CHECKOUT_DATE])
+            lsTemp.append(dWizardActivityPage[WV_SKIP_HANDYMEMBER])
+            lsTemp.append(dWizardActivityPage[WV_SKIP_PERSONALIZED_EXPERIENCE])
 
-    elif target == 'Happy flow The end':
-        lsTemp.append(dWizardActivityPage[INIT])
-        lsTemp.append(dWizardActivityPage[WV_GREETING])
-        lsTemp.append(dWizardActivityPage[WV_SKIP_CHECKOUT_DATE])
-        lsTemp.append(dWizardActivityPage[WV_SKIP_HANDYMEMBER])
-        lsTemp.append(dWizardActivityPage[WV_SKIP_PERSONALIZED_EXPERIENCE])
-        lsTemp.append(dWizardActivityPage[WV_PASS_PLAY_VIDEO])
+        elif target == 'Happy flow The end':
+            lsTemp.append(dWizardActivityPage[INIT])
+            lsTemp.append(dWizardActivityPage[WV_GREETING])
+            lsTemp.append(dWizardActivityPage[WV_SKIP_CHECKOUT_DATE])
+            lsTemp.append(dWizardActivityPage[WV_SKIP_HANDYMEMBER])
+            lsTemp.append(dWizardActivityPage[WV_SKIP_PERSONALIZED_EXPERIENCE])
+            lsTemp.append(dWizardActivityPage[WV_PASS_PLAY_VIDEO])
+        pass
+    except Exception as e:
+        raise e
+    else:
+        pass
 
     context.execute_steps(''.join(lsTemp))
 
@@ -226,46 +240,52 @@ def step_impl(context, Text, TimeOut, appears):
 
     # TODO: temporary solution
 
-    # NOTE: defaults to T1 device
-    if context.device == 'T1':
-        (dummy_tap_x, dummy_tap_y) = Device_T1.DUMMY_TAP
+    try:
 
-    elif context.device == 'M812':
-        (dummy_tap_x, dummy_tap_y) = Device_M812.DUMMY_TAP
+        # NOTE: defaults to T1 device
+        if context.device == 'T1':
+            (dummy_tap_x, dummy_tap_y) = Device_T1.DUMMY_TAP
+
+        elif context.device == 'M812':
+            (dummy_tap_x, dummy_tap_y) = Device_M812.DUMMY_TAP
+        else:
+            # TODO: define it in context
+            assert False, 'no dummy_tap defined'
+
+        TextFound = False
+        # TimeOut = int(TimeOut)
+        # for i in range(1, TimeOut):
+
+        start_time = get_epoch_time()
+        end_time = start_time + int(TimeOut)
+
+        while end_time > get_epoch_time():
+            sleep(1)
+            logging.debug('wait and retry')
+            context.execute_steps(u'''
+                Given Wait until screen ready, timeout 1 seconds
+                Then tap on position "%d","%d" using adb
+            ''' % (dummy_tap_x, dummy_tap_y)
+            )
+
+            els = finger.f_FindElementsWithText(context.appiumSession, Text)
+            if appears in ['appears']:
+                # NOTE i want it on screen
+                if len(els) > 0:
+                    TextFound = True
+                    break
+            elif appears in ['not appears']:
+                # NOTE i don't want it on screen
+                if len(els) < 1:
+                    break
+
+        if not(TextFound):
+            if appears in ['appears']:
+                assert False
+    except Exception as e:
+        raise e
     else:
-        # TODO: define it in context
-        assert False, 'no dummy_tap defined'
-
-    TextFound = False
-    # TimeOut = int(TimeOut)
-    # for i in range(1, TimeOut):
-
-    start_time = get_epoch_time()
-    end_time = start_time + int(TimeOut)
-
-    while end_time > get_epoch_time():
-        sleep(1)
-        logging.debug('wait and retry')
-        context.execute_steps(u'''
-            Given Wait until screen ready, timeout 1 seconds
-            Then tap on position "%d","%d" using adb
-        ''' % (dummy_tap_x, dummy_tap_y)
-        )
-
-        els = finger.f_FindElementsWithText(context.appiumSession, Text)
-        if appears in ['appears']:
-            # NOTE i want it on screen
-            if len(els) > 0:
-                TextFound = True
-                break
-        elif appears in ['not appears']:
-            # NOTE i don't want it on screen
-            if len(els) < 1:
-                break
-
-    if not(TextFound):
-        if appears in ['appears']:
-            assert False
+        pass
 
     pass
 
@@ -277,27 +297,34 @@ def step_impl(context, Text, TimeOut):
     """
     # print('i am supposed a waiting until %s' % Text)
 
-    TextFound = False
-    # TimeOut = int(TimeOut)
-    # for i in range(1, TimeOut):
-    end_time = get_end_time(get_epoch_time(), int(TimeOut))
+    try:
 
-    while end_time > get_epoch_time():
+        TextFound = False
+        # TimeOut = int(TimeOut)
+        # for i in range(1, TimeOut):
+        end_time = get_end_time(get_epoch_time(), int(TimeOut))
 
-        sleep(1)
-        (dummy_tap_x, dummy_tap_y) = context.device_config.DUMMY_TAP
+        while end_time > get_epoch_time():
 
-        context.execute_steps(u'''
-            Then tap on position "%d","%d" using adb
-        ''' % (dummy_tap_x, dummy_tap_y))
+            sleep(1)
+            (dummy_tap_x, dummy_tap_y) = context.device_config.DUMMY_TAP
 
-        els = finger.f_FindElementsStartWithText(context.appiumSession, Text)
-        if len(els) > 0:
-            TextFound = True
-            break
+            context.execute_steps(u'''
+                Then tap on position "%d","%d" using adb
+            ''' % (dummy_tap_x, dummy_tap_y))
 
-    if not(TextFound):
-        assert False, '%s not found' % Text
+            els = finger.f_FindElementsStartWithText(context.appiumSession, Text)
+            if len(els) > 0:
+                TextFound = True
+                break
+
+        if not(TextFound):
+            assert False, '%s not found' % Text
+        pass
+    except Exception as e:
+        raise e
+    else:
+        pass
 
     pass
 
