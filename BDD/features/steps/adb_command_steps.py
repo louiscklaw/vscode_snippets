@@ -4,8 +4,6 @@ import os
 import sys
 import logging
 
-logging.basicConfig(level=logging.INFO)
-
 from behave import given, when, then, step
 from common import *
 
@@ -462,15 +460,34 @@ def step_impl(context, sName, sValue):
         adb shell setprop sys.usb.config mass_storage,adb
 
     """
-    logging.debug(u'STEP: Given ADB setprop "%s" "%s"' % (sName, sValue))
+    try:
+        logging.debug(u'STEP: Given ADB setprop "%s" "%s"' % (sName, sValue))
 
-    context.execute_steps(u'''
-        Given ADB push tinklabs1001
-          And ADB change permission tinklabs1001
-        Then ADB root shell "setprop %s %s"
-        ''' % (sName, sValue))
+        context.execute_steps(u'''
+            Given ADB push tinklabs1001
+            And ADB change permission tinklabs1001
+            Then ADB root shell "setprop %s %s"
+            ''' % (sName, sValue))
 
-    logging.debug('change props %s done' % sName)
+        logging.debug('change props %s done' % sName)
+        pass
+    except Exception as e:
+
+        # TODO: remove me
+        from pprint import pprint
+        print('dump the value of: sName')
+        pprint(sName)
+        # TODO: remove me
+
+        # TODO: remove me
+        from pprint import pprint
+        print('dump the value of: sValue')
+        pprint(sValue)
+        # TODO: remove me
+
+        raise e
+    else:
+        pass
 
     pass
 
@@ -745,7 +762,6 @@ def step_adb_root_shell(context, command):
         :Args:
             - command - command would like to send by root shell
     """
-    logging.basicConfig(level=logging.INFO)
 
     try:
         adb_commands = []
