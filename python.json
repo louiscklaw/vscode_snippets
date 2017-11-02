@@ -393,14 +393,23 @@
 			],
 		"description": "description"
 	},
-	"utils_logv2": {
-		"prefix": "utils_logv2",
+	"utils_logv2_log": {
+		"prefix": "utils_logv2_log",
 		"body":
 			//
 			[
-				"utils.logv2('error occur during ${1:value_text}', ${2:value})"
+				"utils.logv2('${1:value_text}', ${2:LOG})"
 			],
-		"description": "description"
+		"description": "utils_logv2_log"
+	},
+	"utils_logv2_error": {
+		"prefix": "utils_logv2_error",
+		"body":
+		//
+		[
+			"utils.logv2('error occur during running ${1:value_text}', ${2:Fail})"
+		],
+		"description": "utils_logv2_error"
 	},
 	"print_value_debug": {
 		"prefix": "print_value_debug",
