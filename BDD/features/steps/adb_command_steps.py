@@ -229,7 +229,7 @@ def step_impl(context):
                 And ADB settings put system screen_brightness 10
 
                 # disable USB file transfer
-                # And ADB setprop "persist.sys.usb.config" "adb,mtp"
+                And ADB setprop "persist.sys.usb.config" "adb,mtp"
         ''')
         pass
     except Exception as e:
@@ -477,10 +477,6 @@ def step_impl(context, sName, sValue):
         from pprint import pprint
         print('dump the value of: sName')
         pprint(sName)
-        # TODO: remove me
-
-        # TODO: remove me
-        from pprint import pprint
         print('dump the value of: sValue')
         pprint(sValue)
         # TODO: remove me
@@ -783,6 +779,20 @@ def step_adb_root_shell(context, command):
                 child, command_to_send, text_expected)
         pass
     except Exception as e:
+
+        # TODO: remove me
+        from pprint import pprint
+        logging.debug('dump the value of: command')
+        logging.debug(command)
+
+        logging.debug('dump the value of: command_to_send')
+        logging.debug(command_to_send)
+
+        logging.debug('dump the value of: text_expected')
+        logging.debug(text_expected)
+        # xTODO: remove me
+
+
         raise e
     else:
         pass
