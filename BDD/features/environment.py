@@ -54,6 +54,7 @@ def before_all(context):
     context.appium_port = []
     context.appium_pid = []
 
+    logging.basicConfig(level=logging.DEBUG)
 
 def after_all(context):
     pass
