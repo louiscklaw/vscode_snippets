@@ -13,7 +13,7 @@ Feature: appium screen capture
     Given test appium screen capture
 
 
-  @appium_capture_failed_screen
+  @appium_capture_failed_screen_T1
     Scenario: test capture failure screen
       Given Target device is T1 "VZHGLMA742800785"
       And ADB initialize android
@@ -23,3 +23,14 @@ Feature: appium screen capture
       And Wait until "English" appears on screen, timeout "300" seconds
 
       Given appium capture failed screen
+
+  @appium_capture_failed_screen_M812
+  Scenario: test capture failure screen
+    Given Target device is M812 "PHXGLC1582600007"
+    And ADB initialize android
+    Given setup an android as below, using appium port 4723
+      | Package                  | Activity                        | platform | type  | version |
+      | com.tinklabs.activateapp | .features.wizard.WizardActivity | Android  | phone | 7.0     |
+    And Wait until "English" appears on screen, timeout "300" seconds
+
+    Given appium capture failed screen
