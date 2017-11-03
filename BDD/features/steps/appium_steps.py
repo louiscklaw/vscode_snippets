@@ -174,6 +174,15 @@ def step_impl(context, device):
         pass
     except Exception as e:
         print('error occur during finding target device')
+
+
+        # TODO: remove me
+        from pprint import pprint
+        print('dump the value of: device')
+        pprint(device)
+        # TODO: remove me
+
+
         raise e
     else:
         pass
