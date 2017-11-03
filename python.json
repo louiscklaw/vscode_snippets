@@ -386,10 +386,10 @@
 	"utils_logv2_error": {
 		"prefix": "utils_logv2_error",
 		"body":
-		//
-		[
-			"utils.logv2('error occur during running ${1:value_text}', ${2:Fail})"
-		],
+			//
+			[
+				"utils.logv2('error occur during running ${1:value_text}', ${2:Fail})"
+			],
 		"description": "utils_logv2_error"
 	},
 	"print_value_debug": {
@@ -400,7 +400,7 @@
 				"",
 				"# TODO: consider remove me",
 				"${2:from pprint import pprint}",
-        		"print('dump the value of: ${1:value}')",
+				"print('dump the value of: ${1:value}')",
 				"pprint(${1:value})",
 				""
 			],
@@ -409,10 +409,10 @@
 	"print_exception": {
 		"prefix": "print_exception",
 		"body":
-		//
-		[
-			"print('error ${1:error message}')"
-		],
+			//
+			[
+				"print('error ${1:error message}')"
+			],
 		"description": "simple print value debug for python"
 	}
 
