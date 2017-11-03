@@ -365,17 +365,6 @@
 			],
 		"description": "description"
 	},
-	"findme_debug": {
-		"prefix": "findme_debug",
-		"body":
-			//
-			[
-				"# TODO: remove me",
-				"print('findme ${1:??}')",
-				"# TODO: remove me"
-			],
-		"description": "description"
-	},
 	"utils_logv2_value": {
 		"prefix": "utils_logv2_value",
 		"body":
