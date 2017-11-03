@@ -43,6 +43,7 @@
 			"    except Exception as e:",
 			"        print(e)",
 			"        utils.logv2('error occur during ${1:functionName}', 'Fail')",
+			"",
 			"        raise e",
 			"",
 			"    pass",
