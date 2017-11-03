@@ -946,6 +946,7 @@ def step_impl(context, sWidget, sProperties, sDescription):
         sleep(1)
         pass
     except Exception as e:
+        print('error during tapping the checkbox')
         raise e
     else:
         pass
@@ -992,7 +993,7 @@ def step_impl(context, sX, sY):
         context.adb_session.run_cmd('shell input tap %s %s' % (sX, sY))
         pass
     except Exception as e:
-        print('error found during tapping screen to keep awake')
+        print('error found during tapping screen to keep awake using adb')
         raise e
     else:
         pass
