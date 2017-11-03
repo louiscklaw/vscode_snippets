@@ -1221,6 +1221,7 @@ def step_impl(context):
 
         pass
     except Exception as e:
+        print('error during appium capture failed screen')
         raise e
     else:
         pass
