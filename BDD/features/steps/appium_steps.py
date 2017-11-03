@@ -35,6 +35,8 @@ from appium.webdriver.common.multi_action import MultiAction
 
 from devices import *
 
+from appium_function import *
+
 
 def PATH(p): return os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
@@ -1056,7 +1058,6 @@ def step_impl(context):
 
 @step(u'test appium screen capture')
 def step_impl(context):
-    from appium_function import *
 
     try:
         screen_capture = appium_screen_capture(context.appiumSession, '/Users/louis_law')
@@ -1068,6 +1069,34 @@ def step_impl(context):
     else:
         pass
 
-    # appium_function.screen_capture(context.appiumSession, '/Users/louis_law', 'test_capture.png')
 
+@step(u'appium screen capture, save file to path "{pathname}"')
+def step_impl(context, pathname):
+    try:
+        screen_capture = appium_screen_capture(
+            context.appiumSession, pathname)
+        screen_capture.capture_failed_screen()
 
+    except Exception as e:
+        print('error occur while capture the screen by appium')
+
+        # TODO: remove me
+        from pprint import pprint
+        print('dump the value of: pathname')
+        pprint(pathname)
+        # TODO: remove me
+
+        raise e
+    else:
+        pass
+
+@step(u'appium capture failed screen')
+def step_impl(context):
+    try:
+        # TODO: remporary hardcode for the model
+
+        pass
+    except Exception as e:
+        raise e
+    else:
+        pass
