@@ -600,7 +600,19 @@ def step_impl(context, sText, sDetermin):
         pass
     except Exception as e:
         print(
-            'error occur during the Fail if the Text "{sText}" {sDetermin} appears on screen')
+            'error occur during the Fail if the Text appears on screen')
+
+        # TODO: remove me
+        from pprint import pprint
+        print('dump the value of: sText')
+        pprint(sText)
+
+        print('dump the value of: sDetermin')
+        pprint(sDetermin)
+        # TODO: remove me
+
+
+
         raise e
     else:
         pass
