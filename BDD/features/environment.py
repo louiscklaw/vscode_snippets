@@ -49,7 +49,14 @@ def PATH(p): return os.path.abspath(
 
 
 def uninstall_app(context, app_id):
-    context.appiumSession.remove_app(app_id)
+    try:
+        context.appiumSession.remove_app(app_id)
+        pass
+    except Exception as e:
+        print('error during uninstall app')
+        raise e
+    else:
+        pass
     pass
 
 
@@ -57,6 +64,7 @@ def quit_appiumSession(context):
     try:
         context.appiumSession.quit()
     except Exception as e:
+        print('error during quitting appium Session')
         pass
 
     pass
