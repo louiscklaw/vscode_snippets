@@ -87,7 +87,6 @@ def bootstrap_from_unknown_state(android_serial):
         pprint(android_serial)
         # TODO: remove me
 
-
         raise e
     else:
         pass
@@ -137,7 +136,15 @@ def step_impl(context, device, android_serial):
     except Exception as e:
         print('error occur during finding the target device')
 
-        # subprocess.check_output(['adb', 'devices'], shell=True)
+        # TODO: remove me
+        from pprint import pprint
+        print('dump the value of: device')
+        pprint(device)
+
+        print('dump the value of: android_serial')
+        pprint(android_serial)
+        # TODO: remove me
+
         raise e
     else:
         pass
