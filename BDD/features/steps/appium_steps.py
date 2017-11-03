@@ -1015,6 +1015,7 @@ def step_impl(context, sText, sDetermine):
                 assert False, 'the wanted elements %s not appears on screen' % sText
         pass
     except Exception as e:
+        print('error found during finding if the context-desc appears on screen')
         raise e
     else:
         pass
@@ -1059,6 +1060,7 @@ def get_free_port(port_range):
             assert False, 'cannot find free port for appium'
         pass
     except Exception as e:
+        print('error during finding a freeport for appium')
         raise e
     else:
         pass
