@@ -202,7 +202,7 @@ def step_impl(context, process_wanted):
             assert False, 'the wanted application %s is not running' % process_wanted
     except Exception, e:
         print('cannot find the wanted process %s' % process_wanted)
-        # logging.error('the wanted application %s is not running ' %
+        # print('the wanted application %s is not running ' %
         #               process_wanted)
         assert False, 'exception raised during catching the wanted application'
 
@@ -566,13 +566,11 @@ def fail_if_the_text_not_appears(content, Text):
         print('error occur during try to locate the text on screen or unwanted text is appearing')
         print('the text wanted doesnt appear')
 
-
         # TODO: remove me
         from pprint import pprint
         print('dump the value of: Text')
         pprint(Text)
         # TODO: remove me
-
 
         raise e
     else:
@@ -604,7 +602,6 @@ def step_impl(context, Text):
         raise e
     else:
         pass
-
 
 
 @step(u'Fail if the Text "{sText}" {sDetermin} appears on screen')
@@ -645,7 +642,10 @@ def step_impl(context, sText, sDetermin):
 
         print('dump the value of: sDetermin')
         pprint(sDetermin)
-        # TODO: remove me
+
+        print('dump the value of: lLookFor')
+        pprint(lLookFor)
+
 
         raise e
     else:
@@ -663,6 +663,14 @@ def step_impl(context, sText):
         pass
     except Exception as e:
         print('error occur during checking if the text appears on screen')
+
+
+        # TODO: consider remove me
+        from pprint import pprint
+        print('dump the value of: sText')
+        pprint(sText)
+
+
         raise e
     else:
         pass
@@ -688,10 +696,15 @@ def step_impl(context, sId):
         pass
     except Exception as e:
         print('error occur during trying to located the sId')
+
+        # TODO: consider remove me
+        from pprint import pprint
+        print('dump the value of: sId')
+        pprint(sId)
+
         raise e
     else:
         pass
-
 
 
 @step(u'Wait until "resource-id" "{sId}" appears on screen, timeout {sTimeout} seconds')
@@ -730,7 +743,6 @@ def step_impl(context, sId, sTimeout):
     except Exception as e:
         print('error occur during try to locate the sId on screen ')
 
-
         # TODO: remove me
         from pprint import pprint
         print('dump the value of: sId')
@@ -740,7 +752,6 @@ def step_impl(context, sId, sTimeout):
         raise e
     else:
         pass
-
 
 
 @step(u'Wait until Video"{sId}" appears, timeout {sTimeout} seconds')
@@ -807,6 +818,8 @@ def step_impl(context, sId):
 
 @step(u'tap screen {n} times at {somewhere}')
 def step_impl(context, n, somewhere):
+    """just tap on a position defined"""
+
     try:
         finger.f_TapScreen(context.appiumSession, 1, 1, 1)
         pass
@@ -839,7 +852,7 @@ def step_impl(context, sText):
             els[0].click()
 
         else:
-            logging.error('cannot find the wanted text')
+            print('cannot find the wanted text')
             assert False, 'cannot find the wanted text: %s' % sText
         pass
     except Exception as e:
@@ -1044,7 +1057,7 @@ def get_free_port(port_range):
         if free_port_found:
             pass
         else:
-            logging.error('cannot find free port for appium')
+            print('cannot find free port for appium')
             assert False, 'cannot find free port for appium'
         pass
     except Exception as e:
