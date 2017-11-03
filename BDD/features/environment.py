@@ -54,6 +54,12 @@ def before_all(context):
     context.appium_port = []
     context.appium_pid = []
 
+    # -- SET LOG LEVEL: behave --logging-level=ERROR ...
+    # on behave command-line or in "behave.ini".
+    context.config.setup_logging()
+
+
+
     logging.basicConfig(level=logging.DEBUG)
 
 def after_all(context):
