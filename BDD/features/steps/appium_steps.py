@@ -79,6 +79,15 @@ def bootstrap_from_unknown_state(android_serial):
     except Exception as e:
         print('error found during bootstrap from unknown state')
         print('is the android_serial number correct ?')
+
+
+        # TODO: remove me
+        from pprint import pprint
+        print('dump the value of: android_serial')
+        pprint(android_serial)
+        # TODO: remove me
+
+
         raise e
     else:
         pass
