@@ -1,6 +1,6 @@
 Feature: test the strange environment
   Background: setup test environment on strange machine
-    Given Target device is T1 "VZHGLMA742804186"
+    Given Target device is T1 "VZHGLMA742800785"
 
   @test_testenvironment
   Scenario: appium on strange environment

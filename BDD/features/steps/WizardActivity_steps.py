@@ -326,6 +326,22 @@ def step_impl(context, Text, TimeOut):
             assert False, '%s not found' % Text
         pass
     except Exception as e:
+        print(
+            'error exception found Wait until Text startwith appears on screen, timeout seconds')
+
+
+        # TODO: remove me
+        from pprint import pprint
+        print('dump the value of: Text')
+        pprint(Text)
+
+        print('dump the value of: TextFound')
+        pprint(TextFound)
+        # TODO: remove me
+
+
+
+
         raise e
     else:
         pass

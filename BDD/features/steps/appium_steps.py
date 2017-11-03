@@ -90,6 +90,10 @@ def step_impl(context, device, android_serial):
     Assumption:
         The device is in normal state with ADB ready
     """
+
+    # STEP: start setting up target
+    print("STEP: start setting up target")
+
     try:
         context.device = device
         context.android_serial = android_serial.encode('ascii', 'ignore')
@@ -1044,21 +1048,26 @@ def step_impl(context):
             'http://localhost:%s/wd/hub' % context.appium_port[0], desired_caps)
         pass
     except Exception as e:
+        print('error while setup android appium demo app')
         raise e
     else:
         pass
 
 
-# @step(u'Wait until screen load complete, timeout {sSeconds} seconds')
-# def step_impl(context, sSeconds):
-#     """
-#         blocker until page load/render complete
-#         current page load indicator
-#             - resource-id - com.tinklabs.launcher:id/loading
-#             - className - android.widget.ProgressBar
-#     """
-#     print('i am supposed to wait until page load complete, timeout %s seconds' % sSeconds)
+@step(u'test appium screen capture')
+def step_impl(context):
+    from appium_function import *
 
-#     context.execute_steps(u'''
-#         Then
-#     ''')
+    try:
+        screen_capture = appium_screen_capture(context.appiumSession, '/Users/louis_law')
+        screen_capture.capture_failed_screen()
+        pass
+    except Exception as e:
+        print('error occur while capture the screen by appium')
+        raise e
+    else:
+        pass
+
+    # appium_function.screen_capture(context.appiumSession, '/Users/louis_law', 'test_capture.png')
+
+

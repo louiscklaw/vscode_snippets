@@ -13,47 +13,52 @@ logging.basicConfig(level=logging.DEBUG,
 
 from datetime import datetime
 
-def screen_capture(context, sTargetPath):
-    """simple facility to provide screen capture
-        TODO: generalize me
-    """
 
-    try:
-        # adb shell screencap -p /sdcard/$sc.png
-        # try:
-        dParameter = {}
-        dParameter['sEpoch'] = datetime.now().strftime('%s')
-        dParameter['sTargetPath'] = sTargetPath
-        dParameter['sTargetPathWithDatetime'] = os.path.join(
-            dParameter['sTargetPath'], dParameter['sEpoch'])
+class appium_screen_capture:
+    def __init__(self, appium_driver,screen_capture_directory):
+        self.screen_capture_directory = screen_capture_directory
+        self.appium_driver = appium_driver
 
-        lsADBCommand = []
-        lsADBCommand.append(
-            'shell screencap -p /sdcard/%(sEpoch)s.png' % dParameter)
-        lsADBCommand.append(
-            'pull /sdcard/%(sEpoch)s.png %(sTargetPathWithDatetime)s' % dParameter)
-        lsADBCommand.append('shell rm /sdcard/%(sEpoch)s.png' % dParameter)
-        lsADBCommand.append('shell uiautomator dump')
-        lsADBCommand.append(
-            'pull /sdcard/window_dump.xml %(sTargetPathWithDatetime)s/dump.uix' % dParameter)
-        lsADBCommand.append('shell rm /sdcard/window_dump.xml' % dParameter)
+    def capture_failed_screen(self):
+        try:
+            failed_screenshot_filename = 'failed_' + datetime.now().strftime('%y%m%d-%H%M%S')+'.png'
+            self.screen_capture( self.screen_capture_directory, failed_screenshot_filename)
+            pass
+        except Exception as e:
+            raise e
+        else:
+            pass
+        return self
 
-        # NOTE create a landing directory for screen capture
-        os.makedirs(dParameter['sTargetPathWithDatetime'], 0755)
+    def screen_capture(self, directory, file_name):
+        """simple facility to provide screen capture
+            TODO: generalize me
+        """
+        appium_driver = ''
 
-        adb = context.ADBSession
-        for sADBCommand in lsADBCommand:
-            adb.run_cmd(sADBCommand)
-    except Exception:
+        try:
+            appium_driver = self.appium_driver
 
-        # TODO: remove me
-        from pprint import pprint
-        print('dump the value of: sTargetPath')
-        pprint(sTargetPath)
+            path_to_save_screenshot = os.path.sep.join([directory, file_name])
+            print(path_to_save_screenshot)
+            appium_driver.save_screenshot(path_to_save_screenshot)
+            pass
+        except Exception as e:
 
-        print('dump the value of: dParameter')
-        pprint(dParameter)
-        # TODO: remove me
+            # TODO: remove me
+            from pprint import pprint
+            print('dump the value of: appium_driver')
+            pprint(appium_driver)
 
-    pass
+            print('dump the value of: file_name')
+            pprint(file_name)
+
+            print('dump the value of: path_to_save_screenshot')
+            pprint(path_to_save_screenshot)
+
+            raise e
+        else:
+            pass
+
+
 
