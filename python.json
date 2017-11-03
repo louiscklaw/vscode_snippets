@@ -324,7 +324,7 @@
 			[
 				"# TODO: remove me",
 				"except Exception as e:",
-				"    raise",
+				"    raise e",
 				"# TODO: remove me"
 			],
 		"description": "description"
