@@ -564,6 +564,16 @@ def fail_if_the_text_not_appears(content, Text):
         pass
     except Exception as e:
         print('error occur during try to locate the text on screen or unwanted text is appearing')
+        print('the text wanted doesnt appear')
+
+
+        # TODO: remove me
+        from pprint import pprint
+        print('dump the value of: Text')
+        pprint(Text)
+        # TODO: remove me
+
+
         raise e
     else:
         pass
