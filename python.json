@@ -131,7 +131,7 @@
 		"description": "unittest_example"
 	},
 	"init_unittest_body": {
-		"prefix": "init_unittest_body",
+		"prefix": "init_unittest_new_class",
 		"body": [
 			"",
 			"class TestStringMethods(unittest.TestCase):",
