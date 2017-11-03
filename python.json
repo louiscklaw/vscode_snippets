@@ -299,7 +299,7 @@
 		"description": "descriptions"
 	},
 	"env_python": {
-		"prefix": "env_python",
+		"prefix": "#!env_python",
 		"body": ["#!/usr/bin/env python"],
 		"description": "#!/usr/bin/env python"
 	},
