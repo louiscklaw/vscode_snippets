@@ -417,15 +417,23 @@
 			//
 			[
 				"",
-				"TODO: remove me",
-				"from pprint import pprint",
+				"# TODO: consider remove me",
+				"${2:from pprint import pprint}",
         		"print('dump the value of: ${1:value}')",
 				"pprint(${1:value})",
-				"TODO: remove me",
 				""
 			],
 		"description": "simple print value debug for python"
-	}
+	},
+	"print_exception": {
+		"prefix": "print_exception",
+		"body":
+		//
+		[
+			"print('error ${1:error message}')"
+		],
+		"description": "simple print value debug for python"
+	}	
 
 
 
