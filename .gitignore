@@ -8,4 +8,5 @@ fabfile.py
 *.htm
 *.png
 .DS_Store
+receiver_result
 

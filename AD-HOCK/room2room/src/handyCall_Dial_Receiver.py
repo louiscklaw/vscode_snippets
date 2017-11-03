@@ -30,11 +30,13 @@ def PATH(p):
 
 
 def checkFolder():
-        if not os.path.exists(parentFolder + "/result"):
-            os.makedirs(parentFolder + "/result")
+    today = time.strftime("%Y%m%d")
+    if not os.path.exists(parentFolder + "/result/" + today):
+        os.makedirs(parentFolder + "/result/" + today)
+    return parentFolder + "/result/" + today + "/"
 
 
-# Result = dict (Manufacturer,Model,Brand,Androidversion,SDKversion,SerialNo)
+# get device info by udid
 Result = ul.getDeviceStatus(handyconfig.receiverDevice)
 
 class Phone_Call(unittest.TestCase):
@@ -42,38 +44,47 @@ class Phone_Call(unittest.TestCase):
     def setUp(self):
         print("start to execute setup")
         ul.osCommand('cat "" > receiver_result')
+        ul.osCommand('adb -s ' + handyconfig.receiverDevice + ' shell settings put global package_verifier_enable 0')
         desired_caps = {}
         desired_caps['platformName'] = 'Android'
         desired_caps['platformVersion'] = Result["Androidversion"]
-        desired_caps['deviceName'] = Result["SerialNo"]
-        print(Result['Model'])
+        desired_caps['deviceName'] = Result["SerialNo"].replace('\r','')
+        desired_caps['udid'] = Result['SerialNo'].replace('\r','')
         desired_caps['appPackage'] = el.Package['appPackage']
         desired_caps['appActivity'] = el.Package['appActivity']
-        if 'M808' in Result['Model']:
-            desired_caps['appPackage'] = el.Package['appPackage']
-            desired_caps['appActivity'] = el.Package['appActivity_M808']
+        desired_caps['noReset'] = True
+        # if 'M808' in Result['Model']:
+        #     desired_caps['appPackage'] = el.Package['appPackage']
+        #     desired_caps['appActivity'] = el.Package['appActivity_M808']
         self.driver = webdriver.Remote('http://localhost:4725/wd/hub', desired_caps)
         self.util = ul.Util(self.driver, parentFolder + "/screenshots/" + str(time.strftime("%Y%m%d")))
+        print("Device Battery Level")
+        ul.osCommand('adb -s ' + handyconfig.receiverDevice + ' shell dumpsys battery | grep level | head -1')
+        print("Device Info")
+        ul.osCommand('adb -s ' + handyconfig.receiverDevice + ' shell getprop | grep -i operator')
+
 
     def tearDown(self):
         ul.osCommand("adb -s " + handyconfig.receiverDevice + " shell input keyevent KEYCODE_ENDCALL")
         self.driver.quit()
 
-    def test_roomToRoom_Receiver(self):
+    def test_Dail_A_PhoneCall_Receiver(self):
         try:
-            receiverGetRoom2RoomCallNumber = self.util.waitUntilAndGetElement('id', el.androidDialler_pannel_byRid['RoomNumber'], 'get sender room number in receiver', 240)
-            receiverGetRoom2RoomCallStat = self.util.waitUntilAndGetElement('id', el.androidDialler_pannel_byRid['state'], 'get call receiver state')
-            result = self.util.isMatch(receiverGetRoom2RoomCallNumber.text + receiverGetRoom2RoomCallStat.text, "Room " + handyconfig.r2rSenderNumber + 'Incoming call')
+            receiverGetPhoneCallNumber = self.util.waitUntilAndGetElement('id', el.androidDialler_pannel_byRid['phoneNumber'], 'get sender number in receiver', 240)
+            receiverGetPhoneCallStat = self.util.waitUntilAndGetElement('id', el.androidDialler_pannel_byRid['state'], 'get call receiver state')
+            result = self.util.isMatch((receiverGetPhoneCallNumber.text).replace(" ","") + (receiverGetPhoneCallStat.text).upper(), handyconfig.SenderNumber_sim + 'INCOMING CALL')
             ul.osCommand('echo ' + str(result) + ' > receiver_result')
+            self.assertEqual((receiverGetPhoneCallNumber.text).replace(" ","") + (receiverGetPhoneCallStat.text).upper(), handyconfig.SenderNumber_sim + 'INCOMING CALL')
 
         except Exception as e:
             print(e)
-            self.util.screenshot('roomToRoom_Receiver')
+            self.util.screenshot('dailAPhoneCall_Receiver')
             self.assertTrue(False)
 
 
 if __name__ == '__main__':
     checkFolder()
+
 
     loader = unittest.TestLoader()
     suite = unittest.TestSuite((
@@ -83,7 +94,7 @@ if __name__ == '__main__':
     # unittest.TextTestRunner(verbosity=2).run(suite)
 
     # for HTMLTestRunner
-    file = open(str(PATH(parentFolder + '/result/' + "Receiver_" + str(time.strftime("%Y%m%d%H%M%S") + '.html'))), "wb")
+    file = open(str(PATH(checkFolder() + (time.strftime("%Y%m%d-%H%M%S") + '_Dial_Receiver.html'))), "wb")
 
     runner = HTMLTestRunner.HTMLTestRunner(
         stream=file,
