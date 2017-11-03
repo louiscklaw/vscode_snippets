@@ -925,14 +925,11 @@ def step_impl(context, sWidget, sProperties, sDescription):
     except Exception as e:
         print('error during tapping button')
 
-
         # TODO: remove me
         from pprint import pprint
         print('dump the value of: sWidget')
         pprint(sWidget)
         # TODO: remove me
-
-
 
         raise e
     else:
