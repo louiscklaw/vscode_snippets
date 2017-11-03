@@ -70,12 +70,19 @@ def before_scenario(context, scenario):
     pass
 
 
-@capture
 def after_scenario(context, scenario):
-    if hasattr(context, 'appiumSession'):
-        # uninstall_app(context, sHKOAppId)
-        quit_appiumSession(context)
-        print('quit appium session')
+    try:
+        if hasattr(context, 'appiumSession'):
+            # uninstall_app(context, sHKOAppId)
+            quit_appiumSession(context)
+            print('quit appium session')
+        pass
+    except Exception as e:
+        print('error during quitting appium session')
+        raise e
+    else:
+        pass
+
     pass
 
 
