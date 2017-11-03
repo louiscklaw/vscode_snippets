@@ -77,6 +77,8 @@ def bootstrap_from_unknown_state(android_serial):
 
         pass
     except Exception as e:
+        print('error found during bootstrap from unknown state')
+        print('is the android_serial number correct ?')
         raise e
     else:
         pass
