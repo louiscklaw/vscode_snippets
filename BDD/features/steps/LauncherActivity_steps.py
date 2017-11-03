@@ -76,7 +76,7 @@ def step_impl(context, confirm):
     dSettings['erase_data_confirmation_yes'] = LauncherActivityConfig.ERASE_DATA_CONFIRMATION_YES
     dSettings['erase_data_confirmation_no'] = LauncherActivityConfig.ERASE_DATA_CONFIRMATION_NO
 
-    logging.debug('i supposed to click the "Erase Data" on left_drawer')
+    print('i supposed to click the "Erase Data" on left_drawer')
 
     context.execute_steps(u'''
         # Tap on the Erase Data option on left drawer
@@ -86,7 +86,7 @@ def step_impl(context, confirm):
           And Wait until "Erase Data" appears on screen, timeout "%(confirmation_dialog_show_timeout)s" seconds
     ''' % dSettings)
     if confirm in ['confirm']:
-        logging.debug('i supposed clicking "YES" to confirm ERASE DATA')
+        print('i supposed clicking "YES" to confirm ERASE DATA')
         context.execute_steps(u'''
             # NOTE given that i want to erase data
             # i am standing on the "Erase Data" screen
@@ -107,7 +107,7 @@ def step_impl(context, confirm):
         ''' % dSettings
                               )
     elif confirm in ["don't confirm"]:
-        logging.debug('i supposed clicking "No" to confirm ERASE DATA')
+        print('i supposed clicking "No" to confirm ERASE DATA')
         context.execute_steps(u'''
             # NOTE given that i erase data, and then cancel/revert
             Then Wait until "ERASE DATA" appears on screen, timeout "5" seconds
@@ -127,7 +127,7 @@ def step_impl(context):
 
         LauncherActivityConfig = LauncherActivity_config(context.device)
 
-        logging.debug('i am supposed to be tapping "Erase data" from left_drawer')
+        print('i am supposed to be tapping "Erase data" from left_drawer')
         context.execute_steps(u'''
             # Given In launcher side menu, Erase data
             Then press HOME button
@@ -151,7 +151,7 @@ def step_impl(context):
 
 @step(u'random click for an hour')
 def step_impl(context):
-    logging.debug('i am supposed to be a random click for an hour')
+    print('i am supposed to be a random click for an hour')
     pass
 
 
@@ -266,8 +266,8 @@ def step_impl(context, sResourceId, sDirection, sDistance, sText, sCountdown):
             el.size['width'],
             el.size['height']
         )
-        # logging.debug('iCenterX:%d' % iCenterX)
-        # logging.debug('iCenterY:%d' % iCenterY)
+        # print('iCenterX:%d' % iCenterX)
+        # print('iCenterY:%d' % iCenterY)
 
         if len(finger.f_FindElementsContainText(context.appiumSession, sText)) > 0:
             # NOTE given thatt the sText is already appears in the screen
@@ -296,7 +296,7 @@ def step_impl(context, sResourceId, sDirection, sDistance, sText, sCountdown):
             pass
         pass
     else:
-        logging.debug('len of elements %d' % len(els))
+        print('len of elements %d' % len(els))
         assert False, 'cannot find the element wanted: %s' % sText
 
 
@@ -322,11 +322,11 @@ def step_impl(context, sResourceId, sDirection, sDistance, sText, sCountdown):
 
         if len(finger.f_FindElementsWithText(context.appiumSession, sText)) > 0:
             # NOTE given thatt the sText is already appears in the screen
-            logging.debug('the wanted text is already found, no need to swipe')
+            print('the wanted text is already found, no need to swipe')
             pass
         else:
             # NOTE text not in the screen, need swipe
-            logging.debug('cannot find the target text %s, start swipe' % sText)
+            print('cannot find the target text %s, start swipe' % sText)
             for i in range(1, iCountdown):
                 context.execute_steps(u'''
                     Then Wait until screen ready, timeout 30 seconds
@@ -344,26 +344,26 @@ def step_impl(context, sResourceId, sDirection, sDistance, sText, sCountdown):
 
         if bTextFound:
             # NOTE do something when found ?
-            logging.debug('the wanted text found after swipe')
+            print('the wanted text found after swipe')
             pass
         else:
-            logging.debug('the wanted text cannot found after swipe')
+            print('the wanted text cannot found after swipe')
             pass
         pass
     else:
-        logging.debug('len of elements %d' % len(els))
+        print('len of elements %d' % len(els))
         assert False, 'cannot find the element by resource-id %s' % sResourceId
 
 
 @then(u'type "{sText}" in "{sResourceId}"')
 def step_impl(context, sText, sResourceId):
-    logging.debug(u'I am supposed to type "' + sText + '" in ' + sResourceId)
+    print(u'I am supposed to type "' + sText + '" in ' + sResourceId)
 
     els = finger.f_FindElementsById(context.appiumSession, sResourceId)
     if els > 0:
         els[0].send_keys(sText)
     else:
-        logging.debug('wanted %s not found' % sResourceId)
+        print('wanted %s not found' % sResourceId)
         assert False
 
 
@@ -405,7 +405,7 @@ def step_impl(context, sText, sResourceId):
 #     sTargetUiSelector = ('%(sLeftDrawer)s.childSelector(%(sMenuItem)s)' % dMenu)
 
 #     els = finger.f_FindElementsById(context.appiumSession, 'com.tinklabs.launcher:id/tab_item')
-#     logging.debug(len(els))
+#     print(len(els))
 
 #     # NOTE the menu is given by
 #     if len(els) > 1 :
@@ -415,10 +415,10 @@ def step_impl(context, sText, sResourceId):
 #                 bTextFound = True
 #                 break
 #             else:
-#                 logging.debug('length of elements %d' % len(els))
+#                 print('length of elements %d' % len(els))
 #                 finger.f_Scroll_Elements(context.appiumSession, els[2], els[1])
 #     else:
-#         logging.debug('no elements found')
+#         print('no elements found')
 
 #     if bTextFound:
 #         # NOTE do something when found ?

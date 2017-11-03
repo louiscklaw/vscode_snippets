@@ -112,7 +112,7 @@ def step_impl(context):
             pass
         else:
             # context.adb_session = ADB()
-            logging.debug('adb_session is missing')
+            print('adb_session is missing')
             assert False, 'adb_session is missing'
 
         adb = context.adb_session
@@ -351,7 +351,7 @@ def step_impl(context):
 @then(u'ADB change permission change_wpa_supplicant')
 def step_impl(context):
     # NOTE: to be obsoleted
-    logging.debug('Then ADB change permission change_wpa_supplicant')
+    print('Then ADB change permission change_wpa_supplicant')
     context.execute_steps(u'''
         Then ADB change permission "777" "%(PATH_ANDROID_CHANGE_WPA_SUPPLICANT)s"
     ''' % dParameters)
@@ -390,7 +390,7 @@ def step_impl(context, sValue, sSettingName, sNamespace):
         :Args:
             - sValue - value of package_verifier_enable wanted
     """
-    logging.debug('I am supposed to change the %s to %s' %
+    print('I am supposed to change the %s to %s' %
                   (sSettingName, sValue))
 
     # TODO: better implementation
@@ -437,7 +437,7 @@ def step_adb_settings_compare(context, namespace, key, expected):
         'shell settings get %s %s' % (namespace, key))
 
     if value_in_device.strip() == expected.strip():
-        logging.debug('value_in_device:key:%s = %s' % (key, value_in_device.strip()))
+        print('value_in_device:key:%s = %s' % (key, value_in_device.strip()))
     else:
         logging.error('the value is not match with the expected value %s' % expected)
         assert False, 'the value is not match with the expected value %s' % expected
@@ -461,7 +461,7 @@ def step_impl(context, sName, sValue):
 
     """
     try:
-        logging.debug(u'STEP: Given ADB setprop "%s" "%s"' % (sName, sValue))
+        print(u'STEP: Given ADB setprop "%s" "%s"' % (sName, sValue))
 
         context.execute_steps(u'''
             Given ADB push tinklabs1001
@@ -469,7 +469,7 @@ def step_impl(context, sName, sValue):
             Then ADB root shell "setprop %s %s"
             ''' % (sName, sValue))
 
-        logging.debug('change props %s done' % sName)
+        print('change props %s done' % sName)
         pass
     except Exception as e:
 
@@ -511,7 +511,7 @@ def step_impl(context, sName, sExpected):
 
 @step(u'ADB setprop test with shell True')
 def step_impl(context):
-    logging.debug('STEP: Given ADB setprop test with shell True')
+    print('STEP: Given ADB setprop test with shell True')
     context.execute_steps(u'''
         Given ADB Init session
             And ADB push tinklabs1001
@@ -527,7 +527,7 @@ def step_disable_usb_mass_storage(context):
     """
         disable usb mass storage function on the device
     """
-    logging.debug('STEP: disable usb mass storage')
+    print('STEP: disable usb mass storage')
     context.execute_steps(u'''
         Given ADB Init session
             And ADB push tinklabs1001
@@ -740,7 +740,7 @@ def send_command_to_adb(adb_shell_process, command_to_send, texts_expected):
 
     # TODO: normalize the texts_expected accept single string as input
 
-    logging.debug(command_to_send)
+    print(command_to_send)
 
     # NOTE: construct the send process by command and timeout
     adb_shell_process.sendline(command_to_send)
@@ -774,7 +774,7 @@ def step_adb_root_shell(context, command):
         index = child.expect(["$", "@", pexpect.TIMEOUT])
 
         for (command_to_send, text_expected) in adb_commands:
-            logging.debug('sending %s' % command_to_send)
+            print('sending %s' % command_to_send)
             send_command_to_adb(
                 child, command_to_send, text_expected)
         pass
@@ -782,14 +782,14 @@ def step_adb_root_shell(context, command):
 
         # TODO: remove me
         from pprint import pprint
-        logging.debug('dump the value of: command')
-        logging.debug(command)
+        print('dump the value of: command')
+        print(command)
 
-        logging.debug('dump the value of: command_to_send')
-        logging.debug(command_to_send)
+        print('dump the value of: command_to_send')
+        print(command_to_send)
 
-        logging.debug('dump the value of: text_expected')
-        logging.debug(text_expected)
+        print('dump the value of: text_expected')
+        print(text_expected)
         # xTODO: remove me
 
 
@@ -806,7 +806,7 @@ def step_impl(context, wifi_configuration):
     Args:
         wifi_configuration: The first parameter.
     """
-    logging.debug(u'STEP: Then inject wifi configuration to android')
+    print(u'STEP: Then inject wifi configuration to android')
 
     context.execute_steps(u'''
         Then ADB backup wifi configuration
@@ -837,7 +837,7 @@ def step_impl(context):
     by handy app default beheaviour, the wifi connection will be wake up again by handy app
     no explicit enabled issued right now.
     """
-    logging.debug(u'STEP: Then adb restart wifi')
+    print(u'STEP: Then adb restart wifi')
 
     context.execute_steps(u'''
         Then adb root shell "svc wifi disable"
@@ -850,7 +850,7 @@ def step_impl(context):
 
 @then(u'Fail if the android cannot ping to {host}')
 def step_impl(context, host):
-    logging.debug(u'STEP: Then Fail if the android cannot ping to %s' % host)
+    print(u'STEP: Then Fail if the android cannot ping to %s' % host)
 
     result = context.adb_session.run_cmd('''shell ping -c 5 %s ''' % host)
 
@@ -868,7 +868,7 @@ def step_impl(context, file):
 
 @then(u'ADB backup wifi configuration')
 def step_impl(context):
-    logging.debug(u'STEP: Then ADB backup wifi configuration')
+    print(u'STEP: Then ADB backup wifi configuration')
 
     context.execute_steps(u'''
         Then adb root shell "cp %s %s"

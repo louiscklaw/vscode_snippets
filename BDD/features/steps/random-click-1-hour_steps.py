@@ -118,7 +118,7 @@ def step_impl(context):
     """
         Try to bring up App Drawer page
     """
-    logging.debug('i am supposed to bring up the app drawer')
+    print('i am supposed to bring up the app drawer')
 
     context.execute_steps(u'''
         # To make sure Apps button appears
@@ -145,7 +145,7 @@ def step_impl(context, sAppWantedOnScreen):
         sAppWantedOnScreen: The wanted application.
     """
 
-    logging.debug('i am supposed to do some swipe in App Drawer')
+    print('i am supposed to do some swipe in App Drawer')
 
     context.execute_steps(u'''
         Given User tap on "Apps" button

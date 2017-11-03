@@ -61,9 +61,9 @@ def step_impl(context):
     """
     if hasattr(context, 'android_serial'):
         sleep(3)
-        logging.debug('android_serial:%s is used for fastboot')
+        print('android_serial:%s is used for fastboot')
 
-        logging.debug('reboot device by adb')
+        print('reboot device by adb')
         context.execute_steps(u'''
             Then ADB Reboot bootloader
         ''')

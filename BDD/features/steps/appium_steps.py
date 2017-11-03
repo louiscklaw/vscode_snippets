@@ -124,7 +124,7 @@ def step_impl(context, device, android_serial):
 
         pass
     except Exception as e:
-        logging.debug('error occur during finding the target device')
+        print('error occur during finding the target device')
 
         # subprocess.check_output(['adb', 'devices'], shell=True)
         raise e
@@ -155,7 +155,7 @@ def step_impl(context, device):
         context.fastboot_session = Fastboot()
         pass
     except Exception as e:
-        logging.debug('error occur during finding target device')
+        print('error occur during finding target device')
         raise e
     else:
         pass
@@ -193,10 +193,10 @@ def step_impl(context, port):
 
         if hasattr(context, 'android_serial') and len(context.android_serial) == 16:
             desired_caps['deviceName'] = context.android_serial
-            logging.debug('context.android_serial defined, use as deviceName')
+            print('context.android_serial defined, use as deviceName')
 
             desired_caps['udid'] = context.android_serial
-            logging.debug('context.android_serial defined, use as udid')
+            print('context.android_serial defined, use as udid')
 
         else:
             desired_caps['deviceName'] = 'Android'
@@ -275,7 +275,7 @@ def step_impl(context, packageName, sActivity, sType, sPlatform, sVersion):
         context.appiumSession = webdriver.Remote(
             'http://localhost:4723/wd/hub', desired_caps)
     except Exception as e:
-        logging.debug('error occur during start package and activity')
+        print('error occur during start package and activity')
 
         # TODO: remove me
         from pprint import pprint
@@ -387,7 +387,7 @@ def step_impl(context):
         ''')
         pass
     except Exception as e:
-        logging.debug('error occur during checking Test setup is ready')
+        print('error occur during checking Test setup is ready')
         raise e
     else:
         pass
@@ -399,7 +399,7 @@ def quit_appium(context):
         if hasattr(context, 'appiumSession'):
             context.appiumSession.quit()
     except Exception as e:
-        logging.debug('error occur during quit appium')
+        print('error occur during quit appium')
         raise e
     else:
         pass
@@ -440,7 +440,7 @@ def find_recourceid_on_screen_with_timeout(context, sId, sTimeout):
                 break
         pass
     except Exception as e:
-        logging.debug('error occur during finding resource-id on screen')
+        print('error occur during finding resource-id on screen')
 
         # TODO: remove me
         from pprint import pprint
@@ -513,7 +513,7 @@ def step_impl(context, ready_timeout):
                 break
 
         # if any(dqiElementFound):
-        #     logging.debug('screen keeps busy in %s seconds' % ready_timeout)
+        #     print('screen keeps busy in %s seconds' % ready_timeout)
         #     # assert False
 
         pass
@@ -874,7 +874,7 @@ def step_impl(context, sX, sY):
     # lCmd = sTapCmd.split(' ')
     # subprocess.check_output(lCmd)
     try:
-        logging.debug('adb tap on screen position %s, %s' % (sX, sY))
+        print('adb tap on screen position %s, %s' % (sX, sY))
         context.adb_session.run_cmd('shell input tap %s %s' % (sX, sY))
         pass
     except Exception as e:
@@ -963,7 +963,7 @@ def step_impl(context):
 @given(u'a file named "{filename}" with')
 def step_impl(context, filename):
     try:
-        logging.debug(u'STEP: create file with content')
+        print(u'STEP: create file with content')
 
         f = open(filename, 'w')
         f.write(context.text)
@@ -982,7 +982,7 @@ def step_impl(context):
     port number is picken by random
     udid (serial number on android) is by the context.android_serial
     """
-    logging.debug(u'STEP: Given start appium')
+    print(u'STEP: Given start appium')
 
     try:
         appium_port = get_free_port(range(4723, 4723 + 999))
@@ -991,14 +991,14 @@ def step_impl(context):
 
         appium_command = PATH_APPIUM_BINARY + \
             ' -U %s --port %d' % (context.android_serial, appium_port)
-        logging.debug('android_serial:%s' % context.android_serial)
-        logging.debug('appium_port:%d' % appium_port)
-        logging.debug("appium_command: %s" % appium_command)
+        print('android_serial:%s' % context.android_serial)
+        print('appium_port:%d' % appium_port)
+        print("appium_command: %s" % appium_command)
 
         appium_process = subprocess.Popen(
             appium_command.split(' '), stdout=subprocess.PIPE
         )
-        logging.debug(appium_command)
+        print(appium_command)
 
         # TODO: remove me
         # context.appiumSession = webdriver.Remote(
@@ -1018,7 +1018,7 @@ def step_impl(context):
 
 @step(u'stop appium')
 def step_impl(context):
-    logging.debug(u'STEP: stop appium')
+    print(u'STEP: stop appium')
 
     try:
         # TODO: move me up
@@ -1036,7 +1036,7 @@ def step_impl(context):
 @given(u'setup android appium demo app')
 def step_impl(context):
     try:
-        logging.debug(u'STEP: Given setup android appium demo app')
+        print(u'STEP: Given setup android appium demo app')
 
         desired_caps = {}
         desired_caps['platformName'] = 'android'
