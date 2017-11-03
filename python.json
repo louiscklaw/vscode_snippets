@@ -16,7 +16,10 @@
 	*/
 	"test python": {
 		"prefix": "findme",
-		"body": ["logging.info('findme')"],
+		"body": [
+			"# TODO: removeme",
+			"logging.info('findme ${1: why ?}')"
+		],
 		"description": "helloworld"
 	},
 	"test python": {
@@ -433,7 +436,7 @@
 			"print('error ${1:error message}')"
 		],
 		"description": "simple print value debug for python"
-	}	
+	}
 
 
 
