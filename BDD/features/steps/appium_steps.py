@@ -175,13 +175,11 @@ def step_impl(context, device):
     except Exception as e:
         print('error occur during finding target device')
 
-
         # TODO: remove me
         from pprint import pprint
         print('dump the value of: device')
         pprint(device)
         # TODO: remove me
-
 
         raise e
     else:
@@ -251,6 +249,13 @@ def step_impl(context, port):
 
     except Exception as e:
         print('cannot connect to the appium')
+
+        # TODO: remove me
+        from pprint import pprint
+        print('dump the value of: port')
+        pprint(port)
+        # TODO: remove me
+
         raise e
     else:
         pass
@@ -308,15 +313,10 @@ def step_impl(context, packageName, sActivity, sType, sPlatform, sVersion):
         from pprint import pprint
         print('dump the value of: packageName')
         pprint(packageName)
-        # TODO: remove me
 
-
-        # TODO: remove me
-        from pprint import pprint
         print('dump the value of: sActivity')
         pprint(sActivity)
         # TODO: remove me
-
 
         raise e
     else:
