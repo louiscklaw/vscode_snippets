@@ -200,7 +200,7 @@ def step_impl(context, port):
 
         else:
             desired_caps['deviceName'] = 'Android'
-            logging.debug(
+            print(
                 'context.android_serial not defined, use "Android" as deviceName')
 
         # desired_caps['app'] = row['PATH(packageName)']
