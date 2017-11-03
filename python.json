@@ -260,17 +260,6 @@
 		],
 		"description": "init a new inv task"
 	},
-	"troubleshoot_temp": {
-		"prefix": "troubleshoot_temp",
-		"body": [
-			"# TODO: FOR TROUBLESHOOT, REMOVE ME",
-			"# ",
-			"print('findme')",
-			"",
-			"# TODO: FOR TROUBLESHOOT, REMOVE ME"
-		],
-		"description": "init a new inv task"
-	},
 	"step": {
 		"prefix": "step:",
 		"body": [
