@@ -18,8 +18,6 @@ from config import *
 
 import logging
 
-from behave.log_capture import capture
-
 
 def quit_appiumSession(context):
     context.appiumSession.quit()
@@ -32,8 +30,6 @@ def before_all(context):
     # behave initialization
     context.appium_port = []
     context.appium_pid = []
-
-    logging.basicConfig(level=logging.DEBUG)
 
 
 def after_all(context):
