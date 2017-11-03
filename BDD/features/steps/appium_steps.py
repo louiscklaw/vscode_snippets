@@ -564,7 +564,6 @@ def step_impl(context, Text):
         pass
     except Exception as e:
         print('error occur while locating the Text %s ' % Text)
-
         raise e
     else:
         pass
@@ -610,8 +609,6 @@ def step_impl(context, sText, sDetermin):
         print('dump the value of: sDetermin')
         pprint(sDetermin)
         # TODO: remove me
-
-
 
         raise e
     else:
@@ -694,7 +691,15 @@ def step_impl(context, sId, sTimeout):
             assert False, 'cannot find expected resource'
         pass
     except Exception as e:
-        print('error occur during try to locate the sId on screen ' % sId)
+        print('error occur during try to locate the sId on screen ')
+
+
+        # TODO: remove me
+        from pprint import pprint
+        print('dump the value of: sId')
+        pprint(sId)
+        # TODO: remove me
+
         raise e
     else:
         pass
@@ -724,6 +729,13 @@ def step_impl(context, sId, sTimeout):
         pass
     except Exception as e:
         print('error occur during try to locate the sId for Video')
+
+        # TODO: remove me
+        from pprint import pprint
+        print('dump the value of: sId')
+        pprint(sId)
+        # TODO: remove me
+
         raise e
     else:
         pass
@@ -743,7 +755,14 @@ def step_impl(context, sId):
             assert False, ' Failed as the Video not appears'
         pass
     except Exception as e:
-        print('error occur while try to locate the Video:sId %s' % sId)
+        print('error occur while try to locate the Video:sId')
+
+        # TODO: remove me
+        from pprint import pprint
+        print('dump the value of: sId')
+        pprint(sId)
+        # TODO: remove me
+
         raise e
     else:
         pass
@@ -788,6 +807,14 @@ def step_impl(context, sText):
         pass
     except Exception as e:
         print('error occur during try to want until the screen is ready')
+
+
+        # TODO: remove me
+        from pprint import pprint
+        print('dump the value of: sText')
+        pprint(sText)
+        # TODO: remove me
+
         raise e
     else:
         pass
@@ -800,6 +827,14 @@ def step_impl(context, dPadKey):
         finger.f_PressKey(context.appiumSession, dPadKey)
         pass
     except Exception as e:
+        print('error during pressing button')
+
+        # TODO: remove me
+        from pprint import pprint
+        print('dump the value of: dPadKey')
+        pprint(dPadKey)
+        # TODO: remove me
+
         raise e
     else:
         pass
@@ -812,6 +847,15 @@ def step_impl(context, ButtonName):
             finger.f_PressKey(context.appiumSession, android_key_const.HOME)
         pass
     except Exception as e:
+        print('error pressing button')
+
+
+        # TODO: remove me
+        from pprint import pprint
+        print('dump the value of: ButtonName')
+        pprint(ButtonName)
+        # TODO: remove me
+
         raise e
     else:
         pass
@@ -829,6 +873,17 @@ def step_impl(context, sWidget, sProperties, sDescription):
         sleep(1)
         pass
     except Exception as e:
+        print('error during tapping button')
+
+
+        # TODO: remove me
+        from pprint import pprint
+        print('dump the value of: sWidget')
+        pprint(sWidget)
+        # TODO: remove me
+
+
+
         raise e
     else:
         pass
@@ -886,10 +941,11 @@ def step_impl(context, sX, sY):
     # lCmd = sTapCmd.split(' ')
     # subprocess.check_output(lCmd)
     try:
-        print('adb tap on screen position %s, %s' % (sX, sY))
+        # print('adb tap on screen position %s, %s' % (sX, sY))
         context.adb_session.run_cmd('shell input tap %s %s' % (sX, sY))
         pass
     except Exception as e:
+        print('error found during tapping screen to keep awake')
         raise e
     else:
         pass
@@ -1106,6 +1162,12 @@ def step_impl(context, pathname):
 def step_impl(context):
     try:
         # TODO: remporary hardcode for the model
+        print('capture failure screen invoked')
+        print('saving to directory: %s' % context.device_config.PATH_FAILURE_SCREEN_CAPTURE)
+        screen_capture = appium_screen_capture(
+            context.appiumSession, context.device_config.PATH_FAILURE_SCREEN_CAPTURE
+        )
+        screen_capture.capture_failed_screen()
 
         pass
     except Exception as e:

@@ -18,6 +18,7 @@ from config import *
 
 import logging
 
+import appium_function
 
 def quit_appiumSession(context):
     context.appiumSession.quit()
@@ -37,6 +38,10 @@ def after_all(context):
 
 
 def after_step(context, step):
+    if step.status == "failed":
+        context.execute_steps(u'''
+            Then appium capture failed screen
+        ''')
     pass
 
 def before_step(context, scenario):

@@ -22,6 +22,10 @@ class Device_T1(BasicDeviceConfig):
 
     DUMMY_TAP = (0, 1201)
 
+    PROJ_HOME = os.path.sep.join([(os.path.dirname(__file__))])
+    PATH_FAILURE_SCREEN_CAPTURE = os.path.sep.join(
+        [PROJ_HOME, '../usecase/random-click-1-hour/result/T1'])
+
     pass
 
 
@@ -30,5 +34,10 @@ class Device_M812(BasicDeviceConfig):
     GREETING_TAC_CHECKBOX = (71, 1856)
 
     DUMMY_TAP = (0, 1921)
+
+    # for scre
+    PROJ_HOME = os.path.sep.join([(os.path.dirname(__file__))])
+    PATH_FAILURE_SCREEN_CAPTURE = os.path.sep.join(
+        [PROJ_HOME, '../usecase/random-click-1-hour/result/M812'])
 
     pass
