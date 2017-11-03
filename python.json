@@ -235,8 +235,8 @@
 	"context_steps": {
 		"prefix": "context_steps",
 		"body": [
-			" context.execute_steps(u'''",
-			"Then ADB Reboot bootloader",
+			"context.execute_steps(u'''",
+			"	Then ADB Reboot bootloader",
 			"''')"
 		],
 		"description": "execute_steps by "
