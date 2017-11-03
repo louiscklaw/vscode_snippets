@@ -35,8 +35,6 @@ from appium.webdriver.common.multi_action import MultiAction
 
 from devices import *
 
-import subprocess
-
 
 def PATH(p): return os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
@@ -120,7 +118,8 @@ def step_impl(context, device, android_serial):
 
         pass
     except Exception as e:
-        print('cannot contact device')
+        logging.debug('error occur during finding the target device')
+
         # subprocess.check_output(['adb', 'devices'], shell=True)
         raise e
     else:
@@ -150,6 +149,7 @@ def step_impl(context, device):
         context.fastboot_session = Fastboot()
         pass
     except Exception as e:
+        logging.debug('error occur during finding target device')
         raise e
     else:
         pass
@@ -269,7 +269,22 @@ def step_impl(context, packageName, sActivity, sType, sPlatform, sVersion):
         context.appiumSession = webdriver.Remote(
             'http://localhost:4723/wd/hub', desired_caps)
     except Exception as e:
-        print('cannot connect to appium')
+        logging.debug('error occur during start package and activity')
+
+        # TODO: remove me
+        from pprint import pprint
+        print('dump the value of: packageName')
+        pprint(packageName)
+        # TODO: remove me
+
+
+        # TODO: remove me
+        from pprint import pprint
+        print('dump the value of: sActivity')
+        pprint(sActivity)
+        # TODO: remove me
+
+
         raise e
     else:
         pass
@@ -366,6 +381,7 @@ def step_impl(context):
         ''')
         pass
     except Exception as e:
+        logging.debug('error occur during checking Test setup is ready')
         raise e
     else:
         pass
@@ -377,6 +393,7 @@ def quit_appium(context):
         if hasattr(context, 'appiumSession'):
             context.appiumSession.quit()
     except Exception as e:
+        logging.debug('error occur during quit appium')
         raise e
     else:
         pass
@@ -417,6 +434,14 @@ def find_recourceid_on_screen_with_timeout(context, sId, sTimeout):
                 break
         pass
     except Exception as e:
+        logging.debug('error occur during finding resource-id on screen')
+
+        # TODO: remove me
+        from pprint import pprint
+        print('dump the value of: sId')
+        pprint(sId)
+        # TODO: remove me
+
         raise e
     else:
         pass
@@ -443,6 +468,13 @@ def wait_recourceid_on_screen_with_timeout(context, sId, sTimeout):
 
     except Exception as e:
         print('error occur while try to find the sId %s on screen ' % sId)
+
+        # TODO: remove me
+        from pprint import pprint
+        print('dump the value of: sId')
+        pprint(sId)
+        # TODO: remove me
+
         raise e
     else:
         pass
