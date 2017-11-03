@@ -152,7 +152,7 @@ def construct_beahve_command(feature_file_name, feature_result_filename='', tags
     result_parameter = ''
 
     if tags == '':
-        behave_command = 'behave %s' % feature_file_name
+        behave_command = 'behave -vk --no-capture %s' % feature_file_name
         pass
 
     else:
