@@ -267,7 +267,7 @@
 			"print(\"STEP: ${1: i am a new step}\")",
 			""
 		],
-		"description": "descriptions"
+		"description": "to mark the test step"
 	},
 	"step_color": {
 		"prefix": "step_color:",
@@ -276,7 +276,7 @@
 			"print(fabric.colors.${2:green}(\"STEP: ${1: i am a new step}\"))",
 			""
 		],
-		"description": "descriptions"
+		"description": "to mark the test step"
 	},
 	"Screen": {
 		"prefix": "screen:",
@@ -286,13 +286,13 @@
 			"",
 			"${2:}"
 		],
-		"description": "descriptions"
+		"description": "to mark the android screen"
 	},
 	"Screen": {
-		"prefix": "wait:",
+		"prefix": "Wait:",
 		"body": [
-			"# wait: '${1: waitname}'",
-			"print(\"wait: '${1: waitname}'\")",
+			"# Wait: '${2:Wait for }${1: waitname}'",
+			"print(\"wait:${2:Wait for }'${1: waitname}'\")",
 			"",
 			"${2:}"
 		],
