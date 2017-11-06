@@ -7,7 +7,7 @@ import logging
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
                     datafmt='%a, %d %b %Y %H:%M:%S',
-                    filename='handyCallOut5Mins.txt',
+                    filename='%s' % __file__.replace('.py', '.log'),
                     filemode='a')
 
 PROJ_HOME = os.path.dirname(os.path.abspath(__file__))
@@ -125,8 +125,8 @@ scheduler = BlockingScheduler()
 
 scheduler.add_job(schedulerT1, 'cron',
     minute='0')
-scheduler.add_job(schedulerM812, 'cron',
-    minute='5')
+# scheduler.add_job(schedulerM812, 'cron',
+#     minute='5')
 
 # scheduler.add_job(dial_Sender, 'cron', minute='10,25,40,55')
 # scheduler.add_job(dial_Receiver, 'cron', minute='10,25,40,55')
