@@ -92,7 +92,9 @@ def step_impl(context):
 @step(u'FASTBOOT "{sCommand}"')
 def step_impl(context, sCommand):
     try:
-        sFastbootCommand = 'fastboot ' + sCommand
+        # sFastbootCommand = 'fastboot ' + sCommand
+        sFastbootCommand = 'fastboot -s %s %s' % (
+            context.android_serial, sCommand)
 
         (iReturnCode, sStdOut, sStdErr, bTimeout) = run(
             sFastbootCommand, timeout_sec=30)
@@ -102,6 +104,15 @@ def step_impl(context, sCommand):
         pass
     except Exception as e:
         print('error during FASTBOOT %s' % sCommand)
+
+        # TODO: consider remove me
+        from pprint import pprint
+        print('dump the value of: sCommand')
+        pprint(sCommand)
+
+        print('dump the value of: context.android_serial')
+        pprint(context.android_serial)
+
         raise e
     else:
         pass
@@ -111,12 +122,32 @@ def step_impl(context, sCommand):
 @step(u'FASTBOOT "{sCommand}", timeout {sTimeout} seconds')
 def step_impl(context, sCommand, sTimeout):
 
-    sFastbootCommand = 'fastboot ' + sCommand
+    try:
 
-    (iReturnCode, sStdOut, sStdErr, bTimeout) = run(
-        sFastbootCommand, timeout_sec=int(sTimeout))
-    pprint((iReturnCode, sStdOut, sStdErr, bTimeout))
-    assert iReturnCode == 0 and bTimeout == False
+        # sFastbootCommand = 'fastboot ' + sCommand
+        sFastbootCommand = 'fastboot -s %s %s' % (
+                context.android_serial, sCommand)
+
+        (iReturnCode, sStdOut, sStdErr, bTimeout) = run(
+            sFastbootCommand, timeout_sec=int(sTimeout))
+        pprint((iReturnCode, sStdOut, sStdErr, bTimeout))
+        assert iReturnCode == 0 and bTimeout == False
+        pass
+    except Exception as e:
+        print('error during sending fastboot command to device')
+
+        # TODO: consider remove me
+        from pprint import pprint
+        print('dump the value of: sCommand')
+        pprint(sCommand)
+
+        print('dump the value of: context.android_serial')
+        pprint(context.android_serial)
+
+
+        raise e
+    else:
+        pass
 
 
 @step(u'FASTBOOT Erase "{sPartitions}"')
