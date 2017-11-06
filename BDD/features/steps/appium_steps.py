@@ -758,6 +758,11 @@ def step_impl(context, sId, sTimeout):
         end_time = start_time + int(sTimeout)
 
         while end_time > get_epoch_time():
+            print('try to unlock screen')
+            context.execute_steps(u'''
+                Then appium unlock screen
+            ''')
+
             sleep(1)
             lLookFor = finger.f_FindTargetById(
                 context.appiumSession,
@@ -792,6 +797,11 @@ def step_impl(context, sId, sTimeout):
         lLookFor = []
 
         for i in range(1, int(sTimeout) + 1):
+            print('try to unlock screen')
+            context.execute_steps(u'''
+                Then appium unlock screen
+            ''')
+
             sleep(1)
             lLookFor = finger.f_FindTargetById(
                 context.appiumSession,

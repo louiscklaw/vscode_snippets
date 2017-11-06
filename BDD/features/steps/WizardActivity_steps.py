@@ -264,6 +264,11 @@ def step_impl(context, Text, TimeOut, appears):
         end_time = start_time + int(TimeOut)
 
         while end_time > get_epoch_time():
+            print('try to unlock screen')
+            context.execute_steps(u'''
+                Then appium unlock screen
+            ''')
+
             sleep(1)
             print('wait and retry, for the step "Wait until %s %s on screen"' % (Text, appears))
             context.execute_steps(u'''
@@ -316,6 +321,10 @@ def step_impl(context, Text, TimeOut):
         end_time = get_end_time(get_epoch_time(), int(TimeOut))
 
         while end_time > get_epoch_time():
+            print('try to unlock screen')
+            context.execute_steps(u'''
+                Then appium unlock screen
+            ''')
 
             sleep(1)
             (dummy_tap_x, dummy_tap_y) = context.device_config.DUMMY_TAP
@@ -345,9 +354,6 @@ def step_impl(context, Text, TimeOut):
         print('dump the value of: TextFound')
         pprint(TextFound)
         # TODO: remove me
-
-
-
 
         raise e
     else:
