@@ -424,7 +424,7 @@ def step_impl(context):
         Given adb binary is available
         Given appium is running
 
-
+          Given Fastboot init
           Given FASTBOOT Erase userdata
             And ADB Wait for device, timeout 600 seconds
 
