@@ -155,12 +155,8 @@ def step_impl(context):
     """
     stored procedure to erase user data by fastboot
     """
-    try:
-        context.execute_steps(u'''
-            Given ADB Reboot bootloader
-            And Fastboot init
-        ''')
 
+    try:
         if hasattr(context, 'device'):
             print('perform fastboot erase userdata')
             if context.device == 'M812':
