@@ -268,10 +268,11 @@ def step_impl(context, Text, TimeOut, appears):
 
         # i = 0
         while end_time > get_epoch_time():
+            sleep(5)
             # i+=1
 
             # if i > 1:
-            #     sleep(5)
+            #
             #     print('try to unlock screen')
             #     context.execute_steps(u'''
             #         Then appium unlock screen
