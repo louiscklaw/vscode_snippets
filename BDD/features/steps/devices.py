@@ -20,7 +20,7 @@ class Device_T1(BasicDeviceConfig):
     # NOTE: places for tapping to keep/refresh the screens
     GREETING_TAC_CHECKBOX = (60, 1242)
 
-    DUMMY_TAP = (0, 1201)
+    DUMMY_TAP = (1, 1)
 
     PROJ_HOME = os.path.sep.join([(os.path.dirname(__file__))])
     PATH_FAILURE_SCREEN_CAPTURE = os.path.sep.join(
@@ -33,7 +33,7 @@ class Device_M812(BasicDeviceConfig):
     # NOTE: for the checkbox at the bottom right corner of welcome screen
     GREETING_TAC_CHECKBOX = (71, 1856)
 
-    DUMMY_TAP = (0, 1921)
+    DUMMY_TAP = (1, 1)
 
     # for scre
     PROJ_HOME = os.path.sep.join([(os.path.dirname(__file__))])

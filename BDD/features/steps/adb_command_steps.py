@@ -207,7 +207,7 @@ def step_impl(context, sSeconds):
     if bDirectoryReady:
         pass
     else:
-        logging.error('cannot get android temp direcotory')
+        print('cannot get android temp direcotory')
         assert False
     pass
 
@@ -439,7 +439,7 @@ def step_adb_settings_compare(context, namespace, key, expected):
     if value_in_device.strip() == expected.strip():
         print('value_in_device:key:%s = %s' % (key, value_in_device.strip()))
     else:
-        logging.error('the value is not match with the expected value %s' % expected)
+        print('the value is not match with the expected value %s' % expected)
         assert False, 'the value is not match with the expected value %s' % expected
 
 
@@ -690,8 +690,8 @@ def step_impl(context, sSeconds):
             context.time_sys_boot_animation = get_time_difference_to(time_start)
             pass
         else:
-            logging.error('boot failed')
-            logging.error('sStdOut: %s' % sStdOut)
+            print('boot failed')
+            print('sStdOut: %s' % sStdOut)
             assert False, 'boot failed'
         pass
     except Exception as e:
@@ -855,7 +855,7 @@ def step_impl(context, host):
     result = context.adb_session.run_cmd('''shell ping -c 5 %s ''' % host)
 
     if result.find('unknown host') > -1:
-        logging.error(result)
+        print(result)
         assert False, "cannot connect to internet"
 
 

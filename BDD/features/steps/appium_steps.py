@@ -204,7 +204,7 @@ def step_impl(context, process_wanted):
             assert False, 'the wanted application %s is not running' % process_wanted
     except Exception, e:
         print('cannot find the wanted process %s' % process_wanted)
-        # logging.error('the wanted application %s is not running ' %
+        # print('the wanted application %s is not running ' %
         #               process_wanted)
         assert False, 'exception raised during catching the wanted application'
 
@@ -829,7 +829,7 @@ def step_impl(context, sText):
             els[0].click()
 
         else:
-            logging.error('cannot find the wanted text')
+            print('cannot find the wanted text')
             assert False, 'cannot find the wanted text: %s' % sText
         pass
     except Exception as e:
@@ -1034,7 +1034,7 @@ def get_free_port(port_range):
         if free_port_found:
             pass
         else:
-            logging.error('cannot find free port for appium')
+            print('cannot find free port for appium')
             assert False, 'cannot find free port for appium'
         pass
     except Exception as e:
