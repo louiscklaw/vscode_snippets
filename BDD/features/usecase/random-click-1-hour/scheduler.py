@@ -10,7 +10,7 @@ logging.basicConfig(level=logging.DEBUG,
                     filename='handyCallOut5Mins.txt',
                     filemode='a')
 
-PROJ_HOME = os.path.dirname(__file__)
+PROJ_HOME = os.path.dirname(os.path.abspath(__file__))
 RESULT_DIRECTORY = os.path.sep.join(
     [PROJ_HOME, './result'])
 
@@ -54,18 +54,49 @@ def behaveCommandConstructor(feature_file, result_pipe_to_file):
     return 'behave -vk --no-capture  %s | tee %s' % (feature_file, result_pipe_to_file)
 
 
-def jobA():
-    osCommand(behaveCommandConstructor(
-        'random-click-1-hour_T1.feature',
-        os.path.sep.join([RESULT_DIRECTORY,'T1', getLogFileName('out')])
-    ))
+def schedulerT1():
+    try:
+        command_to_start_test = behaveCommandConstructor(
+            'random-click-1-hour_T1.feature',
+            os.path.sep.join(
+                [RESULT_DIRECTORY, 'T1', getLogFileName('out')])
+        )
+        print(command_to_start_test)
+        osCommand(command_to_start_test)
+    except Exception as e:
+        print('error occur at the scheduler T1')
+
+        # TODO: consider remove me
+        from pprint import pprint
+        print('dump the value of: command_to_start_test')
+        pprint(command_to_start_test)
+
+        raise e
+    else:
+        pass
 
 
-def jobB():
-    osCommand(behaveCommandConstructor(
-        'random-click-1-hour_M812.feature',
-        os.path.sep.join([RESULT_DIRECTORY, 'M812', getLogFileName('out')])
-    ))
+def schedulerM812():
+    try:
+        command_to_start_test = behaveCommandConstructor(
+            'random-click-1-hour_M812.feature',
+            os.path.sep.join(
+                [RESULT_DIRECTORY, 'M812', getLogFileName('out')])
+        )
+        print(command_to_start_test)
+        osCommand(command_to_start_test)
+    except Exception as e:
+        print('error occur at the scheduler M812')
+
+        # TODO: consider remove me
+        from pprint import pprint
+        print('dump the value of: command_to_start_test')
+        pprint(command_to_start_test)
+
+        raise e
+    else:
+        pass
+
 
 # def dial_Sender():
 #     print(str(time.strftime("%Y%m%d-%H%M%S")) + " Start to execute Dail a Call")
@@ -91,8 +122,12 @@ def jobB():
 
 
 scheduler = BlockingScheduler()
-scheduler.add_job(jobA, 'cron', minute='0')
-scheduler.add_job(jobB, 'cron', minute='5')
+
+scheduler.add_job(schedulerT1, 'cron',
+    minute='0')
+scheduler.add_job(schedulerM812, 'cron',
+    minute='5')
+
 # scheduler.add_job(dial_Sender, 'cron', minute='10,25,40,55')
 # scheduler.add_job(dial_Receiver, 'cron', minute='10,25,40,55')
 # scheduler.add_job(VE_Sender, 'cron', minute='15,30,45,0')
