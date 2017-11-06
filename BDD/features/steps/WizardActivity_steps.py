@@ -111,6 +111,9 @@ def step_impl(context, target, route):
 
             assert False, 'the %s is not handled' % context.device
 
+        print('steps will be run for %s' % target)
+        print('\n'.join(lsTemp))
+
         context.execute_steps(''.join(lsTemp))
         pass
     except Exception as e:
@@ -264,12 +267,7 @@ def step_impl(context, Text, TimeOut, appears):
         end_time = start_time + int(TimeOut)
 
         while end_time > get_epoch_time():
-            print('try to unlock screen')
-            context.execute_steps(u'''
-                Then appium unlock screen
-            ''')
 
-            sleep(1)
             print('wait and retry, for the step "Wait until %s %s on screen"' % (Text, appears))
             context.execute_steps(u'''
                 Given Wait until screen ready, timeout 1 seconds
