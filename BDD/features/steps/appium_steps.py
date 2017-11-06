@@ -549,12 +549,12 @@ def step_impl(context, ready_timeout):
     """
     # Resource-id com.tinklabs.launcher:id/loading
 
-    try:
-        print('try to unlock screen')
+    print('try to unlock screen')
+    context.execute_steps(u'''
+        Then appium unlock screen
+    ''')
 
-        context.execute_steps(u'''
-            Then appium unlock screen
-        ''')
+    try:
 
         iTimeout = int(ready_timeout)
         dqiElementFound = deque([1, 1, 1])
@@ -757,11 +757,12 @@ def step_impl(context, sId, sTimeout):
         start_time = get_epoch_time()
         end_time = start_time + int(sTimeout)
 
+        print('try to unlock screen')
+        context.execute_steps(u'''
+            Then appium unlock screen
+        ''')
+
         while end_time > get_epoch_time():
-            print('try to unlock screen')
-            context.execute_steps(u'''
-                Then appium unlock screen
-            ''')
 
             sleep(1)
             lLookFor = finger.f_FindTargetById(
@@ -796,11 +797,12 @@ def step_impl(context, sId, sTimeout):
     try:
         lLookFor = []
 
+        print('try to unlock screen')
+        context.execute_steps(u'''
+            Then appium unlock screen
+        ''')
+
         for i in range(1, int(sTimeout) + 1):
-            print('try to unlock screen')
-            context.execute_steps(u'''
-                Then appium unlock screen
-            ''')
 
             sleep(1)
             lLookFor = finger.f_FindTargetById(
