@@ -15,7 +15,7 @@ Feature: appium screen capture
 
   @appium_capture_failed_screen_T1
     Scenario: test capture failure screen
-      Given Target device is T1 "VZHGLMA742800785"
+      Given Target device is T1 "VZHGLMA742804186"
       And ADB initialize android
       Given setup an android as below, using appium port 4723
         | Package                  | Activity                        | platform | type  | version |
@@ -26,7 +26,7 @@ Feature: appium screen capture
 
   @appium_capture_failed_screen_M812
   Scenario: test capture failure screen
-    Given Target device is M812 "PHXGLC1582600007"
+    Given Target device is M812 "V2HGLMB721301100"
     And ADB initialize android
     Given setup an android as below, using appium port 4723
       | Package                  | Activity                        | platform | type  | version |
