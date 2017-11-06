@@ -34,6 +34,7 @@ def step_impl(context):
             assert False, 'the device is not handled'
         pass
     except Exception as e:
+        print('error Skip the 1st tiem tutorial by lancher')
         raise e
     else:
         pass
