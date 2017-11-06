@@ -23,8 +23,16 @@ class appium_screen_capture:
         try:
             failed_screenshot_filename = 'failed_' + datetime.now().strftime('%y%m%d-%H%M%S')+'.png'
             self.screen_capture( self.screen_capture_directory, failed_screenshot_filename)
+            print('screen capture saved to file: %s' % failed_screenshot_filename)
             pass
         except Exception as e:
+            print('error during capture the screen')
+
+            # TODO: consider remove me
+            from pprint import pprint
+            print('dump the value of: failed_screenshot_filenames')
+            pprint(failed_screenshot_filename)
+
             raise e
         else:
             pass

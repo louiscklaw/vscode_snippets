@@ -20,6 +20,32 @@ import logging
 
 import appium_function
 
+
+def appium_capture_failed_screen(context):
+    try:
+        # TODO: remporary hardcode for the model
+        print('capture failure screen invoked')
+        print('saving to directory: %s' %
+            context.device_config.PATH_FAILURE_SCREEN_CAPTURE)
+        screen_capture = appium_function.appium_screen_capture(
+            context.appiumSession, context.device_config.PATH_FAILURE_SCREEN_CAPTURE
+        )
+        screen_capture.capture_failed_screen()
+
+
+    except Exception as e:
+        print('error during capture the screen')
+
+        # TODO: consider remove me
+        from pprint import pprint
+        print('dump the value of: context.device_config.PATH_FAILURE_SCREEN_CAPTURE')
+        pprint(context.device_config.PATH_FAILURE_SCREEN_CAPTURE)
+
+        raise e
+    else:
+        pass
+
+
 def quit_appiumSession(context):
     context.appiumSession.quit()
     pass
@@ -39,12 +65,12 @@ def after_all(context):
 
 def after_step(context, step):
     if step.status == "failed":
-        context.execute_steps(u'''
-            Then appium capture failed screen
-        ''')
+        appium_capture_failed_screen(context)
+
     pass
 
 def before_step(context, scenario):
+    context.capture_screen_retry = 5
     pass
 
 
