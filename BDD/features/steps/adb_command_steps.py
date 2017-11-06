@@ -159,8 +159,16 @@ def step_impl(context):
     else:
         assert False, "adb_session not found"
 
-    adb = context.adb_session
-    adb.run_cmd('reboot bootloader')
+    # adb = context.adb_session
+    # adb.run_cmd('reboot bootloader')
+    adb_reboot_command = 'adb -s %s reboot bootloader' % context.android_serial
+
+    # TODO: consider remove me
+    from pprint import pprint
+    print('dump the value of: adb_reboot_command')
+    pprint(adb_reboot_command)
+
+    subprocess.check_output(adb_reboot_command.split(' '))
     sleep(5)
 
 
