@@ -285,8 +285,15 @@ def step_impl(context, Text, TimeOut, appears):
 
         if not(TextFound):
             if appears in ['appears']:
-                assert False
+                assert False, "the wanted text doesn't appear"
     except Exception as e:
+        print("error as the wanted text doesn't appear")
+
+        # TODO: consider remove me
+        from pprint import pprint
+        print('dump the value of: TextFound')
+        pprint(TextFound)
+
         raise e
     else:
         pass
