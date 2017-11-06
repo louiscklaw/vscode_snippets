@@ -271,11 +271,12 @@ def step_impl(context, Text, TimeOut, appears):
             i+=1
 
             if i > 1:
-                sleep(10)
+                sleep(5)
                 print('try to unlock screen')
                 context.execute_steps(u'''
                     Then appium unlock screen
                 ''')
+                sleep(1)
 
             print('wait and retry, for the step "Wait until %s %s on screen"' % (Text, appears))
             context.execute_steps(u'''
