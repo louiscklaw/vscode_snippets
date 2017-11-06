@@ -64,16 +64,32 @@ def bootstrap_from_unknown_state(android_serial):
             adb_devices_output = subprocess.check_output(['adb', 'devices'])
             if adb_devices_output.find(android_serial) > -1:
                 # if the device serial is found from adb devices output, escape from the loop
+                print('device appears in the adb devices result')
                 keep_loop = False
                 pass
             else:
                 # if the device serial cannot found from adb devices output
                 # possibly the device is in the bootloader mode, fastboot -> reboot the device to recover
+                print('device not appears in the adb devices result')
+
+                # TODO: consider remove me
+                from pprint import pprint
+                print('dump the value of: adb_devices_output')
+                pprint(adb_devices_output)
+
                 fastboot_output = subprocess.check_output(['fastboot', 'devices'])
                 if fastboot_output.find(android_serial) > -1:
+                    print('devices appears in the fastboot devices result')
                     subprocess.check_output(
                         ['fastboot', '-s', android_serial, 'reboot'])
                     sleep(90)
+                else:
+                    print('devices not appears int the fastboot devices result')
+
+                    # TODO: consider remove me
+                    from pprint import pprint
+                    print('dump the value of: fastboot_output')
+                    pprint(fastboot_output)
 
         pass
     except Exception as e:
@@ -85,7 +101,13 @@ def bootstrap_from_unknown_state(android_serial):
         from pprint import pprint
         print('dump the value of: android_serial')
         pprint(android_serial)
-        # TODO: remove me
+
+        print('dump the value of: adb_devices_output')
+        pprint(adb_devices_output)
+
+        print('dump the value of: fastboot_output')
+        pprint(fastboot_output)
+
 
         raise e
     else:
