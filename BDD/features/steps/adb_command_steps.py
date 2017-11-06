@@ -127,9 +127,8 @@ def step_impl(context):
 
 @step(u'ADB Wait for device, timeout {sSeconds} seconds')
 def step_impl(context, sSeconds):
-    """
-        probe the device by adb wait-for-device command.
-    """
+    """probe the device by adb wait-for-device command."""
+
     try:
         time_to_start = get_epoch_time()
 
@@ -142,6 +141,7 @@ def step_impl(context, sSeconds):
         sleep(3)
         pass
     except Exception as e:
+        print('error during wait for device, %s' % context.android_serial)
         raise e
     else:
         pass
@@ -233,6 +233,7 @@ def step_impl(context):
         ''')
         pass
     except Exception as e:
+        print('error during ADB initialize android')
         raise e
     else:
         pass
@@ -278,8 +279,16 @@ def step_impl(context, sSourceFile, sTargetFile):
             - sSourceFile - Source file from PC
             - sTargetFile - Target file in android
     """
-    print('i am supposed to adb push %s %s' % (sSourceFile, sTargetFile))
-    run('adb push %s %s' % (sSourceFile, sTargetFile), timeout_sec=10)
+    try:
+        print('i am supposed to adb push %s %s' % (sSourceFile, sTargetFile))
+        run('adb push %s %s' % (sSourceFile, sTargetFile), timeout_sec=10)
+        pass
+    except Exception as e:
+        print('error during pushing file to android %s' % sSourceFile)
+        raise e
+    else:
+        pass
+
     pass
 
 
@@ -288,9 +297,17 @@ def step_impl(context, sTargetFile, sPermission):
     """
         to change the permission of file
     """
-    context.execute_steps(u'''
-        Then ADB shell "chmod %s %s"
-    ''' % (sPermission, sTargetFile))
+    try:
+        context.execute_steps(u'''
+            Then ADB shell "chmod %s %s"
+        ''' % (sPermission, sTargetFile))
+        pass
+    except Exception as e:
+        print('error during change permission , %s %s ' %
+              (sPermission, sTargetFile))
+        raise e
+    else:
+        pass
     pass
 
 
@@ -321,6 +338,7 @@ def step_impl(context):
         ''' % dParameters)
         pass
     except Exception as e:
+        print('error during change permission tinklabs1001')
         raise e
     else:
         pass
@@ -406,6 +424,20 @@ def step_impl(context, sValue, sSettingName, sNamespace):
         ''' % (sNamespace, sSettingName, sValue))
         pass
     except Exception as e:
+        print('error during putting settings')
+
+        # TODO: consider remove me
+        from pprint import pprint
+        print('dump the value of: sNamespace')
+        pprint(sNamespace)
+
+        print('dump the value of: sSettingName')
+        pprint(sSettingName)
+
+        print('dump the value of: sValue')
+        pprint(sValue)
+
+
         raise e
     else:
         pass
@@ -677,6 +709,7 @@ def step_impl(context, sSeconds):
 
         # for i in range(0, int(sSeconds)):
         while time_to_end > get_epoch_time():
+            print('checkig for passing boot animation...')
             sleep(15)
             # (sResultCode, sStdOut, sStdErr, bTimeout) = step_adb_getprop(context, "sys.boot_completed")
             sStdOut = step_adb_getprop(context, 'sys.boot_completed')
@@ -693,8 +726,11 @@ def step_impl(context, sSeconds):
             print('boot failed')
             print('sStdOut: %s' % sStdOut)
             assert False, 'boot failed'
+
+        print('ADB check boot complete done')
         pass
     except Exception as e:
+        print('error during ADB check boot completed')
         raise e
     else:
         pass

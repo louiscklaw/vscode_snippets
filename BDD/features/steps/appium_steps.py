@@ -175,13 +175,11 @@ def step_impl(context, device):
     except Exception as e:
         print('error occur during finding target device')
 
-
         # TODO: remove me
         from pprint import pprint
         print('dump the value of: device')
         pprint(device)
         # TODO: remove me
-
 
         raise e
     else:
@@ -199,6 +197,7 @@ def step_impl(context, process_wanted):
 
     try:
         if os.popen("ps -ef | grep -i %s | grep -v 'grep'" % process_wanted).read().strip().find(process_wanted) > -1:
+            print('running %s found' % process_wanted)
             pass
         else:
             assert False, 'the wanted application %s is not running' % process_wanted
@@ -251,6 +250,13 @@ def step_impl(context, port):
 
     except Exception as e:
         print('cannot connect to the appium')
+
+        # TODO: remove me
+        from pprint import pprint
+        print('dump the value of: port')
+        pprint(port)
+        # TODO: remove me
+
         raise e
     else:
         pass
@@ -308,15 +314,10 @@ def step_impl(context, packageName, sActivity, sType, sPlatform, sVersion):
         from pprint import pprint
         print('dump the value of: packageName')
         pprint(packageName)
-        # TODO: remove me
 
-
-        # TODO: remove me
-        from pprint import pprint
         print('dump the value of: sActivity')
         pprint(sActivity)
         # TODO: remove me
-
 
         raise e
     else:
@@ -382,6 +383,7 @@ def step_impl(context):
     """
     try:
         if os.path.isfile(context.adb_binary):
+            print('adb binary found')
             pass
         else:
             assert False, '%s is not exist' % context.adb_binary
@@ -564,6 +566,14 @@ def fail_if_the_text_not_appears(content, Text):
         pass
     except Exception as e:
         print('error occur during try to locate the text on screen or unwanted text is appearing')
+        print('the text wanted doesnt appear')
+
+        # TODO: remove me
+        from pprint import pprint
+        print('dump the value of: Text')
+        pprint(Text)
+        # TODO: remove me
+
         raise e
     else:
         pass
@@ -594,7 +604,6 @@ def step_impl(context, Text):
         raise e
     else:
         pass
-
 
 
 @step(u'Fail if the Text "{sText}" {sDetermin} appears on screen')
@@ -635,7 +644,10 @@ def step_impl(context, sText, sDetermin):
 
         print('dump the value of: sDetermin')
         pprint(sDetermin)
-        # TODO: remove me
+
+        print('dump the value of: lLookFor')
+        pprint(lLookFor)
+
 
         raise e
     else:
@@ -653,6 +665,14 @@ def step_impl(context, sText):
         pass
     except Exception as e:
         print('error occur during checking if the text appears on screen')
+
+
+        # TODO: consider remove me
+        from pprint import pprint
+        print('dump the value of: sText')
+        pprint(sText)
+
+
         raise e
     else:
         pass
@@ -678,10 +698,15 @@ def step_impl(context, sId):
         pass
     except Exception as e:
         print('error occur during trying to located the sId')
+
+        # TODO: consider remove me
+        from pprint import pprint
+        print('dump the value of: sId')
+        pprint(sId)
+
         raise e
     else:
         pass
-
 
 
 @step(u'Wait until "resource-id" "{sId}" appears on screen, timeout {sTimeout} seconds')
@@ -720,7 +745,6 @@ def step_impl(context, sId, sTimeout):
     except Exception as e:
         print('error occur during try to locate the sId on screen ')
 
-
         # TODO: remove me
         from pprint import pprint
         print('dump the value of: sId')
@@ -730,7 +754,6 @@ def step_impl(context, sId, sTimeout):
         raise e
     else:
         pass
-
 
 
 @step(u'Wait until Video"{sId}" appears, timeout {sTimeout} seconds')
@@ -797,6 +820,8 @@ def step_impl(context, sId):
 
 @step(u'tap screen {n} times at {somewhere}')
 def step_impl(context, n, somewhere):
+    """just tap on a position defined"""
+
     try:
         finger.f_TapScreen(context.appiumSession, 1, 1, 1)
         pass
@@ -902,14 +927,11 @@ def step_impl(context, sWidget, sProperties, sDescription):
     except Exception as e:
         print('error during tapping button')
 
-
         # TODO: remove me
         from pprint import pprint
         print('dump the value of: sWidget')
         pprint(sWidget)
         # TODO: remove me
-
-
 
         raise e
     else:
@@ -926,6 +948,7 @@ def step_impl(context, sWidget, sProperties, sDescription):
         sleep(1)
         pass
     except Exception as e:
+        print('error during tapping the checkbox')
         raise e
     else:
         pass
@@ -972,7 +995,7 @@ def step_impl(context, sX, sY):
         context.adb_session.run_cmd('shell input tap %s %s' % (sX, sY))
         pass
     except Exception as e:
-        print('error found during tapping screen to keep awake')
+        print('error found during tapping screen to keep awake using adb')
         raise e
     else:
         pass
@@ -994,6 +1017,7 @@ def step_impl(context, sText, sDetermine):
                 assert False, 'the wanted elements %s not appears on screen' % sText
         pass
     except Exception as e:
+        print('error found during finding if the context-desc appears on screen')
         raise e
     else:
         pass
@@ -1038,6 +1062,7 @@ def get_free_port(port_range):
             assert False, 'cannot find free port for appium'
         pass
     except Exception as e:
+        print('error during finding a freeport for appium')
         raise e
     else:
         pass
@@ -1198,6 +1223,7 @@ def step_impl(context):
 
         pass
     except Exception as e:
+        print('error during appium capture failed screen')
         raise e
     else:
         pass

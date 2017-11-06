@@ -42,15 +42,15 @@ def step_impl(context):
 
 @step(u'Wait for handy initialization')
 def step_impl(context):
-    """
-        sleep across the handy initialization
-    """
+    """sleep across the handy initialization"""
     try:
+        print('waiting for handy initialization')
         context.execute_steps(u'''
             Then sleep 600 seconds
         ''')
         pass
     except Exception as e:
+        print('error during wit for handy initialization')
         raise e
     else:
         pass
