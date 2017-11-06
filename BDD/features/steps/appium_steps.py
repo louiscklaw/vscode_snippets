@@ -549,11 +549,6 @@ def step_impl(context, ready_timeout):
     """
     # Resource-id com.tinklabs.launcher:id/loading
 
-    print('try to unlock screen')
-    context.execute_steps(u'''
-        Then appium unlock screen
-    ''')
-
     try:
 
         iTimeout = int(ready_timeout)
