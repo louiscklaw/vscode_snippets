@@ -96,6 +96,12 @@ def step_impl(context, sCommand):
         sFastbootCommand = 'fastboot -s %s %s' % (
             context.android_serial, sCommand)
 
+
+        # TODO: consider remove me
+        from pprint import pprint
+        print('dump the value of: sFastbootCommand')
+        pprint(sFastbootCommand)
+
         (iReturnCode, sStdOut, sStdErr, bTimeout) = run(
             sFastbootCommand, timeout_sec=30)
         pprint((iReturnCode, sStdOut, sStdErr, bTimeout))
