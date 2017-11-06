@@ -3,11 +3,12 @@ Feature: random click for a hour, pilot run
   @initialize_rom
   Scenario: initialize
     Given Target device is M812 "V2HGLMB721301100"
+      And Test setup is ready
 
     Given setup an android as below, using appium port 4725
       | Package                  | Activity                        | platform | type  | version |
       | com.tinklabs.activateapp | .features.wizard.WizardActivity | Android  | phone | 7.0     |
-    And Wait until "English" appears on screen, timeout "600" seconds
+    And Wait until "English" appears on screen, timeout "300" seconds
     Given Reach "Happy flow The end" page in WizardActivity by skip, route "THIS_TEXT_IS_RESERVED_FOR_LATTER_USE"
     And Skip the 1st time tutorial by launcher
 
