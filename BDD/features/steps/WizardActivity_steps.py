@@ -263,17 +263,17 @@ def step_impl(context, Text, TimeOut, appears):
         start_time = get_epoch_time()
         end_time = start_time + int(TimeOut)
 
-        i = 0
+        # i = 0
         while end_time > get_epoch_time():
-            i+=1
+            # i+=1
 
-            if i > 1:
-                sleep(5)
-                print('try to unlock screen')
-                context.execute_steps(u'''
-                    Then appium unlock screen
-                ''')
-                sleep(1)
+            # if i > 1:
+            #     sleep(5)
+            #     print('try to unlock screen')
+            #     context.execute_steps(u'''
+            #         Then appium unlock screen
+            #     ''')
+            #     sleep(1)
 
             sleep(1)
             print('wait and retry, for the step "Wait until %s %s on screen"' % (Text, appears))
