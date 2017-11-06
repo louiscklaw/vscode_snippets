@@ -59,37 +59,53 @@ def step_impl(context):
     To initialize fastboot session
     implict reboot by adb occur.
     """
-    if hasattr(context, 'android_serial'):
-        sleep(3)
-        print('android_serial:%s is used for fastboot')
+    try:
+        if hasattr(context, 'android_serial'):
+            sleep(3)
+            print('android_serial:%s is used for fastboot')
 
-        print('reboot device by adb')
-        context.execute_steps(u'''
-            Then ADB Reboot bootloader
-        ''')
+            print('reboot device by adb')
+            context.execute_steps(u'''
+                Then ADB Reboot bootloader
+            ''')
 
-        # NOTE: this is a small technique for using the fastboot library.
-        # the get_devices also update the list inside the library.
-        f_session = context.fastboot_session
+            # NOTE: this is a small technique for using the fastboot library.
+            # the get_devices also update the list inside the library.
+            f_session = context.fastboot_session
 
-        f_session.set_target_by_id(
-            get_index_by_serial(f_session.get_devices(),
-                                context.android_serial)
-        )
+            f_session.set_target_by_id(
+                get_index_by_serial(f_session.get_devices(),
+                                    context.android_serial)
+            )
+        else:
+            # NOTE: no android_serial info here. assert error
+            print('android_serial not found')
+            assert False, 'android_serial not found'
+
+    except Exception as e:
+        print('error during Fastboot init')
+        raise e
     else:
-        # NOTE: no android_serial info here. assert error
-        print('android_serial not found')
-        assert False, 'android_serial not found'
+        pass
 
 
 @step(u'FASTBOOT "{sCommand}"')
 def step_impl(context, sCommand):
-    sFastbootCommand = 'fastboot ' + sCommand
+    try:
+        sFastbootCommand = 'fastboot ' + sCommand
 
-    (iReturnCode, sStdOut, sStdErr, bTimeout) = run(
-        sFastbootCommand, timeout_sec=30)
-    pprint((iReturnCode, sStdOut, sStdErr, bTimeout))
-    assert iReturnCode == 0 and bTimeout == False
+        (iReturnCode, sStdOut, sStdErr, bTimeout) = run(
+            sFastbootCommand, timeout_sec=30)
+        pprint((iReturnCode, sStdOut, sStdErr, bTimeout))
+        assert iReturnCode == 0 and bTimeout == False
+
+        pass
+    except Exception as e:
+        print('error during FASTBOOT %s' % sCommand)
+        raise e
+    else:
+        pass
+
 
 
 @step(u'FASTBOOT "{sCommand}", timeout {sTimeout} seconds')
@@ -105,27 +121,33 @@ def step_impl(context, sCommand, sTimeout):
 
 @step(u'FASTBOOT Erase "{sPartitions}"')
 def step_impl(context, sPartitions):
-    """
-        procedure to erase partition
-    """
+    """procedure to erase partition"""
 
-    # wait until bootloader ready
-    context.execute_steps(u'''
-        Given ADB Reboot bootloader
-          And FASTBOOT unlock
-    ''')
-    for sPartition in sPartitions.split(','):
-        # simple massage of input data
-        sPartition = sPartition.strip()
-        if sPartition in ['userdata', 'oem', 'cache', 'system']:
-            context.execute_steps(u'''
-                Then FASTBOOT "-i 0x489 erase %s"
-            ''' % sPartition)
+    try:
 
-    context.execute_steps(u'''
-        Then FASTBOOT "reboot"
-    ''')
-    pass
+        # wait until bootloader ready
+        context.execute_steps(u'''
+            Given ADB Reboot bootloader
+            And FASTBOOT unlock
+        ''')
+        for sPartition in sPartitions.split(','):
+            # simple massage of input data
+            sPartition = sPartition.strip()
+            if sPartition in ['userdata', 'oem', 'cache', 'system']:
+                context.execute_steps(u'''
+                    Then FASTBOOT "-i 0x489 erase %s"
+                ''' % sPartition)
+
+        context.execute_steps(u'''
+            Then FASTBOOT "reboot"
+        ''')
+        print('erase partition done')
+
+    except Exception as e:
+        print('error during erase paritions %s' % sPartition)
+        raise e
+    else:
+        pass
 
 
 @step(u'FASTBOOT Erase userdata')
@@ -133,40 +155,46 @@ def step_impl(context):
     """
     stored procedure to erase user data by fastboot
     """
-    context.execute_steps(u'''
-        Given ADB Reboot bootloader
-          And Fastboot init
-    ''')
-
-    if hasattr(context, 'device'):
-        if context.device == 'M812':
-            context.execute_steps(u'''
-                Then FASTBOOT "erase userdata"
-                  And FASTBOOT "reboot"
-            ''')
-            pass
-        elif context.device == 'T1':
-            context.execute_steps(u'''
-                Then FASTBOOT unlock
-                  And FASTBOOT "-i 0x489 erase userdata"
-                  And FASTBOOT "reboot"
-            ''')
-        else:
-            print('unhandled fastboot rease userdata')
-            assert False
-            pass
-    else:
-        # Temporary default action for T1
-        # TODO: put it into if branch, as currently the context.device didn't implement there yet. so i need put it here
+    try:
         context.execute_steps(u'''
             Given ADB Reboot bootloader
-                And FASTBOOT unlock
-                Then FASTBOOT "-i 0x489 erase userdata"
-                Then FASTBOOT "reboot"
+            And Fastboot init
         ''')
-        pass
-    pass
 
+        if hasattr(context, 'device'):
+            print('perform fastboot erase userdata')
+            if context.device == 'M812':
+                context.execute_steps(u'''
+                    Then FASTBOOT "erase userdata"
+                    And FASTBOOT "reboot"
+                ''')
+                pass
+            elif context.device == 'T1':
+                context.execute_steps(u'''
+                    Then FASTBOOT unlock
+                    And FASTBOOT "-i 0x489 erase userdata"
+                    And FASTBOOT "reboot"
+                ''')
+            else:
+                print('unhandled fastboot rease userdata')
+                assert False
+                pass
+        else:
+            # Temporary default action for T1
+            # TODO: put it into if branch, as currently the context.device didn't implement there yet. so i need put it here
+            context.execute_steps(u'''
+                Given ADB Reboot bootloader
+                    And FASTBOOT unlock
+                    Then FASTBOOT "-i 0x489 erase userdata"
+                    Then FASTBOOT "reboot"
+            ''')
+            pass
+        pass
+    except Exception as e:
+        print('error during Fastboot Erase userdata')
+        raise e
+    else:
+        pass
 
 @step(u'FASTBOOT unlock')
 def step_impl(context):

@@ -144,6 +144,7 @@ def step_impl(context):
         ''' % LauncherActivityConfig.LEFT_DRAWER_ERASE_DATA)
         pass
     except Exception as e:
+        print('error during In launcher side menu, Erase data')
         raise e
     else:
         pass
@@ -176,6 +177,7 @@ def step_impl(context):
         ''')
         pass
     except Exception as e:
+        print('error during tap hamburger button on launcher')
         raise e
     else:
         pass
