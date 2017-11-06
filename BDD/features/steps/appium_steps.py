@@ -1251,3 +1251,17 @@ def step_impl(context):
         raise e
     else:
         pass
+
+
+@step(u'appium unlock screen')
+def step_impl(context):
+    try:
+        context.execute_steps(u'''
+            Then ADB shell "am start -n io.appium.unlock/.Unlock"
+        ''')
+        pass
+    except Exception as e:
+        print('error during appium unlock screen')
+        raise e
+    else:
+        pass

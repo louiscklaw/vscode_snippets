@@ -671,11 +671,18 @@ def step_adb_shell(context, command):
         :Args:
             - command - command would like to pass to adb shell
     """
-    adb_command = 'shell %s' % command
-    # print('i am supposed to run adb command %s' % sAdbCommand)
-    # (iResultCode, sStdOut, sStdErr, bTimeout) = run(sAdbCommand, timeout_sec = 5)
+    try:
+        adb_command = 'shell %s' % command
+        # print('i am supposed to run adb command %s' % sAdbCommand)
+        # (iResultCode, sStdOut, sStdErr, bTimeout) = run(sAdbCommand, timeout_sec = 5)
 
-    context.adb_command_result = context.adb_session.run_cmd(adb_command)
+        context.adb_command_result = context.adb_session.run_cmd(adb_command)
+        pass
+    except Exception as e:
+        print('error during running command: %s using ADB' % command)
+        raise e
+    else:
+        pass
     pass
 
 
