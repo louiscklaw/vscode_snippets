@@ -725,7 +725,7 @@ def step_impl(context, sSeconds):
         # for i in range(0, int(sSeconds)):
         while time_to_end > get_epoch_time():
             print('checkig for passing boot animation...')
-            sleep(15)
+            sleep(30)
             # (sResultCode, sStdOut, sStdErr, bTimeout) = step_adb_getprop(context, "sys.boot_completed")
             sStdOut = step_adb_getprop(context, 'sys.boot_completed')
             sStdOut = sStdOut.strip()
