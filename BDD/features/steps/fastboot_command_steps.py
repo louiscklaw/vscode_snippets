@@ -78,7 +78,7 @@ def step_impl(context):
         )
     else:
         # NOTE: no android_serial info here. assert error
-        logging.error('android_serial not found')
+        print('android_serial not found')
         assert False, 'android_serial not found'
 
 
@@ -179,7 +179,7 @@ def step_impl(context):
                 And FASTBOOT "-i 0x489 oem devlock key"
             ''')
         else:
-            logging.error('unhandled fastboot unlock')
+            print('unhandled fastboot unlock')
             assert False
             pass
     else:

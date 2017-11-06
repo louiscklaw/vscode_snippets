@@ -101,7 +101,7 @@ class LauncherFirstTimeTutorialGenerator:
             temp += self.tutorial_steps.TUTORIAL_STEP[EXIT_TUTORIAL]
 
         else:
-            logging.error('the %s is not handled ' % self.hotel_config)
+            print('the %s is not handled ' % self.hotel_config)
 
         return temp
     pass
