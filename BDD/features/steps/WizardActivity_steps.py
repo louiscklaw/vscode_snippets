@@ -265,7 +265,7 @@ def step_impl(context, Text, TimeOut, appears):
 
         while end_time > get_epoch_time():
             sleep(1)
-            print('wait and retry')
+            print('wait and retry, for the step "Wait until %s %s on screen"' % (Text, appears))
             context.execute_steps(u'''
                 Given Wait until screen ready, timeout 1 seconds
                 Then tap on position "%d","%d" using adb
