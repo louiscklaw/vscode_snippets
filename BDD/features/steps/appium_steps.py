@@ -197,6 +197,7 @@ def step_impl(context, process_wanted):
 
     try:
         if os.popen("ps -ef | grep -i %s | grep -v 'grep'" % process_wanted).read().strip().find(process_wanted) > -1:
+            print('running %s found' % process_wanted)
             pass
         else:
             assert False, 'the wanted application %s is not running' % process_wanted
@@ -382,6 +383,7 @@ def step_impl(context):
     """
     try:
         if os.path.isfile(context.adb_binary):
+            print('adb binary found')
             pass
         else:
             assert False, '%s is not exist' % context.adb_binary
