@@ -218,6 +218,16 @@
 		],
 		"description": "story"
 	},
+	// # TODO: to be implemented
+	"to_be_implemented": {
+		"prefix": "to_be_implemented",
+		"body": [
+			// work with todohighlight.keywords
+			"# TODO: ${1:to be implemented}"
+		],
+		"description": "to_be_implemented"
+	},
+
 
 	"init_unittest": {
 		"prefix": "init_unittest",
