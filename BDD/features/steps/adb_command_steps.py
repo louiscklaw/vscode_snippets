@@ -737,7 +737,7 @@ def step_impl(context, sSeconds):
 
         if bBootComplete:
             context.time_sys_boot_animation = get_time_difference_to(time_start)
-            print('boot_completed received')
+            print('sys.boot_completed received')
             pass
         else:
             print('boot failed')
