@@ -434,7 +434,7 @@ def step_impl(context):
             # about 900 for M812
             And ADB check boot completed, timeout 1200 seconds
 
-        Then Wait for handy initialization
+        # Then Wait for handy initialization
             # TODO: resume
             # And inject wifi configuration WIFI_CONFIG_TINKLABS_WTTQA
             And ADB Initialize android
