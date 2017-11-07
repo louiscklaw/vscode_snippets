@@ -56,6 +56,7 @@ def getPidOfProcess(texts_wanted):
 
         if ps_printout.find(texts_wanted[0]) > -1:
             print('the target process found')
+            print(ps_printout.split(' '))
             pid_of_process = int(ps_printout.split(' ')[1])
 
         return pid_of_process
