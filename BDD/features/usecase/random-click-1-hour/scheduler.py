@@ -262,7 +262,7 @@ scheduler = BlockingScheduler()
 scheduler.add_job(schedulerT1, 'cron',
                   minute='*/30')
 scheduler.add_job(schedulerM812, 'cron',
-                  minute='*/r30')
+                  minute='*/30')
 # scheduler.start()
 # schedulerT1()
 scheduler.start()
