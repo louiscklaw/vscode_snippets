@@ -432,7 +432,7 @@ def step_impl(context, sValue, sSettingName, sNamespace):
     # ''' % (sNamespace, sSettingName, sValue))
 
     try:
-
+        print('putting settings')
         context.execute_steps(u'''
             Then adb root shell "settings put %s %s %s"
         ''' % (sNamespace, sSettingName, sValue))
