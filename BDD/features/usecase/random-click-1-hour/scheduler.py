@@ -66,7 +66,7 @@ def gettestLogFilename():
 
 
 def behaveCommandConstructor(feature_file, result_pipe_to_file):
-    return 'behave -vk --no-capture  %s | tee %s' % (feature_file, result_pipe_to_file)
+    return 'behave -vk --no-capture  %s 2>&1 | tee %s' % (feature_file, result_pipe_to_file)
 
 
 def getAppiumProcessPid(android_serial):
