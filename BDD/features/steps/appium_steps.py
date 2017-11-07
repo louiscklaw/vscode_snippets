@@ -239,6 +239,8 @@ def step_impl(context, port):
         desired_caps['platformName'] = 'Android'
         # desired_caps['platformVersion'] = row['version']
 
+        print('setting up appium process')
+
         if hasattr(context, 'android_serial') and len(context.android_serial) == 16:
             desired_caps['deviceName'] = context.android_serial
             print('context.android_serial defined, use as deviceName')
@@ -270,7 +272,7 @@ def step_impl(context, port):
         context.appiumSession = webdriver.Remote(
             'http://localhost:%d/wd/hub' % int(port),
             desired_caps)
-
+        print('setup appium done')
     except Exception as e:
         print('cannot connect to the appium')
 

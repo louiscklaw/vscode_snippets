@@ -128,7 +128,7 @@ def step_impl(context):
 @step(u'ADB Wait for device, timeout {sSeconds} seconds')
 def step_impl(context, sSeconds):
     """probe the device by adb wait-for-device command."""
-
+    print('block until adb wait-for-device returns')
     try:
         time_to_start = get_epoch_time()
 
@@ -139,6 +139,7 @@ def step_impl(context, sSeconds):
 
         # wait some seconds more to let device ready
         sleep(3)
+        print('adb wait-for-device done')
         pass
     except Exception as e:
         print('error during wait for device, %s' % context.android_serial)
@@ -226,6 +227,7 @@ def step_impl(context):
     packed action to initialize android
     """
     try:
+        print('initialize android')
         context.execute_steps(u'''
             Given ADB PATH_ANDROID_TEMP directory is ready, timeout 60 seconds
                 And ADB push tinklabs1001
@@ -233,12 +235,13 @@ def step_impl(context):
             Then ADB change permission tinklabs1001
 
             Then ADB settings put global package_verifier_enable 0
-                And ADB settings put global stay_on_while_plugged_in 7
-                And ADB settings put system screen_brightness 10
+                # And ADB settings put global stay_on_while_plugged_in 7
+                # And ADB settings put system screen_brightness 10
 
                 # disable USB file transfer
-                And ADB setprop "persist.sys.usb.config" "adb,mtp"
+                # And ADB setprop "persist.sys.usb.config" "adb,mtp"
         ''')
+        print('initialize android done')
         pass
     except Exception as e:
         print('error during ADB initialize android')
@@ -325,11 +328,13 @@ def step_impl(context):
     packed process to transfer the tinklabs1001 to android
     """
     try:
+        print('pushing tinklabs1001')
         context.execute_steps(u'''
             Then ADB push "%(PATH_PC_TINKLABS1001)s" "%(PATH_ANDROID_TEMP)s"
         ''' % dParameters)
         pass
     except Exception as e:
+        print('error during pushing tinklabs1001')
         raise e
     else:
         pass
@@ -341,6 +346,7 @@ def step_impl(context):
     packed process to change the file permission of tinklabs1001
     """
     try:
+        print('changing permission of tinklabs1001')
         context.execute_steps(u'''
             Then ADB change permission "777" "%(PATH_ANDROID_TINKLABS1001)s"
         ''' % dParameters)
@@ -426,7 +432,7 @@ def step_impl(context, sValue, sSettingName, sNamespace):
     # ''' % (sNamespace, sSettingName, sValue))
 
     try:
-
+        print('putting settings')
         context.execute_steps(u'''
             Then adb root shell "settings put %s %s %s"
         ''' % (sNamespace, sSettingName, sValue))
@@ -736,6 +742,7 @@ def step_impl(context, sSeconds):
 
         if bBootComplete:
             context.time_sys_boot_animation = get_time_difference_to(time_start)
+            print('sys.boot_completed received')
             pass
         else:
             print('boot failed')

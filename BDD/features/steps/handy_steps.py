@@ -50,7 +50,7 @@ def step_impl(context):
         ''')
         pass
     except Exception as e:
-        print('error during wit for handy initialization')
+        print('error during wait for handy initialization')
         raise e
     else:
         pass
