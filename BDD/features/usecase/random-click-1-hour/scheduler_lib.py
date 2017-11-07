@@ -1,17 +1,19 @@
 #!/usr/bin/env python
 # coding:utf-8
-import os, sys
+import os
+import sys
 import logging
 import traceback
 from pprint import pprint
 
 logging.basicConfig(level=logging.DEBUG,
-   format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
-   datefmt='%a, %d %b %Y %H:%M:%S',
-   filename='debug.log',
-   filemode='a')
+                    format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
+                    datefmt='%a, %d %b %Y %H:%M:%S',
+                    filename='debug.log',
+                    filemode='a')
 
 from sys import platform
+
 
 class processNotFoundException(Exception):
     pass
@@ -54,10 +56,7 @@ def getPidOfProcess(texts_wanted):
         print('getting list of process')
         ps_printout = os.popen(' | '.join(commands)).read().strip()
 
-
         if ps_printout.find(texts_wanted[0]) > -1:
-
-
 
             # from sys import platform
             if platform == "linux" or platform == "linux2":
@@ -73,8 +72,6 @@ def getPidOfProcess(texts_wanted):
             elif platform == "win32":
                 # Windows...
                 pass
-
-
 
         return pid_of_process
 
