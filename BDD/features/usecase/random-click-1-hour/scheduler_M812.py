@@ -14,7 +14,7 @@ PROJ_HOME = os.path.dirname(os.path.abspath(__file__))
 RESULT_DIRECTORY = os.path.sep.join(
     [PROJ_HOME, './result'])
 
-def get_today_string(offset=0):
+def getTodayString(offset=0):
     """get the day string using the format "yymmdd-hhmmss" with the given offset(default=0, +ve number for the day in the past)
 
     Args:
@@ -36,8 +36,8 @@ def getLogFileName(suffix):
     Returns:
         a filename with date string and suffix
     """
-    print(get_today_string() + '.' + suffix)
-    return get_today_string() + '.' + suffix
+    print(getTodayString() + '.' + suffix)
+    return getTodayString() + '.' + suffix
 
 
 def osCommand(cmd):
