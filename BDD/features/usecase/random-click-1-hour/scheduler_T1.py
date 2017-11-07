@@ -227,7 +227,7 @@ def schedulerM812():
 #sys.exit()
 
 scheduler = BlockingScheduler()
-scheduler.add_job(schedulerT1(), 'cron',
+scheduler.add_job(schedulerT1, 'cron',
     minute='*/5')
 # scheduler.add_job(schedulerM812, 'cron',
 #     minute='5')
