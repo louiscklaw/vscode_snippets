@@ -134,7 +134,9 @@ def schedulerT1():
 
         appium_pid = getAppiumProcessPid(android_serial_T1)
         if appium_pid != -1 :
+            print('killing old appium')
             killAppiumProcess(appium_pid)
+            time.sleep(10)
 
         # STEP: start appium process
         print("STEP: start appium process")
@@ -144,6 +146,8 @@ def schedulerT1():
             '4724',
             os.path.sep.join([RESULT_DIRECTORY, 'T1', getAppiumLogFilename()])
         )
+
+        time.sleep(10)
 
         # STEP: start the test
         print("STEP: start the test")
@@ -217,6 +221,8 @@ def schedulerM812():
 # def jobRecord():
 #     print(datetime.datetime.time(datetime.datetime.now()))
 
+#schedulerT1()
+#sys.exit()
 
 scheduler = BlockingScheduler()
 scheduler.add_job(schedulerT1(), 'cron',
