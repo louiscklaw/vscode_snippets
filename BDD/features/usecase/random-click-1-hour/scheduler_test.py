@@ -22,6 +22,13 @@ class Test_getPidOfProcess(unittest.TestCase):
         print(pid)
         self.failIfNotInt(pid)
 
+
+    def test_grep_process_not_exist(self):
+        pid = scheduler_lib.getPidOfProcess(['notexist', 'not exist'])
+        print(pid)
+        self.failIfNotInt(pid)
+
+
     def test_split(self):
         s = 'hello world'
         self.assertEqual(s.split(), ['hello', 'world'])

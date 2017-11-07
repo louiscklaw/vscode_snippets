@@ -12,14 +12,17 @@ logging.basicConfig(level=logging.DEBUG,
    filemode='a')
 
 
+class processNotFoundException(Exception):
+    pass
+
+
 def normalize_string_to_list(object):
     output = object
     if type(output) == type([]):
         pass
     else:
-        output=[str(object)]
+        output = [str(object)]
     return output
-
 
 
 def getPidOfProcess(texts_wanted):
@@ -34,15 +37,12 @@ def getPidOfProcess(texts_wanted):
     Assumption:
         single process per android_serial
     """
-    class processNotFoundException(Exception):
-        pass
 
-    texts_wanted=normalize_string_to_list(texts_wanted)
-
-
+    texts_wanted = normalize_string_to_list(texts_wanted)
 
     try:
-        commands=[]
+        pid_of_process = -1
+        commands = []
         commands.append('ps -ef')
         for text_wanted in texts_wanted:
             commands.append("grep -i '%s'" % text_wanted)
@@ -51,14 +51,14 @@ def getPidOfProcess(texts_wanted):
         logging.debug('try to get the pid of the process')
 
         ps_printout = os.popen(' | '.join(commands)).read().strip()
+        if ps_printout.find(texts_wanted[0]) > -1:
+            pid_of_process = int(ps_printout.split(' ')[1])
 
-        if len(ps_printout.split('\r')) > 0 :
-            return int(ps_printout.split()[1])
-            pass
-        else:
-            raise processNotFoundException
+        return pid_of_process
 
+    except processNotFoundException:
         pass
+
     except Exception as e:
         print('error during getting the pid of the process')
 
@@ -66,6 +66,12 @@ def getPidOfProcess(texts_wanted):
         from pprint import pprint
         print('dump the value of: process_wanted')
         pprint(texts_wanted)
+
+
+        # TODO: consider remove me
+        from pprint import pprint
+        print('dump the value of: pid_of_process')
+        pprint(pid_of_process)
 
         raise e
     else:
