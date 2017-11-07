@@ -56,12 +56,13 @@ def getPidOfProcess(texts_wanted):
         print('getting list of process')
         ps_list = os.popen(' | '.join(commands)).read().split('\n')
 
+        from pprint import pprint
+        print('dump the value of: ps_list')
+        pprint(ps_list)
+
         for ps_printout in ps_list:
 
             # TODO: consider remove me
-            from pprint import pprint
-            print('dump the value of: ps_list')
-            pprint(ps_list)
 
             if ps_printout.find(texts_wanted[0]) > -1:
 
