@@ -128,7 +128,7 @@ def step_impl(context):
 @step(u'ADB Wait for device, timeout {sSeconds} seconds')
 def step_impl(context, sSeconds):
     """probe the device by adb wait-for-device command."""
-
+    print('block until adb wait-for-device returns')
     try:
         time_to_start = get_epoch_time()
 
@@ -139,6 +139,7 @@ def step_impl(context, sSeconds):
 
         # wait some seconds more to let device ready
         sleep(3)
+        print('adb wait-for-device done')
         pass
     except Exception as e:
         print('error during wait for device, %s' % context.android_serial)
