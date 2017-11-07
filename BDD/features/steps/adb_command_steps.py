@@ -235,11 +235,11 @@ def step_impl(context):
             Then ADB change permission tinklabs1001
 
             Then ADB settings put global package_verifier_enable 0
-                And ADB settings put global stay_on_while_plugged_in 7
-                And ADB settings put system screen_brightness 10
+                # And ADB settings put global stay_on_while_plugged_in 7
+                # And ADB settings put system screen_brightness 10
 
                 # disable USB file transfer
-                And ADB setprop "persist.sys.usb.config" "adb,mtp"
+                # And ADB setprop "persist.sys.usb.config" "adb,mtp"
         ''')
         print('initialize android done')
         pass
