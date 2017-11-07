@@ -56,9 +56,6 @@ def getPidOfProcess(texts_wanted):
 
         return pid_of_process
 
-    except processNotFoundException:
-        pass
-
     except Exception as e:
         print('error during getting the pid of the process')
 
@@ -67,9 +64,6 @@ def getPidOfProcess(texts_wanted):
         print('dump the value of: process_wanted')
         pprint(texts_wanted)
 
-
-        # TODO: consider remove me
-        from pprint import pprint
         print('dump the value of: pid_of_process')
         pprint(pid_of_process)
 
