@@ -218,12 +218,11 @@ def schedulerM812():
 #     print(datetime.datetime.time(datetime.datetime.now()))
 
 
-# scheduler = BlockingScheduler()
-# scheduler.add_job(schedulerT1, 'cron',
-#    minute='0')
+scheduler = BlockingScheduler()
+scheduler.add_job(schedulerT1(), 'cron',
+    minute='*/5')
 # scheduler.add_job(schedulerM812, 'cron',
 #     minute='5')
 # scheduler.start()
-
-
-schedulerT1()
+# schedulerT1()
+scheduler.start()
