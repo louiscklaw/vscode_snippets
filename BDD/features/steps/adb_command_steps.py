@@ -227,6 +227,7 @@ def step_impl(context):
     packed action to initialize android
     """
     try:
+        print('initialize android')
         context.execute_steps(u'''
             Given ADB PATH_ANDROID_TEMP directory is ready, timeout 60 seconds
                 And ADB push tinklabs1001
@@ -240,6 +241,7 @@ def step_impl(context):
                 # disable USB file transfer
                 And ADB setprop "persist.sys.usb.config" "adb,mtp"
         ''')
+        print('initialize android done')
         pass
     except Exception as e:
         print('error during ADB initialize android')
@@ -326,11 +328,13 @@ def step_impl(context):
     packed process to transfer the tinklabs1001 to android
     """
     try:
+        print('pushing tinklabs1001')
         context.execute_steps(u'''
             Then ADB push "%(PATH_PC_TINKLABS1001)s" "%(PATH_ANDROID_TEMP)s"
         ''' % dParameters)
         pass
     except Exception as e:
+        print('error during pushing tinklabs1001')
         raise e
     else:
         pass
@@ -342,6 +346,7 @@ def step_impl(context):
     packed process to change the file permission of tinklabs1001
     """
     try:
+        print('changing permission of tinklabs1001')
         context.execute_steps(u'''
             Then ADB change permission "777" "%(PATH_ANDROID_TINKLABS1001)s"
         ''' % dParameters)
