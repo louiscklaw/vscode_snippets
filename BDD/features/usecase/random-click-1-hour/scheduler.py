@@ -138,7 +138,7 @@ def schedulerT1():
         android_serial_T1 = 'VZHGLMA742804186'
 
         appium_pid = getAppiumProcessPid(android_serial_T1)
-        if appium_pid != -1 :
+        if appium_pid != [-1] :
             print('killing old appium')
             killAppiumProcess(appium_pid)
             time.sleep(10)
