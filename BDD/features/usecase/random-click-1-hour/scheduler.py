@@ -260,9 +260,9 @@ def schedulerM812():
 
 scheduler = BlockingScheduler()
 scheduler.add_job(schedulerT1, 'cron',
-                  minute='*/5')
+                  minute='*/30')
 scheduler.add_job(schedulerM812, 'cron',
-                  minute='*/5')
+                  minute='*/r30')
 # scheduler.start()
 # schedulerT1()
 scheduler.start()
