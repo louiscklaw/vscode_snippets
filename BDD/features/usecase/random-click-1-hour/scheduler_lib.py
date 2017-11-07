@@ -44,7 +44,7 @@ def getPidOfProcess(texts_wanted):
     texts_wanted = normalize_string_to_list(texts_wanted)
 
     try:
-        pid_of_process = -1
+        pid_of_process = [-1]
         commands = []
         commands.append('ps -ef')
         for text_wanted in texts_wanted:
@@ -54,24 +54,31 @@ def getPidOfProcess(texts_wanted):
         logging.debug('try to get the pid of the process')
 
         print('getting list of process')
-        ps_printout = os.popen(' | '.join(commands)).read().strip()
+        ps_list = os.popen(' | '.join(commands)).read().split('\n')
 
-        if ps_printout.find(texts_wanted[0]) > -1:
+        for ps_printout in ps_list:
 
-            # from sys import platform
-            if platform == "linux" or platform == "linux2":
-                # linux
-                print('the target process found')
-                print(ps_printout.split(' '))
-                pid_of_process = int(ps_printout.split(' ')[1])
-            elif platform == "darwin":
-                # OS X
-                print('the target process found')
-                print(ps_printout.split(' '))
-                pid_of_process = int(ps_printout.split(' ')[1])
-            elif platform == "win32":
-                # Windows...
-                pass
+            # TODO: consider remove me
+            from pprint import pprint
+            print('dump the value of: ps_list')
+            pprint(ps_list)
+
+            if ps_printout.find(texts_wanted[0]) > -1:
+
+                # from sys import platform
+                if platform == "linux" or platform == "linux2":
+                    # linux
+                    print('the target process found')
+                    print(ps_printout.split(' '))
+                    pid_of_process.append(int(ps_printout.split(' ')[1]))
+                elif platform == "darwin":
+                    # OS X
+                    print('the target process found')
+                    print(ps_printout.split(' '))
+                    pid_of_process.append(int(ps_printout.split(' ')[1]))
+                elif platform == "win32":
+                    # Windows...
+                    pass
 
         return pid_of_process
 

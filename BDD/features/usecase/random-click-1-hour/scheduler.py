@@ -74,8 +74,11 @@ def getAppiumProcessPid(android_serial):
     return scheduler_lib.getPidOfProcess(['appium', android_serial])
 
 
-def killAppiumProcess(appium_pid):
-    return subprocess.call('kill %s' % appium_pid, shell=True)
+def killAppiumProcess(appium_pids):
+    output = []
+    for appium_pid in appium_pids:
+        output.append(subprocess.call('kill %s' % appium_pid, shell=True))
+    return output
 
 
 def createAppiumCommand(android_serial, appium_port, appium_bootstrap_port):
