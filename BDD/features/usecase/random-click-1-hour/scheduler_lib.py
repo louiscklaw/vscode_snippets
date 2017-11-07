@@ -11,6 +11,7 @@ logging.basicConfig(level=logging.DEBUG,
    filename='debug.log',
    filemode='a')
 
+from sys import platform
 
 class processNotFoundException(Exception):
     pass
@@ -50,9 +51,30 @@ def getPidOfProcess(texts_wanted):
 
         logging.debug('try to get the pid of the process')
 
+        print('getting list of process')
         ps_printout = os.popen(' | '.join(commands)).read().strip()
+
+
         if ps_printout.find(texts_wanted[0]) > -1:
-            pid_of_process = int(ps_printout.split(' ')[1])
+
+
+
+            # from sys import platform
+            if platform == "linux" or platform == "linux2":
+                # linux
+                print('the target process found')
+                print(ps_printout.split(' '))
+                pid_of_process = int(ps_printout.split(' ')[2])
+            elif platform == "darwin":
+                # OS X
+                print('the target process found')
+                print(ps_printout.split(' '))
+                pid_of_process = int(ps_printout.split(' ')[1])
+            elif platform == "win32":
+                # Windows...
+                pass
+
+
 
         return pid_of_process
 
