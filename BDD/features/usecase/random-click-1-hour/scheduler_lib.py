@@ -50,8 +50,12 @@ def getPidOfProcess(texts_wanted):
 
         logging.debug('try to get the pid of the process')
 
+        print('getting list of process')
         ps_printout = os.popen(' | '.join(commands)).read().strip()
+
+
         if ps_printout.find(texts_wanted[0]) > -1:
+            print('the target process found')
             pid_of_process = int(ps_printout.split(' ')[1])
 
         return pid_of_process
