@@ -109,6 +109,8 @@ def startAppiumProcess(android_serial, appium_port, appium_bootstrap_port, appiu
             shell=True
         )
         print(appium_command)
+        time.sleep(5)
+
         return p
     except Exception as e:
         print('error during create appiumprocess')
