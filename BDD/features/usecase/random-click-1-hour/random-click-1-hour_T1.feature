@@ -19,7 +19,7 @@ Feature: random click for a hour, pilot run
     Given ADB PATH_ANDROID_TEMP directory is ready, timeout 60 seconds
     And ADB push tinklabs1001
 
-    # Then ADB change permission tinklabs1001
+    Then ADB change permission tinklabs1001
 
     # # 6 minutes here
     # Then ADB settings put global package_verifier_enable 0
