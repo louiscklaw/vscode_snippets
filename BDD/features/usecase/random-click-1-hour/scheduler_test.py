@@ -12,21 +12,24 @@ class Test_getPidOfProcess(unittest.TestCase):
     def failIfNotInt(self, guess):
         self.assertTrue(type(1) == type(guess))
 
+    def failIfNotList(self, guess):
+        self.assertTrue(type([]) == type(guess))
+
     def test_grep_process_single(self):
         pid = scheduler_lib.getPidOfProcess('ps -ef')
         print(pid)
-        self.failIfNotInt(pid)
+        self.failIfNotList(pid)
 
     def test_grep_process_multi(self):
         pid = scheduler_lib.getPidOfProcess(['ps -ef','ps -ef'])
         print(pid)
-        self.failIfNotInt(pid)
+        self.failIfNotList(pid)
 
 
     def test_grep_process_not_exist(self):
         pid = scheduler_lib.getPidOfProcess(['notexist', 'not exist'])
         print(pid)
-        self.failIfNotInt(pid)
+        self.failIfNotList(pid)
 
 
     def test_split(self):

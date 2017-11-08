@@ -6,6 +6,8 @@ import logging
 import traceback
 from pprint import pprint
 
+import shlex
+
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
                     datefmt='%a, %d %b %Y %H:%M:%S',
@@ -72,10 +74,10 @@ def getPidOfProcess(texts_wanted):
                     # linux
                     print('the target process found')
                     logging.debug(ps_printout.split(' '))
-                    if ps_printout.split(' ')[1] !='':
-                        pid_of_process.append(int(ps_printout.split(' ')[1]))
-                    elif ps_printout.split(' ')[2] !='':
-                        pid_of_process.append(int(ps_printout.split(' ')[2]))
+                    if shlex.split(ps_printout)[1] !='':
+                        pid_of_process.append(int(shlex.split(ps_printout)[1]))
+                    elif shlex.split(ps_printout)[2] !='':
+                        pid_of_process.append(int(shlex.split(ps_printout)[2]))
                     else:
                         logging.error('exotic ps printout found')
                         logging.error(pid_of_process)
@@ -83,8 +85,9 @@ def getPidOfProcess(texts_wanted):
                 elif platform == "darwin":
                     # OS X
                     print('the target process found')
-                    print(ps_printout.split(' '))
-                    pid_of_process.append(int(ps_printout.split(' ')[1]))
+                    print(shlex.split(ps_printout))
+                    pid_of_process.append(int(shlex.split(ps_printout)[1]))
+
                 elif platform == "win32":
                     # Windows...
                     pass
