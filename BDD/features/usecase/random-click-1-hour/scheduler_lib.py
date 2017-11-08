@@ -54,7 +54,8 @@ def getPidOfProcess(texts_wanted):
         logging.debug('try to get the pid of the process')
 
         print('getting list of process')
-        ps_list = os.popen(' | '.join(commands)).read().split('\n')
+        print_process_command = ' | '.join(commands)
+        ps_list = os.popen(print_process_command).read().split('\n')
 
         from pprint import pprint
         print('dump the value of: ps_list')
@@ -96,6 +97,18 @@ def getPidOfProcess(texts_wanted):
         from pprint import pprint
         print('dump the value of: process_wanted')
         pprint(texts_wanted)
+
+        print('dump the value of: print_process_command')
+        pprint(print_process_command)
+
+        print('dump the value of: ps_list')
+        pprint(ps_list)
+
+        print('dump the value of: platform')
+        pprint(platform)
+
+        print('dump the value of: ps_printout')
+        pprint(ps_printout)
 
         print('dump the value of: pid_of_process')
         pprint(pid_of_process)
