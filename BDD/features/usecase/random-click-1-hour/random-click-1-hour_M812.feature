@@ -1,7 +1,7 @@
 Feature: random click for a hour, pilot run
   @initialize_rom
   Scenario: initialize
-    Given Target device is M812 "PHXGLC1582600007"
+    Given Target device is M812 "V2HGLMB721301100"
     Given adb binary is available
     Given appium is running
 
