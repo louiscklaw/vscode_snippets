@@ -57,6 +57,7 @@ def getPidOfProcess(texts_wanted):
 
         print('getting list of process')
         print_process_command = ' | '.join(commands)
+        logging.debug(print_process_command)
         ps_list = os.popen(print_process_command).read().split('\n')
 
         from pprint import pprint
