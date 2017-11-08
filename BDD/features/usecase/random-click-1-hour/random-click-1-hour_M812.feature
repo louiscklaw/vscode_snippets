@@ -24,7 +24,7 @@ Feature: random click for a hour, pilot run
     # # 6 minutes here
     Then ADB settings put global package_verifier_enable 0
 
-    Given setup an android as below, using appium port 4723
+    Given setup an android as below, using appium port 4725
       | Package                  | Activity                        | platform | type  | version |
       | com.tinklabs.activateapp | .features.wizard.WizardActivity | Android  | phone | 7.0     |
     And Wait until "English" appears on screen, timeout "300" seconds
