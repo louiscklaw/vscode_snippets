@@ -46,7 +46,7 @@ def getPidOfProcess(texts_wanted):
     texts_wanted = normalize_string_to_list(texts_wanted)
 
     try:
-        pid_of_process = [-1]
+        pid_of_process = []
         commands = []
         commands.append('ps -ef')
         for text_wanted in texts_wanted:
@@ -73,14 +73,8 @@ def getPidOfProcess(texts_wanted):
                 if platform == "linux" or platform == "linux2":
                     # linux
                     print('the target process found')
-                    logging.debug(ps_printout.split(' '))
-                    if shlex.split(ps_printout)[1] !='':
-                        pid_of_process.append(int(shlex.split(ps_printout)[1]))
-                    elif shlex.split(ps_printout)[2] !='':
-                        pid_of_process.append(int(shlex.split(ps_printout)[2]))
-                    else:
-                        logging.error('exotic ps printout found')
-                        logging.error(pid_of_process)
+                    pid_of_process.append(int(shlex.split(ps_printout)[1]))
+
                     logging.debug(','.join(pid_of_process))
                 elif platform == "darwin":
                     # OS X
@@ -91,6 +85,10 @@ def getPidOfProcess(texts_wanted):
                 elif platform == "win32":
                     # Windows...
                     pass
+
+        # NOTE: return -1 if not found
+        if pid_of_process ==[]:
+            pid_of_process == [-1]
 
         return pid_of_process
 
