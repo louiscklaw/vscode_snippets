@@ -132,7 +132,7 @@ def startAppiumProcess(android_serial, appium_port, appium_bootstrap_port, appiu
     return p.pid
 
 def schedulerT1():
-    # try:
+    try:
         # STEP: kill old appium if possible
         print("STEP: kill old appium if possible")
         android_serial_T1 = 'VZHGLMA742804186'
@@ -165,21 +165,21 @@ def schedulerT1():
 
         print(command_to_start_test)
         osCommand(command_to_start_test)
-    # except Exception as e:
-    #     print('error occur at the scheduler T1')
+    except Exception as e:
+        print('error occur at the scheduler T1')
 
-    #     # TODO: consider remove me
-    #     from pprint import pprint
-    #     print('dump the value of: appium_pid')
-    #     pprint(appium_pid)
-    #     print('dump the value of: android_serial_T1')
-    #     pprint(android_serial_T1)
-    #     print('dump the value of: command_to_start_test')
-    #     pprint(command_to_start_test)
+        # TODO: consider remove me
+        from pprint import pprint
+        print('dump the value of: appium_pid')
+        pprint(appium_pid)
+        print('dump the value of: android_serial_T1')
+        pprint(android_serial_T1)
+        print('dump the value of: command_to_start_test')
+        pprint(command_to_start_test)
 
-    #     raise e
-    # else:
-    #     pass
+        raise e
+    else:
+        pass
 
 
 def schedulerM812():
@@ -259,7 +259,7 @@ def schedulerM812():
 
 scheduler = BlockingScheduler()
 scheduler.add_job(schedulerT1, 'cron',
-                  minute='*/27')
+                  minute='*/15')
 #scheduler.add_job(schedulerM812, 'cron',
 #                  minute='*/5')
 # scheduler.start()
