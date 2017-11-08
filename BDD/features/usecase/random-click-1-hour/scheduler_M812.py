@@ -256,13 +256,12 @@ def schedulerM812():
 #     print(datetime.datetime.time(datetime.datetime.now()))
 
 #schedulerT1()
-#sys.exit()
 
 scheduler = BlockingScheduler()
-scheduler.add_job(schedulerT1, 'cron',
-                  minute='*/30')
+#scheduler.add_job(schedulerT1, 'cron',
+#                  minute='*/5')
 scheduler.add_job(schedulerM812, 'cron',
-                  minute='*/30')
+                  minute='*/15')
 # scheduler.start()
 # schedulerT1()
 scheduler.start()
