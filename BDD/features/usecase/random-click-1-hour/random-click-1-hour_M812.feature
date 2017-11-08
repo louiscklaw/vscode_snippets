@@ -1,4 +1,3 @@
-
 Feature: random click for a hour, pilot run
   @initialize_rom
   Scenario: initialize
@@ -10,19 +9,19 @@ Feature: random click for a hour, pilot run
     Given FASTBOOT Erase userdata
     And ADB Wait for device, timeout 600 seconds
 
-    # # about 600 for T1
-    # # about 900 for M812
-    # And ADB check boot completed, timeout 900 seconds
+    # about 600 for T1
+    # about 900 for M812
+    And ADB check boot completed, timeout 900 seconds
 
     # # Then Wait for handy initialization
-    # Then sleep 60 seconds
+    Then sleep 60 seconds
 
-    # Given ADB PATH_ANDROID_TEMP directory is ready, timeout 60 seconds
-    #   And ADB push tinklabs1001
+    Given ADB PATH_ANDROID_TEMP directory is ready, timeout 60 seconds
+    And ADB push tinklabs1001
 
-    # Then ADB change permission tinklabs1001
+    Then ADB change permission tinklabs1001
 
-
+    # # 6 minutes here
     # Then ADB settings put global package_verifier_enable 0
 
     # Given setup an android as below, using appium port 4725
