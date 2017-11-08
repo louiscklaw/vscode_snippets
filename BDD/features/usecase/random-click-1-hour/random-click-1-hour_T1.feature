@@ -1,7 +1,7 @@
 Feature: random click for a hour, pilot run
   @initialize_rom
   Scenario: initialize
-    Given Target device is T1 "VZHGLMA742800785"
+    Given Target device is T1 "VZHGLMA742804186"
     Given adb binary is available
     Given appium is running
 
