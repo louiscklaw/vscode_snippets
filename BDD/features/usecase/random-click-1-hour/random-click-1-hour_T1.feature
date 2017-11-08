@@ -3,7 +3,16 @@ Feature: random click for a hour, pilot run
   @initialize_rom
   Scenario: initialize
     Given Target device is T1 "VZHGLMA742804186"
-    And Test setup is ready
+    Given adb binary is available
+    Given appium is running
+
+    Given Fastboot init
+    Given FASTBOOT Erase userdata
+    And ADB Wait for device, timeout 600 seconds
+
+    # about 600 for T1
+    # about 900 for M812
+    And ADB check boot completed, timeout 600 seconds
 
     # Given setup an android as below, using appium port 4723
     #   | Package                  | Activity                        | platform | type  | version |
