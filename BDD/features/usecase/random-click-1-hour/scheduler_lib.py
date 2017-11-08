@@ -71,8 +71,13 @@ def getPidOfProcess(texts_wanted):
                     # linux
                     print('the target process found')
                     print(ps_printout.split(' '))
-                    pid_of_process.append(
-                        int(ps_printout.split(' ')[1] + ps_printout.split(' ')[2]))
+                    if ps_printout.split(' ')[1] !='':
+                        pid_of_process.append(int(ps_printout.split(' ')[1]))
+                    elif ps_printout.split(' ')[2] !='':
+                        pid_of_process.append(int(ps_printout.split(' ')[2]))
+                    else:
+                        logging.error('exotic ps printout found')
+                        logging.error(pid_of_process)
                 elif platform == "darwin":
                     # OS X
                     print('the target process found')
