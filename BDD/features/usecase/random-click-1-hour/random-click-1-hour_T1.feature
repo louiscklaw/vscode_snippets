@@ -9,15 +9,15 @@ Feature: random click for a hour, pilot run
     Given FASTBOOT Erase userdata
     And ADB Wait for device, timeout 600 seconds
 
-    # # about 600 for T1
-    # # about 900 for M812
-    # And ADB check boot completed, timeout 600 seconds
+    # about 600 for T1
+    # about 900 for M812
+    And ADB check boot completed, timeout 600 seconds
 
     # # Then Wait for handy initialization
-    # Then sleep 60 seconds
+    Then sleep 60 seconds
 
-    # Given ADB PATH_ANDROID_TEMP directory is ready, timeout 60 seconds
-    #   And ADB push tinklabs1001
+    Given ADB PATH_ANDROID_TEMP directory is ready, timeout 60 seconds
+    And ADB push tinklabs1001
 
     # Then ADB change permission tinklabs1001
 
