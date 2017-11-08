@@ -76,7 +76,7 @@ def getPidOfProcess(texts_wanted):
                 print('the target process found')
                 pid_of_process.append(int(shlex.split(ps_printout)[1]))
 
-                logging.debug(str(','.join(pid_of_process)))
+                logging.debug(pid_of_process)
             elif platform == "darwin":
                 # OS X
                 print('the target process found')
