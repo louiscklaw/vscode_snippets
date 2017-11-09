@@ -165,21 +165,26 @@ def startAppiumProcess(android_serial, appium_port, appium_bootstrap_port, appiu
         pass
     return p.pid
 
+
+def kill_if_appium_process_exist(android_serial, max_retry):
+    count_down = max_retry
+    appium_pid = getAppiumProcessPid(android_serial)
+    while count_down > 0 and appium_pid != [-1]:
+        count_down -= 1
+        print('try to kill old appium')
+        killAppiumProcess(appium_pid)
+        print('killing pid:%s' % appium_pid)
+        time.sleep(10)
+        appium_pid = getAppiumProcessPid(android_serial)
+
+
 def schedulerT1():
     try:
         # STEP: kill old appium if possible
         print("STEP: kill old appium if possible")
         android_serial_T1 = 'VZHGLMA742804186'
 
-        count_down = 10
-        appium_pid = getAppiumProcessPid(android_serial_T1)
-        while count_down > 0 and appium_pid != [-1]:
-            count_down-=1
-            print('try to kill old appium')
-            killAppiumProcess(appium_pid)
-            print('killing pid:%s' % appium_pid)
-            time.sleep(10)
-            appium_pid = getAppiumProcessPid(android_serial_T1)
+        kill_if_appium_process_exist(android_serial_T1, 10)
 
         # STEP: start appium process
         print("STEP: start appium process")
