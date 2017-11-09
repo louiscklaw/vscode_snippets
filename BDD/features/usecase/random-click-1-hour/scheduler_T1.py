@@ -66,18 +66,42 @@ def gettestLogFilename():
 
 
 def behaveCommandConstructor(feature_file, result_pipe_to_file):
-    return 'behave -vk --no-capture  %s 2>&1 | tee %s' % (feature_file, result_pipe_to_file)
+    try:
+        behave_command = 'behave -vk --no-capture  %s 2>&1 | tee %s' % (
+            feature_file, result_pipe_to_file)
+        return behave_command
+        pass
+    except Exception as e:
+        print('error during generating behave command %s' % behave_command)
+        raise e
+    else:
+        pass
 
 
 def getAppiumProcessPid(android_serial):
     """get the target appium by the android_serial attached"""
-    return scheduler_lib.getPidOfProcess(['appium', android_serial])
+    try:
+        result = scheduler_lib.getPidOfProcess(['appium', android_serial])
+        return result
+        pass
+    except Exception as e:
+        print('error during getting result: %s' % result)
+        raise e
+    else:
+        pass
+
 
 
 def killAppiumProcess(appium_pids):
     output = []
-    for appium_pid in appium_pids:
-        output.append(subprocess.call('kill %s' % appium_pid, shell=True))
+    try:
+        for appium_pid in appium_pids:
+            output.append(subprocess.call('kill %s' % appium_pid, shell=True))
+        pass
+    except Exception as e:
+        print('trying to kill appium process %s' % appium_pids)
+    else:
+        pass
     return output
 
 
@@ -93,12 +117,22 @@ def createAppiumCommand(android_serial, appium_port, appium_bootstrap_port):
         Return1 : the pid of the appium
     """
 
-    param = []
-    param.append(APPIUM_BINARY)
-    param.append(" ".join(["-U", android_serial]))
-    param.append(" ".join(["-p", appium_port]))
-    param.append(" ".join(['-bp', appium_bootstrap_port]))
-    return ' '.join(param)
+    try:
+
+        param = []
+        param.append(APPIUM_BINARY)
+        param.append(" ".join(["-U", android_serial]))
+        param.append(" ".join(["-p", appium_port]))
+        param.append(" ".join(['-bp', appium_bootstrap_port]))
+        return ' '.join(param)
+        pass
+    except Exception as e:
+        print('error during getting param: %s' % param)
+        raise e
+    else:
+        pass
+
+
 
 def startAppiumProcess(android_serial, appium_port, appium_bootstrap_port, appium_log):
     try:
@@ -131,17 +165,26 @@ def startAppiumProcess(android_serial, appium_port, appium_bootstrap_port, appiu
         pass
     return p.pid
 
+
+def kill_if_appium_process_exist(android_serial, max_retry):
+    count_down = max_retry
+    appium_pid = getAppiumProcessPid(android_serial)
+    while count_down > 0 and appium_pid != [-1]:
+        count_down -= 1
+        print('try to kill old appium')
+        killAppiumProcess(appium_pid)
+        print('killing pid:%s' % appium_pid)
+        time.sleep(10)
+        appium_pid = getAppiumProcessPid(android_serial)
+
+
 def schedulerT1():
     try:
         # STEP: kill old appium if possible
         print("STEP: kill old appium if possible")
         android_serial_T1 = 'VZHGLMA742804186'
 
-        appium_pid = getAppiumProcessPid(android_serial_T1)
-        if appium_pid != [-1] :
-            print('killing old appium')
-            killAppiumProcess(appium_pid)
-            time.sleep(10)
+        kill_if_appium_process_exist(android_serial_T1, 10)
 
         # STEP: start appium process
         print("STEP: start appium process")
