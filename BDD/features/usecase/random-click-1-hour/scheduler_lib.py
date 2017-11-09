@@ -67,9 +67,11 @@ def getPidOfProcess(texts_wanted):
 
         from pprint import pprint
         logging.debug('dump the value of: ps_list')
-        pprint(ps_list)
+        logging.debug(ps_list)
 
         for ps_printout in ps_list:
+            logging.debug('dump the value of: ps_printout')
+            logging.debug(ps_printout)
 
             # TODO: consider remove me
 
