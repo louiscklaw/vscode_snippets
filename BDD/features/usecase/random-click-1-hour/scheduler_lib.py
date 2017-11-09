@@ -65,34 +65,36 @@ def getPidOfProcess(texts_wanted):
         logging.debug(print_process_command)
         ps_list = os.popen(print_process_command).read().split('\n')
 
-        from pprint import pprint
         logging.debug('dump the value of: ps_list')
         logging.debug(ps_list)
 
-        for ps_printout in ps_list:
-            logging.debug('dump the value of: ps_printout')
-            logging.debug(ps_printout)
+        if ps_list == ['']:
+            # NOTE: ps_list = [''] it means process not found under linux
+            for ps_printout in ps_list:
+                logging.debug('dump the value of: ps_printout')
+                logging.debug(ps_printout)
 
-            # TODO: consider remove me
+                # TODO: consider remove me
 
-            if ps_printout.find(texts_wanted[0]) > -1:
+                if ps_printout.find(texts_wanted[0]) > -1:
 
-                # from sys import platform
-                if platform == "linux" or platform == "linux2":
-                    # linux
-                    logging.debug('the target process found')
-                    pid_of_process.append(int(shlex.split(ps_printout)[1]))
+                    # from sys import platform
+                    if platform == "linux" or platform == "linux2":
+                        # linux
+                        logging.debug('the target process found')
+                        pid_of_process.append(int(shlex.split(ps_printout)[1]))
 
-                    logging.debug(pid_of_process)
-                elif platform == "darwin":
-                    # OS X
-                    logging.debug('the target process found')
-                    logging.debug(shlex.split(ps_printout))
-                    pid_of_process.append(int(shlex.split(ps_printout)[1]))
+                        logging.debug(pid_of_process)
+                    elif platform == "darwin":
+                        # OS X
+                        logging.debug('the target process found')
+                        logging.debug(shlex.split(ps_printout))
+                        pid_of_process.append(int(shlex.split(ps_printout)[1]))
 
-                elif platform == "win32":
-                    # Windows...
-                    pass
+                    elif platform == "win32":
+                        # Windows...
+                        pass
+
 
         # NOTE: return -1 if not found
         if pid_of_process ==[]:
