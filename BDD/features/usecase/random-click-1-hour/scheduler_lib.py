@@ -69,6 +69,9 @@ def getPidOfProcess(texts_wanted):
         logging.debug(ps_list)
 
         if ps_list == ['']:
+            logging.debug('the process not fouhnd')
+        else:
+            logging.debug('process found, try to filter out')
             # NOTE: ps_list = [''] it means process not found under linux
             for ps_printout in ps_list:
                 logging.debug('dump the value of: ps_printout')
