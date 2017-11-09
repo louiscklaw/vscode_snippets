@@ -44,35 +44,10 @@ def normalize_string_to_list(object):
     return output
 
 
-def getPidOfProcess(texts_wanted):
-    """to get the pid of the process by its grepable text
-
-    Args:
-        texts_wanted: the iconic text of the process
-
-    Returns:
-        Return1 : the pid of the process
-
-    Assumption:
-        single process per android_serial
-    """
-
-    texts_wanted = normalize_string_to_list(texts_wanted)
-
+def extractPidFromPrintout(ps_command_printout, texts_wanted):
     try:
+        ps_list = ps_command_printout.split('\n')
         pid_of_process = []
-        commands = []
-        commands.append('ps -ef')
-        for text_wanted in texts_wanted:
-            commands.append("grep -i '%s'" % text_wanted)
-        commands.append("grep -v 'grep'")
-
-        logging.debug('try to get the pid of the process')
-
-        logging.debug('getting list of process')
-        print_process_command = ' | '.join(commands)
-        logging.debug(print_process_command)
-        ps_list = os.popen(print_process_command).read().split('\n')
 
         logging.debug('dump the value of: ps_list')
         logging.debug(ps_list)
@@ -106,33 +81,72 @@ def getPidOfProcess(texts_wanted):
                     elif platform == "win32":
                         # Windows...
                         pass
-
-        return pid_of_process
-
+        pass
     except Exception as e:
-        logging.error('error during getting the pid of the process')
-
-        logging.error('dump the value of: process_wanted')
-        logging.error(texts_wanted)
-
-        logging.error('dump the value of: print_process_command')
-        logging.error(print_process_command)
-
         logging.error('dump the value of: ps_list')
         logging.error(ps_list)
-
-        logging.error('dump the value of: platform')
-        logging.error(platform)
 
         logging.error('dump the value of: ps_printout')
         logging.error(ps_printout)
 
-        logging.error('dump the value of: pid_of_process')
-        logging.error(pid_of_process)
-
         raise e
     else:
         pass
+
+    return pid_of_process
+
+
+def getPidOfProcess(texts_wanted):
+    """to get the pid of the process by its grepable text
+
+    Args:
+        texts_wanted: the iconic text of the process
+
+    Returns:
+        Return1 : the pid of the process
+
+    Assumption:
+        single process per android_serial
+    """
+
+    texts_wanted = normalize_string_to_list(texts_wanted)
+
+    # try:
+    commands = []
+    commands.append('ps -ef')
+    for text_wanted in texts_wanted:
+        commands.append("grep -i '%s'" % text_wanted)
+    commands.append("grep -v 'grep'")
+
+    logging.debug('try to get the pid of the process')
+
+    logging.debug('getting list of process')
+    print_process_command = ' | '.join(commands)
+    logging.debug(print_process_command)
+    ps_command_printout = os.popen(print_process_command).read()
+
+    pid_of_process = extractPidFromPrintout(ps_command_printout, texts_wanted)
+
+    return pid_of_process
+
+    # except Exception as e:
+    #     logging.error('error during getting the pid of the process')
+
+    #     logging.error('dump the value of: process_wanted')
+    #     logging.error(texts_wanted)
+
+    #     logging.error('dump the value of: print_process_command')
+    #     logging.error(print_process_command)
+
+    #     logging.error('dump the value of: platform')
+    #     logging.error(platform)
+
+    #     logging.error('dump the value of: pid_of_process')
+    #     logging.error(pid_of_process)
+
+    #     raise e
+    # else:
+    #     pass
 
 
 def kill_if_appium_process_exist(android_serial, max_retry):
