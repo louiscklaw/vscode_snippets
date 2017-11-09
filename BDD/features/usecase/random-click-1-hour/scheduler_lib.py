@@ -129,6 +129,7 @@ def getPidOfProcess(texts_wanted):
 def kill_if_appium_process_exist(android_serial, max_retry):
     count_down = max_retry
     appium_pid = getAppiumProcessPid(android_serial)
+
     while count_down > 0 and appium_pid != [-1]:
         count_down -= 1
         logging.debug('try to kill old appium')
@@ -245,6 +246,7 @@ def killAppiumProcess(appium_pids):
     try:
         for appium_pid in appium_pids:
             output.append(subprocess.call('kill %s' % appium_pid, shell=True))
+            logging.debug('killing %s' % appium_pid)
         pass
     except Exception as e:
         logging.error('trying to kill appium process %s' % appium_pids)
