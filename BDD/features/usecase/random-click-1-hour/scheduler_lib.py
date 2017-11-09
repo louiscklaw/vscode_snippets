@@ -22,6 +22,15 @@ from sys import platform
 APPIUM_BINARY = r'/usr/local/bin/appium'
 
 
+def osCommand(cmd):
+    pyVesion = str(sys.version_info)
+    if 'major=2' in pyVesion:
+        import commands
+        return commands.getoutput(cmd)
+    else:
+        import subprocess
+        return subprocess.getoutput(cmd)
+
 class processNotFoundException(Exception):
     pass
 
@@ -103,8 +112,6 @@ def getPidOfProcess(texts_wanted):
     except Exception as e:
         logging.error('error during getting the pid of the process')
 
-        # TODO: consider remove me
-        from pprint import pprint
         logging.error('dump the value of: process_wanted')
         logging.error(texts_wanted)
 
@@ -163,8 +170,6 @@ def startAppiumProcess(android_serial, appium_port, appium_bootstrap_port, appiu
     except Exception as e:
         logging.error('error during create appiumprocess')
 
-        # TODO: consider remove me
-        from pprint import pprint
         logging.error('dump the value of: appium_command')
         logging.error(appium_command)
 
@@ -176,15 +181,6 @@ def startAppiumProcess(android_serial, appium_port, appium_bootstrap_port, appiu
         pass
     return p.pid
 
-
-def osCommand(cmd):
-    pyVesion = str(sys.version_info)
-    if 'major=2' in pyVesion:
-        import commands
-        return commands.getoutput(cmd)
-    else:
-        import subprocess
-        return subprocess.getoutput(cmd)
 
 
 def getTodayString(offset=0):
