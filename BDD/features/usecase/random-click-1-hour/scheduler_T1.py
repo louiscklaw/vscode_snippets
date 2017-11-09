@@ -65,30 +65,6 @@ def schedulerT1():
         pass
 
 
-# def dial_Sender():
-#     print(str(time.strftime("%Y%m%d-%H%M%S")) + " Start to execute Dail a Call")
-#     osCommand('python handyCall_Dial_Sender.py')
-
-
-# def dial_Receiver():
-#     # print("aaa")
-#     osCommand('python handyCall_Dial_Receiver.py')
-
-
-# def VE_Sender():
-#     print(str(time.strftime("%Y%m%d-%H%M%S")) + " Start to execute VE Call")
-#     osCommand("python handyCall_VE_Sender.py")
-
-
-# def VE_Receiver():
-#     osCommand("python handyCall_VE_Receiver.py")
-
-
-# def jobRecord():
-#     print(datetime.datetime.time(datetime.datetime.now()))
-
-#schedulerM812()
-
 scheduler = BlockingScheduler()
 scheduler.add_job(schedulerT1, 'cron',
                   minute='*/15')
