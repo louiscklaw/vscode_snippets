@@ -12,7 +12,7 @@ logging.basicConfig(level=logging.DEBUG,
                     filename='debug.log',
                     filemode='a')
 
-from fabric.api import cd, run, local, env
+from fabric.api import *
 import datetime
 from time import sleep
 
@@ -320,7 +320,14 @@ def archive_log(days=0):
     print('archiving log')
 
 
+def scheduler_test(device):
+    """scheduler_test:[T1,M812]"""
 
+    with lcd(os.path.dirname(__file__)):
+        if device in ['T1']:
+            local('python scheduler_T1.py|tee scheduler_T1.log')
+        if device in ['M812']:
+            local('python scheduler_M812.py|tee scheduler_M812.log')
 
 
 def pull_test_script(device):
