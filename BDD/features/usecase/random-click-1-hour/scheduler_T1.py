@@ -53,12 +53,10 @@ def schedulerT1():
     except Exception as e:
         logging.error('error occur at the scheduler T1')
 
-        # TODO: consider remove me
-        from pprint import pprint
         logging.error('dump the value of: android_serial_T1')
-        pprint(android_serial_T1)
+        logging.error(android_serial_T1)
         logging.error('dump the value of: command_to_start_test')
-        pprint(command_to_start_test)
+        logging.error(command_to_start_test)
 
         raise e
     else:
