@@ -94,6 +94,7 @@ def uninstall_app(context, app_id):
 def quit_appiumSession(context):
     try:
         context.appiumSession.quit()
+        print('exit appium session done')
     except Exception as e:
         print('error during quitting appium Session')
         pass
