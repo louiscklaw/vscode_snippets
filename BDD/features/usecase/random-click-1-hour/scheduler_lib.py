@@ -85,7 +85,7 @@ def getPidOfProcess(texts_wanted):
                 elif platform == "darwin":
                     # OS X
                     logging.debug('the target process found')
-                    print(shlex.split(ps_printout))
+                    logging.debug(shlex.split(ps_printout))
                     pid_of_process.append(int(shlex.split(ps_printout)[1]))
 
                 elif platform == "win32":
@@ -104,22 +104,22 @@ def getPidOfProcess(texts_wanted):
         # TODO: consider remove me
         from pprint import pprint
         logging.error('dump the value of: process_wanted')
-        pprint(texts_wanted)
+        logging.error(texts_wanted)
 
         logging.error('dump the value of: print_process_command')
-        pprint(print_process_command)
+        logging.error(print_process_command)
 
         logging.error('dump the value of: ps_list')
-        pprint(ps_list)
+        logging.error(ps_list)
 
         logging.error('dump the value of: platform')
-        pprint(platform)
+        logging.error(platform)
 
         logging.error('dump the value of: ps_printout')
-        pprint(ps_printout)
+        logging.error(ps_printout)
 
         logging.error('dump the value of: pid_of_process')
-        pprint(pid_of_process)
+        logging.error(pid_of_process)
 
         raise e
     else:
@@ -131,9 +131,9 @@ def kill_if_appium_process_exist(android_serial, max_retry):
     appium_pid = getAppiumProcessPid(android_serial)
     while count_down > 0 and appium_pid != [-1]:
         count_down -= 1
-        print('try to kill old appium')
+        logging.debug('try to kill old appium')
         killAppiumProcess(appium_pid)
-        print('killing pid:%s' % appium_pid)
+        logging.debug('killing pid:%s' % appium_pid)
         time.sleep(10)
         appium_pid = getAppiumProcessPid(android_serial)
 
@@ -149,20 +149,20 @@ def startAppiumProcess(android_serial, appium_port, appium_bootstrap_port, appiu
             appium_command,
             shell=True
         )
-        print(appium_command)
+        logging.debug(appium_command)
         time.sleep(5)
 
         return p
     except Exception as e:
-        print('error during create appiumprocess')
+        logging.error('error during create appiumprocess')
 
         # TODO: consider remove me
         from pprint import pprint
-        print('dump the value of: appium_command')
-        pprint(appium_command)
+        logging.error('dump the value of: appium_command')
+        logging.error(appium_command)
 
-        print('dump the value of: p.pid')
-        pprint(p.pid)
+        logging.error('dump the value of: p.pid')
+        logging.error(p.pid)
 
         raise e
     else:
@@ -202,7 +202,7 @@ def getLogFileName(suffix):
     Returns:
         a filename with date string and suffix
     """
-    print(getTodayString() + suffix)
+    logging.debug(getTodayString() + suffix)
     return getTodayString() + suffix
 
 
@@ -221,7 +221,7 @@ def behaveCommandConstructor(feature_file, result_pipe_to_file):
         return behave_command
         pass
     except Exception as e:
-        print('error during generating behave command %s' % behave_command)
+        logging.error('error during generating behave command %s' % behave_command)
         raise e
     else:
         pass
@@ -234,7 +234,7 @@ def getAppiumProcessPid(android_serial):
         return result
         pass
     except Exception as e:
-        print('error during getting result: %s' % result)
+        logging.error('error during getting result: %s' % result)
         raise e
     else:
         pass
@@ -247,7 +247,7 @@ def killAppiumProcess(appium_pids):
             output.append(subprocess.call('kill %s' % appium_pid, shell=True))
         pass
     except Exception as e:
-        print('trying to kill appium process %s' % appium_pids)
+        logging.error('trying to kill appium process %s' % appium_pids)
     else:
         pass
     return output
@@ -275,7 +275,7 @@ def createAppiumCommand(android_serial, appium_port, appium_bootstrap_port):
         return ' '.join(param)
         pass
     except Exception as e:
-        print('error during getting param: %s' % param)
+        logging.error('error during getting param: %s' % param)
         raise e
     else:
         pass
