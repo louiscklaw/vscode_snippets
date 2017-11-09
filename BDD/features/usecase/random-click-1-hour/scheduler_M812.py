@@ -44,53 +44,29 @@ def schedulerM812():
         time.sleep(10)
 
         # STEP: start the test
-        print("STEP: start the test")
+        logging.debug("STEP: start the test")
         command_to_start_test = behaveCommandConstructor(
             'random-click-1-hour_M812.feature',
             os.path.sep.join(
                 [RESULT_DIRECTORY, 'M812', gettestLogFilename()])
         )
 
-        print(command_to_start_test)
+        logging.debug(command_to_start_test)
         osCommand(command_to_start_test)
     except Exception as e:
-        print('error occur at the scheduler M812')
+        logging.error('error occur at the scheduler M812')
 
         # TODO: consider remove me
         from pprint import pprint
-        print('dump the value of: android_serial_M812')
+        logging.error('dump the value of: android_serial_M812')
         pprint(android_serial_M812)
-        print('dump the value of: command_to_start_test')
+        logging.error('dump the value of: command_to_start_test')
         pprint(command_to_start_test)
 
         raise e
     else:
         pass
 
-
-# def dial_Sender():
-#     print(str(time.strftime("%Y%m%d-%H%M%S")) + " Start to execute Dail a Call")
-#     osCommand('python handyCall_Dial_Sender.py')
-
-
-# def dial_Receiver():
-#     # print("aaa")
-#     osCommand('python handyCall_Dial_Receiver.py')
-
-
-# def VE_Sender():
-#     print(str(time.strftime("%Y%m%d-%H%M%S")) + " Start to execute VE Call")
-#     osCommand("python handyCall_VE_Sender.py")
-
-
-# def VE_Receiver():
-#     osCommand("python handyCall_VE_Receiver.py")
-
-
-# def jobRecord():
-#     print(datetime.datetime.time(datetime.datetime.now()))
-
-#schedulerT1()
 
 scheduler = BlockingScheduler()
 #scheduler.add_job(schedulerT1, 'cron',
