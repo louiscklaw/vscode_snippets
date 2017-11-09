@@ -258,6 +258,8 @@ def step_impl(context, port):
         desired_caps['appActivity'] = row['Activity']
         desired_caps['appWaitActivity'] = row['Activity']
         desired_caps['deviceReadyTimeout'] = 30
+        desired_caps['appWaitDuration'] = 40000
+        desired_caps['launchTimeout'] = 40000
         desired_caps['noReset'] = True
 
         # NOTE: using UiAutomator2 increase capataibility
