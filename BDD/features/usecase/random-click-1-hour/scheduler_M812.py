@@ -1,5 +1,6 @@
 from apscheduler.schedulers.blocking import BlockingScheduler
-import os, sys
+import os
+import sys
 import datetime
 import time
 import logging
@@ -19,8 +20,6 @@ RESULT_DIRECTORY = os.path.sep.join(
     [PROJ_HOME, './result'])
 
 APPIUM_BINARY = r'/usr/local/bin/appium'
-
-
 
 
 def schedulerM812():

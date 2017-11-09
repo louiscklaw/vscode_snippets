@@ -1,5 +1,6 @@
 from apscheduler.schedulers.blocking import BlockingScheduler
-import os, sys
+import os
+import sys
 import datetime
 import time
 import logging
@@ -17,7 +18,6 @@ import subprocess
 PROJ_HOME = os.path.dirname(os.path.abspath(__file__))
 RESULT_DIRECTORY = os.path.sep.join(
     [PROJ_HOME, './result'])
-
 
 
 def schedulerT1():
