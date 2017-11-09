@@ -325,9 +325,9 @@ def scheduler_test(device):
 
     with lcd(os.path.dirname(__file__)):
         if device in ['T1']:
-            local('python scheduler_T1.py|tee scheduler_T1.log')
+            local('python scheduler_T1.py|tee console_T1.log')
         if device in ['M812']:
-            local('python scheduler_M812.py|tee scheduler_M812.log')
+            local('python scheduler_M812.py|tee console_M812.log')
 
 
 def pull_test_script(device):
