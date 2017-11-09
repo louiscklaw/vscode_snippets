@@ -333,7 +333,7 @@ def scheduler_test(device):
 def pull_test_script(device):
     """i would like to pull code and run the test"""
 
-    with fabric.cd(os.path.dirname(__file__)):
+    with cd(os.path.dirname(__file__)):
         local('git fetch --all')
         local('git checkout feature/random-click-1-hour')
 
