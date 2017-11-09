@@ -7,6 +7,9 @@ import traceback
 from pprint import pprint
 
 import shlex
+import time
+import subprocess
+import datetime
 
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
@@ -15,6 +18,8 @@ logging.basicConfig(level=logging.DEBUG,
                     filemode='a')
 
 from sys import platform
+
+APPIUM_BINARY = r'/usr/local/bin/appium'
 
 
 class processNotFoundException(Exception):
@@ -55,13 +60,13 @@ def getPidOfProcess(texts_wanted):
 
         logging.debug('try to get the pid of the process')
 
-        print('getting list of process')
+        logging.debug('getting list of process')
         print_process_command = ' | '.join(commands)
         logging.debug(print_process_command)
         ps_list = os.popen(print_process_command).read().split('\n')
 
         from pprint import pprint
-        print('dump the value of: ps_list')
+        logging.debug('dump the value of: ps_list')
         pprint(ps_list)
 
         for ps_printout in ps_list:
@@ -73,13 +78,13 @@ def getPidOfProcess(texts_wanted):
                 # from sys import platform
                 if platform == "linux" or platform == "linux2":
                     # linux
-                    print('the target process found')
+                    logging.debug('the target process found')
                     pid_of_process.append(int(shlex.split(ps_printout)[1]))
 
                     logging.debug(pid_of_process)
                 elif platform == "darwin":
                     # OS X
-                    print('the target process found')
+                    logging.debug('the target process found')
                     print(shlex.split(ps_printout))
                     pid_of_process.append(int(shlex.split(ps_printout)[1]))
 
@@ -94,26 +99,26 @@ def getPidOfProcess(texts_wanted):
         return pid_of_process
 
     except Exception as e:
-        print('error during getting the pid of the process')
+        logging.error('error during getting the pid of the process')
 
         # TODO: consider remove me
         from pprint import pprint
-        print('dump the value of: process_wanted')
+        logging.error('dump the value of: process_wanted')
         pprint(texts_wanted)
 
-        print('dump the value of: print_process_command')
+        logging.error('dump the value of: print_process_command')
         pprint(print_process_command)
 
-        print('dump the value of: ps_list')
+        logging.error('dump the value of: ps_list')
         pprint(ps_list)
 
-        print('dump the value of: platform')
+        logging.error('dump the value of: platform')
         pprint(platform)
 
-        print('dump the value of: ps_printout')
+        logging.error('dump the value of: ps_printout')
         pprint(ps_printout)
 
-        print('dump the value of: pid_of_process')
+        logging.error('dump the value of: pid_of_process')
         pprint(pid_of_process)
 
         raise e
@@ -225,7 +230,7 @@ def behaveCommandConstructor(feature_file, result_pipe_to_file):
 def getAppiumProcessPid(android_serial):
     """get the target appium by the android_serial attached"""
     try:
-        result = scheduler_lib.getPidOfProcess(['appium', android_serial])
+        result = getPidOfProcess(['appium', android_serial])
         return result
         pass
     except Exception as e:

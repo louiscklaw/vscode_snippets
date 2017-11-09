@@ -18,7 +18,6 @@ PROJ_HOME = os.path.dirname(os.path.abspath(__file__))
 RESULT_DIRECTORY = os.path.sep.join(
     [PROJ_HOME, './result'])
 
-APPIUM_BINARY = r'/usr/local/bin/appium'
 
 
 def schedulerT1():
@@ -52,13 +51,13 @@ def schedulerT1():
         logging.debug(command_to_start_test)
         osCommand(command_to_start_test)
     except Exception as e:
-        print('error occur at the scheduler T1')
+        logging.error('error occur at the scheduler T1')
 
         # TODO: consider remove me
         from pprint import pprint
-        print('dump the value of: android_serial_T1')
+        logging.error('dump the value of: android_serial_T1')
         pprint(android_serial_T1)
-        print('dump the value of: command_to_start_test')
+        logging.error('dump the value of: command_to_start_test')
         pprint(command_to_start_test)
 
         raise e
