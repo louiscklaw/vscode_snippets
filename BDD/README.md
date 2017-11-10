@@ -25,6 +25,8 @@
 * feature/random-click-1-hour
     * working branch for random-click-1-hour development
 
-
-### TODO:
-* [ ] - merge the branch M812 back to the MAIN BDD branchg
+### preparation
+* setup the phone with mobile network
+    * provision the phone to the hotel "QA12 random click (VZH)"
+    * provision the phone to live server "sg.handy.travel"
+    * disable OTA
