@@ -22,36 +22,47 @@ RESULT_DIRECTORY = os.path.sep.join(
 
 def schedulerT1():
     try:
-        # STEP: kill old appium if possible
-        logging.debug("STEP: kill old appium if possible")
+        # NOTE: test configuration
         android_serial_T1 = 'VZHGLMA742804186'
 
-        kill_if_appium_process_exist(android_serial_T1, 10)
+        if checkAndroidBatteryLevel(android_serial_T1, 90):
+            # STEP: battery level OK
+            logging.debug("STEP: battery level OK")
 
-        # STEP: start appium process
-        logging.debug("STEP: start appium process")
-        startAppiumProcess(
-            android_serial_T1,
-            '4723',
-            '4724',
-            os.path.sep.join(
-                [RESULT_DIRECTORY, 'T1', getAppiumLogFilename()])
-        )
+            # STEP: kill old appium if possible
+            logging.debug("STEP: kill old appium if possible")
+            kill_if_appium_process_exist(android_serial_T1, 10)
 
-        time.sleep(10)
+            # STEP: start appium process
+            logging.debug("STEP: start appium process")
+            startAppiumProcess(
+                android_serial_T1,
+                '4723',
+                '4724',
+                os.path.sep.join(
+                    [RESULT_DIRECTORY, 'T1', getAppiumLogFilename()])
+            )
 
-        # STEP: start the test
-        logging.debug("STEP: start the test")
-        command_to_start_test = behaveCommandConstructor(
-            'random-click-1-hour_T1.feature',
-            os.path.sep.join(
-                [RESULT_DIRECTORY, 'T1', gettestLogFilename()])
-        )
+            time.sleep(10)
 
-        logging.debug(command_to_start_test)
-        osCommand(command_to_start_test)
+            # STEP: start the test
+            logging.debug("STEP: start the test")
+            command_to_start_test = behaveCommandConstructor(
+                'random-click-1-hour_T1.feature',
+                os.path.sep.join(
+                    [RESULT_DIRECTORY, 'T1', gettestLogFilename()])
+            )
+
+            logging.debug(command_to_start_test)
+            osCommand(command_to_start_test)
+        else:
+            # STEP: battery level too low, skipping
+            logging.debug("STEP: battery level too low, skipping this run")
+
     except Exception as e:
         logging.error('error occur at the scheduler T1')
+        logging.error('android device %s ' % android_serial_T1)
+        logging.error('battery level%s ' % getBatteryInfo(android_serial_T1))
 
         logging.error('dump the value of: android_serial_T1')
         logging.error(android_serial_T1)
