@@ -6,10 +6,13 @@ import logging
 import traceback
 from pprint import pprint
 
+from sys import platform
+
 import shlex
 import time
 import subprocess
 import datetime
+
 
 logging.basicConfig(level=logging.DEBUG,
                     format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
@@ -17,7 +20,6 @@ logging.basicConfig(level=logging.DEBUG,
                     filename='debug.log',
                     filemode='a')
 
-from sys import platform
 
 APPIUM_BINARY = r'/usr/local/bin/appium'
 
@@ -33,6 +35,72 @@ def osCommand(cmd):
 
 class processNotFoundException(Exception):
     pass
+
+
+def getBatteryInfo(device):
+    if 'win32' in (str(platform)).lower():
+        return osCommand('adb -s ' + device + ' shell dumpsys battery | findstr level | head -1')
+    else:
+        return osCommand('adb -s ' + device + ' shell dumpsys battery | grep level | head -1')
+
+def parseBatteryReading(battery_info):
+    try:
+        battery_info = battery_info.strip()
+        battery_level = battery_info.replace('level: ', '')
+        return int(battery_level)
+        pass
+    except Exception as e:
+
+        # TODO: consider remove me
+        from pprint import pprint
+        print('dump the value of: command_result')
+        pprint(battery_info)
+
+        print('dump the value of: battery_level')
+        pprint(battery_level)
+
+        raise e
+    else:
+        pass
+
+
+def checkAndroidBatteryLevel(device, battery_level_threshold):
+    """check the battery level of the android, return false if lower than specific threshold
+
+    Args:
+        device : android device serial number
+        battery_level_threshold: to maintain the battery level on device should above somepoint
+
+    Returns:
+        Return1 : return false if the battery read from andriod is below the battery_level_threshold
+    """
+
+    try:
+        verdict = False
+        command_result = getBatteryInfo(device)
+        battery_level = parseBatteryReading(command_result)
+
+        if int(battery_level) > battery_level_threshold:
+            verdict = True
+
+        return verdict
+        pass
+    except Exception as e:
+
+        # TODO: consider remove me
+        from pprint import pprint
+        print('dump the value of: verdict')
+        pprint(verdict)
+
+        print('dump the value of: command_result')
+        pprint(command_result)
+
+        print('dump the value of: battery_level')
+        pprint(battery_level)
+
+        raise e
+    else:
+        pass
 
 
 def normalize_string_to_list(object):
