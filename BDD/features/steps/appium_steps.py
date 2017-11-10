@@ -576,7 +576,7 @@ def step_impl(context, ready_timeout):
         pass
         print('suppose screen is ready')
     except Exception as e:
-        print('the screen not ready within timeout value %d' % ready_timeout)
+        print('the screen not ready within timeout value %s' % ready_timeout)
         raise e
     else:
         pass
