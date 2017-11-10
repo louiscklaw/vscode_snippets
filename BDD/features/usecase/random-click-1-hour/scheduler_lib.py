@@ -358,6 +358,7 @@ def createAppiumCommand(android_serial, appium_port, appium_bootstrap_port):
         param.append(" ".join(["-U", android_serial]))
         param.append(" ".join(["-p", appium_port]))
         param.append(" ".join(['-bp', appium_bootstrap_port]))
+        param.append("--log-timestamp")
         return ' '.join(param)
         pass
     except Exception as e:
