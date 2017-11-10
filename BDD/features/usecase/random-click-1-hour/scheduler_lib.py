@@ -53,11 +53,11 @@ def parseBatteryReading(battery_info):
 
         # TODO: consider remove me
         from pprint import pprint
-        print('dump the value of: command_result')
-        pprint(battery_info)
+        logging.debug('dump the value of: command_result')
+        logging.debug(battery_info)
 
-        print('dump the value of: battery_level')
-        pprint(battery_level)
+        logging.debug('dump the value of: battery_level')
+        logging.debug(battery_level)
 
         raise e
     else:
@@ -90,13 +90,13 @@ def checkAndroidBatteryLevel(device, battery_level_threshold):
         # TODO: consider remove me
         from pprint import pprint
         print('dump the value of: verdict')
-        pprint(verdict)
+        print(verdict)
 
         print('dump the value of: command_result')
-        pprint(command_result)
+        print(command_result)
 
         print('dump the value of: battery_level')
-        pprint(battery_level)
+        print(battery_level)
 
         raise e
     else:

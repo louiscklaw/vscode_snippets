@@ -24,39 +24,48 @@ APPIUM_BINARY = r'/usr/local/bin/appium'
 
 def schedulerM812():
     try:
-        # STEP: kill old appium if possible
-        print("STEP: kill old appium if possible")
+        # NOTE: test configuration
         android_serial_M812 = 'V2HGLMB721301100'
 
-        kill_if_appium_process_exist(android_serial_M812, 10)
+        if checkAndroidBatteryLevel(android_serial_M812, 90):
+            # STEP: battery level OK
+            logging.debug("STEP: battery level OK")
 
-        # STEP: start appium process
-        print("STEP: start appium process")
-        startAppiumProcess(
-            android_serial_M812,
-            '4725',
-            '4726',
-            os.path.sep.join(
-                [RESULT_DIRECTORY, 'M812', getAppiumLogFilename()])
-        )
+            # STEP: kill old appium if possible
+            print("STEP: kill old appium if possible")
+            kill_if_appium_process_exist(android_serial_M812, 10)
 
-        time.sleep(10)
+            # STEP: start appium process
+            print("STEP: start appium process")
+            startAppiumProcess(
+                android_serial_M812,
+                '4725',
+                '4726',
+                os.path.sep.join(
+                    [RESULT_DIRECTORY, 'M812', getAppiumLogFilename()])
+            )
 
-        # STEP: start the test
-        logging.debug("STEP: start the test")
-        command_to_start_test = behaveCommandConstructor(
-            'random-click-1-hour_M812.feature',
-            os.path.sep.join(
-                [RESULT_DIRECTORY, 'M812', gettestLogFilename()])
-        )
+            time.sleep(10)
 
-        logging.debug(command_to_start_test)
-        osCommand(command_to_start_test)
+            # STEP: start the test
+            logging.debug("STEP: start the test")
+            command_to_start_test = behaveCommandConstructor(
+                'random-click-1-hour_M812.feature',
+                os.path.sep.join(
+                    [RESULT_DIRECTORY, 'M812', gettestLogFilename()])
+            )
+
+            logging.debug(command_to_start_test)
+            osCommand(command_to_start_test)
+        else:
+            # STEP: battery level too low, skipping
+            logging.debug("STEP: battery level too low, skipping this run")
+
     except Exception as e:
         logging.error('error occur at the scheduler M812')
+        logging.error('android device %s ' % android_serial_M812)
+        logging.error('battery level%s ' % getBatteryInfo(android_serial_M812))
 
-        # TODO: consider remove me
-        from pprint import pprint
         logging.error('dump the value of: android_serial_M812')
         logging.error(android_serial_M812)
         logging.error('dump the value of: command_to_start_test')
