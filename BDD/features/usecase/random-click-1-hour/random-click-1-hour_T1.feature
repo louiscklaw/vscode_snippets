@@ -29,8 +29,13 @@ Feature: random click for a hour, pilot run
       | com.tinklabs.activateapp | .features.wizard.WizardActivity | Android  | phone | 7.0     |
     And Wait until "English" appears on screen, timeout "300" seconds
 
-    # Given Reach "Happy flow The end" page in WizardActivity by skip, route "THIS_TEXT_IS_RESERVED_FOR_LATTER_USE"
-    # And Skip the 1st time tutorial by launcher
+    # start the test
+    Then press HOME button
+    And Wait until screen ready, timeout 30 seconds
+    And sleep 1 seconds
+
+    Given Reach "Happy flow The end" page in WizardActivity by skip, route "THIS_TEXT_IS_RESERVED_FOR_LATTER_USE"
+    And Skip the 1st time tutorial by launcher
 
     # disable swipe random route,
     # Then Random tour for 0.5 hour
