@@ -80,7 +80,7 @@ scheduler = BlockingScheduler()
 #scheduler.add_job(schedulerT1, 'cron',
 #                  minute='*/5')
 scheduler.add_job(schedulerM812, 'cron',
-                  minute='*/20')
+                  minute='*/25')
 # scheduler.start()
 # schedulerT1()
 scheduler.start()

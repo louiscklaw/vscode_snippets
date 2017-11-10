@@ -76,7 +76,7 @@ def schedulerT1():
 
 scheduler = BlockingScheduler()
 scheduler.add_job(schedulerT1, 'cron',
-                  minute='*/15')
+                  minute='*/20')
 #scheduler.add_job(schedulerM812, 'cron',
 #                  minute='*/5')
 # scheduler.start()
