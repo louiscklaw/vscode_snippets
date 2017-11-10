@@ -240,7 +240,7 @@ def startAppiumProcess(android_serial, appium_port, appium_bootstrap_port, appiu
             android_serial,
             appium_port,
             appium_bootstrap_port
-        ) + ' > %s ' % appium_log
+        ) + ' | tee %s ' % appium_log
         p = subprocess.Popen(
             appium_command,
             shell=True
