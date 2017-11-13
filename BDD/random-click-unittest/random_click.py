@@ -31,7 +31,7 @@ class test_setup:
 
 
 class TestStringMethods(unittest.TestCase):
-    android_serial_T1 = 'VZHGLMA742800785'
+    android_serial_T1 = 'VZHGLMA742804186'
     result_directory_T1 = os.path.sep.join(
         [RESULT_DIRECTORY, 'T1']
     )
