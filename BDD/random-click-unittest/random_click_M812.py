@@ -38,7 +38,7 @@ class TestStringMethods(unittest.TestCase):
 
     def setUp(self):
         try:
-            setup_logging(result_directory_M812)
+            setup_logging(self.result_directory_M812)
             logging.info('setup logging done')
 
             # STEP: kill old appium if possible
