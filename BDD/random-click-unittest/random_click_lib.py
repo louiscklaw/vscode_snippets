@@ -398,17 +398,31 @@ class handy_command:
 
     def fastboot_erase_userdata(self):
         """stored procedure to erase user data by fastboot"""
+        
+        self.lsCommand = []
 
         try:
-            self.lsCommand = []
-            self.lsCommand.append(
-                self.construct_fastboot_command('-i 0x489 oem fih on'))
-            self.lsCommand.append(
-                self.construct_fastboot_command('-i 0x489 oem devlock key'))
-            self.lsCommand.append(
-                self.construct_fastboot_command('-i 0x489 erase userdata'))
-            self.lsCommand.append(
-                self.construct_fastboot_command('reboot'))
+            if self.device_model = 'T1':
+
+                self.lsCommand.append(
+                    self.construct_fastboot_command('-i 0x489 oem fih on'))
+                self.lsCommand.append(
+                    self.construct_fastboot_command('-i 0x489 oem devlock key'))
+                self.lsCommand.append(
+                    self.construct_fastboot_command('-i 0x489 erase userdata'))
+                self.lsCommand.append(
+                    self.construct_fastboot_command('reboot'))
+
+            elif self.device_model = 'M812':
+                self.lsCommand.append(
+                    self.construct_fastboot_command(' erase userdata'))
+                self.lsCommand.append(
+                    self.construct_fastboot_command('reboot'))
+            else:
+                logging.debug('not handled fastboot procedure , skipping')
+                self.lsCommand.append(
+                    self.construct_fastboot_command('reboot'))
+
 
             result = self.send_command(self.lsCommand)
 
