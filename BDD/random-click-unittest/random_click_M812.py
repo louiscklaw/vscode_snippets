@@ -139,12 +139,6 @@ class TestStringMethods(unittest.TestCase):
         try:
             logging.info('STEP: test start')
 
-            # TODO: remove me
-            setup_target_device(
-                self.test_setup.device,
-                self.test_setup.android_serial
-            )
-
             handy_command_session = handy_command(
                 self.test_setup.device,
                 self.test_setup.android_serial,
