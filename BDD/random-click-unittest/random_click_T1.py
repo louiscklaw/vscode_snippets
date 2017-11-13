@@ -51,9 +51,9 @@ class TestStringMethods(unittest.TestCase):
             logging.debug("STEP: kill old appium if possible")
             kill_if_appium_process_exist(self.android_serial_T1, 10)
 
-            # STEP: kill old adb if possible
-            logging.info("STEP: kill old adb if possible")
-            kill_if_adb_process_exist()
+            # # STEP: kill old adb if possible
+            # logging.info("STEP: kill old adb if possible")
+            # kill_if_adb_process_exist()
 
             # STEP: start appium process
             logging.debug("STEP: start appium process")
