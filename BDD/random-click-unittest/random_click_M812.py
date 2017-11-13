@@ -38,6 +38,8 @@ class TestStringMethods(unittest.TestCase):
 
     def setUp(self):
         try:
+            self.DEBUG = os.getenv('DEBUG', 'N')
+
             setup_logging(self.result_directory_M812)
             logging.info('setup logging done')
 
