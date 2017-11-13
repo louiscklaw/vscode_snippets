@@ -536,7 +536,9 @@ class handy_command:
             desired_caps['udid'] = self.android_serial
             desired_caps['newCommandTimeout'] = 240
 
-            # desired_caps['automationName'] = 'UiAutomator2'
+
+            desired_caps['automationName'] = 'UiAutomator2'
+            desired_caps['skipUnlock'] = True
 
             self.appiumSession = webdriver.Remote(
                 'http://localhost:%d/wd/hub' % int(port),
