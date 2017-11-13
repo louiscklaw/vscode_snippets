@@ -112,6 +112,23 @@ class handy_command:
         else:
             pass
 
+    def unlockScreenHelper(self):
+        try:
+            # adb shell am start -n io.appium.unlock/.Unlock
+            self.send_command(
+                [
+                    self.construct_adb_command(
+                        'shell install %s' % './_apk/unlock_apk-debug.apk'),
+                    self.construct_adb_command(
+                        'shell am start -n io.appium.unlock/.Unlock')
+                ]
+            )
+            pass
+        except Exception as e:
+            logging.error('error during using unlockScreenHelper')
+        else:
+            pass
+
     def unLockScreen(self):
         try:
             window_size = self.appiumSession.get_window_size()

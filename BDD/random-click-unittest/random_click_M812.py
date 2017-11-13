@@ -31,14 +31,14 @@ class test_setup:
 
 
 class TestStringMethods(unittest.TestCase):
-    android_serial_T1 = 'VZHGLMA742800785'
-    result_directory_T1 = os.path.sep.join(
-        [RESULT_DIRECTORY, 'T1']
+    android_serial_M812 = 'V2HGLMB721301100'
+    result_directory_M812 = os.path.sep.join(
+        [RESULT_DIRECTORY, 'M812']
     )
 
     def setUp(self):
         try:
-            setup_logging(RESULT_DIRECTORY)
+            setup_logging(self.result_directory_M812)
             logging.info('setup logging done')
 
             # STEP: kill old appium if possible
@@ -49,24 +49,24 @@ class TestStringMethods(unittest.TestCase):
 
             # STEP: kill old appium if possible
             logging.debug("STEP: kill old appium if possible")
-            kill_if_appium_process_exist(self.android_serial_T1, 10)
+            kill_if_appium_process_exist(self.android_serial_M812, 10)
 
-            # STEP: kill old adb if possible
-            logging.info("STEP: kill old adb if possible")
-            kill_if_adb_process_exist()
+            # # STEP: kill old adb if possible
+            # logging.info("STEP: kill old adb if possible")
+            # kill_if_adb_process_exist()
 
             # STEP: start appium process
             logging.debug("STEP: start appium process")
             startAppiumProcess(
-                self.android_serial_T1,
-                '4723',
-                '4724',
+                self.android_serial_M812,
+                '4725',
+                '4726',
                 os.path.sep.join(
-                    [self.result_directory_T1, getAppiumLogFilename()])
+                    [self.result_directory_M812, getAppiumLogFilename()])
             )
 
             self.SCREENCAPTURE_DIRECTORY = os.path.sep.join(
-                [RESULT_DIRECTORY, 'T1', './_screencapture']
+                [RESULT_DIRECTORY, 'M812', './_screencapture']
             )
 
             time.sleep(10)
@@ -77,14 +77,14 @@ class TestStringMethods(unittest.TestCase):
         else:
             pass
 
-        test_setup.device = "T1"
-        test_setup.android_serial = self.android_serial_T1
+        test_setup.device = "M812"
+        test_setup.android_serial = self.android_serial_M812
         self.test_setup = test_setup
 
     def tearDown(self):
         # STEP: kill old appium if possible
         # logging.debug("STEP: kill old appium if possible")
-        # kill_if_appium_process_exist(self.android_serial_T1, 10)
+        # kill_if_appium_process_exist(self.android_serial_M812, 10)
 
         pass
 
@@ -108,8 +108,8 @@ class TestStringMethods(unittest.TestCase):
             try:
                 logging.debug('STEP: perpare device start')
                 logging.debug('STEP: waiting device power up->boot-complete')
-                handy_command_session.adb_wait_for_device(600)
-                handy_command_session.adb_check_boot_completed(600)
+                handy_command_session.adb_wait_for_device(900)
+                handy_command_session.adb_check_boot_completed(900)
 
                 logging.debug('STEP: bootstrap device')
                 handy_command_session.ADB_PATH_ANDROID_TEMP_directory_is_ready(
@@ -143,16 +143,10 @@ class TestStringMethods(unittest.TestCase):
         try:
             logging.info('STEP: test start')
 
-            # TODO: remove me
-            setup_target_device(
-                self.test_setup.device,
-                self.test_setup.android_serial
-            )
-
             handy_command_session = handy_command(
                 self.test_setup.device,
                 self.test_setup.android_serial,
-                self.result_directory_T1
+                self.result_directory_M812
             )
 
             erase_device()
