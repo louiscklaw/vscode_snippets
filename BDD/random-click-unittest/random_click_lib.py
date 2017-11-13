@@ -246,6 +246,7 @@ class handy_command:
             sSeconds: seconds until timeout
         """
         try:
+            logging.debug('waiting for ANDROID_TEMP directory is ready')
             time_to_end = int(get_epoch_time()) + int(sSeconds)
             bDirectoryReady = False
 
@@ -276,6 +277,7 @@ class handy_command:
                 logging.debug('cannot get android temp direcotory')
                 assert False
             pass
+            logging.debug('suppose ANDROID_TEMP directory is ready')
         except Exception as e:
             logging.error('error during getting directory')
             logging.error('dump the value of: PATH_ANDROID_TEMP')
