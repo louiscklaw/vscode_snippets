@@ -83,7 +83,7 @@ class handy_command:
         self.device_model = device_model
         self.result_directory = result_directory
         self.screencapture_directory = os.path.sep.join([
-            self.result_directory, self.device_model, '_screencapture'
+            self.result_directory, '_screencapture'
         ])
         pass
 
