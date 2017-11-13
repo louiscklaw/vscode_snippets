@@ -27,7 +27,7 @@ def schedulerM812():
         # NOTE: test configuration
         android_serial_M812 = 'V2HGLMB721301100'
 
-        if checkAndroidBatteryLevel(android_serial_M812, 90):
+        if checkAndroidBatteryLevel(android_serial_M812, 50):
             # STEP: battery level OK
             logging.debug("STEP: battery level OK")
 
@@ -62,11 +62,12 @@ def schedulerM812():
         pass
 
 
+
 scheduler = BlockingScheduler()
 #scheduler.add_job(schedulerT1, 'cron',
 #                  minute='*/5')
 scheduler.add_job(schedulerM812, 'cron',
-                  minute='*/25')
-# scheduler.start()
+                  minute='*/30',
+                  max_instances=2)
 # schedulerT1()
 scheduler.start()
