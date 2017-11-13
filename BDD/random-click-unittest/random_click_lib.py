@@ -693,6 +693,10 @@ class handy_command:
 
             while end_time > get_epoch_time():
 
+                # STEP: try to inject unlock-debug.apk
+                logging.debug("STEP: try to inject unlock-debug.apk")
+                handy_command_session.unlockScreenHelper()
+
                 # STEP: try to locate English
                 logging.info("STEP: try to locate English")
                 els = self.selectElementsByXpath(
