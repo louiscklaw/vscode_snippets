@@ -28,11 +28,12 @@ from android_function import finger
 from scheduler_lib import *
 
 PROJ_HOME = os.path.dirname(__file__)
+
 APK_HOME = os.path.sep.join([
     PROJ_HOME,
     '_apk'
 ])
-PATH_PC_LIB = PROJ_HOME + '/../_lib/shell_script'
+PATH_PC_LIB = PROJ_HOME + '/_lib/shell_script'
 PATH_ANDROID_TEMP = r'/data/local/tmp'
 
 FILE_TINKLABS1001 = r'tinklabs1001'
@@ -76,7 +77,6 @@ dParameters['PATH_ANDROID_CHANGE_PROP'] = PATH_ANDROID_CHANGE_PROP
 
 dParameters['PATH_ANDROID_CHANGE_WPA_SUPPLICANT'] = PATH_ANDROID_CHANGE_WPA_SUPPLICANT
 
-
 class handy_command:
     def __init__(self, device_model, android_serial, result_directory):
         self.android_serial = android_serial
@@ -85,6 +85,10 @@ class handy_command:
         self.screencapture_directory = os.path.sep.join([
             self.result_directory, '_screencapture'
         ])
+
+        requirefile(PATH_PC_TINKLABS1001)
+
+
         pass
 
     def screencapture(self):
@@ -277,6 +281,7 @@ class handy_command:
                 logging.debug('cannot get android temp direcotory')
                 assert False
             pass
+            sleep(5)
             logging.debug('suppose ANDROID_TEMP directory is ready')
         except Exception as e:
             logging.error('error during getting directory')
@@ -1294,6 +1299,7 @@ def send_command_to_adb(adb_shell_process, command_to_send, texts_expected):
     except Exception as e:
         logging.error('error during sending command to adb')
         logging.error(command_to_send)
+        logging.error(e)
         raise e
     else:
         pass
