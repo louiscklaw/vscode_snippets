@@ -156,7 +156,8 @@ class TestStringMethods(unittest.TestCase):
 
             logging.debug('STEP: starting appium')
             handy_command_session.step_create_appium_session(
-                4723
+                4723,
+                8000
             )
 
             logging.debug('STEP: waiting for "English" appears on screen')
@@ -192,7 +193,8 @@ class TestStringMethods(unittest.TestCase):
 
             logging.debug('STEP: starting appium')
             handy_command_session.step_create_appium_session(
-                4723
+                4723,
+                8000
             )
 
             handy_command_session.step_capture_english_on_screen(
