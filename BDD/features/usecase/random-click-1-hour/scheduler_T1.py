@@ -20,6 +20,7 @@ RESULT_DIRECTORY = os.path.sep.join(
     [PROJ_HOME, './result'])
 
 
+
 def schedulerT1():
     try:
         # NOTE: test configuration
@@ -76,7 +77,7 @@ def schedulerT1():
 
 scheduler = BlockingScheduler()
 scheduler.add_job(schedulerT1, 'cron',
-                  minute='*/20')
+                  minute='*/15')
 #scheduler.add_job(schedulerM812, 'cron',
 #                  minute='*/5')
 # scheduler.start()

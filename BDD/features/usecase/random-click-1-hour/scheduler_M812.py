@@ -19,7 +19,6 @@ PROJ_HOME = os.path.dirname(os.path.abspath(__file__))
 RESULT_DIRECTORY = os.path.sep.join(
     [PROJ_HOME, './result'])
 
-APPIUM_BINARY = r'/usr/local/bin/appium'
 
 
 def schedulerM812():
@@ -32,11 +31,11 @@ def schedulerM812():
             logging.debug("STEP: battery level OK")
 
             # STEP: kill old appium if possible
-            print("STEP: kill old appium if possible")
+            logging.debug("STEP: kill old appium if possible")
             kill_if_appium_process_exist(android_serial_M812, 10)
 
             # STEP: start appium process
-            print("STEP: start appium process")
+            logging.debug("STEP: start appium process")
             startAppiumProcess(
                 android_serial_M812,
                 '4725',
@@ -80,7 +79,7 @@ scheduler = BlockingScheduler()
 #scheduler.add_job(schedulerT1, 'cron',
 #                  minute='*/5')
 scheduler.add_job(schedulerM812, 'cron',
-                  minute='*/25')
+                  minute='*/20')
 # scheduler.start()
 # schedulerT1()
 scheduler.start()
