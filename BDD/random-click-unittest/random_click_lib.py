@@ -77,6 +77,7 @@ dParameters['PATH_ANDROID_CHANGE_PROP'] = PATH_ANDROID_CHANGE_PROP
 
 dParameters['PATH_ANDROID_CHANGE_WPA_SUPPLICANT'] = PATH_ANDROID_CHANGE_WPA_SUPPLICANT
 
+
 class handy_command:
     def __init__(self, device_model, android_serial, result_directory):
         self.android_serial = android_serial
@@ -457,7 +458,6 @@ class handy_command:
                 self.lsCommand.append(
                     self.construct_fastboot_command('reboot'))
 
-
             result = self.send_command(self.lsCommand)
 
         except Exception as e:
@@ -584,7 +584,6 @@ class handy_command:
             desired_caps['udid'] = self.android_serial
             desired_caps['newCommandTimeout'] = 240
 
-
             desired_caps['automationName'] = 'UiAutomator2'
             desired_caps['skipUnlock'] = True
             desired_caps['systemPort'] = systemPort
@@ -706,7 +705,6 @@ class handy_command:
                 logging.debug("STEP: try to inject unlock-debug.apk")
                 self.unlockScreenHelper()
 
-
                 # STEP: try to locate English
                 logging.info("STEP: try to locate English")
                 els = self.selectElementsByXpath(
@@ -774,7 +772,7 @@ class handy_command:
 
             # STEP: personalized experience
             logging.info("STEP: try skipping personalized experience")
-            #self.tapElementByXpath(
+            # self.tapElementByXpath(
             #    '//*[contains(@resource-id, "com.tinklabs.activateapp:id/tv_skip")]',
             #    60, 10
             #)
@@ -787,7 +785,6 @@ class handy_command:
                     r'''//*[@text="Let's Start"]''',
                     120, 20
                 )
-
 
             pass
         except Exception as e:
@@ -946,7 +943,7 @@ class handy_command:
             logging.info("STEP: Tap this show the hotel details.")
             self.tapElementByXpath(
                 '//*[contains(@text, "Tap this show the hotel details.")]',
-                30, 3
+                60, 5
             )
 
             # STEP: Shop for discounted souvenirs and the hottest new products, and enjoy free delivery.
@@ -954,7 +951,7 @@ class handy_command:
                 "STEP: Shop for discounted souvenirs and the hottest new products, and enjoy free delivery.")
             self.tapElementByXpath(
                 '//*[contains(@text, "Shop for discounted souvenirs and the hottest new products, and enjoy free delivery.")]',
-                30, 3
+                60, 5
             )
 
             # STEP: Tours and tickets to major attractions - all available here at a discount.
@@ -962,7 +959,7 @@ class handy_command:
                 "STEP: Tours and tickets to major attractions - all available here at a discount.")
             self.waitForXpathAppears(
                 '//*[contains(@text, "Tours and tickets to major attractions - all available here at a discount.")]',
-                30, 3
+                60, 5
             )
 
             self.tapElementByXpath(
