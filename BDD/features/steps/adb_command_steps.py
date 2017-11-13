@@ -135,7 +135,8 @@ def step_impl(context, sSeconds):
         context.adb_session.run_cmd('wait-for-device')
 
         # (iRetrunCode, sStdOut, sStdErr, bTimeout) = result
-        context.time_poweron_to_adb_ready = get_time_difference_to(time_to_start)
+        context.time_poweron_to_adb_ready = get_time_difference_to(
+            time_to_start)
 
         # wait some seconds more to let device ready
         sleep(3)
@@ -423,7 +424,7 @@ def step_impl(context, sValue, sSettingName, sNamespace):
             - sValue - value of package_verifier_enable wanted
     """
     print('I am supposed to change the %s to %s' %
-                  (sSettingName, sValue))
+          (sSettingName, sValue))
 
     # TODO: better implementation
 
@@ -450,7 +451,6 @@ def step_impl(context, sValue, sSettingName, sNamespace):
 
         print('dump the value of: sValue')
         pprint(sValue)
-
 
         raise e
     else:
@@ -741,7 +741,8 @@ def step_impl(context, sSeconds):
                 break
 
         if bBootComplete:
-            context.time_sys_boot_animation = get_time_difference_to(time_start)
+            context.time_sys_boot_animation = get_time_difference_to(
+                time_start)
             print('sys.boot_completed received')
             pass
         else:
@@ -849,7 +850,6 @@ def step_adb_root_shell(context, command):
         print('dump the value of: text_expected')
         print(text_expected)
         # xTODO: remove me
-
 
         raise e
     else:

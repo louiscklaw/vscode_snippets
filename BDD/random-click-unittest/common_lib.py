@@ -67,11 +67,11 @@ def setup_logging(logging_directory):
     logging.info('log file write to : %s ' % logging_filename)
 
 
-def get_epoch_time():
+def get_epoch_time(offset=0):
     """
         return the epoch of current time
     """
-    return int(datetime.datetime.now().strftime('%s'))
+    return int(datetime.datetime.now().strftime('%s')) + offset
 
 
 def get_time_difference_to(given_time):
@@ -86,6 +86,10 @@ def get_time_difference_to(given_time):
 
     """
     return get_epoch_time() - given_time
+
+
+def expired_already(epoch_deadline):
+    return get_epoch_time() > epoch_deadline
 
 
 def get_end_time(time_to_start, time_to_run):

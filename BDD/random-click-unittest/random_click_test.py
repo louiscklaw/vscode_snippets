@@ -20,10 +20,12 @@ from random_click_lib import *
 
 
 class TestStringMethods(unittest.TestCase):
-    android_serial = 'VZHGLMA742800785'
+    device = 'T1'
+    android_serial = 'V2HGLMB721301100'
 
     def setUp(self):
-        self.assertEqual('foo'.upper(), 'FOO')
+        self.android_serial
+        self.device
 
     def tearDown(self):
         self.assertEqual('foo'.upper(), 'FOO')
@@ -100,6 +102,34 @@ class TestStringMethods(unittest.TestCase):
         handy_command_session.step_adb_root_shell(
             "settings put %s %s %s" % (sNamespace, sSettingName, sValue)
         )
+
+    def test_dumpsys(self):
+        handy_command_session = handy_command(
+            self.device,
+            self.android_serial,
+            '.'
+        )
+
+        pprint(handy_command_session.getCurrentFocusOnDevice())
+
+    def test_waitForAppsGetFocused(self):
+        handy_command_session = handy_command(
+            self.device,
+            self.android_serial,
+            '.'
+        )
+
+        pprint(handy_command_session.waitForAppsGetFocused(
+            'com.tinklabs.activateapp.features.wizard.WizardActivity',
+            10,
+            1
+        ))
+
+        pprint(handy_command_session.waitForAppsGetFocused(
+            'should not found me',
+            3,
+            1
+        ))
 
 
 if __name__ == '__main__':

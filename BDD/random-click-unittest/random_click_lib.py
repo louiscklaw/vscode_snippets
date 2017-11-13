@@ -27,6 +27,8 @@ from android_function import finger
 
 from scheduler_lib import *
 
+import re
+
 PROJ_HOME = os.path.dirname(__file__)
 
 APK_HOME = os.path.sep.join([
@@ -121,7 +123,96 @@ class handy_command:
         else:
             pass
 
+    def getCurrentFocusOnDevice(self):
+        """get the dumpsys from device"""
+        try:
+
+            dumpsys_command = self.construct_adb_command(
+                'shell dumpsys window windows'
+            )
+            dumpsys_result = self.send_command(
+                dumpsys_command
+            )
+            dumpsys_result = ''.join(dumpsys_result)
+
+            # NOTE: this will return a list
+            current_focus = re.findall(
+                'mFocusedApp=AppWindowToken{.+?}', dumpsys_result)
+
+            current_focus = current_focus[0]
+
+            return current_focus
+            pass
+        except Exception as e:
+            logging.error('error during getting current on device')
+            logging.error('dump the value of: dumpsys_command')
+            logging.error(dumpsys_command)
+            logging.error('dump the value of: dumpsys_result')
+            logging.error(dumpsys_result)
+            logging.error('dump the value of: current_focus')
+            logging.error(current_focus)
+
+            raise e
+        else:
+            pass
+
+    def waitForAppsGetFocused(self, activity_wanted, timeout, interval):
+        """wait for target apps to be focused on screen
+
+        Args:
+            timeout: time value before exception thrown
+            activity_wanted: the activity wanted
+            interval: the time wait between checks
+
+        Returns:
+            True when found, False when not found
+            a blocking process, release until the application becomes focused on the device
+        """
+        try:
+            logging.info('checking for Application Get Focused start')
+            epoch_deadline = get_epoch_time(timeout)
+            focus_on_device = self.getCurrentFocusOnDevice()
+            activity_found = False
+
+            while not(expired_already(epoch_deadline)):
+                # NOTE: while not timeout
+                if focus_on_device.find(activity_wanted) > -1:
+                    # NOTE: the activity wanted found
+                    logging.debug('the wanted activity found')
+                    logging.info('application get focused')
+                    activity_found = True
+                    break
+                else:
+                    sleep(interval)
+                    focus_on_device = self.getCurrentFocusOnDevice()
+
+            if activity_found:
+                return True
+            else:
+                logging.debug(
+                    'application cannot get focused within timeout value')
+                logging.error('the wanted activity not found')
+                return False
+            pass
+
+        except Exception as e:
+            logging.error('the wanted activity not found')
+            logging.error('dump value: activity_wanted')
+            logging.error(activity_wanted)
+            logging.error('dump value: focus_on_device')
+            logging.error(focus_on_device)
+            logging.error('dump value: timeout:')
+            logging.error(timeout)
+            logging.error('dump value: interval:')
+            logging.error(interval)
+            raise e
+        else:
+            pass
+
     def unlockScreenHelper(self):
+        """to handle the unlock using adb instead appium"""
+        # NOTE: operated with skipUnlock=True in desired_cap
+
         try:
             # STEP: starting unlock screen helper
             logging.debug("STEP: starting unlock screen helper")
@@ -136,6 +227,7 @@ class handy_command:
                         'shell am start -n io.appium.unlock/.Unlock')
                 ]
             )
+            sleep(3)
             # STEP: unlockscreen helper done
             logging.debug("STEP: unlockscreen helper done")
             pass
@@ -397,6 +489,7 @@ class handy_command:
 
     def step_adb_push_thinkabs1001(self):
         """packed process to transfer the tinklabs1001 to android"""
+        # NOTE: tinklabs1001 is something similiar to SU binary
         try:
             logging.debug('pushing tinklabs1001')
             # context.execute_steps(u'''
@@ -582,10 +675,13 @@ class handy_command:
             desired_caps['noReset'] = True
 
             desired_caps['udid'] = self.android_serial
-            desired_caps['newCommandTimeout'] = 240
+            desired_caps['newCommandTimeout'] = 300
 
             desired_caps['automationName'] = 'UiAutomator2'
             desired_caps['skipUnlock'] = True
+
+            # NOTE: https://appium.readthedocs.io/en/stable/en/appium-setup/parallel_tests/
+            # QUOTE: set a different system port for each Appium instanceset with systemPort capability since sometimes there can be a port conflict if different ports aren't used
             desired_caps['systemPort'] = systemPort
 
             self.appiumSession = webdriver.Remote(
@@ -720,8 +816,8 @@ class handy_command:
                     sleep(interval)
 
                     # STEP: sending null tap
-                    logging.info("STEP: sending null tap")
-                    self.step_tap_on_position(10, 10)
+                    # logging.info("STEP: sending null tap")
+                    # self.step_tap_on_position(10, 10)
 
             if not(TextFound):
                 if appears in ['appears']:

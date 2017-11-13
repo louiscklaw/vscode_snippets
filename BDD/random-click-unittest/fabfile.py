@@ -74,12 +74,12 @@ def setup_virtualenv():
 
 
 @task
-def run_test(run_count):
+def run_test(run_count, model):
     run_count = int(run_count)
     with settings(warn_only=True):
-        for i in range(1, run_count + 2):
+        for i in range(1, run_count + 1):
             print('run count :%d/%d ' % (i, run_count))
-            local('python3 random_click.py')
+            local('python3 random_click_%s.py' % model)
 
 
 @task

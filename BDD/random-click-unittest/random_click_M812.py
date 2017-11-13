@@ -22,6 +22,7 @@ PROJ_HOME = os.path.dirname(os.path.abspath(__file__))
 RESULT_DIRECTORY = os.path.sep.join(
     [PROJ_HOME, './result'])
 
+
 APPIUM_BINARY = r'/usr/local/bin/appium'
 
 
@@ -119,9 +120,14 @@ class TestStringMethods(unittest.TestCase):
                 handy_command_session.step_adb_push_thinkabs1001()
                 handy_command_session.step_ADB_change_permission_tinklabs1001()
 
+                # logging.info("STEP: wait until application appears on screen")
+                # handy_command_session.waitForAppsGetFocused(
+                #     '.features.wizard.WizardActivity',
+                #     300, 30
+                # )
                 # STEP: sleep some time for apps stablize
                 logging.info("STEP: sleep some time for apps stablize")
-                sleep(180)
+                sleep(18)
 
                 logging.debug(
                     'STEP: disable google application install dialog')
@@ -162,7 +168,7 @@ class TestStringMethods(unittest.TestCase):
             logging.debug('STEP: waiting for "English" appears on screen')
             # wizardActivity, happyflow
             handy_command_session.step_capture_english_on_screen(
-                "English", 300, 10
+                "English", 600, 30
             )
 
             logging.debug('STEP: proceeding wizardActivity happyflow')
@@ -197,7 +203,7 @@ class TestStringMethods(unittest.TestCase):
             )
 
             handy_command_session.step_capture_english_on_screen(
-                "English", 300, 10
+                "English", 600, 30
             )
 
             logging.info('STEP: test done, clear exit, RESULT: PASSED')
