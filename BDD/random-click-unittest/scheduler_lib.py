@@ -324,6 +324,20 @@ def gettestLogFilename():
     return getLogFileName('-test.log')
 
 
+def unittestCommandConstructor(testscript_file, result_pipe_to_file):
+    try:
+        unittest_command = 'python3  %s 2>&1 | tee %s' % (
+            testscript_file, result_pipe_to_file)
+        return unittest_command
+        pass
+    except Exception as e:
+        logging.error('error during generating unittest command %s' %
+                      unittest_command)
+        raise e
+    else:
+        pass
+
+
 def behaveCommandConstructor(feature_file, result_pipe_to_file):
     try:
         behave_command = 'behave -vk --no-capture  %s 2>&1 | tee %s' % (
