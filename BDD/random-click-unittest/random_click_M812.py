@@ -59,8 +59,8 @@ class TestStringMethods(unittest.TestCase):
             logging.debug("STEP: start appium process")
             startAppiumProcess(
                 self.android_serial_M812,
-                '4723',
-                '4724',
+                '4725',
+                '4726',
                 os.path.sep.join(
                     [self.result_directory_M812, getAppiumLogFilename()])
             )
