@@ -156,7 +156,6 @@ class TestStringMethods(unittest.TestCase):
                 self.result_directory_M812
             )
 
-            erase_device()
             prepare_device()
 
             logging.debug('STEP: starting appium')
@@ -207,6 +206,7 @@ class TestStringMethods(unittest.TestCase):
             )
 
             logging.info('STEP: test done, clear exit, RESULT: PASSED')
+
         except Exception as e:
             logging.error('STEP: test done, RESULT: FAILED')
             logging.error('error during running the test')
@@ -218,6 +218,9 @@ class TestStringMethods(unittest.TestCase):
             raise e
         else:
             pass
+        logging.info('STEP: erase phone after done')
+        erase_device()
+        sleep(300)
 
 
 if __name__ == '__main__':

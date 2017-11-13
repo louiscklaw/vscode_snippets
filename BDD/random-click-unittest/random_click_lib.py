@@ -227,7 +227,7 @@ class handy_command:
                         'shell am start -n io.appium.unlock/.Unlock')
                 ]
             )
-            sleep(3)
+            sleep(5)
             # STEP: unlockscreen helper done
             logging.debug("STEP: unlockscreen helper done")
             pass
