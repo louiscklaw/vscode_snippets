@@ -37,11 +37,11 @@
 		"prefix": "def_with_try",
 		"body": [
 			"def ${1:functionName}(self):",
+			"    \"\"\"description of : ${1:functionName}\"\"\"",
 			"    try:",
 			"",
 			"        pass",
 			"    except Exception as e:",
-			"        print(e)",
 			"        utils.logv2('error occur during ${1:functionName}', 'Fail')",
 			"",
 			"        raise e",
@@ -398,7 +398,7 @@
 		"body":
 			//
 			[
-				"utils.logv2('error occur during running ${1:value_text}', ${2:Fail})"
+				"utils.logv2('error occur during running ${1:value_text}', '${2:Fail}')"
 			],
 		"description": "utils_logv2_error"
 	},
@@ -424,6 +424,14 @@
 				"print('error ${1:error message}')"
 			],
 		"description": "simple print value debug for python"
+	},
+	"logging step": {
+		"prefix": "logging_debug_step",
+		"body": [
+			"# STEP: ${1:logging_debug_step}",
+			"logging.debug(\"STEP: ${1:logging_debug_step}\")"
+		],
+		"description": "logging step"
 	}
 
 
