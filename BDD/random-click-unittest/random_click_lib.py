@@ -27,7 +27,12 @@ from android_function import finger
 
 from scheduler_lib import *
 
-PATH_PC_LIB = os.path.dirname(__file__) + '/../_lib/shell_script'
+PROJ_HOME = os.path.dirname(__file__)
+APK_HOME = os.path.sep.join([
+    PROJ_HOME,
+    '_apk'
+])
+PATH_PC_LIB = PROJ_HOME + '/../_lib/shell_script'
 PATH_ANDROID_TEMP = r'/data/local/tmp'
 
 FILE_TINKLABS1001 = r'tinklabs1001'
@@ -109,6 +114,27 @@ class handy_command:
         except Exception as e:
             logging.error('error during perform screencapture')
             raise e
+        else:
+            pass
+
+    def unlockScreenHelper(self):
+        try:
+            # adb shell am start -n io.appium.unlock/.Unlock
+            unlock_apk = os.path.join([
+                APK_HOME,
+                'unlock_apk-debug.apk'
+            ])
+            self.send_command(
+                [   
+                    self.construct_adb_command(
+                        'shell install %s' % unlock_apk),
+                    self.construct_adb_command(
+                        'shell am start -n io.appium.unlock/.Unlock')
+                ]
+            )
+            pass
+        except Exception as e:
+            logging.error('error during using unlockScreenHelper')
         else:
             pass
 

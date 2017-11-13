@@ -127,6 +127,10 @@ class TestStringMethods(unittest.TestCase):
                     "global", "package_verifier_enable", "0"
                 )
 
+                # STEP: try to inject unlock-debug.apk
+                logging.debug("STEP: try to inject unlock-debug.apk")
+                handy_command_session.unlockScreenHelper()
+
                 logging.info('STEP: prepare device done')
                 pass
             except Exception as e:
