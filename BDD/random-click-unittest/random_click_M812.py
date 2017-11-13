@@ -121,7 +121,7 @@ class TestStringMethods(unittest.TestCase):
 
                 # STEP: sleep some time for apps stablize
                 logging.info("STEP: sleep some time for apps stablize")
-                sleep(300)
+                sleep(180)
 
                 logging.debug(
                     'STEP: disable google application install dialog')
@@ -144,7 +144,6 @@ class TestStringMethods(unittest.TestCase):
 
         try:
             logging.info('STEP: test start')
-
             handy_command_session = handy_command(
                 self.test_setup.device,
                 self.test_setup.android_serial,
@@ -156,7 +155,7 @@ class TestStringMethods(unittest.TestCase):
 
             logging.debug('STEP: starting appium')
             handy_command_session.step_create_appium_session(
-                4723
+                4725
             )
 
             logging.debug('STEP: waiting for "English" appears on screen')
@@ -192,7 +191,7 @@ class TestStringMethods(unittest.TestCase):
 
             logging.debug('STEP: starting appium')
             handy_command_session.step_create_appium_session(
-                4723
+                4725
             )
 
             handy_command_session.step_capture_english_on_screen(
