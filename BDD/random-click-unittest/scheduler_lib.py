@@ -14,8 +14,8 @@ import subprocess
 import datetime
 
 
-# APPIUM_BINARY = r'/usr/local/bin/appium'
-APPIUM_BINARY = r'node ./node_modules/appium ' + ' --log-timestamp'
+APPIUM_BINARY = r'/usr/local/bin/appium' + '  --log-timestamp'
+# APPIUM_BINARY = r'node ./node_modules/appium ' + ' --log-timestamp'
 
 
 def osCommand(cmd):
