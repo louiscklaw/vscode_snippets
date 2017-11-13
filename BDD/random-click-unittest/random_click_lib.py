@@ -132,6 +132,8 @@ class handy_command:
                         'shell am start -n io.appium.unlock/.Unlock')
                 ]
             )
+            # STEP: unlockscreen helper done
+            logging.debug("STEP: unlockscreen helper done")
             pass
         except Exception as e:
             logging.error('error during using unlockScreenHelper')
