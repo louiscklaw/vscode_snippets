@@ -120,7 +120,7 @@ class handy_command:
     def unlockScreenHelper(self):
         try:
             # adb shell am start -n io.appium.unlock/.Unlock
-            unlock_apk = os.path.join([
+            unlock_apk = os.path.sep.join([
                 APK_HOME,
                 'unlock_apk-debug.apk'
             ])
