@@ -10,6 +10,21 @@ from time import sleep
 import datetime
 
 
+def requirefile(filepath):
+    try:
+        if os.path.exists(filepath):
+            logging.info('checking of %s ok' % filepath)
+            pass
+        else:
+            raise e
+        pass
+    except Exception as e:
+        logging.error('checking of required file fail: %s' % filepath)
+        raise e
+    else:
+        pass
+
+
 def getTodayString(offset=0):
     """get the day string using the format "yymmdd-hhmmss" with the given offset(default=0, +ve number for the day in the past)
 
