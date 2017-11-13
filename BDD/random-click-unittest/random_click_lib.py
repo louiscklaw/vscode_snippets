@@ -402,7 +402,7 @@ class handy_command:
         self.lsCommand = []
 
         try:
-            if self.device_model = 'T1':
+            if self.device_model == 'T1':
 
                 self.lsCommand.append(
                     self.construct_fastboot_command('-i 0x489 oem fih on'))
@@ -413,7 +413,7 @@ class handy_command:
                 self.lsCommand.append(
                     self.construct_fastboot_command('reboot'))
 
-            elif self.device_model = 'M812':
+            elif self.device_model == 'M812':
                 self.lsCommand.append(
                     self.construct_fastboot_command(' erase userdata'))
                 self.lsCommand.append(
