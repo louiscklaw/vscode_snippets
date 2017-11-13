@@ -693,7 +693,8 @@ class handy_command:
 
                 # STEP: try to inject unlock-debug.apk
                 logging.debug("STEP: try to inject unlock-debug.apk")
-                handy_command_session.unlockScreenHelper()
+                self.unlockScreenHelper()
+
 
                 # STEP: try to locate English
                 logging.info("STEP: try to locate English")
