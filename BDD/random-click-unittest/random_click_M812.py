@@ -108,8 +108,8 @@ class TestStringMethods(unittest.TestCase):
             try:
                 logging.debug('STEP: perpare device start')
                 logging.debug('STEP: waiting device power up->boot-complete')
-                handy_command_session.adb_wait_for_device(600)
-                handy_command_session.adb_check_boot_completed(600)
+                handy_command_session.adb_wait_for_device(900)
+                handy_command_session.adb_check_boot_completed(900)
 
                 logging.debug('STEP: bootstrap device')
                 handy_command_session.ADB_PATH_ANDROID_TEMP_directory_is_ready(
