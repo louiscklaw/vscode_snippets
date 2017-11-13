@@ -88,7 +88,6 @@ class handy_command:
 
         requirefile(PATH_PC_TINKLABS1001)
 
-
         pass
 
     def screencapture(self):
@@ -131,7 +130,7 @@ class handy_command:
                 'unlock_apk-debug.apk'
             ])
             self.send_command(
-                [   
+                [
                     self.construct_adb_command(
                         'shell am start -n io.appium.unlock/.Unlock')
                 ]
@@ -433,7 +432,7 @@ class handy_command:
 
     def fastboot_erase_userdata(self):
         """stored procedure to erase user data by fastboot"""
-        
+
         self.lsCommand = []
 
         try:
@@ -566,7 +565,7 @@ class handy_command:
         else:
             pass
 
-    def step_create_appium_session(self, port):
+    def step_create_appium_session(self, port=4723, systemPort=8000):
         try:
             logging.debug('setting up appium session')
 
@@ -588,6 +587,7 @@ class handy_command:
 
             desired_caps['automationName'] = 'UiAutomator2'
             desired_caps['skipUnlock'] = True
+            desired_caps['systemPort'] = systemPort
 
             self.appiumSession = webdriver.Remote(
                 'http://localhost:%d/wd/hub' % int(port),
@@ -606,7 +606,7 @@ class handy_command:
         else:
             pass
 
-    def step_create_appium_session_Launcher(self, port=4723):
+    def step_create_appium_session_Launcher(self, port=4723, systemPort=8000):
         """create appium session and connect to it
 
         Args:
@@ -631,7 +631,8 @@ class handy_command:
             desired_caps['udid'] = self.android_serial
             desired_caps['newCommandTimeout'] = 240
 
-            # desired_caps['automationName'] = 'UiAutomator2'
+            desired_caps['automationName'] = 'UiAutomator2'
+            desired_caps['systemPort'] = systemPort
 
             self.appiumSession = webdriver.Remote(
                 'http://localhost:%d/wd/hub' % int(port),
@@ -645,6 +646,7 @@ class handy_command:
             logging.error('cannot connect to the appium')
             logging.error('dump the value of: port')
             logging.error(port)
+            logging.error(systemPort)
 
             raise e
         else:
@@ -771,18 +773,18 @@ class handy_command:
             )
 
             # STEP: personalized experience
-            logging.info("STEP: personalized experience")
-            self.tapElementByXpath(
-                '//*[contains(@resource-id, "com.tinklabs.activateapp:id/tv_skip")]',
-                60, 10
-            )
+            logging.info("STEP: try skipping personalized experience")
+            #self.tapElementByXpath(
+            #    '//*[contains(@resource-id, "com.tinklabs.activateapp:id/tv_skip")]',
+            #    60, 10
+            #)
 
             # adding path diversion for M812
             if self.device_model == 'M812':
                 # STEP: personalized experience
-                logging.info("STEP: Start now")
+                logging.info("STEP: press Lets start after a video")
                 self.tapElementByXpath(
-                    r'//*[@text="Let\'s Start"]',
+                    r'''//*[@text="Let's Start"]''',
                     120, 20
                 )
 
