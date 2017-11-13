@@ -129,8 +129,6 @@ class handy_command:
             self.send_command(
                 [   
                     self.construct_adb_command(
-                        'shell install %s' % unlock_apk),
-                    self.construct_adb_command(
                         'shell am start -n io.appium.unlock/.Unlock')
                 ]
             )
@@ -768,6 +766,15 @@ class handy_command:
                 '//*[contains(@resource-id, "com.tinklabs.activateapp:id/tv_skip")]',
                 60, 10
             )
+
+            if self.device_model == 'M812':
+                # STEP: personalized experience
+                logging.info("STEP: Start now")
+                self.tapElementByXpath(
+                    '//*[contains(@resource-id, "com.tinklabs.activateapp:id/tv_skip")]',
+                    60, 10
+                )
+
 
             pass
         except Exception as e:
