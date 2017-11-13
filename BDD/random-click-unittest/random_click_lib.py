@@ -772,7 +772,7 @@ class handy_command:
                 # STEP: personalized experience
                 logging.info("STEP: Start now")
                 self.tapElementByXpath(
-                    '//*[@text="Let\'s Start"]',
+                    r'//*[@text="Let\'s Start"]',
                     120, 20
                 )
 
