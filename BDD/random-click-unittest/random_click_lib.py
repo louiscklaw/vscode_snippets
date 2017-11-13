@@ -798,8 +798,8 @@ class handy_command:
         time_now = get_epoch_time()
         time_end = time_now + timeout
         try:
-            # STEP: waiting fro xpath appears
-            logging.info("STEP: waiting fro xpath appears")
+            # STEP: waiting for xpath appears
+            logging.info("STEP: waiting for xpath appears")
             while time_end > get_epoch_time():
                 els = self.selectElementsByXpath(xpath)
                 if len(els) > 0:
