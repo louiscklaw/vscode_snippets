@@ -121,7 +121,7 @@ class TestStringMethods(unittest.TestCase):
 
                 # STEP: sleep some time for apps stablize
                 logging.info("STEP: sleep some time for apps stablize")
-                sleep(300)
+                sleep(180)
 
                 logging.debug(
                     'STEP: disable google application install dialog')
