@@ -56,7 +56,10 @@ class TestStringMethods(unittest.TestCase):
             'T1',
             'VZHGLMA742804186',
             '.')
-
+        handy_command_session.step_create_appium_session(
+            4723,
+            8000
+        )
         test_result = handy_command_session.selectElementsByXpath(
             '//*[contains(@text, "English")]')
         pprint(test_result)
