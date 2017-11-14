@@ -801,11 +801,10 @@ class handy_command:
                 logging.debug("STEP: try to inject unlock-debug.apk")
                 self.unlockScreenHelper()
 
-                # TODO: resume
-                # # STEP: try to locate English
-                # logging.info("STEP: try to locate English")
-                # els = self.selectElementsByXpath(
-                #     '//*[contains(@text, "English")]')
+                # STEP: try to locate English
+                logging.info("STEP: try to locate English")
+                els = self.selectElementsByXpath(
+                    '//*[contains(@text, "English")]')
 
                 if len(els) > 0:
                     TextFound = True
