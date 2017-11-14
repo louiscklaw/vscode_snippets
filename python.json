@@ -38,15 +38,14 @@
 		"prefix": "def_with_try",
 		"body": [
 			"def ${1:functionName}(self):",
+			"    \"\"\"description of : ${1:functionName}\"\"\"",
 			"    try:",
 			"        # STEP: ${1:functionName}",
 			"        print(\"STEP: ${1:functionName}\")",
 			"",
 			"        pass",
 			"    except Exception as e:",
-			"        print(e)",
-			"        logging.debug(",
-			"            'error occur during ${1:functionName}', 'Fail')",
+			"        utils.logv2('error occur during ${1:functionName}', 'Fail')",
 			"",
 			"        ${2:# need screencapture ?? }self.screencapture()",
 			"        raise e",
@@ -184,27 +183,27 @@
 		],
 		"description": "init_unittest_body"
 	},
-"pep 484 documentation": {
-  "prefix": "doc_string_pep484",
-  "body": [
-    "\"\"\"${1:Example function with PEP 484 type annotations.}",
-    "",
-    "Args:",
-    "    ${2:Args1 : the 1st arguments}",
-    "",
-    "Returns:",
-    "    ${3:Return : the 1st arguments}",
-    "",
-    "Exceptions:",
-    "    ${4:Exception : Special Exception handling strategy}",
-    "",
-    "NOTES/IDEAS: NOTES AND IDEAS",
-    "Assumptions: ASSUMPTION at the moment on design",
-    "",
-    "\"\"\""
-  ],
-  "description": "pep 484 documentation"
-},
+	"pep 484 documentation": {
+		"prefix": "doc_string_pep484",
+		"body": [
+			"\"\"\"${1:Example function with PEP 484 type annotations.}",
+			"",
+			"Args:",
+			"    ${2:Args1 : the 1st arguments}",
+			"",
+			"Returns:",
+			"    ${3:Return : the 1st arguments}",
+			"",
+			"Exceptions:",
+			"    ${4:Exception : Special Exception handling strategy}",
+			"",
+			"NOTES/IDEAS: NOTES AND IDEAS",
+			"Assumptions: ASSUMPTION at the moment on design",
+			"",
+			"\"\"\""
+		],
+		"description": "pep 484 documentation"
+	},
 	"TODO": {
 		"prefix": "TODO",
 		"body": ["# TODO: ${1:Temporary solution ${2:...} }"],
@@ -356,8 +355,7 @@
 			[
 				"# TODO: remove me",
 				"except Exception as e:",
-				"    raise e",
-				"# TODO: remove me"
+				"    raise e"
 			],
 		"description": "description"
 	},
@@ -366,7 +364,7 @@
 		"body":
 			//
 			[
-				"# TODO: remove me"
+				"# TODO: remove me, remove me, remove me"
 			],
 		"description": "description"
 	},
@@ -420,7 +418,7 @@
 		"body":
 			//
 			[
-				"utils.logv2('error occur during running ${1:value_text}', ${2:Fail})"
+				"utils.logv2('error occur during running ${1:value_text}', '${2:Fail}')"
 			],
 		"description": "utils_logv2_error"
 	},
@@ -450,10 +448,18 @@
 	"logging_step": {
 		"prefix": "logging_step",
 		"body": [
-		  "logging.${1:debug}('STEP: ${2:description}')"
+			"logging.${1:debug}('STEP: ${2:description}')"
 		],
 		"description": "logging_step"
-	  }
+	},
+	"logging_dumpvalue": {
+		"prefix": "logging_dumpvalue",
+		"body": [
+			"logging.debug('dump the value of: ${1:dump_value}')",
+			"logging.debug(${1:dump_value})"
+		],
+		"description": "logging_dumpvalue"
+	}
 
 
 
