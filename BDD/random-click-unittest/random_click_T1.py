@@ -165,40 +165,40 @@ class TestStringMethods(unittest.TestCase):
                 "English", 600, 30
             )
 
-            logging.debug('STEP: proceeding wizardActivity happyflow')
-            # start the happyflow
-            handy_command_session.wizardActivityHappyFlow()
+            # logging.debug('STEP: proceeding wizardActivity happyflow')
+            # # start the happyflow
+            # handy_command_session.wizardActivityHappyFlow()
 
-            # STEP: landing launcher here
-            logging.debug("STEP: landing launcher here")
-            # STEP: launcher first time tutorial
-            logging.debug("STEP: launcher first time tutorial")
-            handy_command_session.first_time_launcher_tutorial()
+            # # STEP: landing launcher here
+            # logging.debug("STEP: landing launcher here")
+            # # STEP: launcher first time tutorial
+            # logging.debug("STEP: launcher first time tutorial")
+            # handy_command_session.first_time_launcher_tutorial()
 
-            # STEP: suppose i random click here
-            logging.debug("STEP: suppose i random click here")
+            # # STEP: suppose i random click here
+            # logging.debug("STEP: suppose i random click here")
 
-            logging.debug('STEP: in launcher menu, erase data')
-            handy_command_session.EraseDataFromDevice()
+            # logging.debug('STEP: in launcher menu, erase data')
+            # handy_command_session.EraseDataFromDevice()
 
-            logging.info('STEP: sleep some time for device reboot')
-            sleep(180)
+            # logging.info('STEP: sleep some time for device reboot')
+            # sleep(180)
 
-            logging.debug(
-                'STEP: check that the English still appears after the device restart')
+            # logging.debug(
+            #     'STEP: check that the English still appears after the device restart')
 
-            logging.debug('STEP: re-prepare the device')
-            prepare_device()
+            # logging.debug('STEP: re-prepare the device')
+            # prepare_device()
 
-            logging.debug('STEP: starting appium')
-            handy_command_session.step_create_appium_session(
-                4723,
-                8000
-            )
+            # logging.debug('STEP: starting appium')
+            # handy_command_session.step_create_appium_session(
+            #     4723,
+            #     8000
+            # )
 
-            handy_command_session.step_capture_english_on_screen(
-                "English", 600, 30
-            )
+            # handy_command_session.step_capture_english_on_screen(
+            #     "English", 600, 30
+            # )
 
             logging.info('STEP: test done, clear exit, RESULT: PASSED')
         except Exception as e:
