@@ -1017,19 +1017,14 @@ class handy_command:
         i=0
         els=[]
         els_not_found = True
-        print('findme0')
         while i < maximum_try and els_not_found:
-            print('findme0.1')
             i += 1
             try:
-                print('findme')
                 logging.debug('start to locate elements by xpath')
                 els = self.appiumSession.find_elements_by_xpath(
                     xpath
                 )
-                print('findme1')
-                logging.debug('findme')
-                logging.debug(els)
+                logging.debug('dump len of els: %d' % eln(els)  )
                 if len(els) > 0:
                     els_not_found=False
                     logging.debug('locate element done')
@@ -1037,11 +1032,12 @@ class handy_command:
                 except_count += 1
                 logging.debug(
                     'UnboundLocalError caught during try to locate xpath')
+                logging.debug('dump value: except_count:%d' % except_count)
                 if except_count > grace_for_except_count:
                     logging.error('the exception caught is larger than grace_for_except_count allowed, throw exception to outside')
                     raise e
                 else:
-                    logging.debug('exception caught count sill within grace value')
+                    logging.debug('exception caught count but sill within grace value')
                     sleep(1)
             else:
                 pass
