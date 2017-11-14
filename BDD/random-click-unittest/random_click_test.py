@@ -21,7 +21,7 @@ from random_click_lib import *
 
 class TestStringMethods(unittest.TestCase):
     device = 'T1'
-    android_serial = 'V2HGLMB721301100'
+    android_serial = 'VZHGLMA742804186'
 
     def setUp(self):
         self.android_serial
@@ -50,6 +50,16 @@ class TestStringMethods(unittest.TestCase):
             'T1',
             'VZHGLMA742800785')
         handy_command_session.fastboot_erase_userdata()
+
+    def test_tryLocateElementByXpath(self):
+        handy_command_session = handy_command(
+            'T1',
+            'VZHGLMA742804186')
+
+        test_result = handy_command_session.selectElementsByXpath(
+            '//*[contains(@text, "English")]')
+        pprint(test_result)
+
 
     def test_send_command_adb(self):
         handy_command_session = handy_command(
