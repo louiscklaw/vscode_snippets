@@ -1011,23 +1011,38 @@ class handy_command:
     def tryLocateElementByXpath(self, xpath, grace_for_except_count=5):
         # TODO: comment 
         exception_count=0
+        maximum_try = exception_count * 2
         try:
-            els = self.appiumSession.find_elements_by_xpath(
-                xpath
-            )
-            return els
-            pass
-        except UnboundLocalError as e:
-            except_count += 1
-            logging.debug(
-                'UnboundLocalError caught during try to locate xpath')
-            if except_count > grace_for_except_count:
-                logging.debug('the exception caught is larger than grace_for_except_count allowed, throw exception to outside')
-                raise e
-            else:
-                sleep(3)
+            while i < maximum_try:
+                i += 1
+                try:
+                    els = self.appiumSession.find_elements_by_xpath(
+                        xpath
+                    )
+                    return els
+                    pass
+                except UnboundLocalError as e:
+                    except_count += 1
+                    logging.debug(
+                        'UnboundLocalError caught during try to locate xpath')
+                    if except_count > grace_for_except_count:
+                        logging.error('the exception caught is larger than grace_for_except_count allowed, throw exception to outside')
+                        raise e
+                    else:
+                        logging.debug('exception caught count sill within grace value')
+                        sleep(3)
+                else:
+                    pass
+                pass
+        except Exception as e:
+            logging.error('exception caught while getting the element by xpath')
+            logging.debug('dump the value of: xpath')
+            logging.debug(xpath)
+            
+            raise e
         else:
             pass
+
 
     def selectElementsByXpath(self, xpath):
         """select element by xpath
