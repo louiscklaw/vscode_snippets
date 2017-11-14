@@ -150,7 +150,8 @@ class TestStringMethods(unittest.TestCase):
                 self.result_directory_T1
             )
 
-            prepare_device()
+            # TODO: resume
+            # prepare_device()
 
             logging.debug('STEP: starting appium')
             handy_command_session.step_create_appium_session(
