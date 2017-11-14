@@ -1012,6 +1012,7 @@ class handy_command:
         # TODO: comment 
         exception_count=0
         maximum_try = exception_count * 2
+        i=0
         try:
             while i < maximum_try:
                 i += 1
