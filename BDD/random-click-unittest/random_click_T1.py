@@ -119,11 +119,6 @@ class TestStringMethods(unittest.TestCase):
                 handy_command_session.step_adb_push_thinkabs1001()
                 handy_command_session.step_ADB_change_permission_tinklabs1001()
 
-                logging.info("STEP: wait until application appears on screen")
-                handy_command_session.waitForAppsGetFocused(
-                    '.features.wizard.WizardActivity',
-                    300, 30
-                )
                 # STEP: sleep some time for apps stablize
                 logging.info("STEP: sleep some time for apps stablize")
                 sleep(18)
@@ -149,14 +144,12 @@ class TestStringMethods(unittest.TestCase):
 
         try:
             logging.info('STEP: test start')
-
             handy_command_session = handy_command(
                 self.test_setup.device,
                 self.test_setup.android_serial,
                 self.result_directory_T1
             )
 
-            erase_device()
             prepare_device()
 
             logging.debug('STEP: starting appium')
@@ -218,6 +211,9 @@ class TestStringMethods(unittest.TestCase):
             raise e
         else:
             pass
+        logging.info('STEP: erase phone after done')
+        erase_device()
+        sleep(300)
 
 
 if __name__ == '__main__':
