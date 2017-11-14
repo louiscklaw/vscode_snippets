@@ -794,7 +794,7 @@ class handy_command:
             TextFound = False
             start_time = get_epoch_time()
             end_time = start_time + int(TimeOut)
-
+            els=[]
             while end_time > get_epoch_time():
 
                 # STEP: try to inject unlock-debug.apk
@@ -1023,6 +1023,8 @@ class handy_command:
                 els = self.appiumSession.find_elements_by_xpath(
                     xpath
                 )
+                logging.debug('findme')
+                logging.debug(els)
                 if len(els) > 0:
                     els_not_found=False
                     logging.debug('locate element done')
@@ -1035,11 +1037,9 @@ class handy_command:
                     raise e
                 else:
                     logging.debug('exception caught count sill within grace value')
-                    sleep(3)
+                    sleep(1)
             else:
                 pass
-
-
         return els
 
 
@@ -1049,7 +1049,6 @@ class handy_command:
 
         Args:
             xpath: xpath
-            grace_for_except_count: the exception allowed during filtering of the elements.
 
         Returns:
             els: elements in array selected by xpath
