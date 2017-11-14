@@ -54,7 +54,8 @@ class TestStringMethods(unittest.TestCase):
     def test_tryLocateElementByXpath(self):
         handy_command_session = handy_command(
             'T1',
-            'VZHGLMA742804186')
+            'VZHGLMA742804186',
+            '.')
 
         test_result = handy_command_session.selectElementsByXpath(
             '//*[contains(@text, "English")]')
