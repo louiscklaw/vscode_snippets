@@ -1011,18 +1011,23 @@ class handy_command:
         pass
 
     def tryLocateElementByXpath(self, xpath, grace_for_except_count=5):
-        # TODO: comment 
+        # TODO: comment
         except_count = 0
-        maximum_try = except_count * 2
+        maximum_try = grace_for_except_count * 2
         i=0
         els=[]
+        els_not_found = True
+        print('findme0')
         while i < maximum_try and els_not_found:
+            print('findme0.1')
             i += 1
             try:
+                print('findme')
                 logging.debug('start to locate elements by xpath')
                 els = self.appiumSession.find_elements_by_xpath(
                     xpath
                 )
+                print('findme1')
                 logging.debug('findme')
                 logging.debug(els)
                 if len(els) > 0:
@@ -1055,6 +1060,7 @@ class handy_command:
 
         """
         try:
+            print(xpath)
             return self.tryLocateElementByXpath(xpath)
             pass
         except Exception as e:
