@@ -1026,14 +1026,10 @@ class handy_command:
                 raise e
             else:
                 sleep(3)
-        except Exception as e:
-            logging.error(
-                'other exception caught during tryLocateElementByXpath')
-            raise e
         else:
             pass
 
-    def selectElementsByXpath(self, xpath, grace_for_except_count=5):
+    def selectElementsByXpath(self, xpath):
         """select element by xpath
 
         Args:
