@@ -826,6 +826,8 @@ class handy_command:
 
         except Exception as e:
             logging.error("error as the wanted text doesn't appear")
+            logging.error('dump the value of: els')
+            logging.error(els)
             logging.error('dump the value of: TextFound')
             logging.error(TextFound)
 
