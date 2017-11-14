@@ -1028,7 +1028,7 @@ class handy_command:
                 els = self.appiumSession.find_elements_by_xpath(
                     xpath
                 )
-                logging.debug('dump len of els: %d' % eln(els)  )
+                logging.debug('dump len of els: %d' % len(els)  )
                 if len(els) > 0:
                     els_not_found=False
                     logging.debug('locate element done')
