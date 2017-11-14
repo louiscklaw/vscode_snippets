@@ -1010,8 +1010,8 @@ class handy_command:
 
     def tryLocateElementByXpath(self, xpath, grace_for_except_count=5):
         # TODO: comment 
-        except_count=0
-        maximum_try = exception_count * 2
+        except_count = 0
+        maximum_try = except_count * 2
         i=0
         try:
             while i < maximum_try:
