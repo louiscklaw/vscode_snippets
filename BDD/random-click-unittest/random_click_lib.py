@@ -1008,21 +1008,44 @@ class handy_command:
 
         pass
 
-    def selectElementsByXpath(self, xpath):
+    def tryLocateElementByXpath(self, xpath, grace_for_except_count=5):
+        # TODO: comment 
+        exception_count=0
+        try:
+            els = self.appiumSession.find_elements_by_xpath(
+                xpath
+            )
+            return els
+            pass
+        except UnboundLocalError as e:
+            except_count += 1
+            logging.debug(
+                'UnboundLocalError caught during try to locate xpath')
+            if except_count > grace_for_except_count:
+                logging.debug('the exception caught is larger than grace_for_except_count allowed, throw exception to outside')
+                raise e
+            else:
+                sleep(3)
+        except Exception as e:
+            logging.error(
+                'other exception caught during tryLocateElementByXpath')
+            raise e
+        else:
+            pass
+
+    def selectElementsByXpath(self, xpath, grace_for_except_count=5):
         """select element by xpath
 
         Args:
             xpath: xpath
+            grace_for_except_count: the exception allowed during filtering of the elements.
 
         Returns:
             els: elements in array selected by xpath
 
         """
         try:
-            els = self.appiumSession.find_elements_by_xpath(
-                xpath
-            )
-            return els
+            return self.tryLocateElementByXpath(xpath)
             pass
         except Exception as e:
             logging.error('error occur during selectElesmentsByXpath', 'Fail')
