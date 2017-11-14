@@ -334,8 +334,7 @@
 			[
 				"# TODO: remove me",
 				"except Exception as e:",
-				"    raise e",
-				"# TODO: remove me"
+				"    raise e"
 			],
 		"description": "description"
 	},
@@ -344,7 +343,7 @@
 		"body":
 			//
 			[
-				"# TODO: remove me"
+				"# TODO: remove me, remove me, remove me"
 			],
 		"description": "description"
 	},
@@ -432,8 +431,13 @@
 			"logging.debug(\"STEP: ${1:logging_debug_step}\")"
 		],
 		"description": "logging step"
+	},
+	"logging_dumpvalue": {
+		"prefix": "logging_dumpvalue",
+		"body": [
+			"logging.debug('dump the value of: ${1:dump_value}')",
+			"logging.debug(${1:dump_value})"
+		],
+		"description": "logging_dumpvalue"
 	}
-
-
-
 }
