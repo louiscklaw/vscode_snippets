@@ -1010,16 +1010,18 @@ class handy_command:
 
     def tryLocateElementByXpath(self, xpath, grace_for_except_count=5):
         # TODO: comment 
-        exception_count=0
+        except_count=0
         maximum_try = exception_count * 2
         i=0
         try:
             while i < maximum_try:
                 i += 1
                 try:
+                    logging.debug('start to locate elements by xpath')
                     els = self.appiumSession.find_elements_by_xpath(
                         xpath
                     )
+                    logging.debug('locate element done')
                     return els
                     pass
                 except UnboundLocalError as e:
