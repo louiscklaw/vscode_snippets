@@ -884,6 +884,10 @@ class handy_command:
                     120, 20
                 )
 
+            # NOTE: wait a while during landing on the main launcher.
+            # NOTE: as some old machine requires some processing time here
+            sleep(5)
+
             pass
         except Exception as e:
             logging.error('error during wizardActivityHappyFlow')
