@@ -1,5 +1,6 @@
 {
 	/*
+	https://pawelgrzybek.com/snippet-generator/
 		// Place your snippets for Python here. Each snippet is defined under a snippet name and has a prefix, body and
 		// description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
 		// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the
@@ -39,15 +40,17 @@
 			"def ${1:functionName}(self):",
 			"    \"\"\"description of : ${1:functionName}\"\"\"",
 			"    try:",
+			"        # STEP: ${1:functionName}",
+			"        print(\"STEP: ${1:functionName}\")",
 			"",
 			"        pass",
 			"    except Exception as e:",
 			"        utils.logv2('error occur during ${1:functionName}', 'Fail')",
 			"",
+			"        ${2:# need screencapture ?? }self.screencapture()",
 			"        raise e",
 			"",
 			"    pass",
-			""
 		],
 		"description": "def with try loop, used in TL"
 	},
@@ -56,17 +59,35 @@
 		"body": [
 			"#!/usr/bin/env python",
 			"# coding:utf-8",
-			"import os, sys",
+			"import os",
+			"import sys",
 			"import logging",
 			"import traceback",
 			"from pprint import pprint",
 			"",
-			"logging.basicConfig(level=logging.DEBUG,",
-			"   format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',",
-			"   datefmt='%a, %d %b %Y %H:%M:%S',",
-			"   filename='%s' % __file__.replace('.py', '.log'),",
-			"   filemode='a')",
+			"LOGGING_FORMATTER = '%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s'",
+			"formatter = logging.Formatter(LOGGING_FORMATTER)",
 			"",
+			"logging.basicConfig(",
+			"    level=logging.DEBUG,",
+			"    format=LOGGING_FORMATTER,",
+			"    datefmt='%d %m %Y %H:%M:%S',",
+			"    filename='%s' % __file__.replace('.py', '.log'),",
+			"    filemode='a')",
+			"",
+			"# set up logging to console",
+			"console = logging.StreamHandler()",
+			"console.setLevel(logging.ERROR)",
+			"# set a format which is simpler for console use",
+			"",
+			"console.setFormatter(formatter)",
+			"logging.getLogger(\"\").addHandler(console)",
+			"",
+			"logging.debug('debug')",
+			"logging.info('info')",
+			"logging.warning('warning')",
+			"logging.error('error')",
+			"logging.exception('exp')",
 			""
 		],
 		"description": "init_python"
@@ -78,13 +99,14 @@
 	},
 	"logging_error": {
 		"prefix": "logging_error",
-		"body": ["logging.error('${1:error occur at ${2:??}})"],
+		"body": ["logging.error('${1:error occur at ${2:??}}')"],
 		"description": "logging_error"
 	},
 	"logging_error_value": {
 		"prefix": "logging_error_value",
 		"body": [
-			"logging.error('${1:print_value}:%s' % ${1:??})"
+			"logging.error('dump value:')",
+			"logging.error(${1:print_value})"
 		],
 		"description": "logging_error_value"
 	},
@@ -151,8 +173,8 @@
 		],
 		"description": "init_unittest_body"
 	},
-	"docstring_pep484": {
-		"prefix": "docstring_pep484",
+	"pep 484 documentation": {
+		"prefix": "doc_string_pep484",
 		"body": [
 			"\"\"\"${1:Example function with PEP 484 type annotations.}",
 			"",
@@ -160,18 +182,17 @@
 			"    ${2:Args1 : the 1st arguments}",
 			"",
 			"Returns:",
-			"    ${3:Return1 : the 1st arguments}",
+			"    ${3:Return : the 1st arguments}",
 			"",
 			"Exceptions:",
 			"    ${4:Exception : Special Exception handling strategy}",
 			"",
-			"NOTES/IDEAS:${5: NOTES AND IDEAS}",
-			"Assumptions:${6: ASSUMPTION at the moment on design}",
+			"NOTES/IDEAS: NOTES AND IDEAS",
+			"Assumptions: ASSUMPTION at the moment on design",
 			"",
-			"\"\"\"",
-			""
+			"\"\"\""
 		],
-		"description": "docstring_pep484"
+		"description": "pep 484 documentation"
 	},
 	"TODO": {
 		"prefix": "TODO",
@@ -414,13 +435,12 @@
 			],
 		"description": "simple print value debug for python"
 	},
-	"logging step": {
-		"prefix": "logging_debug_step",
+	"logging_step": {
+		"prefix": "logging_step",
 		"body": [
-			"# STEP: ${1:logging_debug_step}",
-			"logging.debug(\"STEP: ${1:logging_debug_step}\")"
+			"logging.${1:debug}('STEP: ${2:description}')"
 		],
-		"description": "logging step"
+		"description": "logging_step"
 	},
 	"logging_dumpvalue": {
 		"prefix": "logging_dumpvalue",
@@ -438,4 +458,7 @@
 		],
 		"description": "utils_dumpvalue"
 	}
+
+
+
 }
