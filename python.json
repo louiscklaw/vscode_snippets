@@ -14,8 +14,8 @@
 			"description": "Log output to console"
 		}
 	*/
-	"test python": {
-		"prefix": "findme",
+	"test findme_test": {
+		"prefix": "findme_test",
 		"body": [
 			"# TODO: removeme",
 			"logging.info('findme ${1: why ?}')"
@@ -100,7 +100,7 @@
 			"",
 			"import unittest",
 			"",
-			"class TestStringMethods(unittest.TestCase):",
+			"class TestHelloworld(unittest.TestCase):",
 			"",
 			"    def setUp(self):",
 			"        self.assertEqual('foo'.upper(), 'FOO')",
@@ -109,20 +109,10 @@
 			"    def tearDown(self):",
 			"        self.assertEqual('foo'.upper(), 'FOO')",
 			"",
-			"",
-			"    def test_upper(self):",
-			"        self.assertEqual('foo'.upper(), 'FOO')",
-			"",
-			"    def test_isupper(self):",
-			"        self.assertTrue('FOO'.isupper())",
-			"        self.assertFalse('Foo'.isupper())",
-			"",
-			"    def test_split(self):",
+			"    def test_helloworld(self):",
 			"        s = 'hello world'",
+			"        print(\"helloworld\"",
 			"        self.assertEqual(s.split(), ['hello', 'world'])",
-			"        # check that s.split fails when the separator is not a string",
-			"        with self.assertRaises(TypeError):",
-			"            s.split(2)",
 			"",
 			"if __name__ == '__main__':",
 			"    unittest.main()",
@@ -439,5 +429,13 @@
 			"logging.debug(${1:dump_value})"
 		],
 		"description": "logging_dumpvalue"
+	},
+	"utils_dumpvalue": {
+		"prefix": "utils_dumpvalue",
+		"body": [
+			"utils.logv2('dump the value of: ${1:dump_value}','Info')",
+			"utils.logv2(${1:dump_value},'Info')"
+		],
+		"description": "utils_dumpvalue"
 	}
 }
