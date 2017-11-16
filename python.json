@@ -457,6 +457,14 @@
 			"utils.logv2(${1:dump_value},'Info')"
 		],
 		"description": "utils_dumpvalue"
+	},
+	"utils_step": {
+		"prefix": "utils_step",
+		"body": [
+			"\"\"\"STEPS: ${1:# Click Utilities} \"\"\"",
+			"utils.logv2(\"STEPS: ${1:# Click Utilities} \", 'Info')"
+		],
+		"description": "utils_step"
 	}
 
 
