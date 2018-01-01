@@ -48,7 +48,7 @@
 			"            ${4:# need screencapture ?? }self.screencapture()",
 			"            raise e",
 			""
-		  ],
+		],
 		"description": "def with try loop, used in TL"
 	},
 	"init_python": {
@@ -96,7 +96,7 @@
 		"description": "logging_info"
 	},
 	"unittest_example": {
-		"prefix": "unittest_example",
+		"prefix": "init_unittest_template",
 		"body": [
 			"",
 			"import unittest",
@@ -105,7 +105,6 @@
 			"",
 			"    def setUp(self):",
 			"        self.assertEqual('foo'.upper(), 'FOO')",
-			"",
 			"",
 			"    def tearDown(self):",
 			"        self.assertEqual('foo'.upper(), 'FOO')",
