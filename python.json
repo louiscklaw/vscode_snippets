@@ -58,7 +58,6 @@
 			"# coding:utf-8",
 			"import os",
 			"import sys",
-
 			"import traceback",
 			"from pprint import pprint",
 			"",
@@ -151,8 +150,8 @@
 		],
 		"description": "init_unittest_body"
 	},
-	"pep 484 documentation": {
-		"prefix": "doc_string_pep484",
+	"Google Style Python Docstrings": {
+		"prefix": "doc_string_google",
 		"body": [
 			"\"\"\"${1:Example function with PEP 484 type annotations.}",
 			"",
@@ -167,6 +166,10 @@
 			"",
 			"NOTES/IDEAS: NOTES AND IDEAS",
 			"Assumptions: ASSUMPTION at the moment on design",
+			"",
+			"Ref: ",
+			"    http://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html",
+			"    http://google.github.io/styleguide/pyguide.html",
 			"",
 			"\"\"\""
 		],
@@ -461,5 +464,12 @@
 			""
 		],
 		"description": ""
+	},
+	"CWD": {
+		"prefix": "CWD",
+		"body": [
+			"CWD = os.path.dirname(os.path.abspath(__file__))"
+		],
+		"description": "current working directory"
 	}
 }
