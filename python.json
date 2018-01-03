@@ -471,5 +471,18 @@
 			"CWD = os.path.dirname(os.path.abspath(__file__))"
 		],
 		"description": "current working directory"
+	},
+	"init_fabric_parallel": {
+		"prefix": "init_fabric_parallel",
+		"body": [
+			"from fabric.api import *",
+			"",
+			"@parallel(pool_size=5)",
+			"def heavy_task():",
+			"    # lots of heavy local lifting or lots of IO here",
+			"    # fab -H host1,host2,host3 heavy_task runs_serially",
+			""
+		],
+		"description": "fabric parallel execution"
 	}
 }
