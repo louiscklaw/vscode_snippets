@@ -523,5 +523,16 @@
 			""
 		],
 		"description": "init_lambda_map"
+	},
+	"init_lambda_reduce": {
+		"prefix": "init_lambda_reduce",
+		"body": [
+			"",
+			"f = lambda a,b: a if (a > b) else b",
+			"reduce(f, [47,11,42,102,13])",
+			"reduce(lambda x, y: x+y, range(1,101))",
+			""
+		],
+		"description": "init_lambda_reduce"
 	}
 }
