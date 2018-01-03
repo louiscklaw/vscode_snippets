@@ -484,5 +484,34 @@
 			""
 		],
 		"description": "fabric parallel execution"
+	},
+	"init_fabric": {
+		"prefix": "init_fabric",
+		"body": [
+			"",
+			"from fabric.api import run, cd, env, task, local, prefix, settings, quiet",
+			"from fabric.colors import *",
+			"",
+			"env.hosts = ['192.168.88.6']",
+			"CURR_DIRECTORY = os.path.dirname(__file__)",
+			"",
+			"",
+			"def hello_build(gitlab_container_name):",
+			"    print(green('building gitlab', True))",
+			"    with cd(REMOTE_DIR), quiet():",
+			"        run('docker-compose up -d --remove-orphans %s' % gitlab_container_name)",
+			""
+		],
+		"description": "fabric helloworld"
+	},
+	"init_lambda_filter": {
+		"prefix": "init_lambda_filter",
+		"body": [
+			"",
+			"fib = [0,1,1,2,3,5,8,13,21,34,55]",
+			"result = filter(lambda x: x % 2, fib)",
+			""
+		],
+		"description": "init_lambda_filter"
 	}
 }
