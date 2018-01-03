@@ -1,20 +1,4 @@
 {
-	/*
-	https://pawelgrzybek.com/snippet-generator/
-		// Place your snippets for Python here. Each snippet is defined under a snippet name and has a prefix, body and
-		// description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
-		// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the
-		// same ids are connected.
-		// Example:
-		"Print to console": {
-			"prefix": "log",
-			"body": [
-				"console.log('$1');",
-				"$2"
-			],
-			"description": "Log output to console"
-		}
-	*/
 	"test findme_test": {
 		"prefix": "findme_test",
 		"body": [
@@ -34,23 +18,36 @@
 		],
 		"description": "helloworld"
 	},
-	"def_with_try": {
-		"prefix": "def_with_try",
+	"def_try_job_done": {
+		"prefix": "def_try_job_done",
 		"body": [
-			"def ${1:functionName}(self):",
-			"    \"\"\"description of : ${1:functionName}\"\"\"",
-			"    try:",
-			"        # STEP: ${1:functionName}",
-			"        print(\"STEP: ${1:functionName}\")",
+			"def ${1:functionName}(self, ${2:var_name}, retry_remain=3):",
+			"    \"\"\"description of : swipe_screen_with_start_positions",
 			"",
-			"        pass",
-			"    except Exception as e:",
-			"        utils.logv2('error occur during ${1:functionName}', 'Fail')",
+			"    Args:",
+			"        ${2:var_name}:   TBA",
+			"        retry_remain: the maximum number of retry",
+			"    \"\"\"",
 			"",
-			"        ${2:# need screencapture ?? }self.screencapture()",
-			"        raise e",
+			"    job_done = False",
 			"",
-			"    pass",
+			"    while not(job_done) and retry_remain > 0:",
+			"        retry_remain -= 1",
+			"        try:",
+			"            # STEP: ${1:functionName}",
+			"            logging.info(\"STEP: ${1:functionName}\")",
+			"",
+			"            if False:",
+			"                job_done = True",
+			"",
+			"        except Exception as e:",
+			"            logging.error('error occur during ${1:functionName}')",
+			"            logging.error('dump value:${2:var_name}')",
+			"            logging.error(${2:var_name})",
+			"",
+			"            ${4:# need screencapture ?? }self.screencapture()",
+			"            raise e",
+			""
 		],
 		"description": "def with try loop, used in TL"
 	},
@@ -61,63 +58,44 @@
 			"# coding:utf-8",
 			"import os",
 			"import sys",
-			"import logging",
 			"import traceback",
 			"from pprint import pprint",
 			"",
-			"LOGGING_FORMATTER = '%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s'",
-			"formatter = logging.Formatter(LOGGING_FORMATTER)",
-			"",
-			"logging.basicConfig(",
-			"    level=logging.DEBUG,",
-			"    format=LOGGING_FORMATTER,",
-			"    datefmt='%d %m %Y %H:%M:%S',",
-			"    filename='%s' % __file__.replace('.py', '.log'),",
-			"    filemode='a')",
-			"",
-			"# set up logging to console",
-			"console = logging.StreamHandler()",
-			"console.setLevel(logging.ERROR)",
-			"# set a format which is simpler for console use",
-			"",
-			"console.setFormatter(formatter)",
-			"logging.getLogger(\"\").addHandler(console)",
-			"",
-			"logging.debug('debug')",
-			"logging.info('info')",
-			"logging.warning('warning')",
-			"logging.error('error')",
-			"logging.exception('exp')",
-			""
+			"${1:init_logging ?}"
 		],
 		"description": "init_python"
 	},
 	"logging_debug": {
 		"prefix": "logging_debug",
-		"body": ["logging.debug('${1:??}')"],
+		"body": [
+			"logging.debug('${1:??}')"
+		],
 		"description": "logging_debug"
 	},
 	"logging_error": {
 		"prefix": "logging_error",
-		"body": ["logging.error('${1:error occur at ${2:??}}')"],
+		"body": [
+			"logging.error('${1:error occur at ${2:??}}')"
+		],
 		"description": "logging_error"
 	},
 	"logging_error_value": {
 		"prefix": "logging_error_value",
 		"body": [
-			"logging.error('dump value:')",
+			"logging.error('dump value:${1:print_value}')",
 			"logging.error(${1:print_value})"
 		],
 		"description": "logging_error_value"
 	},
-
 	"logging_info": {
 		"prefix": "logging_info",
-		"body": ["logging.info('${1:??}')"],
+		"body": [
+			"logging.info('${1:??}')"
+		],
 		"description": "logging_info"
 	},
 	"unittest_example": {
-		"prefix": "unittest_example",
+		"prefix": "init_unittest_template",
 		"body": [
 			"",
 			"import unittest",
@@ -126,7 +104,6 @@
 			"",
 			"    def setUp(self):",
 			"        self.assertEqual('foo'.upper(), 'FOO')",
-			"",
 			"",
 			"    def tearDown(self):",
 			"        self.assertEqual('foo'.upper(), 'FOO')",
@@ -173,8 +150,8 @@
 		],
 		"description": "init_unittest_body"
 	},
-	"pep 484 documentation": {
-		"prefix": "doc_string_pep484",
+	"Google Style Python Docstrings": {
+		"prefix": "doc_string_google",
 		"body": [
 			"\"\"\"${1:Example function with PEP 484 type annotations.}",
 			"",
@@ -190,28 +167,40 @@
 			"NOTES/IDEAS: NOTES AND IDEAS",
 			"Assumptions: ASSUMPTION at the moment on design",
 			"",
+			"Ref: ",
+			"    http://sphinxcontrib-napoleon.readthedocs.io/en/latest/example_google.html",
+			"    http://google.github.io/styleguide/pyguide.html",
+			"",
 			"\"\"\""
 		],
 		"description": "pep 484 documentation"
 	},
 	"TODO": {
 		"prefix": "TODO",
-		"body": ["# TODO: ${1:Temporary solution ${2:...} }"],
+		"body": [
+			"# TODO: ${1:Temporary solution ${2:...} }"
+		],
 		"description": "TODO"
 	},
 	"NOTE": {
 		"prefix": "NOTE",
-		"body": ["# NOTE: ${1:I would like to ${2:...} }"],
+		"body": [
+			"# NOTE: ${1:I would like to ${2:...} }"
+		],
 		"description": "NOTE"
 	},
 	"FIXME": {
 		"prefix": "FIXME",
-		"body": ["# FIXME: ${1:FIXME please ${2:...}} "],
+		"body": [
+			"# FIXME: ${1:FIXME please ${2:...}} "
+		],
 		"description": "FIXME"
 	},
 	"IDEA": {
 		"prefix": "IDEA",
-		"body": ["# IDEA: ${1:Is it possible to ${2:...} ??}"],
+		"body": [
+			"# IDEA: ${1:Is it possible to ${2:...} ??}"
+		],
 		"description": "idea"
 	},
 	"QUESTION?": {
@@ -224,22 +213,17 @@
 	"STORY?": {
 		"prefix": "STORY?",
 		"body": [
-			// work with todohighlight.keywords
 			"# STORY?: ${1:This is a story about ${2:...} ??}"
 		],
 		"description": "story"
 	},
-	// # TODO: to be implemented
 	"to_be_implemented": {
 		"prefix": "to_be_implemented",
 		"body": [
-			// work with todohighlight.keywords
 			"# TODO: ${1:to be implemented}"
 		],
 		"description": "to_be_implemented"
 	},
-
-
 	"init_unittest": {
 		"prefix": "init_unittest",
 		"body": [
@@ -257,7 +241,7 @@
 		"prefix": "context_steps",
 		"body": [
 			"context.execute_steps(u'''",
-			"	Then ADB Reboot bootloader",
+			"\tThen ADB Reboot bootloader",
 			"''')"
 		],
 		"description": "execute_steps by "
@@ -300,16 +284,6 @@
 		"description": "to mark the test step"
 	},
 	"Screen": {
-		"prefix": "screen:",
-		"body": [
-			"# Screen: '${1: screenname}'",
-			"print(\"Screen: '${1: screenname}'\")",
-			"",
-			"${2:}"
-		],
-		"description": "to mark the android screen"
-	},
-	"Screen": {
 		"prefix": "Wait:",
 		"body": [
 			"# Wait: '${2:Wait for }${1: waitname}'",
@@ -321,10 +295,11 @@
 	},
 	"env_python": {
 		"prefix": "#!env_python",
-		"body": ["#!/usr/bin/env python"],
+		"body": [
+			"#!/usr/bin/env python"
+		],
 		"description": "#!/usr/bin/env python"
 	},
-
 	"normalize_string_to_array": {
 		"prefix": "normalize_string_to_array",
 		"body": [
@@ -340,22 +315,18 @@
 	},
 	"init_all_exception": {
 		"prefix": "init_all_exception",
-		"body":
-			//
-			[
-				"# TODO: remove me",
-				"except Exception as e:",
-				"    raise e"
-			],
+		"body": [
+			"# TODO: remove me",
+			"except Exception as e:",
+			"    raise e"
+		],
 		"description": "description"
 	},
 	"todo_remove_me": {
 		"prefix": "todo_remove_me",
-		"body":
-			//
-			[
-				"# TODO: remove me, remove me, remove me"
-			],
+		"body": [
+			"# TODO: remove me, remove me, remove me"
+		],
 		"description": "description"
 	},
 	"join_path": {
@@ -367,72 +338,58 @@
 	},
 	"init_get_or_create_directory": {
 		"prefix": "init_get_or_create_directory",
-		"body":
-			//
-			[
-				"if not os.path.exists(directory):",
-				"    os.makedirs(directory)",
-				""
-			],
+		"body": [
+			"if not os.path.exists(directory):",
+			"    os.makedirs(directory)",
+			""
+		],
 		"description": "description"
 	},
 	"check_dir_exists": {
 		"prefix": "check_dir_exists",
-		"body":
-			//
-			[
-				"os.path.isdir('${1:directory-want-to-check}')"
-			],
+		"body": [
+			"os.path.isdir('${1:directory-want-to-check}')"
+		],
 		"description": "description"
 	},
 	"utils_logv2_value": {
 		"prefix": "utils_logv2_value",
-		"body":
-			//
-			[
-				"utils.logv2('${1:value_text}:%s'% ${1:value},'')"
-			],
+		"body": [
+			"utils.logv2('${1:value_text}:%s'% ${1:value},'')"
+		],
 		"description": "description"
 	},
 	"utils_logv2_log": {
 		"prefix": "utils_logv2_log",
-		"body":
-			//
-			[
-				"utils.logv2('${1:value_text}', ${2:LOG})"
-			],
+		"body": [
+			"utils.logv2('${1:value_text}', ${2:LOG})"
+		],
 		"description": "utils_logv2_log"
 	},
 	"utils_logv2_error": {
 		"prefix": "utils_logv2_error",
-		"body":
-			//
-			[
-				"utils.logv2('error occur during running ${1:value_text}', '${2:Fail}')"
-			],
+		"body": [
+			"utils.logv2('error occur during running ${1:value_text}', '${2:Fail}')"
+		],
 		"description": "utils_logv2_error"
 	},
 	"print_value_debug": {
 		"prefix": "print_value_debug",
-		"body":
-			//
-			[
-				"",
-				"# TODO: consider remove me",
-				"${2:from pprint import pprint}",
-				"print('dump the value of: ${1:value}')",
-				"pprint(${1:value})",
-				""
-			],
+		"body": [
+			"",
+			"# TODO: consider remove me",
+			"${2:from pprint import pprint}",
+			"print('dump the value of: ${1:value}')",
+			"pprint(${1:value})",
+			""
+		],
 		"description": "simple print value debug for python"
 	},
 	"print_exception": {
 		"prefix": "print_exception",
-		"body":
-			//
-			[
-				"print('error ${1:error message}')"
-			],
+		"body": [
+			"print('error ${1:error message}')"
+		],
 		"description": "simple print value debug for python"
 	},
 	"logging_step": {
@@ -465,8 +422,67 @@
 			"utils.logv2(\"STEPS: ${1:# Click Utilities} \", 'Info')"
 		],
 		"description": "utils_step"
+	},
+	"xpath_text_filter": {
+		"prefix": "xpath_text_filter",
+		"body": [
+			"'//*[@text=\"${1:text??}\"]'"
+		],
+		"description": "xpath_text_filter"
+	},
+	"init_logging": {
+		"prefix": "init_logging",
+		"body": [
+			"# init_logging_start",
+			"import logging",
+			"",
+			"LOGGING_FORMATTER = '%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s'",
+			"formatter = logging.Formatter(LOGGING_FORMATTER)",
+			"",
+			"logging.basicConfig(",
+			"    level=logging.DEBUG,",
+			"    format=LOGGING_FORMATTER,",
+			"    datefmt='%d %m %Y %H:%M:%S',",
+			"    filename='%s' % __file__.replace('.py', '.log'),",
+			"    filemode='a')",
+			"",
+			"# set up logging to console",
+			"console = logging.StreamHandler()",
+			"console.setLevel(logging.ERROR)",
+			"# set a format which is simpler for console use",
+			"",
+			"console.setFormatter(formatter)",
+			"logging.getLogger(\"\").addHandler(console)",
+			"",
+			"logging.debug('debug')",
+			"logging.info('info')",
+			"logging.warning('warning')",
+			"logging.error('error')",
+			"logging.exception('exp')",
+			"",
+			"# init_logging_done",
+			""
+		],
+		"description": ""
+	},
+	"CWD": {
+		"prefix": "CWD",
+		"body": [
+			"CWD = os.path.dirname(os.path.abspath(__file__))"
+		],
+		"description": "current working directory"
+	},
+	"init_fabric_parallel": {
+		"prefix": "init_fabric_parallel",
+		"body": [
+			"from fabric.api import *",
+			"",
+			"@parallel(pool_size=5)",
+			"def heavy_task():",
+			"    # lots of heavy local lifting or lots of IO here",
+			"    # fab -H host1,host2,host3 heavy_task runs_serially",
+			""
+		],
+		"description": "fabric parallel execution"
 	}
-
-
-
 }
