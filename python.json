@@ -79,14 +79,6 @@
 		],
 		"description": "logging_error"
 	},
-	"logging_error_value": {
-		"prefix": "logging_error_value",
-		"body": [
-			"logging.error('dump value:${1:print_value}')",
-			"logging.error(${1:print_value})"
-		],
-		"description": "logging_error_value"
-	},
 	"logging_info": {
 		"prefix": "logging_info",
 		"body": [
@@ -373,18 +365,6 @@
 		],
 		"description": "utils_logv2_error"
 	},
-	"print_value_debug": {
-		"prefix": "print_value_debug",
-		"body": [
-			"",
-			"# TODO: consider remove me",
-			"${2:from pprint import pprint}",
-			"print('dump the value of: ${1:value}')",
-			"pprint(${1:value})",
-			""
-		],
-		"description": "simple print value debug for python"
-	},
 	"print_exception": {
 		"prefix": "print_exception",
 		"body": [
@@ -402,18 +382,17 @@
 	"logging_dumpvalue": {
 		"prefix": "logging_dumpvalue",
 		"body": [
-			"logging.debug('dump the value of: ${1:dump_value}')",
-			"logging.debug(${1:dump_value})"
+			"logging.${2:debug}('dump the value of: ${1:dump_value}: %s' % ${1:dump_value})",
 		],
 		"description": "logging_dumpvalue"
 	},
-	"utils_dumpvalue": {
-		"prefix": "utils_dumpvalue",
+	"utils_logv2_dumpvalue": {
+		"prefix": "utils_logv2_dumpvalue",
 		"body": [
 			"utils.logv2('dump the value of: ${1:dump_value}','Info')",
 			"utils.logv2(${1:dump_value},'Info')"
 		],
-		"description": "utils_dumpvalue"
+		"description": "utils_logv2_dumpvalue"
 	},
 	"utils_step": {
 		"prefix": "utils_step",
