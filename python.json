@@ -13,7 +13,6 @@
 			"def ${1:name}(${3:parameters}):",
 			"    \"\"\"${2:description}\"\"\"",
 			"",
-			"",
 			"    pass"
 		],
 		"description": "helloworld"
