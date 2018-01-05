@@ -85,33 +85,8 @@
 		],
 		"description": "logging_info"
 	},
-	"unittest_example": {
-		"prefix": "init_unittest_template",
-		"body": [
-			"",
-			"import unittest",
-			"",
-			"class TestHelloworld(unittest.TestCase):",
-			"",
-			"    def setUp(self):",
-			"        self.assertEqual('foo'.upper(), 'FOO')",
-			"",
-			"    def tearDown(self):",
-			"        self.assertEqual('foo'.upper(), 'FOO')",
-			"",
-			"    def test_helloworld(self):",
-			"        s = 'hello world'",
-			"        print(\"helloworld\"",
-			"        self.assertEqual(s.split(), ['hello', 'world'])",
-			"",
-			"if __name__ == '__main__':",
-			"    unittest.main()",
-			""
-		],
-		"description": "unittest_example"
-	},
 	"init_unittest_body": {
-		"prefix": "init_unittest_new_class",
+		"prefix": "init_unittest_body",
 		"body": [
 			"",
 			"class TestStringMethods(unittest.TestCase):",
@@ -220,7 +195,7 @@
 		"body": [
 			"import unittest",
 			"",
-			"${1:# this is a test}",
+			"${1:# init_unittest_body??}",
 			"",
 			"if __name__ == '__main__':",
 			"    unittest.main()",
