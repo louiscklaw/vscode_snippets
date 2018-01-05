@@ -815,5 +815,24 @@
 			"    restart_web_server()"
 		],
 		"description": "init_python_fabric_cuisine_template"
+	},
+	"init_fabric_ssh": {
+		"prefix": "init_fabric_ssh",
+		"body": [
+			"",
+			"from fabric.api import *",
+			"",
+			"env.hosts = ['host.name.com']",
+			"env.user = 'user'",
+			"env.key_filename = '/path/to/keyfile.pem'",
+			"",
+			"def local_uname():",
+			"    local('uname -a')",
+			"",
+			"def remote_uname():",
+			"    run('uname -a')",
+			""
+		],
+		"description": "fabric ssh example"
 	}
 }
