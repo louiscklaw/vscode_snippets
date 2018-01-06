@@ -489,7 +489,7 @@
 		"prefix": "init_fabric",
 		"body": [
 			"",
-			"from fabric.api import run, cd, env, task, local, prefix, settings, quiet",
+			"from fabric.api import *",
 			"from fabric.colors import *",
 			"",
 			"env.hosts = ['192.168.88.6']",
