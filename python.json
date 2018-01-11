@@ -94,7 +94,7 @@
 		],
 		"description": "logging_info"
 	},
-	"unittest_example": {
+	"init_unittest_template": {
 		"prefix": "init_unittest_template",
 		"body": [
 			"",
@@ -114,10 +114,10 @@
 			"        self.assertEqual(s.split(), ['hello', 'world'])",
 			"",
 			"if __name__ == '__main__':",
-			"    unittest.main()",
+			"    unittest.main(verbosity=2)",
 			""
 		],
-		"description": "unittest_example"
+		"description": "init_unittest_template"
 	},
 	"init_unittest_body": {
 		"prefix": "init_unittest_new_class",
