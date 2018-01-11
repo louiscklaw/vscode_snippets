@@ -229,7 +229,7 @@
 		"body": [
 			"import unittest",
 			"",
-			"${1:# this is a test}",
+			"${1:# init_unittest_new_class}",
 			"",
 			"if __name__ == '__main__':",
 			"    unittest.main()",
