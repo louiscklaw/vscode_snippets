@@ -1,0 +1,888 @@
+{
+	"test findme_test": {
+		"prefix": "findme_test",
+		"body": [
+			"# TODO: removeme",
+			"logging.info('findme ${1: why ?}')"
+		],
+		"description": "helloworld"
+	},
+	"test python": {
+		"prefix": "def_cust",
+		"body": [
+			"def ${1:name}(${3:parameters}):",
+			"    \"\"\"${2:description}\"\"\"",
+			"",
+			"",
+			"    pass"
+		],
+		"description": "helloworld"
+	},
+	"def_with_try": {
+		"prefix": "def_with_try",
+		"body": [
+			"def ${1:functionName}(self, ${2:var_name}):",
+			"        \"\"\"description of : swipe_screen_with_start_positions",
+			"",
+			"        Args:",
+			"            ${2:var_name}:   TBA",
+			"        \"\"\"",
+			"    try:",
+			"        # STEP: ${1:functionName}",
+			"        logging.info(\"STEP: ${1:functionName}\")",
+			"",
+			"        pass",
+			"    except Exception as e:",
+			"        logging.error('error occur during ${1:functionName}')",
+			"        logging.error('dump value:${2:var_name}')",
+			"        logging.error(${2:var_name})",
+			"",
+			"        ${4:# need screencapture ?? }self.screencapture()",
+			"        raise e",
+			"",
+			"    pass"
+		],
+		"description": "def with try loop, used in TL"
+	},
+	"init_python": {
+		"prefix": "init_python",
+		"body": [
+			"#!/usr/bin/env python",
+			"# coding:utf-8",
+			"import os",
+			"import sys",
+			"import logging",
+			"import traceback",
+			"from pprint import pprint",
+			"",
+			"LOGGING_FORMATTER = '%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s'",
+			"formatter = logging.Formatter(LOGGING_FORMATTER)",
+			"",
+			"logging.basicConfig(",
+			"    level=logging.DEBUG,",
+			"    format=LOGGING_FORMATTER,",
+			"    datefmt='%d %m %Y %H:%M:%S',",
+			"    filename='%s' % __file__.replace('.py', '.log'),",
+			"    filemode='a')",
+			"",
+			"# set up logging to console",
+			"console = logging.StreamHandler()",
+			"console.setLevel(logging.ERROR)",
+			"# set a format which is simpler for console use",
+			"",
+			"console.setFormatter(formatter)",
+			"logging.getLogger(\"\").addHandler(console)",
+			"",
+			"logging.debug('debug')",
+			"logging.info('info')",
+			"logging.warning('warning')",
+			"logging.error('error')",
+			"logging.exception('exp')",
+			""
+		],
+		"description": "init_python"
+	},
+	"logging_debug": {
+		"prefix": "logging_debug",
+		"body": [
+			"logging.debug('${1:??}')"
+		],
+		"description": "logging_debug"
+	},
+	"logging_error": {
+		"prefix": "logging_error",
+		"body": [
+			"logging.error('${1:error occur at ${2:??}}')"
+		],
+		"description": "logging_error"
+	},
+	"logging_error_value": {
+		"prefix": "logging_error_value",
+		"body": [
+			"logging.error('dump value:${1:print_value}')",
+			"logging.error(${1:print_value})"
+		],
+		"description": "logging_error_value"
+	},
+	"logging_info": {
+		"prefix": "logging_info",
+		"body": [
+			"logging.info('${1:??}')"
+		],
+		"description": "logging_info"
+	},
+<<<<<<< HEAD
+	"unittest_example": {
+		"prefix": "unittest_example",
+=======
+	"init_unittest_template": {
+		"prefix": "init_unittest_template",
+>>>>>>> 0eaf9fef4ba22263f4759c61e61020017392699d
+		"body": [
+			"",
+			"import unittest",
+			"",
+			"class TestHelloworld(unittest.TestCase):",
+			"",
+			"    def setUp(self):",
+			"        self.assertEqual('foo'.upper(), 'FOO')",
+			"",
+			"",
+			"    def tearDown(self):",
+			"        self.assertEqual('foo'.upper(), 'FOO')",
+			"",
+			"    def test_helloworld(self):",
+			"        s = 'hello world'",
+			"        print(\"helloworld\"",
+			"        self.assertEqual(s.split(), ['hello', 'world'])",
+			"",
+			"if __name__ == '__main__':",
+			"    unittest.main(verbosity=2)",
+			""
+		],
+		"description": "init_unittest_template"
+	},
+	"init_unittest_body": {
+		"prefix": "init_unittest_new_class",
+		"body": [
+			"",
+			"class TestStringMethods(unittest.TestCase):",
+			"",
+			"    def setUp(self):",
+			"        self.assertEqual('foo'.upper(), 'FOO')",
+			"",
+			"",
+			"    def tearDown(self):",
+			"        self.assertEqual('foo'.upper(), 'FOO')",
+			"",
+			"",
+			"    def test_upper(self):",
+			"        self.assertEqual('foo'.upper(), 'FOO')",
+			"",
+			"    def test_isupper(self):",
+			"        self.assertTrue('FOO'.isupper())",
+			"        self.assertFalse('Foo'.isupper())",
+			"",
+			"    def test_split(self):",
+			"        s = 'hello world'",
+			"        self.assertEqual(s.split(), ['hello', 'world'])",
+			"        # check that s.split fails when the separator is not a string",
+			"        with self.assertRaises(TypeError):",
+			"            s.split(2)",
+			""
+		],
+		"description": "init_unittest_body"
+	},
+	"doc_string_google": {
+		"prefix": "doc_string_google",
+		"body": [
+			"\"\"\"${1:Example function with PEP 484 type annotations.}",
+			"",
+			"Args:",
+			"    ${2:Args1 : the 1st arguments}",
+			"",
+			"Returns:",
+			"    ${3:Return : the 1st arguments}",
+			"",
+			"Exceptions:",
+			"    ${4:Exception : Special Exception handling strategy}",
+			"",
+			"NOTES/IDEAS: NOTES AND IDEAS",
+			"Assumptions: ASSUMPTION at the moment on design",
+			"",
+			"\"\"\""
+		],
+		"description": "doc_string_google"
+	},
+	"TODO": {
+		"prefix": "TODO",
+		"body": [
+			"# TODO: ${1:Temporary solution ${2:...} }"
+		],
+		"description": "TODO"
+	},
+	"NOTE": {
+		"prefix": "NOTE",
+		"body": [
+			"# NOTE: ${1:I would like to ${2:...} }"
+		],
+		"description": "NOTE"
+	},
+	"FIXME": {
+		"prefix": "FIXME",
+		"body": [
+			"# FIXME: ${1:FIXME please ${2:...}} "
+		],
+		"description": "FIXME"
+	},
+	"IDEA": {
+		"prefix": "IDEA",
+		"body": [
+			"# IDEA: ${1:Is it possible to ${2:...} ??}"
+		],
+		"description": "idea"
+	},
+	"QUESTION?": {
+		"prefix": "QUESTION?",
+		"body": [
+			"# QUESTION?: ${1:What is the opinion about ${2:...} ??}"
+		],
+		"description": "question"
+	},
+	"STORY?": {
+		"prefix": "STORY?",
+		"body": [
+			"# STORY?: ${1:This is a story about ${2:...} ??}"
+		],
+		"description": "story"
+	},
+	"to_be_implemented": {
+		"prefix": "to_be_implemented",
+		"body": [
+			"# TODO: ${1:to be implemented}"
+		],
+		"description": "to_be_implemented"
+	},
+	"init_unittest": {
+		"prefix": "init_unittest",
+		"body": [
+			"import unittest",
+			"",
+			"${1:# init_unittest_new_class}",
+			"",
+			"if __name__ == '__main__':",
+			"    unittest.main()",
+			""
+		],
+		"description": "init_unittest"
+	},
+	"context_steps": {
+		"prefix": "context_steps",
+		"body": [
+			"context.execute_steps(u'''",
+			"\tThen ADB Reboot bootloader",
+			"''')"
+		],
+		"description": "execute_steps by "
+	},
+	"doc_input_param": {
+		"prefix": "doc_input_param",
+		"body": [
+			"${1:para_name}: ${2:para_description}"
+		],
+		"description": "insert parameter documentation in docstring"
+	},
+	"init_new_task": {
+		"prefix": "init_new_task",
+		"body": [
+			"@task",
+			"def helloworld(context):",
+			"    \"\"\"TODO: fill here",
+			"    \"\"\"",
+			"    print('helloworld')",
+			"    pass"
+		],
+		"description": "init a new inv task"
+	},
+	"step": {
+		"prefix": "step:",
+		"body": [
+			"# STEP: ${1: i am a new step}",
+			"print(\"STEP: ${1: i am a new step}\")",
+			""
+		],
+		"description": "to mark the test step"
+	},
+	"step_color": {
+		"prefix": "step_color:",
+		"body": [
+			"# STEP: ${1: i am a new step}",
+			"print(fabric.colors.${2:green}(\"STEP: ${1: i am a new step}\"))",
+			""
+		],
+		"description": "to mark the test step"
+	},
+	"Screen": {
+		"prefix": "Wait:",
+		"body": [
+			"# Wait: '${2:Wait for }${1: waitname}'",
+			"print(\"wait:${2:Wait for }'${1: waitname}'\")",
+			"",
+			"${2:}"
+		],
+		"description": "descriptions"
+	},
+	"env_python": {
+		"prefix": "#!env_python",
+		"body": [
+			"#!/usr/bin/env python"
+		],
+		"description": "#!/usr/bin/env python"
+	},
+	"normalize_string_to_array": {
+		"prefix": "normalize_string_to_array",
+		"body": [
+			"def normalize_string_to_list(object):",
+			"    output = object",
+			"    if type(output) == type([]):",
+			"        pass",
+			"    else:",
+			"        output=[str(object)]",
+			"    return output"
+		],
+		"description": "normalize string to an array, do nothing if array already"
+	},
+	"init_all_exception": {
+		"prefix": "init_all_exception",
+		"body": [
+			"# TODO: remove me",
+			"except Exception as e:",
+			"    raise e"
+		],
+		"description": "description"
+	},
+	"todo_remove_me": {
+		"prefix": "todo_remove_me",
+		"body": [
+			"# TODO: remove me, remove me, remove me"
+		],
+		"description": "description"
+	},
+	"join_path": {
+		"prefix": "join_path",
+		"body": [
+			"os.path.sep.join([${1:path_to_join},${2:__file__}])"
+		],
+		"description": "description"
+	},
+	"init_get_or_create_directory": {
+		"prefix": "init_get_or_create_directory",
+		"body": [
+			"if not os.path.exists(directory):",
+			"    os.makedirs(directory)",
+			""
+		],
+		"description": "description"
+	},
+	"check_dir_exists": {
+		"prefix": "check_dir_exists",
+		"body": [
+			"os.path.isdir('${1:directory-want-to-check}')"
+		],
+		"description": "description"
+	},
+	"utils_logv2_value": {
+		"prefix": "utils_logv2_value",
+		"body": [
+			"utils.logv2('${1:value_text}:%s'% ${1:value},'')"
+		],
+		"description": "description"
+	},
+	"utils_logv2_log": {
+		"prefix": "utils_logv2_log",
+		"body": [
+			"utils.logv2('${1:value_text}', ${2:LOG})"
+		],
+		"description": "utils_logv2_log"
+	},
+	"utils_logv2_error": {
+		"prefix": "utils_logv2_error",
+		"body": [
+			"utils.logv2('error occur during running ${1:value_text}', '${2:Fail}')"
+		],
+		"description": "utils_logv2_error"
+	},
+	"print_value_debug": {
+		"prefix": "print_value_debug",
+		"body": [
+			"",
+			"# TODO: consider remove me",
+			"${2:from pprint import pprint}",
+			"print('dump the value of: ${1:value}')",
+			"pprint(${1:value})",
+			""
+		],
+		"description": "simple print value debug for python"
+	},
+	"print_exception": {
+		"prefix": "print_exception",
+		"body": [
+			"print('error ${1:error message}')"
+		],
+		"description": "simple print value debug for python"
+	},
+	"logging_step": {
+		"prefix": "logging_step",
+		"body": [
+			"logging.${1:debug}('STEP: ${2:description}')"
+		],
+		"description": "logging_step"
+	},
+	"logging_dumpvalue": {
+		"prefix": "logging_dumpvalue",
+		"body": [
+			"logging.debug('dump the value of: ${1:dump_value}')",
+			"logging.debug(${1:dump_value})"
+		],
+		"description": "logging_dumpvalue"
+	},
+	"utils_dumpvalue": {
+		"prefix": "utils_dumpvalue",
+		"body": [
+			"utils.logv2('dump the value of: ${1:dump_value}','Info')",
+			"utils.logv2(${1:dump_value},'Info')"
+		],
+		"description": "utils_dumpvalue"
+	},
+	"utils_step": {
+		"prefix": "utils_step",
+		"body": [
+			"\"\"\"STEPS: ${1:# Click Utilities} \"\"\"",
+			"utils.logv2(\"STEPS: ${1:# Click Utilities} \", 'Info')"
+		],
+		"description": "utils_step"
+	},
+	"xpath_text_filter": {
+		"prefix": "xpath_text_filter",
+		"body": [
+			"'//*[@text=\"${1:text??}\"]'"
+		],
+		"description": "xpath_text_filter"
+	},
+	"init_logging": {
+		"prefix": "init_logging",
+		"body": [
+			"# init_logging_start",
+			"import logging",
+			"",
+			"LOGGING_FORMATTER = '%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s'",
+			"formatter = logging.Formatter(LOGGING_FORMATTER)",
+			"",
+			"logging.basicConfig(",
+			"    level=logging.DEBUG,",
+			"    format=LOGGING_FORMATTER,",
+			"    datefmt='%d %m %Y %H:%M:%S',",
+			"    filename='%s' % __file__.replace('.py', '.log'),",
+			"    filemode='a')",
+			"",
+			"# set up logging to console",
+			"console = logging.StreamHandler()",
+			"console.setLevel(logging.ERROR)",
+			"# set a format which is simpler for console use",
+			"",
+			"console.setFormatter(formatter)",
+			"logging.getLogger(\"\").addHandler(console)",
+			"",
+			"logging.debug('debug')",
+			"logging.info('info')",
+			"logging.warning('warning')",
+			"logging.error('error')",
+			"logging.exception('exp')",
+			"",
+			"# init_logging_done",
+			"",
+			""
+		],
+		"description": ""
+	},
+	"CWD": {
+		"prefix": "CWD",
+		"body": [
+			"CWD = os.path.dirname(os.path.abspath(__file__))"
+		],
+		"description": "current working directory"
+	},
+	"init_fabric_parallel": {
+		"prefix": "init_fabric_parallel",
+		"body": [
+			"from fabric.api import *",
+			"",
+			"@parallel(pool_size=5)",
+			"def heavy_task():",
+			"    # lots of heavy local lifting or lots of IO here",
+			"    # fab -H host1,host2,host3 heavy_task runs_serially",
+			""
+		],
+		"description": "fabric parallel execution"
+	},
+	"init_fabric": {
+		"prefix": "init_fabric",
+		"body": [
+			"",
+			"from fabric.api import *",
+			"from fabric.colors import *",
+			"",
+			"env.hosts = ['192.168.88.6']",
+			"CURR_DIRECTORY = os.path.dirname(__file__)",
+			"",
+			"",
+			"def hello_build(gitlab_container_name):",
+			"    print(green('building gitlab', True))",
+			"    with cd(REMOTE_DIR), quiet():",
+			"        run('docker-compose up -d --remove-orphans %s' % gitlab_container_name)",
+			""
+		],
+		"description": "fabric helloworld"
+	},
+	"init_lambda_filter": {
+		"prefix": "init_lambda_filter",
+		"body": [
+			"",
+			"fib = [0,1,1,2,3,5,8,13,21,34,55]",
+			"result = filter(lambda x: x % 2, fib)",
+			""
+		],
+		"description": "init_lambda_filter"
+	},
+	"init_lambda_map": {
+		"prefix": "init_lambda_map",
+		"body": [
+			"",
+			"Celsius = [39.2, 36.5, 37.3, 37.8]",
+			"Fahrenheit = map(lambda x: (float(9)/5)*x + 32, Celsius)",
+			""
+		],
+		"description": "init_lambda_map"
+	},
+	"init_lambda_reduce": {
+		"prefix": "init_lambda_reduce",
+		"body": [
+			"",
+			"f = lambda a,b: a if (a > b) else b",
+			"reduce(f, [47,11,42,102,13])",
+			"reduce(lambda x, y: x+y, range(1,101))",
+			""
+		],
+		"description": "init_lambda_reduce"
+	},
+	"init_multiprocess_daemon": {
+		"prefix": "init_multiprocess_daemon",
+		"body": [
+			"",
+			"import multiprocessing",
+			"import time",
+			"import sys",
+			"",
+			"def daemon():",
+			"    p = multiprocessing.current_process()",
+			"    print 'Starting:', p.name, p.pid",
+			"    sys.stdout.flush()",
+			"    time.sleep(2)",
+			"    print 'Exiting :', p.name, p.pid",
+			"    sys.stdout.flush()",
+			"",
+			"def non_daemon():",
+			"    p = multiprocessing.current_process()",
+			"    print 'Starting:', p.name, p.pid",
+			"    sys.stdout.flush()",
+			"    print 'Exiting :', p.name, p.pid",
+			"    sys.stdout.flush()",
+			"",
+			"if __name__ == '__main__':",
+			"    d = multiprocessing.Process(name='daemon', target=daemon)",
+			"    d.daemon = True",
+			"",
+			"    n = multiprocessing.Process(name='non-daemon', target=non_daemon)",
+			"    n.daemon = False",
+			"",
+			"    d.start()",
+			"    time.sleep(1)",
+			"    n.start()",
+			""
+		],
+		"description": "init_multiprocess_daemon"
+	},
+	"init_multiprocess_pool": {
+		"prefix": "init_multiprocess_pool",
+		"body": [
+			"",
+			"multiprocessing_pool_maxtasksperchild.py",
+			"import multiprocessing",
+			"",
+			"",
+			"def do_calculation(data):",
+			"    return data * 2",
+			"",
+			"",
+			"def start_process():",
+			"    print('Starting', multiprocessing.current_process().name)",
+			"",
+			"",
+			"if __name__ == '__main__':",
+			"    inputs = list(range(10))",
+			"    print('Input   :', inputs)",
+			"",
+			"    builtin_outputs = map(do_calculation, inputs)",
+			"    print('Built-in:', builtin_outputs)",
+			"",
+			"    pool_size = multiprocessing.cpu_count() * 2",
+			"    pool = multiprocessing.Pool(",
+			"        processes=pool_size,",
+			"        initializer=start_process,",
+			"        maxtasksperchild=2,",
+			"    )",
+			"    pool_outputs = pool.map(do_calculation, inputs)",
+			"    pool.close()  # no more tasks",
+			"    pool.join()  # wrap up current tasks",
+			"",
+			"    print('Pool    :', pool_outputs)"
+		],
+		"description": "init_multiprocess_pool"
+	},
+	"init_command_line": {
+		"prefix": "init_command_line",
+		"body": [
+			"#!/usr/bin/env python",
+			"#",
+			"",
+			"# import modules used here -- sys is a very standard one",
+			"import sys, argparse, logging",
+			"",
+			"# Gather our code in a main() function",
+			"def main(args, loglevel):",
+			"  logging.basicConfig(format=\"%(levelname)s: %(message)s\", level=loglevel)",
+			"",
+			"  # TODO Replace this with your actual code.",
+			"  print \"Hello there.\"",
+			"  logging.info(\"You passed an argument.\")",
+			"  logging.debug(\"Your Argument: %s\" % args.argument)",
+			"",
+			"# Standard boilerplate to call the main() function to begin",
+			"# the program.",
+			"if __name__ == '__main__':",
+			"  parser = argparse.ArgumentParser(",
+			"                                    description = \"Does a thing to some stuff.\",",
+			"                                    epilog = \"As an alternative to the commandline, params can be placed in a file, one per line, and specified on the commandline like '%(prog)s @params.conf'.\",",
+			"                                    fromfile_prefix_chars = '@' )",
+			"  # TODO Specify your real parameters here.",
+			"  parser.add_argument(",
+			"                      \"argument\",",
+			"                      help = \"pass ARG to the program\",",
+			"                      metavar = \"ARG\")",
+			"  parser.add_argument(",
+			"                      \"-v\",",
+			"                      \"--verbose\",",
+			"                      help=\"increase output verbosity\",",
+			"                      action=\"store_true\")",
+			"  args = parser.parse_args()",
+			"",
+			"  # Setup logging",
+			"  if args.verbose:",
+			"    loglevel = logging.DEBUG",
+			"  else:",
+			"    loglevel = logging.INFO",
+			"",
+			"  main(args, loglevel)",
+			""
+		],
+		"description": "init_command_line"
+	},
+	"init_python_fabric_cuisine_template": {
+		"prefix": "init_python_fabric_cuisine",
+		"body": [
+			"",
+			"from deployment.cuisine import *",
+			"from fabric.api import *",
+			"from fabric.context_managers import *",
+			"from fabric.utils import puts",
+			"from fabric.colors import red, green",
+			"",
+			"import simplejson",
+			"import os",
+			"",
+			"",
+			"GIT_REPO = 'git@github.com:Vossy/redacted-webapp.git'",
+			"",
+			"",
+			"def app_user(command):",
+			"    '''",
+			"    This helper method runs the given command as the webapp user.",
+			"    '''",
+			"    sudo(command, user='redacted_webapp')",
+			"",
+			"",
+			"def production():",
+			"    puts(red('Using PRODUCTION settings'))",
+			"    env.hosts = ['app.redacted.com']",
+			"    env.user = '***********'",
+			"    env.password = '***********'",
+			"",
+			"",
+			"def setup_packages():",
+			"    puts(green('Installing Ubuntu packages'))",
+			"    sudo('apt-get update')",
+			"    package_ensure('nginx')",
+			"    package_ensure('postgresql')",
+			"    package_ensure('supervisor')",
+			"    package_ensure('git-core')",
+			"    package_ensure('ufw') # may have to install by hand",
+			"",
+			"    package_ensure('python-pip')",
+			"    package_ensure('python-psycopg2')",
+			"    package_ensure('python-imaging')",
+			"",
+			"",
+			"def setup_users():",
+			"    puts(green('Creating Ubuntu users'))",
+			"",
+			"    user_ensure('redacted_webapp')",
+			"",
+			"",
+			"def configure_firewall():",
+			"    puts(green('Configuring server firewall'))",
+			"",
+			"    sudo('ufw allow proto tcp from any to any port 22')",
+			"    sudo('ufw allow 80')",
+			"    sudo('ufw --force enable')",
+			"",
+			"",
+			"def configure_nginx():",
+			"    puts(green('Configuring Nginx web server'))",
+			"",
+			"    config_template = text_strip_margin('''",
+			"    |",
+			"    |server {",
+			"    |   server_name app.redacted.com;",
+			"    |",
+			"    |   access_log /srv/redacted-webapp/logs/nginx_access.log;",
+			"    |",
+			"    |   location /static/ {",
+			"    |       alias /srv/redacted-webapp/src/media/;",
+			"    |       autoindex on;",
+			"    |   }",
+			"    |",
+			"    |   location /media/ {",
+			"    |       alias /srv/redacted-webapp/shortcuts/admin_media/;",
+			"    |   }",
+			"    |",
+			"    |   location / {",
+			"    |       proxy_pass http://127.0.0.1:9001/;",
+			"    |       proxy_redirect off;",
+			"    |       proxy_set_header Host $host;",
+			"    |       proxy_set_header   X-Real-IP        $remote_addr;",
+			"    |       proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;",
+			"    |   }",
+			"    |",
+			"    |}",
+			"    |",
+			"    ''')",
+			"",
+			"    file_write('/etc/nginx/sites-available/redacted.conf', config_template)",
+			"",
+			"    if not dir_exists('/srv/redacted-webapp/shortcuts/admin_media'):",
+			"        run('ln -s /usr/local/lib/python2.6/dist-packages/django/contrib/admin/media /srv/redacted-webapp/shortcuts/admin_media')",
+			"",
+			"    if file_exists('/etc/nginx/sites-enabled/default'):",
+			"        sudo('rm /etc/nginx/sites-enabled/default')",
+			"",
+			"    if not file_exists('/etc/nginx/sites-enabled/redacted.conf'):",
+			"        sudo('ln -s /etc/nginx/sites-available/redacted.conf /etc/nginx/sites-enabled/redacted.conf')",
+			"",
+			"    sudo('service nginx reload')",
+			"",
+			"",
+			"def configure_postgresql():",
+			"    print red('''MANUAL STEP: create Postgres user 'redacted' with password '2011Superhero' ''')",
+			"    print red('''MANUAL STEP: create Postgres database 'redacted_webapp' owned by 'redacted' user''')",
+			"",
+			"",
+			"def configure_supervisor():",
+			"    puts(green('Configuring the supervisor process'))",
+			"",
+			"    runner_script = text_strip_margin('''",
+			"    |#!/bin/bash",
+			"    |",
+			"    |cd /srv/redacted-webapp/src",
+			"    |exec gunicorn_django --bind=127.0.0.1:9001",
+			"    |",
+			"    ''')",
+			"",
+			"    file_write('/srv/redacted-webapp/bin/runserver', runner_script, mode='a+rx')",
+			"",
+			"    supervisor_conf = text_strip_margin('''",
+			"    |",
+			"    |[program:redacted-webapp]",
+			"    |command=/srv/redacted-webapp/bin/runserver",
+			"    |user=redacted_webapp",
+			"    |",
+			"    ''')",
+			"",
+			"    file_write('/etc/supervisor/conf.d/redacted.conf', supervisor_conf)",
+			"",
+			"",
+			"def setup_folders():",
+			"    puts(green('Setting up on-disk folders'))",
+			"",
+			"    dir_ensure('/srv/redacted-webapp', owner='redacted_webapp', group='redacted_webapp')",
+			"    dir_ensure('/srv/redacted-webapp/src/media', owner='redacted_webapp', group='redacted_webapp')",
+			"    dir_ensure('/srv/redacted-webapp/shortcuts', owner='redacted_webapp', group='redacted_webapp')",
+			"    dir_ensure('/srv/redacted-webapp/logs', owner='www-data', group='www-data')",
+			"    dir_ensure('/srv/redacted-webapp/bin', owner='www-data', group='www-data')",
+			"",
+			"",
+			"def clone_from_github():",
+			"",
+			"    puts(green('Fetching latest code from GitHub'))",
+			"",
+			"    with cd('/srv/redacted-webapp/'):",
+			"",
+			"        if dir_exists('/srv/redacted-webapp/src'):",
+			"            with cd('/srv/redacted-webapp/src'):",
+			"                app_user('git checkout -- .')",
+			"                app_user('git pull')",
+			"        else:",
+			"            app_user('git clone %s src' % GIT_REPO)",
+			"",
+			"    with cd('/srv/redacted-webapp/src'):",
+			"",
+			"        puts(green('Installing app dependencies'))",
+			"",
+			"        run('pip install -r requirements.txt')",
+			"",
+			"        puts(green('Injecting database settings'))",
+			"",
+			"        db_settings = text_strip_margin('''",
+			"        |",
+			"        |DATABASES = {",
+			"        |   'default': {",
+			"        |       'ENGINE': 'django.db.backends.postgresql_psycopg2',",
+			"        |       'NAME': 'redacted_webapp',",
+			"        |       'USER': '***********',",
+			"        |       'PASSWORD': '***********',",
+			"        |   }",
+			"        |}",
+			"        |",
+			"        ''')",
+			"",
+			"        file_append('settings.py', db_settings)",
+			"",
+			"        puts(green('Syncing database models'))",
+			"",
+			"        run('python manage.py syncdb')",
+			"        run('python manage.py migrate')",
+			"",
+			"",
+			"def restart_web_server():",
+			"    puts(green('Reloading the supervisor process'))",
+			"",
+			"    sudo('supervisorctl reload')",
+			"",
+			"",
+			"def deploy():",
+			"    puts(green('Starting deployment'))",
+			"    setup_packages()",
+			"    setup_users()",
+			"    setup_folders()",
+			"",
+			"    configure_firewall()",
+			"    configure_nginx()",
+			"    configure_postgresql()",
+			"    configure_supervisor()",
+			"",
+			"    clone_from_github()",
+			"",
+			"    restart_web_server()"
+		],
+		"description": "init_python_fabric_cuisine_template"
+	}
+}
